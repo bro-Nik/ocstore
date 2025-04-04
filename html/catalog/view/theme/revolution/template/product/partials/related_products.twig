@@ -1,0 +1,76 @@
+
+	{% if (products and recpr_rightc) %} 
+	<aside id="column-right" class="col-sm-3 hidden-xs hidden-sm {% if (columns_dd) %} {{ 'columns_dd' }} {% endif %}">
+	<div id="product_products">
+	<h3>{{ text_related }}</h3>
+	<div class="row">
+	<div class="product_related products_category">
+	{% for product in products %} 
+	<div class="col-lg-12 item">
+	  <div class="product-thumb product_{{ product['product_id'] }}">
+		<div class="image">
+			{% include 'revolution/template/product/partials/img_slider.twig' %}
+
+			{% include 'revolution/template/product/partials/stickers.twig' %}
+		</div>
+		<div class="caption clearfix">
+			<h4><a href="{{ product['href'] }}">{{ product['name'] }}</a></h4>
+			{% if (product['rating']) %} 
+			<div class="rating">
+			  {% set i = 1 %}{% for i in i..5 %} 
+			  {% if (product['rating'] < i) %} 
+			  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+			  {% else %} 
+			  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+			  {% endif %} 
+			  {% endfor %} 
+			</div>
+			{% endif %} 
+			<div class="product_buttons">
+				{% if (product['price']) %} 
+					{% if (product['price_number'] > 0) %} 
+						{% if (product['quantity'] > 0 or zakaz) %} 
+							<div class="price">
+							{% if (product['price_number'] > 0) %} 
+								{% if (not product['special']) %} 
+									{{ product['price'] }} {{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
+								{% else %} 
+									<span class="price-new">{{ product['special'] }}</span>{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
+								{% endif %} 
+							{% endif %} 
+							</div>
+						{% endif %} 
+						{% else %} 
+							{% if (zakaz) %} 
+								<p class="price na_zakaz">{{ text_catalog_price_na_zakaz }}</p>
+							{% endif %} 
+					{% endif %} 
+				{% endif %} 
+				{% if (rev_srav_prod or rev_wish_prod) %} {% set button_cart_class = 'prlistb' %} {% else %} {% set button_cart_class = 'prlistb active' %} {% endif %} 
+				{% if (product['quantity'] > 0 or zakaz) %} 
+					{% if (product['price_number'] > 0) %} 
+						<div class="cart">
+							<a onclick="get_revpopup_cart('{{ product['product_id'] }}', 'catalog_mod', '{{ product['minimum'] }}');" {% if (button_cart_class != 'prlistb active') %}data-toggle="tooltip" title="{{ button_cart }}"{% endif %}><i class="fa fa-border fa-shopping-basket"><span class="{{ button_cart_class }}">{{ button_cart }}</span></i></a>
+						</div>
+					{% endif %} 
+				{% endif %} 
+				{% if (rev_wish_prod) %} 
+					<div class="wishlist">
+						<a class="{{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+					</div>
+				{% endif %} 
+				{% if (rev_srav_prod) %} 
+					<div class="compare">
+						<a class="{{ product['compare_class'] }}" data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
+					</div>
+				{% endif %} 
+			</div>
+		</div>
+	  </div>
+	</div>
+	{% endfor %} 
+	</div>
+	</div>
+	</div>
+	</aside>
+	{% endif %} 

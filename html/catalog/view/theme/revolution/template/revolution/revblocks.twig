@@ -1,0 +1,29 @@
+{% if (blocks) %} 
+	<div class="home_home_blocks">
+		{% for block in blocks %} 
+			<div class="home_block hidden-xs col-sm-4 col-md-3 col-lg-3">
+				{% if (block['link']) %} 
+				<a href="{{ block['link'] }}" {% if (block['checkbox']) %}class="popup_html_content"{% endif %}>
+				{% endif %} 
+					<div class="image {{ block['style'] }}">{{ block['image'] }}</div>
+					<div class="text">
+						{% if (block['title']) %} 
+							<span class="title">{{ block['title'] }}</span>
+						{% endif %} 
+						{% if (block['description']) %} 
+							<p>{{ block['description'] }}</p>
+						{% endif %} 
+					</div>
+				{% if (block['link']) %} 
+				</a>
+				{% endif %} 
+			</div>
+		{% endfor %} 
+	</div>
+	<script><!--
+	{% if (amazon and module_class and up_menu_height) %} 
+	$('.home_block').filter(function(i){if (!(i%3)) $(this).removeClass().addClass('home_block hidden-xs col-sm-4 col-md-3 col-lg-3 col-md-offset-3 col-lg-offset-3')})
+	{% endif %} 
+	max_height_div('.home_block .text');
+	--></script>
+{% endif %}

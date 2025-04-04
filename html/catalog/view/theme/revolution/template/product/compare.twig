@@ -1,0 +1,607 @@
+{% extends 'revolution/template/product/partials/base.twig' %}
+
+{% block container_schema %}{% endblock %}
+{% block content %}
+
+  {% if (success) %} 
+  <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %} 
+	<div id="pusto" class="content" style="display:none"></div>
+	
+{% if (products) %} 
+	{% if (cat_sort) %} 
+	<ul id="tabs_compare" class="nav nav-tabs" role="tablist">
+		{% set numer = 1 %} 
+		{% for brand,items in products %} 
+		<li id="tab2-{{ brand|replace({' ': ""}) }}">
+			<a href="#tab-{{ brand|replace({' ': ""}) }}" data-toggle="tab" numer="{{ numer }}" >{{ brand }}</a>
+		</li>
+		{% set numer = numer + 1 %} 
+		{% endfor %} 
+	</ul>
+		{% set numer = 1 %} 
+		{% for brand,items in products %} 
+			<div id="tab-{{ brand|replace({' ': ""}) }}" class="tab-pane numer{{ numer }}">
+				<div class="cd-products-comparison-table compare-info">
+					<div class="cd-header">
+						<div style="float: left;">
+							<label class="filter_otlich_span"><input type="checkbox" class="filter_otlich numer{{ numer }}" hidden>{{ text_compare_onlyrazn }}</label></label>
+						</div>
+						<div class="actions">
+							<a href="#" class="reset numer{{ numer }}">{{ text_compare_otmena }}</a>
+							<a href="#" class="filter numer{{ numer }}">{{ text_compare_filter }}</a>
+						</div>
+						{% set numer = numer + 1 %} 
+					</div>
+					<div class="cd-products-table">
+						<div class="features">
+							<div class="top-info">{{ text_compare_tovar }}</div>
+							<ul class="cd-features-list">
+								{% if (compare_price) %}					
+								<li class="tr1">{{ text_price }}</li>
+								{% endif %} 
+								{% if (compare_model) %} 
+								<li class="osnovtr tr2">{{ text_model }}</li>
+								{% endif %} 
+								{% if (compare_sku) %} 
+								<li class="osnovtr tr3">{{ text_sku }}</li>
+								{% endif %} 
+								{% if (compare_manuf) %} 
+								<li class="osnovtr tr4">{{ text_manufacturer }}</li>
+								{% endif %} 
+								{% if (compare_stock) %} 
+								<li class="osnovtr tr5">{{ text_availability }}</li>
+								{% endif %} 
+								{% if (compare_rate) %} 
+								{% if (review_status) %} 
+								<li class="osnovtr tr6">{{ text_rating }}</li>
+								{% endif %} 
+								{% endif %} 
+								{% if (compare_srtdesc) %} 
+								<li class="osnovtr tr7">{{ text_summary }}</li>
+								{% endif %} 
+								{% if (compare_weight) %} 
+								<li class="osnovtr tr8">{{ text_weight }}</li>
+								{% endif %} 
+								{% if (compare_razmer) %} 
+								<li class="osnovtr tr9">{{ text_dimension }}</li>
+								{% endif %} 
+								{% if (compare_atrib) %} 
+									{% set trnumber = 10 %} 
+									{% for attribute_group in attribute_groups %} 
+										{% if (compare_atribgr) %} 
+											<li class="compare-attribute">{{ attribute_group['name'] }}</li>
+										{% endif %} 
+										{% for key,product in items['products'] %} 
+											{% if (key == 0) %} 
+												{% for key,attribute in attribute_group['attribute'] %} 
+													{% if (product['attribute'][key] is defined) %} 
+														<li class="osnovtd tr{{ trnumber }}">{{ attribute['name'] }}</li>
+														{% set trnumber = trnumber + 1 %} 
+													{% endif %} 
+												{% endfor %} 
+											{% endif %} 
+										{% endfor %} 
+									{% endfor %} 
+								{% endif %}
+								<li></li>
+							</ul>
+						</div>
+						<div class="cd-products-wrapper">
+							<ul class="cd-products-columns products_category">
+								{% for product in items['products'] %} 
+								<li class="product">
+									<div class="top-info product_{{ product['product_id'] }}">
+										<div class="image">
+										<a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt=""></a>
+
+										{% include 'revolution/template/product/stickers.twig' %}
+										</div>
+										<h3><a href="{{ product['href'] }}">{{ product['name'] }}</a></h3>
+									</div>
+									<ul class="cd-features-list">
+										{% if (compare_price) %} 
+										<li id="td_{{ product['product_id'] }}" class="osnovtd tr1">{% if (product['price_number'] != 0) %} 
+										{% if (not product['special']) %} 
+										{{ product['price'] }}{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }} 
+										{% else %} 
+										<span class="price-old">{{ product['price'] }}</span> <span class="price-new">{{ product['special'] }}{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}</span>
+										{% endif %} 
+										{% endif %} 
+										</li>
+										{% endif %} 
+										{% if (compare_model) %} 
+										<li id="td_{{ product['product_id'] }}" class="osnovtd tr2">{{ product['model'] }}</li>
+										{% endif %} 
+										{% if (compare_sku) %} 
+										<li id="td_{{ product['product_id'] }}" class="osnovtd tr3">{{ product['sku'] }}</li>
+										{% endif %} 
+										{% if (compare_manuf) %} 
+										<li id="td_{{ product['product_id'] }}" class="osnovtd tr4">{{ product['manufacturer'] }}</li>
+										{% endif %} 
+										{% if (compare_stock) %} 
+										<li id="td_{{ product['product_id'] }}" class="osnovtd tr5">{{ product['availability'] }}</li>
+										{% endif %} 
+										{% if (compare_rate) %} 
+										{% if (review_status) %} 
+										<li id="td_{{ product['product_id'] }}" class="osnovtd rating tr6">
+										{% set i = 1 %}{% for i in i..5 %} 
+										{% if (product['rating'] < i) %} 
+										<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+										{% else %} 
+										<span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+										{% endif %} 
+										{% endfor %} 
+										<sup>
+										{{ product['reviews'] }}</sup></li>
+										{% endif %} 
+										{% endif %} 
+										{% if (compare_srtdesc) %} 
+										<li id="td_{{ product['product_id'] }}" class="description osnovtd tr7">{{ product['description'] }}</li>
+										{% endif %} 
+										{% if (compare_weight) %} 
+										<li id="td_{{ product['product_id'] }}" class="osnovtd tr8">{{ product['weight'] }}</li>
+										{% endif %} 
+										{% if (compare_razmer) %} 
+										<li id="td_{{ product['product_id'] }}" class="osnovtd tr9">{{ product['length'] }} x {{ product['width'] }} x {{ product['height'] }}</li>
+										{% endif %} 
+										{% if (compare_atrib) %} 
+											{% set trnumber = 10 %} 
+											{% for attribute_group in attribute_groups %} 
+												{% if (compare_atribgr) %} 
+													<li class="compare-attribute"></li>
+												{% endif %} 
+												{% for key,attribute in attribute_group['attribute'] %} 
+													{% if (product['attribute'][key] is defined) %} 
+														<li class="osnovtd tr{{ trnumber }}">{{ product['attribute'][key] }}</li>
+													{% endif %} 
+													{% set trnumber = trnumber + 1 %} 
+												{% endfor %} 
+											{% endfor %} 
+										{% endif %} 
+										<li>
+										<div class="cart_wish">
+											{% if (product['quantity'] > 0) %} 
+											<div class="cart">
+												<a onclick="get_revpopup_cart('{{ product['product_id'] }}', 'catalog_mod', '{{ product['minimum'] }}');"><i class="fa fa-border fa-shopping-basket"><span class="prlistb">{{ button_cart }}</span></i></a>
+											</div>
+											{% elseif (predzakaz_button) %} 
+												<div class="cart">
+													<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');"><i class="fa fa-border fa-shopping-basket predzakaz"><span class="prlistb">{{ text_predzakaz }}</span></i></a>
+												</div>
+											{% endif %} 
+											{% if (rev_wish_prod) %} 
+												<div class="wishlist">
+													<a class="wishlist wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+												</div>
+											{% endif %} 
+											<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">
+												<a href="{{ product['remove'] }}"><i class="fa fa-border fa-trash-o"></i></a>
+											</div>
+										</div>
+										</li>
+									</ul>
+								</li>
+								{% endfor %}				
+							</ul>
+						</div>
+						<ul class="cd-table-navigation">
+							<li><a href="#0" class="prev inactive"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+							<li><a href="#0" class="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		{% endfor %}		  
+	{% else %} 
+		<section class="cd-products-comparison-table compare-info">
+			<div class="cd-header">
+				<div style="float: left;">
+					<label class="filter_otlich_span"><input type="checkbox" class="filter_otlich" hidden>{{ text_compare_onlyrazn }}</label></label>
+				</div>
+				<div class="actions">
+					<a href="#" class="reset">{{ text_compare_otmena }}</a>
+					<a href="#" class="filter">{{ text_compare_filter }}</a>
+				</div>		
+			</div>
+			<div class="cd-products-table">
+				<div class="features">
+					<div class="top-info">{{ text_compare_tovar }}</div>
+					<ul class="cd-features-list">
+						{% if (compare_price) %}					
+						<li class="tr1">{{ text_price }}</li>
+						{% endif %} 
+						{% if (compare_model) %} 
+						<li class="osnovtr tr2">{{ text_model }}</li>
+						{% endif %} 
+						{% if (compare_sku) %} 
+						<li class="osnovtr tr3">{{ text_sku }}</li>
+						{% endif %} 
+						{% if (compare_manuf) %} 
+						<li class="osnovtr tr4">{{ text_manufacturer }}</li>
+						{% endif %} 
+						{% if (compare_stock) %} 
+						<li class="osnovtr tr5">{{ text_availability }}</li>
+						{% endif %} 
+						{% if (compare_rate) %} 
+						{% if (review_status) %} 
+						<li class="osnovtr tr6">{{ text_rating }}</li>
+						{% endif %} 
+						{% endif %} 
+						{% if (compare_srtdesc) %} 
+						<li class="osnovtr tr7">{{ text_summary }}</li>
+						{% endif %} 
+						{% if (compare_weight) %} 
+						<li class="osnovtr tr8">{{ text_weight }}</li>
+						{% endif %} 
+						{% if (compare_razmer) %} 
+						<li class="osnovtr tr9">{{ text_dimension }}</li>
+						{% endif %} 
+						{% if (compare_atrib) %} 
+						{% set trnumber = 10 %} 
+						{% for attribute_group in attribute_groups %} 
+						{% if (compare_atribgr) %} 
+							<li class="compare-attribute">{{ attribute_group['name'] }}</li>
+						{% endif %} 
+						{% for key,attribute in attribute_group['attribute'] %} 
+						<li class="osnovtr tr{{ trnumber }}">{{ attribute['name'] }}</li>
+						{% set trnumber = trnumber + 1 %} 
+						{% endfor %} 
+						{% endfor %} 
+						{% endif %} 
+						<li></li>
+					</ul>
+				</div>
+				<div class="cd-products-wrapper">
+					<ul class="cd-products-columns products_category">
+						{% for product in products %} 
+						<li class="product">
+							<div class="top-info product_{{ product['product_id'] }}">
+								<div class="image">
+								<a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt=""></a>
+								{% include 'revolution/template/product/partials/stickers.twig' %}
+								</div>
+								<h3><a href="{{ product['href'] }}">{{ product['name'] }}</a></h3>
+							</div>
+							<ul class="cd-features-list">
+								{% if (compare_price) %} 
+								<li id="td_{{ product['product_id'] }}" class="osnovtd tr1">{% if (product['price_number'] != 0) %} 
+								{% if (not product['special']) %} 
+								{{ product['price'] }}{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }} 
+								{% else %} 
+								<span class="price-old">{{ product['price'] }}</span> <span class="price-new">{{ product['special'] }}{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}</span>
+								{% endif %} 
+								{% endif %} 
+								</li>
+								{% endif %} 
+								{% if (compare_model) %} 
+								<li id="td_{{ product['product_id'] }}" class="osnovtd tr2">{{ product['model'] }}</li>
+								{% endif %} 
+								{% if (compare_sku) %} 
+								<li id="td_{{ product['product_id'] }}" class="osnovtd tr3">{{ product['sku'] }}</li>
+								{% endif %} 
+								{% if (compare_manuf) %} 
+								<li id="td_{{ product['product_id'] }}" class="osnovtd tr4">{{ product['manufacturer'] }}</li>
+								{% endif %} 
+								{% if (compare_stock) %} 
+								<li id="td_{{ product['product_id'] }}" class="osnovtd tr5">{{ product['availability'] }}</li>
+								{% endif %} 
+								{% if (compare_rate) %} 
+								{% if (review_status) %} 
+								<li id="td_{{ product['product_id'] }}" class="osnovtd rating tr6">
+								{% set i = 1 %}{% for i in i..5 %} 
+								{% if (product['rating'] < i) %} 
+								<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+								{% else %} 
+								<span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+								{% endif %} 
+								{% endfor %} 
+								<sup>
+								{{ product['reviews'] }}</sup></li>
+								{% endif %} 
+								{% endif %} 
+								{% if (compare_srtdesc) %} 
+								<li id="td_{{ product['product_id'] }}" class="description osnovtd tr7">{{ product['description'] }}</li>
+								{% endif %} 
+								{% if (compare_weight) %} 
+								<li id="td_{{ product['product_id'] }}" class="osnovtd tr8">{{ product['weight'] }}</li>
+								{% endif %} 
+								{% if (compare_razmer) %} 
+								<li id="td_{{ product['product_id'] }}" class="osnovtd tr9">{{ product['length'] }} x {{ product['width'] }} x {{ product['height'] }}</li>
+								{% endif %} 
+								{% if (compare_atrib) %} 
+									{% set trnumber = 10 %} 
+									{% for attribute_group in attribute_groups %} 
+										{% if (compare_atribgr) %} 
+											<li class="compare-attribute"></li>
+										{% endif %} 
+										{% for key,attribute in attribute_group['attribute'] %} 
+											{% if (product['attribute'][key] is defined) %} 
+												<li class="osnovtd tr{{ trnumber }}">{{ product['attribute'][key] }}</li>
+											{% else %} 
+												<li class="osnovtd tr{{ trnumber }}"></li>
+											{% endif %} 
+											{% set trnumber = trnumber + 1 %} 
+										{% endfor %} 
+									{% endfor %} 
+								{% endif %} 
+								<li>
+								<div class="cart_wish">
+									{% if (product['quantity'] > 0) %} 
+									<div class="cart">
+										<a onclick="get_revpopup_cart('{{ product['product_id'] }}', 'catalog_mod', '{{ product['minimum'] }}');"><i class="fa fa-border fa-shopping-basket"><span class="prlistb">{{ button_cart }}</span></i></a>
+									</div>
+									{% elseif (predzakaz_button) %} 
+										<div class="cart predz">
+											<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');"><i class="fa fa-border fa-shopping-basket predzakaz"><span class="prlistb">{{ text_predzakaz }}</span></i></a>
+										</div>
+									{% endif %} 
+									{% if (rev_wish_prod) %} 
+										<div class="wishlist">
+											<a class="wishlist wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+										</div>
+									{% endif %} 
+									<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">
+										<a href="{{ product['remove'] }}"><i class="fa fa-border fa-trash-o"></i></a>
+									</div>
+								</div>
+								</li>
+							</ul>
+						</li>
+						{% endfor %}				
+					</ul>
+				</div>
+				<ul class="cd-table-navigation">
+					<li><a href="#0" class="prev inactive"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+					<li><a href="#0" class="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+				</ul>
+			</div>
+		</section>
+	{% endif %} 
+{% else %} 
+	<div class="content">{{ text_empty }}</div>
+	<div class="buttons clearfix">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+{% endif %} 
+		
+
+{% if (products) %} 
+
+{% set numbercolumns = 0 %}
+{% if (cat_sort) %}
+	{% for product in items['products'] %} 
+		{% set numbercolumns = numbercolumns + 1 %}
+	{% endfor %}
+{% else %} 
+	{% for product in products %} 
+		{% set numbercolumns = numbercolumns + 1 %}
+	{% endfor %}
+{% endif %}
+
+<script><!--
+var cdcolumns = $('li.product').outerWidth();
+$('ul.cd-products-columns').css('width', cdcolumns*{{ numbercolumns }});
+$(function() {
+	podgon_table();
+	$(window).resize(podgon_table);
+	tabcompare(1);
+});
+function podgon_table() {
+	var trnumber = 0;
+	while (trnumber < 100) {
+		max_height_div('.tr'+trnumber);
+		trnumber++;
+	}
+}
+function tabcompare(numer) {
+	function productsTable( element ) {
+		{% if (cat_sort) %} 
+		this.element = element;
+		this.table = this.element.children('.numer'+numer+' .cd-products-table');
+		this.tableHeight = this.table.height();
+		this.productsWrapper = this.table.children('.numer'+numer+' .cd-products-wrapper');
+		this.tableColumns = this.productsWrapper.children('.numer'+numer+' .cd-products-columns');
+		this.products = this.tableColumns.children('.numer'+numer+' .product');
+		this.productsNumber = this.products.length;
+		this.productWidth = this.products.eq(0).width();
+		this.productsTopInfo = this.table.find('.numer'+numer+' .top-info');
+		this.featuresTopInfo = this.table.children('.numer'+numer+' .features').children('.top-info');
+		this.topInfoHeight = this.featuresTopInfo.innerHeight() + 30;
+		this.leftScrolling = false;
+		this.odinakBtn = this.element.find('.filter_otlich.numer'+numer);
+		this.filtering = false,
+		this.selectedproductsNumber = 0;
+		this.filterActive = false;
+		this.navigation = this.table.children('.numer'+numer+' .cd-table-navigation');
+		{% else %} 
+		this.element = element;
+		this.table = this.element.children('.cd-products-table');
+		this.tableHeight = this.table.height();
+		this.productsWrapper = this.table.children('.cd-products-wrapper');
+		this.tableColumns = this.productsWrapper.children('.cd-products-columns');
+		this.products = this.tableColumns.children('.product');
+		this.productsNumber = this.products.length;
+		this.productWidth = this.products.eq(0).width();
+		this.productsTopInfo = this.table.find('.top-info');
+		this.featuresTopInfo = this.table.children('.features').children('.top-info');
+		this.topInfoHeight = this.featuresTopInfo.innerHeight() + 30;
+		this.leftScrolling = false;
+		this.odinakBtn = this.element.find('.filter_otlich');
+		this.filtering = false,
+		this.selectedproductsNumber = 0;
+		this.filterActive = false;
+		this.navigation = this.table.children('.cd-table-navigation');
+		{% endif %} 
+		this.tableColumns.css('width', this.productWidth*this.productsNumber + 'px');
+		if (this.productsNumber < 2) {
+			this.odinakBtn.parent().addClass('hide');
+		}
+		if (this.productsNumber <= 3) {
+			this.navigation.find('.next').addClass('inactive');
+		}
+		this.bindEvents();
+	}
+	productsTable.prototype.bindEvents = function() {
+		var self = this;
+		self.productsWrapper.on('scroll', function(){
+			if(!self.leftScrolling) {
+				self.leftScrolling = true;
+				(!window.requestAnimationFrame) ? setTimeout(function(){self.updateLeftScrolling();}, 250) : window.requestAnimationFrame(function(){self.updateLeftScrolling();});
+			}
+		});
+		{% if (cat_sort) %} 
+		self.odinakBtn.on('click', function(event){
+			var chboxfilter = document.querySelector('.filter_otlich.numer'+numer);
+			if (chboxfilter.checked) {
+				self.odinakBtn.parent().addClass('active');
+			} else {
+				self.odinakBtn.parent().removeClass('active');
+			}
+			[].forEach.call(document.querySelectorAll('.numer'+numer+' .features li'),function(newtrnumber, knumber) {
+				newtrnumber = document.querySelectorAll('.numer'+numer+' .cd-features-list li:nth-child('+(knumber+1)+')');
+				var cfilter = newtrnumber[1].innerHTML,
+					cfilter = chboxfilter.checked && [].every.call(newtrnumber, function(newtrnumber, chboxfilter) {
+						return !chboxfilter || newtrnumber.innerHTML == cfilter
+					}) ? 'add' : 'remove';
+				[].forEach.call(newtrnumber, function(newtrnumber) {
+					newtrnumber.classList[cfilter]('hide')
+				})
+			})
+		});
+		{% else %} 
+		self.odinakBtn.on('click', function(event){
+			var chboxfilter = document.querySelector('.filter_otlich');
+			if (chboxfilter.checked) {
+				self.odinakBtn.parent().addClass('active');
+			} else {
+				self.odinakBtn.parent().removeClass('active');
+			}
+			[].forEach.call(document.querySelectorAll('.features li'),function(newtrnumber, knumber) {
+				newtrnumber = document.querySelectorAll('.cd-features-list li:nth-child('+(knumber+1)+')');
+				var cfilter = newtrnumber[1].innerHTML,
+					cfilter = chboxfilter.checked && [].every.call(newtrnumber, function(newtrnumber, chboxfilter) {
+						return !chboxfilter || newtrnumber.innerHTML == cfilter
+					}) ? 'add' : 'remove';
+				[].forEach.call(newtrnumber, function(newtrnumber) {
+					newtrnumber.classList[cfilter]('hide')
+				})
+			})
+		});
+		{% endif %} 
+		this.navigation.on('click', 'a', function(event){
+			event.preventDefault();
+			self.updateSlider( $(event.target).hasClass('next') );
+		});
+	}
+	productsTable.prototype.updateLeftScrolling = function() {
+		var totalTableWidth = parseInt(this.tableColumns.eq(0).outerWidth(true)),
+			tableViewport = parseInt(this.element.width()),
+			scrollLeft = this.productsWrapper.scrollLeft();
+		( scrollLeft > 0 ) ? this.table.addClass('scrolling') : this.table.removeClass('scrolling');
+		this.leftScrolling =  false;
+		this.updateNavigationVisibility(scrollLeft);
+	}
+	productsTable.prototype.updateNavigationVisibility = function(scrollLeft) {
+		( scrollLeft > 0 ) ? this.navigation.find('.prev').removeClass('inactive') : this.navigation.find('.prev').addClass('inactive');
+		( scrollLeft < this.tableColumns.outerWidth(true) - this.productsWrapper.width() && this.tableColumns.outerWidth(true) > this.productsWrapper.width() ) ? this.navigation.find('.next').removeClass('inactive') : this.navigation.find('.next').addClass('inactive');
+	}
+	productsTable.prototype.updateTopScrolling = function(scrollTop) {
+		this.updateLeftScrolling();
+	}
+	productsTable.prototype.updateProperties = function() {
+		this.tableHeight = this.table.height();
+		this.productWidth = this.products.eq(0).width();
+		this.topInfoHeight = this.featuresTopInfo.innerHeight() + 30;
+		this.tableColumns.css('width', this.productWidth*this.productsNumber + 'px');
+	}
+	productsTable.prototype.updateSlider = function(bool) {
+		var scrollLeft = this.productsWrapper.scrollLeft();
+		scrollLeft = ( bool ) ? scrollLeft + this.productWidth : scrollLeft - this.productWidth;
+		if( scrollLeft < 0 ) scrollLeft = 0;
+		if( scrollLeft > this.tableColumns.outerWidth(true) - this.productsWrapper.width() ) scrollLeft = this.tableColumns.outerWidth(true) - this.productsWrapper.width();
+		this.productsWrapper.animate( {scrollLeft: scrollLeft}, 200 );
+	}
+	var comparisonTables = [];
+	$('.cd-products-comparison-table').each(function(){
+		comparisonTables.push(new productsTable($(this)));
+	});
+	var windowScrolling = false;
+	$(window).on('scroll', function(){
+		if(!windowScrolling) {
+			windowScrolling = true;
+			(!window.requestAnimationFrame) ? setTimeout(checkScrolling, 250) : window.requestAnimationFrame(checkScrolling);
+		}
+	});
+	var windowResize = false;
+	$(window).on('resize', function(){
+		if(!windowResize) {
+			windowResize = true;
+			(!window.requestAnimationFrame) ? setTimeout(checkResize, 250) : window.requestAnimationFrame(checkResize);
+		}
+	});
+	function checkScrolling(){
+		var scrollTop = $(window).scrollTop();
+		comparisonTables.forEach(function(element){
+			element.updateTopScrolling(scrollTop);
+		});
+		windowScrolling = false;
+	}
+	function checkResize(){
+		comparisonTables.forEach(function(element){
+			element.updateProperties();
+		});
+		windowResize = false;
+	}
+	function checkMQ() {
+		return window.getComputedStyle(comparisonTables[0].element.get(0), '::after').getPropertyValue('content').replace(/'/g, "").replace(/"/g, "");
+	}
+	function setTranformX(element, value) {
+		element.css({
+		    '-moz-transform': 'translateX(' + value + 'px)',
+		    '-webkit-transform': 'translateX(' + value + 'px)',
+			'-ms-transform': 'translateX(' + value + 'px)',
+			'-o-transform': 'translateX(' + value + 'px)',
+			'transform': 'translateX(' + value + 'px)'
+		});
+	}
+}
+$("#tabs_compare li a").click(function() {
+	var numer = ($(this).attr('numer'));
+	tabcompare(numer);
+	window.setTimeout(podgon_table,0);
+})
+//--></script> 
+{% endif %} 
+
+{{ content_bottom }} 
+{% endblock %}
+
+{% block script %}
+<script><!--
+$('#tabs_compare li').first().addClass('active');
+$('.tab-pane').first().addClass('active');
+var tr3 = jQuery(".compare-info tr.attribtr");
+tr3.each(function() {
+	var td3 = jQuery("td.attribtd", this),
+		len = td3.length,
+		text = td3.eq(0).text();
+	td3 = td3.filter(function() {
+		return jQuery(this).text() == ""
+	}).length;
+	jQuery(this).toggleClass("deletetr", len == td3)
+})
+function max_height_div(div) {
+	var maxheight = 0;
+	$(div).each(function(){
+		$(this).removeAttr('style');
+		if($(this).height() > maxheight) {
+			maxheight = $(this).height();
+		}
+	});
+	$(div).height(maxheight);
+}
+//--></script> 
+{% endblock %}

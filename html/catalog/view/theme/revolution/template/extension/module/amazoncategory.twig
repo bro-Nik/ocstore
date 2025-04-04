@@ -1,0 +1,82 @@
+<div class="box">
+<div id="menu2_button">
+<div class="box-heading">{{ heading_title }}</div>
+<div class="box-content am" style="padding: 0;-webkit-border-radius: 0px 0px 0px 0px;-moz-border-radius: 0px 0px 0px 0px;-khtml-border-radius: 0px 0px 0px 0px;border-radius: 0px 0px 0px 0px;
+{% if (nehh == '1') %} 
+position:absolute;
+{% endif %}	
+">
+<div id="menu2" class="{{ module_class }}">
+<div class="catalog_list catalog_list_popup catalog_as_popup">
+{% for category in categories %}  
+	<div class="level_1 hasChildren closed">
+		<div class="title"><a href="{{ category['href'] }}">{{ category['name'] }}{{ category['column'] }} 
+		{% if (category['children']) %} 
+		<span class="arrow-btn"></span>
+		{% endif %} 
+		</a>	
+		</div>	
+		{% if (category['children']) %}	
+		<div class="childrenList" style="display: none;">
+				<ul class="subnav">
+					<div id="subwidth">
+						<div id="col" class="ul_block">
+						{% for child in category['children'] %} 
+						<li class="glavli"><a href="{{ child['href'] }}">{{ child['name'] }}</a>
+							{% if (child['child2_id']) %} 
+							<ul class="lastul">
+								{% for child2 in child['child2_id'] %} 
+								  {% if (child2['category_id'] == child2_id) %} 
+								  <li class="category-{{ child2['category_id'] }} active"><a href="{{ child2['href'] }}" class="active"><span></span>{{ child2['name'] }}</a>
+								  {% else %} 
+								  <li class="category-{{ child2['category_id'] }}"><a href="{{ child2['href'] }}"><span></span>{{ child2['name'] }}</a>
+								  {% endif %} 
+								{% endfor %}	
+							</ul>
+							{% endif %} 
+						</li>
+						{% endfor %}						
+					</div>	
+					</div>
+					{% if (category['thumb2']) %} 
+					<img class="img_sub" src="{{ category['thumb2'] }}" alt="{{ category['name'] }}" />	
+					{% endif %}	
+				</ul>					
+		</div>
+		{% endif %} 
+	</div>			
+{% endfor %}	
+</div>	
+</div>
+</div>
+</div>
+</div>
+<style type="text/css">
+.ul_block .column {
+width: {{ code3 }}px;
+float: left;
+}
+</style>
+<style type="text/css">
+.level_1.hasChildren.open {
+position:{{ code5 }};
+}
+</style>
+<script><!--
+(function($) {
+	$(function() {
+		$('.ul_block').autocolumnlist({
+			columns: {{ code2 }},
+			min: {{ code }} 
+		});
+	})
+})(jQuery)
+$(document).ready(function() {
+  //var width = $('.box').outerWidth();
+  var width = '200';
+  var width2 = $('.ul_block .column').outerWidth();
+  $('.catalog_list_popup .level_1 > .childrenList').css('width', width2*{{ code2 }}+17);
+  $('.catalog_list_popup .level_1 .childrenList').css('left', width-2);
+  $('.box-content.am').css('width', width-2);
+});
+//--></script>

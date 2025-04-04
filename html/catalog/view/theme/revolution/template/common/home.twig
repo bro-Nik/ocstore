@@ -1,0 +1,129 @@
+{{ header }} 
+<div id="top5" class="clearfix">
+{% if (slideshow) %} 
+<div id="top4" class="clearfix">
+	{% if ((setting_home_slideshow['allwide'] and not amazon) or (setting_home_slideshow['allwide'] and amazon and not allwide)) %} 
+	{% else %} 
+	<div class="container">
+		<div class="row">
+		{% endif %} 
+			{% if (allwide and amazon) %} 
+				{% if (h1_home) %} 
+					<div class="col-md-offset-3"><h1 class="home_h1">{{ h1_home }}</h1></div>
+				{% endif %} 
+				<div class="hidden-xs hidden-sm col-md-3"></div>
+				<div class="col-sm-12 col-md-9">{{ slideshow }}</div>
+			{% else %} 
+				{% if (h1_home) %} 
+					<h1 class="home_h1">{{ h1_home }}</h1>
+				{% endif %}	
+				<div class="col-sm-12 col-md-12">{{ slideshow }}</div>
+			{% endif %} 
+		{% if ((setting_home_slideshow['allwide'] and not amazon) or (setting_home_slideshow['allwide'] and amazon and not allwide)) %} 
+		{% else %} 
+		</div>
+	</div>
+	{% endif %} 
+</div>
+{% else %} 
+	{% if (h1_home and is_desctope) %} 
+		<div class="container">
+			<div class="row">
+				{% if (allwide and amazon) %} 
+				<div class="hidden-xs hidden-sm col-md-offset-3"><h1 class="home2_h1">{{ h1_home }}</h1></div>
+				{% else %} 
+				<div class="hidden-xs hidden-sm"><h1 class="home2_h1">{{ h1_home }}</h1></div>
+				{% endif %} 
+			</div>
+		</div>
+	{% endif %} 
+{% endif %} 
+{% if (blocks) %} 
+<div id="top6" class="clearfix">
+	<div class="container">
+		<div class="row">
+			{{ blocks }} 
+		</div>
+	</div>
+</div>	
+{% else %} 
+{% if (allwide and amazon) %} 
+<div style="height:70px; width:100%; clear:both"></div>
+{% else %} 
+<div style="height:30px; width:100%; clear:both"></div>
+{% endif %} 
+{% endif %} 
+</div>
+
+<div class="container">
+	<div class="row">
+	{{ column_left }} 
+	
+	{% if (column_left and column_right) %} 
+	{% set class = 'col-sm-6' %} 
+	{% elseif (column_left or column_right) %} 
+	{% set class = 'col-sm-9' %} 
+	{% else %} 
+	{% set class = 'col-sm-12' %} 
+	{% endif %} 
+	
+	<div id="content" class="{{ class }}">
+	
+	{{ content_top }} 
+	
+	{{ revcategorywall }} 
+	{{ ptabs }} 
+	{{ pbest }} 
+	{{ pspec }} 
+	{{ plast }} 
+	{{ slider_tabs }} 
+	{{ slider_1 }} 
+	{{ slider_2 }} 
+	{{ slider_3 }} 
+	{{ slider_4 }} 
+	
+	{% if (blog) %} 
+	</div>
+	</div>
+	</div>
+	<div id="top7" class="clearfix">
+	<div class="container">
+	{{ blog }} 
+	</div>
+	</div>
+	<div class="container">
+	<div class="row">
+	<div class="col-sm-12">
+	{% endif %}
+	
+	{% if (aboutstore) %} 
+	{% if (socv or socfb or socok or (socvinsta and right_insta)) %}{% set aboutclass1="col-sm-12 col-md-8 col-lg-9 aboutstore" %}{% set aboutclass2="col-sm-12 col-md-4 col-lg-3" %}{% else %} {% set aboutclass1="col-sm-12 aboutstore2" %}{% set aboutclass2="" %}{% endif %} 
+	<div class="row">
+	<div class="{{ aboutclass1 }}">
+	{{ aboutstore }} 
+	{% if (not right_insta) %} 
+	{{ socvinsta }} 
+	{% endif %} 
+	</div>
+	<div class="{{ aboutclass2 }}">
+	{{ socv }} 
+	{{ socfb }} 
+	{{ socok }} 
+	{% if (right_insta) %} 
+	{{ socvinsta }} 
+	{% endif %} 
+	</div>
+	</div>
+	{% endif %} 
+	
+	{{ storereview }} 
+	{{ viewed_products }} 
+	
+	{{ content_bottom }} 
+	
+	</div>
+	{{ column_right }} 
+	</div>
+</div>
+
+{{ footer }}

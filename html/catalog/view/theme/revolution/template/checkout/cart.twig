@@ -1,0 +1,152 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}{% if weight %}&nbsp;({{ weight }}){% endif %}</h1></li>
+</ul>
+  {% if (attention) %} 
+  <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ attention }} 
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %} 
+  {% if (success) %} 
+  <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %} 
+  {% if (error_warning) %} 
+  <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }} 
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %} 
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      <form action="{{ action }}" method="post" enctype="multipart/form-data">
+        <div class="table-responsive">
+          <table class="table table-revolution">
+            <thead>
+              <tr>
+                <td class="text-center">{{ column_image }}</td>
+                <td class="text-left">{{ column_name }}</td>
+                <td class="text-left">{{ column_model }}</td>
+                <td class="text-left">{{ column_quantity }}</td>
+                <td class="text-right">{{ column_price }}</td>
+                <td class="text-right">{{ column_total }}</td>
+				<td class="text-right"></td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in products %} 
+              <tr>
+                <td class="text-center">{% if (product['thumb']) %} 
+                  <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-thumbnail" /></a>
+                  {% endif %}</td>
+                <td class="text-left"><a href="{{ product['href'] }}">{{ product['name'] }}</a>
+                  {% if (not product['stock']) %} 
+                  <span class="text-danger">***</span>
+                  {% endif %} 
+                  {% if (product['option']) %} 
+                  {% for option in product['option'] %} 
+                  <br />
+                  <small>{{ option['name'] }}: {{ option['value'] }}</small>
+                  {% endfor %} 
+                  {% endif %} 
+                  {% if (product['reward']) %} 
+                  <br />
+                  <small>{{ product['reward'] }}</small>
+                  {% endif %} 
+                  {% if (product['recurring']) %} 
+                  <br />
+                  <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ product['recurring'] }}</small>
+                  {% endif %}</td>
+                <td class="text-left">{% if (product['option'] and option['model']) %}{{ option['model'] }}{% else %}{{ product['model'] }}{% endif %}</td>
+                <td class="text-left">
+					<div class="number">
+						<div class="frame-change-count">
+							<div class="btn-plus">
+								<button type="button" onclick="cart.update('{{ product['cart_id'] }}', parseFloat($(this).parent().parent().next().val())+1);">+</button>
+							</div>
+							<div class="btn-minus">
+								<button type="button" onclick="cart.update('{{ product['cart_id'] }}', parseFloat($(this).parent().parent().next().val())-1);">-</button>
+							</div>
+						</div>
+						<input type="text" name="quantity[{{ product['cart_id'] }}]" value="{{ product['quantity'] }}" onchange="cart.update('{{ product['cart_id'] }}', $(this).val());" size="1" class="plus-minus" /> 
+					</div>
+				</td>
+                <td class="text-right">{{ product['price'] }}</td>
+                <td class="text-right">{{ product['total'] }}</td>
+				<td class="remove text-right"><button type="button" onclick="cart.remove('{{ product['cart_id'] }}');" title="{{ button_remove }}"><i class="fa fa-trash-o"></i></button></td>
+              </tr>
+              {% endfor %} 
+              {% for vouchers in vouchers %} 
+              <tr>
+                <td></td>
+                <td class="text-left">{{ vouchers['description'] }}</td>
+                <td class="text-left"></td>
+                <td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
+                    <input type="text" name="" value="1" size="1" disabled="disabled" class="form-control" />
+                    <span class="input-group-btn"><button type="button" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger" onclick="voucher.remove('{{ vouchers['key'] }}');"><i class="fa fa-times-circle"></i></button></span></div></td>
+                <td class="text-right">{{ vouchers['amount'] }}</td>
+                <td class="text-right">{{ vouchers['amount'] }}</td>
+              </tr>
+              {% endfor %} 
+            </tbody>
+          </table>
+        </div>
+      </form>
+	  {% if (constant('VERSION') >= 2.2) %} {% set coupon = constant('false') %} {% set voucher = constant('false') %} {% set reward = constant('false') %} {% set shipping = constant('false') %} 
+	  {% if (modules) %} 
+      <h2>{{ text_next }}</h2>
+      <p>{{ text_next_choice }}</p>
+      <div class="panel-group" id="accordion">
+        {% for module in modules %} 
+        {{ module }} 
+        {% endfor %} 
+      </div>
+      {% else %} 
+	  {% endif %} 
+      {% if (coupon or voucher or reward or shipping) %} 
+      <h2>{{ text_next }}</h2>
+      <p>{{ text_next_choice }}</p>
+      <div class="panel-group mb0" id="accordion">{{ coupon }}{{ voucher }}{{ reward }}{{ shipping }}</div>
+      {% endif %} 
+	  {% endif %} 
+      <br />
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-8">
+          <div class="all-total">
+		  {% for total in totals %} 
+			<div class="clear-total">
+			<div class="totals-right">{{ total['text'] }}</div>
+			<div class="totals-left">{{ total['title'] }}:</div>     
+			</div>
+		  {% endfor %} 
+		</div>
+        </div>
+      </div>
+      <div class="buttons">
+        <div class="pull-left"><a href="{{ continue }}" class="btn btn-default">{{ button_shopping }}</a></div>
+        <div class="pull-right"><a href="{{ checkout }}" class="btn btn-danger">{{ button_checkout }}</a></div>
+      </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }} 

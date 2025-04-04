@@ -1,0 +1,59 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      {% if (returns) %} 
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td class="text-right">{{ column_return_id }}</td>
+            <td class="text-left">{{ column_status }}</td>
+            <td class="text-left">{{ column_date_added }}</td>
+            <td class="text-right">{{ column_order_id }}</td>
+            <td class="text-left">{{ column_customer }}</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for return in returns %} 
+          <tr>
+            <td class="text-right">#{{ return['return_id'] }}</td>
+            <td class="text-left">{{ return['status'] }}</td>
+            <td class="text-left">{{ return['date_added'] }}</td>
+            <td class="text-right">{{ return['order_id'] }}</td>
+            <td class="text-left">{{ return['name'] }}</td>
+            <td><a href="{{ return['href'] }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-primary"><i class="fa fa-eye"></i></a></td>
+          </tr>
+          {% endfor %} 
+        </tbody>
+      </table>
+      <div class="text-right">{{ pagination }}</div>
+      {% else %} 
+      <p>{{ text_empty }}</p>
+      {% endif %} 
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

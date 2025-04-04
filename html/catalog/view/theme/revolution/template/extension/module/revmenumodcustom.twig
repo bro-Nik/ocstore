@@ -1,0 +1,43 @@
+{% if (revtheme_dop_menus) %} 
+	<!--noindex-->
+	<div class = "panel panel-default revmenumodcustom">
+		{% if (revtheme_dop_menu_title != '') %} 
+			<div class ="panel-heading">{{ revtheme_dop_menu_title }}</div>
+		{% endif %} 
+		<div class="list-group">
+			{% for revtheme_dop_menu in revtheme_dop_menus %} 
+				<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" rel="nofollow" class="list-group-item">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka']) %} <i class="{{ revtheme_dop_menu['dop_menu_iconka'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %}{{ revtheme_dop_menu['name'~config_language_id] }} {% if (revtheme_dop_menu['children'] is defined) %} <span class="chevrond" data-toggle="collapse"><i class="fa fa-plus on"></i><i class="fa fa-minus off"></i></span>{% endif %}</a>
+				{% if (revtheme_dop_menu['children'] is defined) %} 
+					<div class="collapse list-group-submenu">
+						{% for child in revtheme_dop_menu['children'] %} 
+							<a href="{{ child['href'~config_language_id] }}" rel="nofollow" class="list-group-item">&nbsp;&nbsp;&nbsp;{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka']) %} <i class="{{ child['dop_menu_iconka'] }}"></i> {% else %} {% if (child['dop_menu_image']) %} <span><img src="{{ child['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %}{{ child['name'~config_language_id] }}{% if (child['children'] is defined) %} <span class="chevrond" data-toggle="collapse"><i class="fa fa-plus on"></i><i class="fa fa-minus off"></i></span>{% endif %}</a>
+							{% if (child['children'] is defined) %} 
+								<div class="collapse list-group-submenu">
+									{% for child2 in child['children'] %} 
+										<a href="{{ child2['href'~config_language_id] }}" rel="nofollow" class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% if (child2['icontype'] == 'iconka' and child2['dop_menu_iconka']) %} <i class="{{ hild2['dop_menu_iconka'] }}"></i> {% else %} {% if (child2['dop_menu_image']) %} <span><img src="{{ child2['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %}{{ child2['name'~config_language_id] }}</a>
+									{% endfor %}
+								</div>
+							{% endif %} 
+						{% endfor %} 
+					</div>
+				{% endif %} 
+			{% endfor %} 
+		</div>
+	</div>
+	<!--/noindex-->
+	<script><!--
+	$(".revmenumodcustom .chevrond").click(function () {
+		$(this).siblings(".collapsible").toggle();
+		$(this).toggleClass("hided");
+		$(this).parent().next().toggleClass("in");
+	});
+	$(function() {
+		var url_w = window.location.href.substr(window.location.href.lastIndexOf( '/' ) + 1);
+		$('.revmenumodcustom a').each(function() {
+			if($(this).attr('href') === url_w && $(this).attr('href') != '') {
+				$(this).addClass('active');
+			}
+		});
+	});
+	--></script>
+{% endif %} 

@@ -1,0 +1,221 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-review" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if (error_warning) %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-review" class="form-horizontal">
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-author">{{ entry_author }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="author" value="{{ author }}" placeholder="{{ entry_author }}" id="input-author" class="form-control" />
+              {% if (error_author) %}
+              <div class="text-danger">{{ error_author }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-text">{{ entry_text }}</label>
+            <div class="col-sm-10">
+              <textarea name="text" cols="60" rows="8" placeholder="{{ entry_text }}" id="input-text" class="form-control">{{ text }}</textarea>
+              {% if (error_text) %}
+              <div class="text-danger">{{ error_text }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-name">{{ entry_rating }}</label>
+            <div class="col-sm-10">
+              <label class="radio-inline">
+                {% if (rating == 1) %}
+                <input type="radio" name="rating" value="1" checked="checked" />
+                1
+                {% else %}
+                <input type="radio" name="rating" value="1" />
+                1
+                {% endif %}
+              </label>
+              <label class="radio-inline">
+                {% if (rating == 2) %}
+                <input type="radio" name="rating" value="2" checked="checked" />
+                2
+                {% else %}
+                <input type="radio" name="rating" value="2" />
+                2
+                {% endif %}
+              </label>
+              <label class="radio-inline">
+                {% if (rating == 3) %}
+                <input type="radio" name="rating" value="3" checked="checked" />
+                3
+                {% else %}
+                <input type="radio" name="rating" value="3" />
+                3
+                {% endif %}
+              </label>
+              <label class="radio-inline">
+                {% if (rating == 4) %}
+                <input type="radio" name="rating" value="4" checked="checked" />
+                4
+                {% else %}
+                <input type="radio" name="rating" value="4" />
+                4
+                {% endif %}
+              </label>
+              <label class="radio-inline">
+                {% if (rating == 5) %}
+                <input type="radio" name="rating" value="5" checked="checked" />
+                5
+                {% else %}
+                <input type="radio" name="rating" value="5" />
+                5
+                {% endif %}
+              </label>
+              {% if (error_rating) %}
+              <div class="text-danger">{{ error_rating }}</div>
+              {% endif %}
+            </div>
+          </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-text-plus">{{ text_plus }}</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="plus" value="{{ plus }}" placeholder="{{ text_plus }}" id="input-text-plus" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-text-minus">{{ text_minus }}</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="minus" value="{{ minus }}" placeholder="{{ text_minus }}" id="input-text-minus" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-rating-plus">{{ text_likes }}</label>
+                    <div class="col-sm-2">
+                      <input type="text" name="likes" value="{{ likes }}" id="input-rating-plus" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-rating-minus">{{ text_dislikes }}</label>
+                    <div class="col-sm-2">
+                      <input type="text" name="dislikes" value="{{ dislikes }}" id="input-rating-minus" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group review-media">
+                    <label class="col-sm-2 control-label" for="review-images-thumbnails">{{ text_images }}</label>
+                    <div class="col-sm-10">
+                    <ul class="thumbnails reviews-thumbnails" id="review-images-thumbnails">
+                      {% if (review_images is defined) %}
+                        {% set image_row = 0 %}
+                        {% for image in review_images %}
+                          <li class="image-additional" id="image-row{{ image_row }}"><a href="" id="thumb-image{{ image_row }}" data-toggle="image" class="img-thumbnail">
+                            <img src="{{ image['thumb'] }}" alt="" title="" data-placeholder="{{ placeholder }}"/></a>
+                            <input type="hidden" name="review_image[{{ image_row }}][image]" value="{{ image['image'] }}" id="input-image{{ image_row }}">
+                            <input type="hidden" name="review_image[{{ image_row }}][thumb]" value="{{ image['thumb'] }}" id="input-thumb{{ image_row }}">
+                          <button type="button" onclick="$('#image-row{{ image_row }}').remove();" data-toggle="tooltip" title="Удалить изображение" class="btn btn-delete"><i class="fa fa-minus-circle"></i>{{ text_delete }}</button></li>
+                            {% set image_row = image_row + 1 %}
+                        {% endfor %}
+                      {% endif %}
+                    </ul>
+                  <button type="button" onclick="addImage();" data-toggle="tooltip" title="{{ text_images_add }}" style="margin-left:5px" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
+                  </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-videos">{{ text_videos }}</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="videos" value="{{ videos }}" placeholder="{{ text_videos }}" id="input-videos" class="form-control" />
+                    </div>
+                  </div>
+
+                    <div class="form-group required">
+                      <label class="col-sm-2 control-label" for="admin-name">{{ text_admin_name }}</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="admin_name" value="{{ admin_name }}" placeholder="{{ text_admin_name }}" id="admin-name" class="form-control" />
+                      </div>
+                      <label class="col-sm-2 control-label" for="input-admin-reply">{{ text_admin_answer }}</label>
+                      <div class="col-sm-10">
+                        <textarea name="admin_reply" cols="60" rows="8" placeholder="{{ text_admin_answer }}" id="input-admin-reply" class="form-control">{{ admin_reply }}</textarea>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="input-container">Засчитать бонусы за комментарий</label>
+                      <div class="col-sm-10">
+                        <div class="radio-group-lite">
+                          <input id="comment_bonuse_off" class="hide-radio radio-off" type="radio" name="bonus" value="0" {{ bonus == 0 ? 'checked' : '' }}>
+                          <label for="comment_bonuse_off">{{ text_yes }}</label>
+                          <input id="comment_bonuse_on" class="hide-radio radio-on" type="radio" name="bonus" value="1" {{ bonus == 1 ? 'checked' : '' }}>
+                          <label for="comment_bonuse_on">{{ text_no }}<span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label>
+                        </div>
+                      </div>
+                    </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-date-added">{{ entry_date_added }}</label>
+            <div class="col-sm-3">
+              <div class="input-group datetime">
+                <input type="text" name="date_added" value="{{ date_added }}" placeholder="{{ entry_date_added }}" data-date-format="YYYY-MM-DD HH:mm:ss" id="input-date-added" class="form-control" />
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="status" id="input-status" class="form-control">
+                {% if (status) %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <input type="hidden" name="customer_id" value="{{ customer_id }}">
+          <input type="hidden" name="images" value="{{ images }}">
+        </form>
+      </div>
+    </div>
+  </div>
+  <style>.reviews-thumbnails .img-thumbnail{padding: 0;border: 0;overflow: hidden;border-radius: 4px 4px 0 0}</style>
+  <script>
+  var image_row = {{ image_row }};
+  function addImage() {
+  html  = '<li class="image-additional" id="image-row' + image_row + '">';
+  html += '  <a href="" id="thumb-image' + image_row + '"data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="review_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /><input type="hidden" name="review_image[' + image_row + '][thumb]" value="" id="input-thumb' + image_row + '" />';
+  html += '  <button type="button" onclick="$(\'#image-row' + image_row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-delete"><i class="fa fa-minus-circle"></i> Удалить</button>';
+  html += '</li>';
+  $('.reviews-thumbnails').append(html);
+  image_row++;}
+  </script>
+  <script type="text/javascript"><!--
+$('.datetime').datetimepicker({
+	pickDate: true,
+	pickTime: true
+});
+//--></script></div>
+{{ footer }}

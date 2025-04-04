@@ -1,0 +1,274 @@
+{{ header }}{{ column_left }} 
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+		<a onclick="apply()" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Применить"><i class="fa fa-check"></i></a>
+        <button type="submit" form="form-revblog" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %} 
+        <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+        {% endfor %} 
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if (error_warning) %} 
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %} 
+	{% if (success) %} 
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %} 
+    <div class="panel panel-default alert-helper">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-revblog" class="form-horizontal">
+          <ul class="nav nav-tabs">
+			<li class="active"><a href="#tab-list" data-toggle="tab">{{ tab_list }}</a></li>
+			<li><a href="#tab-form" data-toggle="tab">{{ tab_form }}</a></li>
+          </ul>
+          <div class="tab-content">
+			<div class="tab-pane active" id="tab-list">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Выводить фото:</label>
+					<div class="col-sm-3">
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[category_image_status]" value="1" {% if (revblog['category_image_status'] is not defined or revblog['category_image_status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[category_image_status]" value="0" {% if (revblog['category_image_status'] is defined and not revblog['category_image_status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Выводить дату:</label>
+					<div class="col-sm-3">
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[blog_date_status]" value="1" {% if (revblog['blog_date_status'] is not defined or revblog['blog_date_status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[blog_date_status]" value="0" {% if (revblog['blog_date_status'] is defined and not revblog['blog_date_status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Размер картинки категории, px:</label>
+					<div class="col-sm-9">
+						<div class="row">
+						  <div class="col-sm-2">
+							<input data-toggle="tooltip" data-placement="top" title="{{ entry_width }}" type="text" name="revblog_settings[category_image_width]" value="{{ revblog['category_image_width'] is defined ? revblog['category_image_width'] : '' }}" placeholder="{{ entry_width }}" class="form-control width_initial" />
+							{% if (error_list_image_width) %} 
+							<div class="text-danger">{{ error_list_image_width }}</div>
+							{% endif %} 
+						  </div>
+						  <div class="col-sm-2">
+							<input data-toggle="tooltip" data-placement="top" title="{{ entry_height }}" type="text" name="revblog_settings[category_image_height]" value="{{ revblog['category_image_height'] is defined ? revblog['category_image_height'] : '' }}" placeholder="{{ entry_height }}" class="form-control width_initial" />
+							{% if (error_list_image_height) %} 
+							<div class="text-danger">{{ error_list_image_height }}</div>
+							{% endif %} 
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+				  <label class="col-sm-2 control-label">{{ entry_desc_limit }}</label>
+				  <div class="col-sm-3">
+					<input type="text" name="revblog_settings[list_desc_limit]" value="{{ revblog['list_desc_limit'] is defined ? revblog['list_desc_limit'] : '' }}" placeholder="{{ entry_limit }}" class="form-control" />
+					{% if (error_list_desc_limit) %} 
+					<div class="text-danger">{{ error_list_desc_limit }}</div>
+					{% endif %} 
+				  </div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Размер картинки новости, px:</label>
+					<div class="col-sm-9">
+						<div class="row">
+						  <div class="col-sm-2">
+							<input data-toggle="tooltip" data-placement="top" title="{{ entry_width }}" type="text" name="revblog_settings[list_image_width]" value="{{ revblog['list_image_width'] is defined ? revblog['list_image_width'] : '' }}" placeholder="{{ entry_width }}" class="form-control width_initial" />
+							{% if (error_list_image_width) %} 
+							<div class="text-danger">{{ error_list_image_width }}</div>
+							{% endif %} 
+						  </div>
+						  <div class="col-sm-2">
+							<input data-toggle="tooltip" data-placement="top" title="{{ entry_height }}" type="text" name="revblog_settings[list_image_height]" value="{{ revblog['list_image_height'] is defined ? revblog['list_image_height'] : '' }}" placeholder="{{ entry_height }}" class="form-control width_initial" />
+							{% if (error_list_image_height) %} 
+							<div class="text-danger">{{ error_list_image_height }}</div>
+							{% endif %} 
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Тип отображения:</label>
+					<div class="col-sm-3">
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[category_blog_grid]" value="1" {% if (revblog['category_blog_grid'] is not defined or revblog['category_blog_grid']) %} {{ 'checked' }} {% endif %} /><span>Сетка</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[category_blog_grid]" value="0" {% if (revblog['category_blog_grid'] is defined and not revblog['category_blog_grid']) %} {{ 'checked' }}{% endif %} /><span>Список</span>
+						</label>
+					</div>
+				</div>
+            </div>
+			<div class="tab-pane" id="tab-form">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Выводить главное фото:</label>
+					<div class="col-sm-3">
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[main_image_status]" value="1" {% if (revblog['main_image_status'] is defined and revblog['main_image_status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[main_image_status]" value="0" {% if (revblog['main_image_status'] is not defined or not revblog['main_image_status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ entry_image_thumb }}</label>
+					<div class="col-sm-9">
+						<div class="row">
+						  <div class="col-sm-2">
+							<input data-toggle="tooltip" data-placement="top" title="{{ entry_width }}" type="text" name="revblog_settings[form_image_width]" value="{{ revblog['form_image_width'] is defined ? revblog['form_image_width'] : '' }}" placeholder="{{ entry_width }}" class="form-control width_initial" />
+							{% if (error_form_image_width) %} 
+							<div class="text-danger">{{ error_form_image_width }}</div>
+							{% endif %} 
+						  </div>
+						  <div class="col-sm-2">
+							<input data-toggle="tooltip" data-placement="top" title="{{ entry_height }}" type="text" name="revblog_settings[form_image_height]" value="{{ revblog['form_image_height'] is defined ? revblog['form_image_height'] : '' }}" placeholder="{{ entry_height }}" class="form-control width_initial" />
+							{% if (error_form_image_height) %} 
+							<div class="text-danger">{{ error_form_image_height }}</div>
+							{% endif %} 
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Размер картинки в галлерее, px:</label>
+					<div class="col-sm-9">
+						<div class="row">
+						  <div class="col-sm-2">
+							<input data-toggle="tooltip" data-placement="top" title="{{ entry_width }}" type="text" name="revblog_settings[images_image_width]" value="{{ revblog['images_image_width'] is defined ? revblog['images_image_width'] : '' }}" placeholder="{{ entry_width }}" class="form-control width_initial" />
+							{% if (error_images_image_width) %} 
+							<div class="text-danger">{{ error_images_image_width }}</div>
+							{% endif %} 
+						  </div>
+						  <div class="col-sm-2">
+							<input data-toggle="tooltip" data-placement="top" title="{{ entry_height }}" type="text" name="revblog_settings[images_image_height]" value="{{ revblog['images_image_height'] is defined ? revblog['images_image_height'] : '' }}" placeholder="{{ entry_height }}" class="form-control width_initial" />
+							{% if (error_images_image_height) %} 
+							<div class="text-danger">{{ error_images_image_height }}</div>
+							{% endif %} 
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ entry_share_status }}</label>
+					<div class="col-sm-3">
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[share_status]" value="1" {% if (revblog['share_status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[share_status]" value="0" {% if (not revblog['share_status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Рекомендуемые в левой колонке:</label>
+					<div class="col-sm-3">
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[related_left_status]" value="1" {% if (revblog['related_left_status'] is defined and revblog['related_left_status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[related_left_status]" value="0" {% if (revblog['related_left_status'] is not defined or not revblog['related_left_status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Включить комментарии:</label>
+					<div class="col-sm-3">
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[review_status]" value="1" {% if (revblog['review_status'] is defined and revblog['review_status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[review_status]" value="0" {% if (revblog['review_status'] is not defined or not revblog['review_status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="Если отключена возможность заказа товаров при 0 количестве или цене.">Не выводить товары<br>с кол-вом или ценой = 0:</span></label>
+					<div class="col-sm-2">
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[not_view_null]" value="1" {% if (revblog['not_view_null']) %} {{ 'checked' }} {% endif %} /><span>Вкл.</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="revblog_settings[not_view_null]" value="0" {% if (not revblog['not_view_null']) %} {{ 'checked' }}{% endif %} /><span>Выкл.</span>
+						</label>
+					</div>
+				</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+#form-revblog .radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+    margin-top: 0;
+    margin-left: 5px;
+}
+#form-revblog .form-group .radio-inline {
+    display: inline-block;
+    float: left;
+    padding-left: 0;
+}
+#form-revblog .form-group .radio-inline input[type='radio'] {
+    display: none;
+}
+#form-revblog .form-group .radio-inline input[type='radio']:checked + span {
+    color: #fff;
+    background: #8fbb6c;
+    border-color: #8fbb6c;
+    text-shadow: none;
+}
+#form-revblog .form-group .radio-inline input[type='radio'] + span {
+    padding: 2px 5px;
+    margin: 0;
+    background: #fafafa;
+    color: #333;
+    font-size: 14px;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    position: relative;
+    min-width: 51px;
+    text-align: center;
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: -9px;
+}
+#form-revblog .form-group .radio-inline input[type='radio']:checked + span {
+    color: #fff;
+    background: #8fbb6c;
+    border-color: #8fbb6c;
+    text-shadow: none;
+}
+</style>
+<script type="text/javascript"><!--
+	function apply(){
+		$(".alert").remove();
+		$.post($("#form-revblog").attr('action'), $("#form-revblog").serialize(), function(html) {
+			var $success = $(html).find(".alert-success, .alert-danger");
+			if ($success.length > 0) {
+				$(".alert-helper").before($success);
+			}
+		});
+	}
+//--></script>
+{{ footer }}

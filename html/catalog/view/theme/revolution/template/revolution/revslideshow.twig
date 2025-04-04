@@ -1,0 +1,41 @@
+<div id="revslideshow" class="owl-carousel banners" style="opacity: 1;">
+	{% if (home_slideshows) %} 
+		{% for home_slideshow in home_slideshows %} 
+			<div class="item">
+				{% if (home_slideshow['title']) %} 
+					<span class="home_slideshow_title" style="color:#{{ home_slideshow['title_color'] }}; font-size:{{ home_slideshow['title_fsize'] }}%; top:{{ home_slideshow['title_xpos'] }}; left:{{ home_slideshow['title_ypos'] }}">{{ home_slideshow['title'] }}</span>
+				{% endif %} 
+				{% if (home_slideshow['description']) %} 
+					<span class="home_slideshow_description" style="color:#{{ home_slideshow['description_color'] }}; font-size:{{ home_slideshow['description_fsize'] }}%; top:{{ home_slideshow['description_xpos'] }}; left:{{ home_slideshow['description_ypos'] }}">{{ home_slideshow['description'] }}</span>
+				{% endif %} 
+				{% if (home_slideshow['link']) %} 
+					<a class="home_slideshow_link{% if (home_slideshow['checkbox']) %} popup_html_content{% endif %}" href="{{ home_slideshow['link'] }}" style="color:#{{ home_slideshow['link_title_color'] }}; border: 1px solid #{{ home_slideshow['link_title_color'] }}; font-size:{{ home_slideshow['link_title_fsize'] }}%; top:{{ home_slideshow['link_title_xpos'] }}; left:{{ home_slideshow['link_title_ypos'] }}">{{ home_slideshow['link_title'] }}</a>
+				{% endif %} 
+				<img src="{{ home_slideshow['image'] }}" alt="{{ home_slideshow['title'] }}" class="img-responsive" />
+			</div>
+		{% endfor %} 
+	{% else %} 
+		{% for banner in banners %} 
+			<div class="item">
+				{% if (banner['link']) %} 
+					<a href="{{ banner['link'] }}"><img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" /></a>
+				{% else %} 
+					<img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" />
+				{% endif %} 
+			</div>
+		{% endfor %} 
+	{% endif %} 
+</div>
+<script><!--
+	$('#revslideshow').owlCarousel({
+		itemsCustom: [[0, 1], [375, 1], [750, {{ slides }}], [970, {{ slides }}], [1170, {{ slides }}]],
+		responsiveBaseWidth: '#revslideshow',
+		stopOnHover : true,
+		navigation: true,
+		navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
+		pagination: false,
+		{% if (autoscroll) %} 
+			autoPlay: {{ autoscroll }}*1000,
+		{% endif %} 
+	});
+--></script>

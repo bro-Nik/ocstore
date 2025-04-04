@@ -1,0 +1,198 @@
+function get_revpopup_cart_quantity(product_id) {
+	{# input_val = $('{{ block }} .product_'+product_id+' .plus-minus').val(); #}
+	input_val = $('.product_'+product_id+' .plus-minus').val();
+	quantity  = parseInt(input_val);
+	return quantity;
+}
+
+{# function validate_pole_product_products(val, product_id, znak, minimumvalue, maximumvalue) { #}
+{# 	val.value = val.value.replace(/[^\d,]/g, ''); #}
+{# 	if (val.value == '') val.value = minimumvalue; #}
+{# 	maximumvalue = Number($('.pr_quantity_'+product_id).text()); #}
+{# 	if (maximumvalue < 1) maximumvalue = 9999; #}
+{# 	input_val = $('.product_'+product_id+' .plus-minus');	 #}
+{# 	quantity = parseInt(input_val.val()); #}
+{# 	{% if (q_zavisimost) %}  #}
+{# 	if(znak=='+' && input_val.val() < maximumvalue) input_val.val(quantity+1); #}
+{# 	else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1); #}
+{# 	else if(znak=='=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val()); #}
+{# 	if (quantity < 1 || quantity < minimumvalue) { #}
+{# 		input_val.val(minimumvalue); #}
+{# 		val.value = minimumvalue; #}
+{# 	} else if (quantity > maximumvalue) { #}
+{# 		input_val.val(maximumvalue); #}
+{# 		val.value = maximumvalue; #}
+{# 	} #}
+{# 	{% else %}  #}
+{# 	if(znak=='+') input_val.val(quantity+1); #}
+{# 	else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1); #}
+{# 	else if(znak=='=' && input_val.val() > minimumvalue) input_val.val(input_val.val()); #}
+{# 	if (quantity < 1 || quantity < minimumvalue) { #}
+{# 		input_val.val(minimumvalue); #}
+{# 		val.value = minimumvalue; #}
+{# 	} #}
+{# 	{% endif %}  #}
+{# 	update_quantity_product_products(product_id, input_val.val()); #}
+{# } #}
+{##}
+{# function update_quantity_product_products(product_id, quantity) { #}
+{# {% if (recalc_price) %}  #}
+{# 	quantity = quantity; #}
+{# {% else %}  #}
+{# 	quantity = 1; #}
+{# {% endif %}  #}
+{##}
+{# data = $('.product_'+product_id+' .options input[type=\'text\'], .product_'+product_id+' .options input[type=\'hidden\'], .product_'+product_id+' .options input[type=\'radio\']:checked, .product_'+product_id+' .options input[type=\'checkbox\']:checked, .product_'+product_id+' .options select'); #}
+{# $.ajax({ #}
+{#   url: 'index.php?route=product/product/update_prices', #}
+{#   type: 'post', #}
+{#   datatype: 'json', #}
+{#   data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity, #}
+{#   success: function(json) { #}
+{# 	{% if (recalc_price) %}  #}
+{# 	 #}
+{# 		{% if (description_options['zamena_description'] and description_options['weight']) %}  #}
+{# 			var weight = json['weight']; #}
+{# 			{% if (revtheme_product_all['recalc_price_animate']) %}  #}
+{# 				var start_weight = parsefloat($('{{ block }} .pr_weight_'+product_id).attr('data-weight')); #}
+{# 				$({val:start_weight}).animate({val:weight}, { #}
+{# 					duration: 500, #}
+{# 					easing: 'swing', #}
+{# 					step: function(val) { #}
+{# 						$('.pr_weight_'+product_id).html(weight_format(val, product_id)); #}
+{# 					} #}
+{# 				}); #}
+{# 				$('.pr_weight_'+product_id).attr('data-weight', json['weight']); #}
+{# 			{% else %}  #}
+{# 				$('.pr_weight_'+product_id).html(weight_format(weight, product_id)); #}
+{# 			{% endif %}  #}
+{# 		{% endif %}  #}
+{##}
+{# 		{% if (stikers_status) %}  #}
+{# 			var price = json['price_n']; #}
+{# 			{% if (revtheme_product_all['recalc_price_animate']) %}  #}
+{# 				var start_price = parsefloat($('.special_no_format'+product_id).html().replace(/\s*/g,'')); #}
+{# 				$({val:start_price}).animate({val:price}, { #}
+{# 					duration: 500, #}
+{# 					easing: 'swing', #}
+{# 					step: function(val) { #}
+{# 						$('.special_no_format'+product_id).html(price_format(val)); #}
+{# 					} #}
+{# 				}); #}
+{# 			{% else %}  #}
+{# 				$('.special_no_format'+product_id).html(price_format(price)); #}
+{# 			{% endif %}  #}
+{# 		{% endif %}  #}
+{# 		 #}
+{# 		 #}
+{# 		var special = json['special_n']; #}
+{# 		{% if (revtheme_product_all['recalc_price_animate']) %}  #}
+{# 			var start_special = parsefloat($('.price_no_format'+product_id).html().replace(/\s*/g,'')); #}
+{# 			$({val:start_special}).animate({val:special}, { #}
+{# 				duration: 500, #}
+{# 				easing: 'swing', #}
+{# 				step: function(val) { #}
+{# 					$('.price_no_format'+product_id).html(price_format(val)); #}
+{# 				} #}
+{# 			}); #}
+{# 		{% else %}  #}
+{# 			$('.price_no_format'+product_id).html(price_format(special)); #}
+{# 		{% endif %}  #}
+{# 	{% endif %}  #}
+{#   } #}
+{# }); #}
+{# } #}
+{##}
+{# function update_prices_product_product_products(product_id, minimumvalue) { #}
+{# 	input_val = $('.product_'+product_id+' .plus-minus').val(); #}
+{# 	if (input_val > minimumvalue) { #}
+{# 		input_val = minimumvalue; #}
+{# 		$('.product_'+product_id+' .plus-minus').val(minimumvalue); #}
+{# 	} #}
+{# 	{% if (recalc_price) %}  #}
+{# 	quantity = parseint(input_val); #}
+{# 	{% else %}  #}
+{# 	quantity = 1; #}
+{# 	{% endif %}  #}
+{# 	data = $('.product_'+product_id+' .options input[type=\'text\'], .product_'+product_id+' .options input[type=\'hidden\'], .product_'+product_id+' .options input[type=\'radio\']:checked, .product_'+product_id+' .options input[type=\'checkbox\']:checked, .product_'+product_id+' .options select'); #}
+{# 	$.ajax({ #}
+{# 	  type: 'post', #}
+{# 	  url:  'index.php?route=product/product/update_prices', #}
+{# 	  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity, #}
+{# 	  datatype: 'json', #}
+{# 	  success: function(json) { #}
+{# 	   #}
+{# 		{% if (img_slider) %}  #}
+{# 		$('.product_'+product_id+' .image .owl-item:first-child img').attr('src', json['opt_image']); #}
+{# 		{% else %}  #}
+{# 		$('.product_'+product_id+' .image img').attr('src', json['opt_image']); #}
+{# 		{% endif %}  #}
+{# 		 #}
+{# 		{% if (description_options['zamena_description'] and description_options['model']) %}  #}
+{# 		$('.product_'+product_id+' .pr_model_'+product_id).html(json['opt_model']); #}
+{# 		{% endif %}  #}
+{# 	   #}
+{# 		var end_quantity = json['option_quantity']; #}
+{# 		{% if (revtheme_product_all['recalc_price_animate']) %}  #}
+{# 			var start_quantity = parsefloat($('.pr_quantity_'+product_id).html().replace(/\s*/g,'')); #}
+{# 			$({val:start_quantity}).animate({val:end_quantity}, { #}
+{# 				duration: 500, #}
+{# 				easing: 'swing', #}
+{# 				step: function(val) { #}
+{# 					$('.pr_quantity_'+product_id).html(number_format(val, product_id)); #}
+{# 				} #}
+{# 			}); #}
+{# 		{% else %}  #}
+{# 			$('{{ block }} .pr_quantity_'+product_id).html(number_format(end_quantity, product_id)); #}
+{# 		{% endif %}  #}
+{# 		 #}
+{# 		{% if (description_options['zamena_description'] and description_options['weight']) %}  #}
+{# 			var weight = json['weight']; #}
+{# 			{% if (revtheme_product_all['recalc_price_animate']) %}  #}
+{# 				var start_weight = parsefloat($('{{ block }} .pr_weight_'+product_id).attr('data-weight')); #}
+{# 				$({val:start_weight}).animate({val:weight}, { #}
+{# 					duration: 500, #}
+{# 					easing: 'swing', #}
+{# 					step: function(val) { #}
+{# 						$('.pr_weight_'+product_id).html(weight_format(val, product_id)); #}
+{# 					} #}
+{# 				}); #}
+{# 				$('.pr_weight_'+product_id).attr('data-weight', json['weight']); #}
+{# 			{% else %}  #}
+{# 				$('.pr_weight_'+product_id).html(weight_format(weight, product_id)); #}
+{# 			{% endif %}  #}
+{# 		{% endif %}  #}
+{# 	   #}
+{# 		{% if (stikers_status) %}  #}
+{# 			var price = json['price_n']; #}
+{# 			{% if (revtheme_product_all['recalc_price_animate']) %}  #}
+{# 				var start_price = parsefloat($('.special_no_format'+product_id).html().replace(/\s*/g,'')); #}
+{# 				$({val:start_price}).animate({val:price}, { #}
+{# 					duration: 500, #}
+{# 					easing: 'swing', #}
+{# 					step: function(val) { #}
+{# 						$('.special_no_format'+product_id).html(price_format(val)); #}
+{# 					} #}
+{# 				}); #}
+{# 			{% else %}  #}
+{# 				$('.special_no_format'+product_id).html(price_format(price)); #}
+{# 			{% endif %}  #}
+{# 		{% endif %}  #}
+{# 		 #}
+{# 		var special = json['special_n']; #}
+{# 		{% if (revtheme_product_all['recalc_price_animate']) %}  #}
+{# 			var start_special = parsefloat($('.price_no_format'+product_id).html().replace(/\s*/g,'')); #}
+{# 			$({val:start_special}).animate({val:special}, { #}
+{# 				duration: 500, #}
+{# 				easing: 'swing', #}
+{# 				step: function(val) { #}
+{# 					$('.price_no_format'+product_id).html(price_format(val)); #}
+{# 				} #}
+{# 			}); #}
+{# 		{% else %}  #}
+{# 			$('.price_no_format'+product_id).html(price_format(special)); #}
+{# 		{% endif %}  #}
+{##}
+{# 	  } #}
+{# 	}); #}
+{# } #}

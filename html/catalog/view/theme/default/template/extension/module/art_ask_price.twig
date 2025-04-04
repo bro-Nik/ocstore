@@ -1,0 +1,58 @@
+<div id="art_ask_price" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header" style="position: relative;">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 class="modal-title">{{ text_title }}</h3>
+				<h4 class="product_name">{{ product_name }}</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">	
+					<div class="col-xs-12"><p>{{ text_desc }}</p></div>
+				</div>
+				<form id="art_ask_price_form">	
+				{% set button = true %}
+				{% for key in art_ask_price_form %}
+					<div class="form-group {% if key.required == 2 %} required {% endif %}">
+						{% if key.name != 'personal_data' %}
+							<label class="control-label" for="input-{{ key.name }}">{{ key.title }}</label>
+							<div class="input-group">
+						{% endif %}
+						{% if key.glyphicon is not empty %}
+							<span class="input-group-addon"><i class="{{ key.glyphicon }}"></i></span>
+						{% endif %}
+
+						{% if key.name == 'comment' %}
+							<textarea class="form-control" name="art_ask_price_{{ key.name }}" placeholder="{{ key.title }}"></textarea>
+						{% elseif key.name == 'personal_data' %}
+							<div class="buttons clearfix">
+					            <div class="pull-right">{{ key.title }} <input type="checkbox" name="art_ask_price_{{ key.name }}" value="1" checked>
+					        	    <button type="button" id="art_ask_price_submit" data-loading-text="Загрузка..." class="btn btn-primary"> {{ button_submit }}</button>
+					            </div>
+					        </div>
+					    {% set button = false %}   
+						{% else %}
+							<input name="art_ask_price_{{ key.name }}" value="{{ key.val }}" placeholder="{{ key.title }}" class="form-control" type="text">
+						{% endif %}
+						{% if key.name != 'personal_data' %}
+							</div>
+						{% endif %}
+						{% if key.required == 2 %}
+							<div class="art_ask_price_error_{{ key.name }}"></div>
+						{% endif %}
+					</div>
+				{% endfor %}
+					<input type="hidden" name="art_ask_price_product_name" value="{{ product_name }}">
+					<input type="hidden" name="art_ask_price_product_id" value="{{ product_id }}">
+				{% if button %}
+					<div class="buttons clearfix">
+		              <div class="pull-right">
+		               <button type="button" id="art_ask_price_submit" data-loading-text="Загрузка..." class="btn btn-primary">{{ button_submit }}</button>
+		              </div>
+		            </div>
+				{% endif %}
+				</form>	
+			</div>
+		</div>
+	</div>
+</div>

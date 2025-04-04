@@ -1,0 +1,54 @@
+						{% if (text_blocks_all or text_blocks) %} 
+							<div class="preimushestva">
+								{% if (text_block_zagolovok) %} 
+									<h4 style="margin-bottom: 0; margin-top: 20px;">{{ text_block_zagolovok }}</h4>
+								{% endif %} 
+								{% if (text_blocks_all) %} 
+									{% for block in text_blocks_all %} 
+										<div class="home_block p_text_blocks_all {{ text_block_cols_all }}">
+											{% if (block['link']) %} 
+												<a href="{{ block['link'] }}" {% if (block['checkbox']) %}class="popup_html_content"{% endif %}>
+											{% endif %} 
+												<div class="image {{ block['style'] }}">{{ block['image'] }}</div>
+												{% if (block['title'] or block['description']) %} 
+													<div class="text">
+														{% if (block['title']) %} 
+															<span class="title">{{ block['title'] }}</span>
+														{% endif %} 
+														{% if (block['description']) %} 
+															<p>{{ block['description'] }}</p>
+														{% endif %} 
+													</div>
+												{% endif %} 
+											{% if (block['link']) %} 
+											</a>
+											{% endif %} 
+										</div>
+									{% endfor %} 
+								{% endif %} 
+								{% if (text_blocks_all and text_blocks) %}<div class="clearfix"></div><hr style="margin: 20px -10px 0px -10px;">{% endif %} 
+								{% if (text_blocks) %} 
+									{% for block in text_blocks %} 
+										<div class="home_block p_text_blocks {{ text_block_cols }}">
+											{% if (block['link']) %} 
+												<a href="{{ block['link'] }}" {% if (block['checkbox']) %}class="popup_html_content"{% endif %}>
+											{% endif %} 
+												<div class="image {{ block['style'] }}">{{ block['image'] }}</div>
+												{% if (block['title'] or block['description']) %} 
+													<div class="text">
+														{% if (block['title']) %} 
+															<span class="title">{{ block['title'] }}</span>
+														{% endif %} 
+														{% if (block['description']) %} 
+															<p>{{ block['description'] }}</p>
+														{% endif %} 
+													</div>
+												{% endif %} 
+											{% if (block['link']) %} 
+											</a>
+											{% endif %} 
+										</div>
+									{% endfor %} 
+								{% endif %} 
+							</div>
+						{% endif %} 

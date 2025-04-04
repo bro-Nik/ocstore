@@ -1,0 +1,65 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+  {% if (success) %} 
+  <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}</div>
+  {% endif %} 
+  {% if (error_warning) %} 
+  <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+  {% endif %} 
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      <div class="row">
+        <div class="col-sm-6">
+          <div>
+            <h2 style="margin-top: 0;">{{ text_register }}</h2>
+            <p>{{ text_register_account }}</p>
+            <a href="{{ register }}" class="btn btn-primary pull-right">{{ text_register }}</a></div>
+			<br/>
+        </div>
+        <div class="col-sm-6">
+          <div>
+            <h2 style="margin-top: 0;">{{ text_login }}</h2>
+            <form action="{{ action }}" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label class="control-label" for="input-email">{{ entry_email }}</label>
+                <input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-password">{{ entry_password }}</label>
+                <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" />
+                <a style="padding-top: 15px; display: inline-block;" href="{{ forgotten }}">{{ text_forgotten }}</a>
+              <input style="margin-top: 15px; display: inline-block;" type="submit" value="{{ text_login }}" class="btn btn-primary pull-right" />
+			  </div>
+              {% if (redirect) %} 
+              <input type="hidden" name="redirect" value="{{ redirect }}" />
+              {% endif %} 
+            </form>
+          </div>
+        </div>
+      </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

@@ -1,0 +1,798 @@
+</section>
+{% if (not setting_all_settings['all_document_width'] and setting_all_settings['all_document_h_f_width']) %} 
+</div>
+{% endif %} 
+<footer>
+{% if (f_map and is_desctope) %} 
+	<div id="map-wrapper" class="hidden-xs">
+		<div class="contact-info">
+			<div class="item">
+				<div class="label_fconts">{{ text_contact_ourcontacts }}</div>
+				{% if (settings_all_settings['m_conts']) %} 
+					<p class="hid_address"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ address }}</p>
+					<p class="hid_telephone"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ telephone }}</p>
+					<p class="hid_email"><i class="fa fa fa-envelope" aria-hidden="true"></i>{{ config_email }}</p>
+				{% endif %} 
+				{% if (settings_all_settings['dop_conts']) %} 
+					{% if (header_phone_number != '') %} 
+						<p class="dop_contact_tel1"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ header_phone_cod }} {{ header_phone_number }}</p>
+					{% endif %} 
+					{% if (header_phone_number2 != '') %} 
+						<p class="dop_contact_tel2"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ header_phone_cod2 }} {{ header_phone_number2 }}<p>
+					{% endif %} 
+					{% if (dop_contacts) %} {% set i_dc = 1 %} 
+						{% for dop_contact in dop_contacts %} 
+							{% if (dop_contact['href'] != '') %} 
+								<p class="dop_contact_{{ i_dc }}">{{ dop_contact['icon'] }}<a href="{{ dop_contact['href'] }}">{{ dop_contact['number'] }}</a></p>
+							{% else %} 
+								<p class="dop_contact_{{ i_dc }}">{{ dop_contact['icon'] }}{{ dop_contact['number'] }}</p>
+							{% endif %} 
+						{% set i_dc = i_dc + 1 %} {% endfor %} 
+					{% endif %} 
+				{% endif %} 
+				{% if (settings_all_settings['soc_conts']) %} 
+					{% if (revtheme_footer_socs_p) %} 
+						{% for revtheme_footer_soc in revtheme_footer_socs_p %} 
+							<p><i class="{{ revtheme_footer_soc['image'] }}" aria-hidden="true"></i><a href="{{ revtheme_footer_soc['link'] }}" rel="nofollow" target="_blank">{{ revtheme_footer_soc['link_t'] }}</a></p>
+						{% endfor %} 
+					{% endif %} 
+				{% endif %} 
+			</div>
+		</div>
+		<div id="yamap">
+			{% if (yamap) %} {{ yamap }}{% endif %} 
+		</div>
+	</div>
+{% endif %} 
+	{{ revsubscribe }} 
+	<div class="footer">
+		<div class="container">
+			<div class="row">
+				{% set dops_class = "not_dops_snot_dops_s" %} {% if (not revtheme_custom_footer['dops_pc_status']) %} {% set dops_class = "not_dops_s hidden-md hidden-lg" %} {% endif %} 
+				{% if (is_mobile or dops_class == 'not_dops_snot_dops_s') %} 
+				<div class="{{ dops_class }}">
+					{% if (informations or revtheme_footer_links) %} 
+						{% set class_informations = 'col-sm-12' %}
+						{% if ((informations or revtheme_footer_links) and revtheme_footer_socs) %} {% set class_informations = 'col-sm-8' %} {% endif %} 
+						<div class="footer_links {{ class_informations }} col-xs-12 {% if (setting_all_settings['mobile_header'] == '2') %}hidden-xs{% endif %}">
+							{% if (informations) %} 
+								{% for information in informations %} 
+									<a href="{{ information['href'] }}">{{ information['title'] }}</a>
+								{% endfor %} 
+							{% endif %} 
+							{% if (revtheme_footer_links) %} 
+								{% for revtheme_footer_link in revtheme_footer_links %} 
+									<a href="{{ revtheme_footer_link['link'] }}">{{ revtheme_footer_link['title'] }}</a>
+								{% endfor %} 
+							{% endif %} 
+						</div>
+					{% endif %} 
+					{% if (revtheme_footer_socs) %} 
+						{% set class_footer_socs = 'col-sm-12' %}
+						{% if ((informations or revtheme_footer_links) and revtheme_footer_socs) %} {% set class_footer_socs = 'col-sm-4' %} {% endif %} 
+						<div class="soc_s {{ class_footer_socs }} col-xs-12 {% if (setting_all_settings['mobile_header'] == '2') %}hidden-xs{% endif %}">
+							{% for revtheme_footer_soc in revtheme_footer_socs %} 
+								<a href="{{ revtheme_footer_soc['link'] }}" rel="nofollow" target="_blank"><i class="{{ revtheme_footer_soc['image'] }}" data-toggle="tooltip" title="{{ revtheme_footer_soc['title'] }}"></i></a>
+							{% endfor %} 
+						</div>
+					{% endif %} 
+				</div>
+				{% endif %} 
+				{% if (revtheme_custom_footer['status'] and is_desctope) %} 
+					<div class="footer_cfs hidden-sm">
+						{% if (revtheme_custom_footer['cf_1_status']) %} 
+							{% if (revtheme_dop_menus_cf or cf_1_description|length > 15) %} 
+								<div {{ cf_1_width }}>
+									{% if (revtheme_dop_menus_cf) %} 
+										<ul class="list-unstyled">
+											{% for revtheme_dop_menu in revtheme_dop_menus_cf %} 
+												<li class="zag_dm_cf_li">
+													<span class="zag_dm_cf">
+													{% if revtheme_dop_menu['href'~config_language_id] != '' %}
+														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+													 {% else %}
+														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
+													{% endif %}
+													</span>
+													{% if (revtheme_dop_menu['children'] is defined) %} 
+														<ul class="list-unstyled last_ul_cf">
+															{% for child in revtheme_dop_menu['children'] %} 
+																<li>
+																	{% if child['href'~config_language_id] != '' %}
+																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+																	 {% else %}
+																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
+																	{% endif %}
+																</li>
+															{% endfor %}  
+														</ul>
+													{% endif %}
+												</li>
+											{% endfor %} 
+										</ul>
+									{% endif %}
+									{% if (cf_1_description|length > 15) %} {{ cf_1_description }} {% endif %} 
+								</div>
+							{% endif %} 
+						{% endif %}  
+						{% if (revtheme_custom_footer['cf_2_status']) %} 
+							{% if (revtheme_dop_menus_cf_2 or cf_2_description|length > 15) %} 
+								<div {{ cf_2_width }}>
+									{% if (revtheme_dop_menus_cf_2) %} 
+										<ul class="list-unstyled">
+											{% for revtheme_dop_menu in revtheme_dop_menus_cf_2 %} 
+												<li class="zag_dm_cf_li">
+													<span class="zag_dm_cf">
+													{% if revtheme_dop_menu['href'~config_language_id] != '' %}
+														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_2'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_2'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_2']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_2'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+													 {% else %}
+														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_2'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_2'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_2']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_2'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
+													{% endif %}
+													</span>
+													{% if (revtheme_dop_menu['children'] is defined) %} 
+														<ul class="list-unstyled last_ul_cf">
+															{% for child in revtheme_dop_menu['children'] %} 
+																<li>
+																	{% if child['href'~config_language_id] != '' %} 
+																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_2'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_2'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_2']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_2'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+																	 {% else %} 
+																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_2'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_2'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_2']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_2'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
+																	{% endif %} 
+																</li>
+															{% endfor %} 
+														</ul>
+													{% endif %} 
+												</li>
+											{% endfor %} 
+										</ul>
+									{% endif %} 
+									{% if (cf_2_description|length > 15) %} {{ cf_2_description }} {% endif %} 
+								</div>
+							{% endif %} 
+						{% endif %} 
+						{% if (revtheme_custom_footer['cf_3_status']) %} 
+							{% if (revtheme_dop_menus_cf_3 or cf_3_description|length > 15) %} 
+								<div {{ cf_3_width }}>
+									{% if (revtheme_dop_menus_cf_3) %} 
+										<ul class="list-unstyled">
+											{% for revtheme_dop_menu in revtheme_dop_menus_cf_3 %} 
+												<li class="zag_dm_cf_li">
+													<span class="zag_dm_cf">
+													{% if revtheme_dop_menu['href'~config_language_id] != '' %}
+														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_3'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_3'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_3']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+													 {% else %} 
+														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_3'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_3'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_3']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
+													{% endif %} 
+													</span>
+													{% if (revtheme_dop_menu['children'] is defined) %} 
+														<ul class="list-unstyled last_ul_cf">
+															{% for child in revtheme_dop_menu['children'] %} 
+																<li>
+																	{% if child['href'~config_language_id] != '' %}
+																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_3'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_3'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_3']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_3'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+																	 {% else %} 
+																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_3'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_3'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_3']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_3'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
+																	{% endif %}
+																</li>
+															{% endfor %}  
+														</ul>
+													{% endif %} 
+												</li>
+											{% endfor %} 
+										</ul>
+									{% endif %} 
+									{% if (cf_3_description|length > 15) %} {{ cf_3_description }} {% endif %} 
+								</div>
+							{% endif %} 
+						{% endif %} 
+						{% if (revtheme_custom_footer['cf_4_status']) %} 
+							{% if (revtheme_dop_menus_cf_4 or cf_4_description|length > 15) %} 
+								<div {{ cf_4_width }}>
+									{% if (revtheme_dop_menus_cf_4) %} 
+										<ul class="list-unstyled">
+											{% for revtheme_dop_menu in revtheme_dop_menus_cf_4 %} 
+												<li class="zag_dm_cf_li">
+													<span class="zag_dm_cf">
+													{% if revtheme_dop_menu['href'~config_language_id] != '' %}
+														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_4'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_4'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_4']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_4'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+													 {% else %} 
+														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_4'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_4'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_4']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_4'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
+													{% endif %} 
+													</span>
+													{% if (revtheme_dop_menu['children'] is defined) %} 
+														<ul class="list-unstyled last_ul_cf">
+															{% for child in revtheme_dop_menu['children'] %} 
+																<li>
+																	{% if child['href'~config_language_id] != '' %} 
+																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_4'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_4'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_4']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_4'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+																	 {% else %} 
+																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_4'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_4'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_4']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_4'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
+																	{% endif %}
+																</li>
+															{% endfor %} 
+														</ul>
+													{% endif %}  
+												</li>
+											{% endfor %} 
+										</ul>
+									{% endif %}  
+									{% if (cf_4_description|length > 15) %} {{ cf_4_description }} {% endif %} 
+								</div>
+							{% endif %}  
+						{% endif %}  
+						{% if (revtheme_custom_footer['cf_5_status']) %} 
+							{% if (revtheme_dop_menus_cf_5 or cf_5_description|length > 15) %} 
+								<div {{ cf_5_width }}>
+									{% if (revtheme_dop_menus_cf_5) %} 
+										<ul class="list-unstyled">
+											{% for revtheme_dop_menu in revtheme_dop_menus_cf_5 %} 
+												<li class="zag_dm_cf_li">
+													<span class="zag_dm_cf">
+													{% if revtheme_dop_menu['href'~config_language_id] != '' %} 
+														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_5'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_5'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_5']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_5'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+													 {% else %} 
+														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_5'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_5'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_5']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_5'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
+													{% endif %} 
+													</span>
+													{% if (revtheme_dop_menu['children'] is defined) %} 
+														<ul class="list-unstyled last_ul_cf">
+															{% for child in revtheme_dop_menu['children'] %} 
+																<li>
+																	{% if child['href'~config_language_id] != '' %} 
+																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_5'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_5'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_5']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_5'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+																	 {% else %} 
+																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_5'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_5'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_5']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_5'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
+																	{% endif %} 
+																</li>
+															{% endfor %}  
+														</ul>
+													{% endif %}  
+												</li>
+											{% endfor %}  
+										</ul>
+									{% endif %}  
+									{% if (cf_5_description|length > 15) %} {{ cf_5_description }} {% endif %} 
+								</div>
+							{% endif %}  
+						{% endif %}  
+					</div>
+				{% endif %}  
+				{% if (revtheme_footer_icons) %} 
+					{% set style_powered = 'text-align:right' %} {% set class_powered = 'col-sm-6' %}
+					<div class="ficons col-sm-6 col-xs-12">
+						{% for revtheme_footer_icon in revtheme_footer_icons %} 
+							<span class="revtheme_footer_icon">
+								{% if (revtheme_footer_icon['href'] is defined and revtheme_footer_icon['href'] != '') %} 
+									<a href="{{ revtheme_footer_icon['href'] }}">
+										<img src="{{ revtheme_footer_icon['image'] }}" alt=""/>
+									</a>
+								{% else %} 
+									<img src="{{ revtheme_footer_icon['image'] }}" alt=""/>
+								{% endif %} 
+							</span>
+						{% endfor %} 
+					</div>
+				{% else %} 
+					{% set style_powered = 'text-align:left' %} {% set class_powered = 'col-sm-12' %}
+				{% endif %} 
+				<div style="{{ style_powered }}" class="powered {{ class_powered }} col-xs-12">{{ powered }}</div>
+			</div>
+		</div>
+	</div>	
+</footer>
+{% if (not setting_all_settings['all_document_width'] and not setting_all_settings['all_document_h_f_width']) %} 
+</div>
+{% endif %} 
+</div>
+{% if (popup_phone) %} 
+	<div class="popup-phone-wrapper" data-toggle="tooltip" data-placement="left"  title="{{ text_footer_popup_phone_tooltip }}">
+		<span class="scroll-top-inner">
+			<i class="fa fa-phone"></i>
+		</span>
+	</div>
+{% endif %} 
+{% if (in_top) %} 
+	<div class="scroll-top-wrapper ">
+		<span class="scroll-top-inner">
+			<i class="fa fa-arrow-circle-up"></i>
+		</span>
+	</div>
+{% endif %} 
+{% if (not setting_all_settings['minif_on']) %} 
+	<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
+	<script src="catalog/view/javascript/revolution/common.js"></script>
+	{% if (setting_all_settings['all_document_snow_on']) %} 
+		<script src="catalog/view/javascript/revolution/snow.min.js"></script>
+	{% endif %} 
+	{% if (setting_all_settings['mobile_header'] == '2') %}  
+		<script src="catalog/view/javascript/revolution/jquery.mmenu.js"></script>
+	{% endif %} 
+	<script src="catalog/view/javascript/revolution/js_change.js"></script>
+{% else %} 
+	<script src="catalog/view/javascript/revolution/javascript_min.js"></script>
+{% endif %} 
+<script><!--
+	{% if (not revtheme_filter['status'] or revfilter_route) %} 
+		{% if (setting_catalog_all['pagination'] != 'standart') %} 
+			{% if (setting_catalog_all['pagination'] == 'standart_knopka') %} 
+			var button_more = true; var pagination_exist = true; var autoscroll = false;
+			{% elseif (setting_catalog_all['pagination'] == 'auto') %} 
+			var button_more = false; var pagination_exist = true; var autoscroll = true;
+			{% else %} 
+			var button_more = true; var pagination_exist = false; var autoscroll = false;
+			{% endif %} 
+			var window_height = 0; var product_block_offset = 0; var product_block = '.row > .product-layout'; var pages_count = 0; var pages = [];
+			function gettNextProductPage(pages, pages_count) {
+				if (pages_count >= pages.length) return;
+				masked('.row > .product-layout > .product-thumb', true);
+				$.ajax({
+					url:pages[pages_count], 
+					type:"GET", 
+					data:'',
+					beforeSend: function(){
+						$('.load_more .fa-refresh').addClass('fa-spin');
+					},
+					success:function (data) {
+						$data = $(data);
+						masked('.row > .product-layout > .product-thumb', false);
+						$data.find('.row > .product-layout > .product-thumb').addClass('op_dblock1');
+						if ($data) {
+							if (localStorage.getItem('display') == 'list') {
+								$(product_block).parent().append($data.find('#content .product-layout').parent().html());
+								list_view();
+								if (product_block == '.product-grid') {grid_view();};
+							} else if (localStorage.getItem('display') == 'price') {
+								$(product_block).parent().append($data.find('#content .product-layout').parent().html());
+								price_view();
+							} else {
+								$(product_block).parent().append($data.find('#content .product-layout').parent().html());
+								grid_view();
+							}
+							if (pagination_exist) {
+								$('.pagination').html($data.find('.pagination'));
+							}
+							$('.load_more .fa-refresh').removeClass('fa-spin').css('hover');
+							if (pages_count+1 >= pages.length) {$('.load_more').hide();};
+							setTimeout(function() {
+								$('.row > .product-layout > .product-thumb').removeClass('op_dblock1').addClass('op_dblock2');
+							}, 220)
+						}
+					}
+				});
+			}
+			$(document).ready(function(){
+				window_height = $(window).height();
+				var button_more_block = $('#load_more').html();
+				if ($(product_block).length > 0) {
+					product_block_offset = $(product_block).offset().top;
+					var href = $('.pagination').find('li:last a').attr('href');
+					$('.pagination').each(function(){
+						if (href) {
+							TotalPages = href.substring(href.indexOf("page=")+5);
+							First_index = $(this).find('li.active span').html();
+							i = parseInt(First_index) + 1;
+							while (i <= TotalPages) {
+								pages.push(href.substring(0,href.indexOf("page=")+5) + i);
+								i++;
+							}
+						}		
+					});	
+					if (button_more && href) {
+						$('.pagination').parent().parent().before(button_more_block);
+						if (!pagination_exist) {
+							$('.pagpages').addClass('dnone');
+						}
+						$(".load_more").click(function(event) {
+							event.preventDefault();
+							gettNextProductPage(pages, pages_count);
+							pages_count++;
+							setTimeout(function() {
+								if (pages_count > 0) {
+									var $next = $(".pagpages .pagination li.active").next("li").children("a");
+									if ($next.length == 0) return;
+									$.get($next.attr("href"), function(data) {
+										$data = $(data);
+										var pag = $data.find(".pagpages > *");
+										var pag2 = pag.filter(".text-right").html();
+										var pag_ch =  pag2.substr(0,pag2.indexOf(" по")).replace(/[^\d.]/ig, '');
+										pag2 = pag2.replace(pag_ch, "1");
+										$(".pagpages").html(pag);
+										$(".pagpages .text-right").html(pag2);
+										$(".owlproduct").not(".owl-theme").owlCarousel({
+											beforeInit: true,
+											items: 1,
+											singleItem: true,
+											mouseDrag: false,
+											autoPlay: false,
+											navigation: true,
+											navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
+											pagination: false
+										});
+									}, "html")
+								}
+							}, 350);
+						});
+					} else if (autoscroll) {
+						$('.pagpages .pagination').hide();
+						autoscroll_loading = false;
+						$(window).scroll(function() {
+							if(inZone('.pagpages') && !autoscroll_loading) {
+								autoscroll_loading = true;
+								setTimeout(function() {
+									gettNextProductPage(pages, pages_count);
+									pages_count++;
+									if (pages_count > 0) {
+										var $next = $(".pagpages .pagination li.active").next("li").children("a");
+										if ($next.length == 0) return;
+										$.get($next.attr("href"), function(data) {
+											$data = $(data);
+											var pag = $data.find(".pagpages > *");
+											var pag2 = pag.filter(".text-right").html();
+											var pag_ch =  pag2.substr(0,pag2.indexOf(" по")).replace(/[^\d.]/ig, '');
+											pag2 = pag2.replace(pag_ch, "1");
+											$(".pagpages .text-right").html(pag2);
+											$(".owlproduct").not(".owl-theme").owlCarousel({
+												beforeInit: true,
+												items: 1,
+												singleItem: true,
+												mouseDrag: false,
+												autoPlay: false,
+												navigation: true,
+												navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
+												pagination: false
+											});
+											autoscroll_loading = false;
+										}, "html")
+									}
+								}, 350);
+							}
+						});
+					}
+				}
+			});
+			function inZone(el){
+				if($(el).length) {
+					var scrollTop = $(window).scrollTop();
+					var windowHeight = $(window).height();
+					var offset = $(el).offset();
+					if(scrollTop <= offset.top && ($(el).height() + offset.top) < (scrollTop + windowHeight))
+					return true;
+				};
+				return false;
+			}
+		{% endif %} 
+	{% endif %} 
+	{% if (revtheme_filter['status']) %} 
+		(function($){
+			$.fn.revFilter = function(f) {
+				var g = this.selector;
+				var h = $(g).attr('action');
+				$(document).ready(function() {
+					init_revfilter();
+				});
+				$(document).on('submit', g, function(e) {
+					e.preventDefault();
+					var a = $(this).serialize();
+					loadProds(h,a,f.revload);
+				});
+				$(document).on('click', '#'+f.reset_id, function(e) {
+					$(g+' input, '+g+' select').not('[type=hidden]').each(function(a) {
+						if ($(this).hasClass('irs-hidden-input')) {
+							var b = $(this).data('ionRangeSlider');
+							b.reset();
+							}
+						if ($(this).is(':checkbox') || $(this).is(':radio')) {
+							$(this).removeAttr("checked");
+						} else {
+							$(this).val('');
+						}
+					});
+					var c = $(g).serialize();
+					loadProds(h,c,f.revload);
+				});
+				if (f.mode == 'auto') {
+					$(document).on('change', g+' input:not([type=hidden]):not(.irs-hidden-input), '+g+' select', function() {
+						$(g).submit();
+					})
+				}
+				function init_revfilter() {
+					{% if (setting_catalog_all['pagination'] == 'knopka') %} 
+						$('.pagpages').addClass('dnone');
+					{% endif %} 
+					{% if (setting_catalog_all['pagination'] == 'standart_knopka' or setting_catalog_all['pagination'] == 'knopka') %} 
+						var a = $('#load_more').html();
+						$('.pagination').parent().parent().before(a);
+					{% endif %} 
+					$('#input-sort').removeAttr('onchange');
+					$('#input-limit').removeAttr('onchange');
+					$(f.selector).addClass('revcontainer');
+					if (localStorage.getItem('display') == 'list') {
+						list_view();
+					} else if (localStorage.getItem('display') == 'price') {
+						price_view();
+					} else if (localStorage.getItem('display') == 'grid') {
+						grid_view();
+					} else {
+						{% if (setting_catalog_all['vid_default'] == 'vid_price') %} 
+							price_view();
+						{% elseif (setting_catalog_all['vid_default'] == 'vid_list') %} 
+							list_view();
+						{% elseif (setting_catalog_all['vid_default'] == 'vid_grid') %} 
+							grid_view();
+						{% endif %} 
+					}
+					{% if (setting_catalog_all['img_slider']) %} 
+						$('#content .owlproduct').owlCarousel( {
+							beforeInit: true,
+							items: 1,
+							singleItem: true,
+							mouseDrag: false,
+							autoPlay: false,
+							navigation: true,
+							navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>','<i class="fa fa-chevron-right fa-3x"></i>'],
+							pagination: false
+						});
+						{% if (not setting_catalog_all['chislo_ryad']) %} 
+							if (localStorage.getItem('display')=='grid') {
+								$('.product-thumb > .image').css('width','initial');
+							}
+						{% endif %} 
+						podgon_img();
+					{% else %} 
+						$('.owl-carousel.owlproduct').remove();
+					{% endif %} 
+					podgon_fona();
+					$('#column-left #revfilter_box .mobil_wellsm .well.well-sm').remove();
+					if ($(window).width() < 991) {
+						$('#column-left #revfilter_box .mobil_wellsm .collapsible').append($('.revfilter_container > .well.well-sm'));
+					}
+					{{revtheme_filter['scripts'] is defined ? revtheme_filter['scripts'] : '' }} 
+				}
+				function loadProds(c,d,e) {
+					d = d || '';
+					e = e || false;
+					filterurl = c + '&isrevfilter=1';
+					$.ajax({
+						url: filterurl,
+						type: 'get',
+						data: d,
+						processData: false,
+						dataType: e ? 'json' : 'html',
+						beforeSend: function() {
+							$(g+' button').button('loading');
+							masked('.products_category > .product-layout > .product-thumb',true);
+							$('.load_more .fa-refresh').addClass('fa-spin');
+						},
+						success: function(a) {
+							var b = $.parseHTML((e && (typeof a.html != 'undefined')) ? a.html : a);
+							$(f.selector).children().remove();
+							$(f.selector).append($(b).find(f.selector).children());
+							{% if (revtheme_filter['filter_recount'] is defined and revtheme_filter['filter_recount']) %}
+								if(typeof a.filters != 'undefined') {
+									reloadFilter(a.filters);
+								}
+							{% endif %}
+							init_revfilter();
+						},
+						complete: function() {
+							setTimeout(function() {
+								masked('.products_category > .product-layout > .product-thumb',false);
+								autoscroll_loading = false;
+								$(g+' button').button('reset');
+								var pr_opts_cat = $('.products_category .options_buy')
+								pr_opts_cat.find('select:first').each(function() {
+									this.onchange();
+								});
+							},250);
+							if (f.mode == 'manual' && $(window).width() > 767) {
+								element = $('.breadcrumb');
+								offset = element.offset();
+								offsetTop = offset.top;
+								//$('html, body').animate({scrollTop:offsetTop}, 250, 'linear');
+							};
+							$('.load_more .fa-refresh').removeClass('fa-spin').css('hover');
+							{% if (setting_catalog_all['pagination'] == 'auto') %} 
+								$('.pagpages .pagination').hide();
+							{% endif %} 
+							{% if (revtheme_filter['filter_brstroka'] is defined and revtheme_filter['filter_brstroka']) %} 
+								var urlfull = c + (d ? ((c.indexOf('?') > 0 ? '&' : '?') + d) : '');
+								urlfull = decodeURIComponent(urlfull);
+								history.pushState('', '', urlfull);
+							{% endif %}
+						}
+					})
+				}
+				{% if (revtheme_filter['filter_recount'] is defined and revtheme_filter['filter_recount']) %}
+					function reloadFilter(filters) {
+						jQuery.each(f.filter_data, function(id, values) {
+							var group = $('#' + id);
+							if(typeof filters[id] == 'undefined') {
+								group.addClass('not-active');
+							}
+							jQuery.each(values, function(i, val_id) {
+								var val = $('#' + val_id);
+								if(typeof filters[id] != 'undefined' && typeof filters[id][val_id] != 'undefined') {
+									val.fadeTo('fast', 1);
+									val.find('input').prop('disabled', false);
+									{% if (revtheme_filter['filter_count_products'] and (revtheme_filter['filter_recount'] is defined and revtheme_filter['filter_recount'])) %}
+										val.find('.revlabel').html(filters[id][val_id]['count']);
+									{% endif %}
+								} else {
+									val.fadeTo('slow', 0.5);
+									val.find('input').prop('disabled', true);
+									{% if (revtheme_filter['filter_count_products'] and (revtheme_filter['filter_recount'] is defined and revtheme_filter['filter_recount'])) %}
+										val.find('.revlabel').html('0');
+									{% endif %}
+								}
+							});
+						});
+					}
+				{% endif %}
+				$(document).on('click', '.pagination a', function(e) {
+					loadProds($(this).attr('href'), null, true);
+					element = $('.breadcrumb');
+					offset = element.offset();
+					offsetTop = offset.top;
+					$('html, body').animate({scrollTop:offsetTop}, 250, 'linear');
+					return false;
+				});
+				$(document).on('change', '#input-sort', function(e) {
+					var a = $(this).val();
+					sort = a.match('sort=([A-Za-z.]+)');
+					$('input[name="sort"]').val(sort[1]);
+					order = a.match('order=([A-Z]+)');
+					$('input[name="order"]').val(order[1]);
+					$(g).submit();
+				});
+				$(document).on('change', '#input-limit', function(e) {
+					var a = $(this).val();
+					if (a) {
+						limit = a.match('limit=([0-9]+)');
+						$('input[name="limit"]').val(limit[1]);
+					}
+					$(g).submit();
+				});
+				{% if (setting_catalog_all['pagination'] == 'standart_knopka' or setting_catalog_all['pagination'] == 'knopka') %} 
+					var i = $('#input-limit').val();
+					if (i) {
+						limit = i.match('limit=([0-9]+)');
+						$i = limit[1];
+					}
+					$(document).on('click', '.load_more', function(e) {
+						e.preventDefault();
+						var a = $('#input-limit').val();
+						if (a) {
+							limit = a.match('limit=([0-9]+)');
+						}
+						limit3 = $('#revfilter input[name="limit"]').val();
+						if (limit3) {
+							limit21 = limit3;
+						} else {
+							limit21 = limit[1];
+							$('#revfilter input[name="limit"]').val(limit21);
+						}
+						limit2 = Number(limit21)+Number($i);
+						limitnumber = 'limit='+limit21;
+						a = a.replace('limit='+$i,'');
+						a = a.replace(limitnumber,'');
+						var b = a+'limit='+limit2;
+						$('#revfilter input[name="limit"]').val(limit2);
+						$(g).submit();
+					});
+				{% endif %} 
+				{% if (setting_catalog_all['pagination'] == 'auto') %} 
+					var i = $('#input-limit').val();
+					limit = i.match('limit=([0-9]+)');
+					$i = limit[1];
+					autoscroll_loading = false;
+					$('.pagpages .pagination').hide();
+					$(window).scroll(function() {
+						if (inZone('.pagpages') && !autoscroll_loading) {
+							autoscroll_loading = true;
+							var c = $(".pagpages .pagination li.active").next("li").children("a");
+							if (c.length==0) return;
+							setTimeout(function() {
+								var a = $('#input-limit').val();
+								limit = a.match('limit=([0-9]+)');
+								limit3 = $('#revfilter input[name="limit"]').val();
+								if (limit3) {
+									limit21 = limit3;
+								} else {
+									limit21 = limit[1];
+									$('#revfilter input[name="limit"]').val(limit21);
+								}
+								limit2 = Number(limit21)+Number($i);
+								limitnumber = 'limit='+limit21;
+								a = a.replace('limit='+$i,'');
+								a = a.replace(limitnumber,'');
+								var b = a+'limit='+limit2;
+								$('#revfilter input[name="limit"]').val(limit2);
+								$(g).submit();
+							}, 250);
+						}
+					});
+				{% endif %} 
+				function inZone(a) {
+					if ($(a).length) {
+					var b = $(window).scrollTop();
+					var c = $(window).height();
+					var d = $(a).offset();
+					if (b<=d.top&&($(a).height()+d.top)<(b+c)) return true
+					};
+					return false;
+				}
+				$(document).on('click','#list-view',function() {
+					list_view();
+				});
+				$(document).on('click', '#grid-view', function() {
+					grid_view();
+				});
+				$(document).on('click', '#price-view', function() {
+					price_view();
+				});
+			}
+		})(jQuery);
+	{% endif %} 
+//--></script>
+{% if (user_scripts) %} 
+	{{ user_scripts }} 
+{% endif %} 
+{% if (setting_catalog_all['pagination'] != 'standart') %} 
+	<div id="load_more" style="display:none;"><div class="col-sm-12 text-center"><a href="#" class="load_more btn btn-primary" rel="nofollow"><i class="fa fa-refresh"></i>{{ text_loadmore }}</a></div></div>
+{% endif %} 
+{% if (setting_all_settings['cookies']) %} 
+	<!--noindex-->
+	<div class="bottom_cookie_block">
+		<span>{{ cookies_text }}</span>
+		<a href="javascript:void(0);" class="bottom_cookie_block_ok btn-sm btn-primary">Ok</a>
+	</div>
+	<script><!--
+		var Cookie = {
+			set: function(name, value, days) {
+				var domain, domainParts, date, expires, host;
+				if (days) {
+					date = new Date();
+					date.setTime(date.getTime()+(days*24*60*60*1000));
+					expires = "; expires="+date.toGMTString();
+				} else {
+					expires = "";
+				}
+				host = location.host;
+				if (host.split('.').length === 1) {
+					document.cookie = name+"="+value+expires+"; path=/";
+				} else {
+					domainParts = host.split('.');
+					domainParts.shift();
+					domain = '.'+domainParts.join('.');
+					document.cookie = name+"="+value+expires+"; path=/";
+					if (Cookie.get(name) == null || Cookie.get(name) != value) {
+						domain = '.'+host;
+						document.cookie = name+"="+value+expires+"; path=/";
+					}
+				}
+				return domain;
+			},
+			get: function(name) {
+				var nameEQ = name + "=";
+				var ca = document.cookie.split(';');
+				for (var i=0; i < ca.length; i++) {
+					var c = ca[i];
+					while (c.charAt(0)==' ') {
+						c = c.substring(1,c.length);
+					}
+					if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+				}
+				return null;
+			}
+		};
+		if(!Cookie.get('revcookie')) {
+			setTimeout("document.querySelector('.bottom_cookie_block').style.display='block'", 500);
+		}
+		$('.bottom_cookie_block_ok').click(function(){
+			$('.bottom_cookie_block').fadeOut();
+			Cookie.set('revcookie', true, '120');
+		});
+	//--></script>
+	<!--/noindex-->
+{% endif %} 
+</body></html>

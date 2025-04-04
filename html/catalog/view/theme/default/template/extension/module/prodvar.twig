@@ -1,0 +1,15 @@
+{% if (products) %}
+
+<div class="prodvar_title">{{ prodvar_title }}</div>
+<ul class="prodvar">
+	{% for product in products %} 
+		<li>
+		    {% if (product['class'] != 'active') %} 
+		        <a href="{{ product['href'] }}" data-toggle="tooltip" title="{{ product['name'] }}"> {{ product['upc'] }} </a>
+		    {% else %} 
+		        <span class="active" data-toggle="tooltip" title="{{ product['name'] }}"> {{ product['upc'] }} </span>
+		{% endif %} 
+		</li>
+	{% endfor %}
+</ul>
+{% endif %}

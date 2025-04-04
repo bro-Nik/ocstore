@@ -1,0 +1,29 @@
+<div class="modal-header">
+	<h4 class="modal-title" id="OfferModalLabel">{{ text_offer_info }}</h4>							
+</div>
+<div class="modal-body">
+	<div class="container-fluid">
+		<div class="som-image"><img src="{{ image }}" title="{{ name }}" alt="{{ name }}" /></div>
+		  <div class="som-descr">
+			  <h5>{{ name }}</h5>
+			  <p>{{ description }}</p>
+			  {% if gift %}
+					<div class="special-offer-gift">
+						<div class="gift-header">{{ text_special_gift }}</div>
+						<div class="gift-info">									
+							<div class="gift-thumb">
+								{% if gift.thumb %}
+									<a href="{{ gift.href }}"><img src="{{ gift.thumb }}" alt="{{ gift.name }}" title="{{ gift.name }}" /></a>
+								{% endif %}
+							</div>
+							<span><a href="{{ gift.href }}">{{ gift.name }}</a></span>
+						</div>
+					</div>	
+			{% endif %}		
+		  </div>
+	</div>
+</div>
+<div class="modal-footer">
+	<a href="{{ special_offer_link }}" type="button" class="btn btn-primary pull-left">{{ button_go_to_offerpage }}</a>
+	<button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ button_close }}</button>
+</div>

@@ -1,0 +1,23 @@
+<div class = "panel panel-default revmenumodcustom">
+	{% if (heading_title) %} 
+		<div class ="panel-heading">{{ heading_title }}</div>
+	{% endif %} 
+	<div class="list-group">
+		{% for category in blog_categories %} 
+			{% if (category['category_id'] == category_id) %} 
+				<a href="{{ category['href'] }}" class="list-group-item active">{{ category['title'] }}</a>
+				{% if (category['children']) %} 
+					{% for child in category['children'] %} 
+						{% if (child['category_id'] == child_id) %} 
+							<a href="{{ child['href'] }}" class="list-group-item active">&nbsp;&nbsp;&nbsp;- {{ child['title'] }}</a>
+						{% else %} 
+							<a href="{{ child['href'] }}" class="list-group-item">&nbsp;&nbsp;&nbsp;- {{ child['title'] }}</a>
+						{% endif %} 
+					{% endfor %} 
+				{% endif %} 
+			{% else %} 
+				<a href="{{ category['href'] }}" class="list-group-item">{{ category['title'] }}</a>
+			{% endif %} 
+		{% endfor %} 
+	</div>
+</div>

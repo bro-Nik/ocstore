@@ -1,0 +1,97 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+  {% if (error_warning) %} 
+  <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+  {% endif %} 
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+          <td class="text-left" colspan="2">{{ text_recurring_detail }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="text-left" style="width: 50%;">
+            <p><b>{{ text_recurring_id }}</b> #{{ recurring['order_recurring_id'] }}</p>
+            <p><b>{{ text_date_added }}</b> {{ recurring['date_added'] }}</p>
+            <p><b>{{ text_status }}</b> {{ status_types[recurring['status']] }}</p>
+            <p><b>{{ text_payment_method }}</b> {{ recurring['payment_method'] }}</p>
+          </td>
+          <td class="left" style="width: 50%; vertical-align: top;">
+            <p><b>{{ text_product }}</b><a href="{{ recurring['product_link'] }}">{{ recurring['product_name'] }}</a></p>
+            <p><b>{{ text_quantity }}</b> {{ recurring['product_quantity'] }}</p>
+            <p><b>{{ text_order }}</b><a href="{{ recurring['order_link'] }}">#{{ recurring['order_id'] }}</a></p>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+          <td class="text-left">{{ text_recurring_description }}</td>
+          <td class="text-left">{{ text_ref }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="text-left" style="width: 50%;">
+            <p style="margin:5px;">{{ recurring['recurring_description'] }}</p></td>
+          <td class="text-left" style="width: 50%;">
+            <p style="margin:5px;">{{ recurring['reference'] }}</p></td>
+        </tr>
+        </tbody>
+      </table>
+      <h2>{{ text_transactions }}</h2>
+      <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+          <td class="text-left">{{ column_date_added }}</td>
+          <td class="text-center">{{ column_type }}</td>
+          <td class="text-right">{{ column_amount }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% if (recurring['transactions'] is not empty) %}{% for transaction in recurring['transactions'] %} 
+        <tr>
+          <td class="text-left">{{ transaction['date_added'] }}</td>
+          <td class="text-center">{{ transaction_types[transaction['type']] }}</td>
+          <td class="text-right">{{ transaction['amount'] }}</td>
+        </tr>
+        {% endfor %}{% else %} 
+        <tr>
+          <td colspan="3" class="text-center">{{ text_empty_transactions }}</td>
+        </tr>
+        {% endif %} 
+        </tbody>
+      </table>
+      {{ buttons }} 
+      {{ content_bottom }} 
+    </div>
+    {{ column_right }} 
+  </div>
+</div>
+{{ footer }}

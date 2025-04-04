@@ -1,0 +1,73 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+	{% if (success) %} 
+		<div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}</div>
+	{% endif %} 
+    <div class="row">{{ column_left }} 
+		{% if (column_left and column_right) %} 
+		{% set class = 'col-sm-6' %} 
+		{% elseif (column_left or column_right) %} 
+		{% set class = 'col-sm-9' %} 
+		{% else %} 
+		{% set class = 'col-sm-12' %} 
+		{% endif %} 
+		<div id="content" class="{{ class }}">{{ content_top }} 
+			{% if (settings['revaccount_allurls']) %} 
+				<div class="row">
+					<ul class="list-unstyled revaccblocks">
+						<li class="col-lg-2 col-md-3 col-sm-4 col-xs-6"><a href="{{ edit }}"><i class="fa fa-user"></i>{{ text_edit }}</a></li>
+						{% if (settings['revaccount_wishlist']) %} 
+							<li class="col-lg-2 col-md-3 col-sm-4 col-xs-6"><a href="{{ wishlist }}"><i class="fa fa-heart"></i>{{ text_wishlist }}</a></li>
+						{% endif %} 
+						{% if (settings['revaccount_orders']) %} 
+							<li class="col-lg-2 col-md-3 col-sm-4 col-xs-6"><a href="{{ order }}"><i class="fa fa-shopping-basket"></i>{{ text_order }}</a></li>
+						{% endif %} 
+						{% if (settings['revaccount_files']) %} 
+							<li class="col-lg-2 col-md-3 col-sm-4 col-xs-6"><a href="{{ download }}"><i class="fa fa-cloud-download"></i>{{ text_download }}</a></li>
+						{% endif %} 
+						{% if (settings['revaccount_bonus']) %} 
+							{% if (reward) %} 
+								<li class="col-lg-2 col-md-3 col-sm-4 col-xs-6"><a href="{{ reward }}"><i class="fa fa-star"></i>{{ text_reward }}</a></li>
+							{% endif %} 
+						{% endif %} 
+						{% if (settings['revaccount_returns']) %} 
+							<li class="col-lg-2 col-md-3 col-sm-4 col-xs-6"><a href="{{ return }}"><i class="fa fa-refresh"></i>{{ text_return }}</a></li>
+						{% endif %} 
+						{% if (settings['revaccount_pay_history']) %} 
+							<li class="col-lg-2 col-md-3 col-sm-4 col-xs-6"><a href="{{ transaction }}"><i class="fa fa-history"></i>{{ text_transaction }}</a></li>
+						{% endif %} 
+						{% if (settings['revaccount_pay_regular']) %} 
+							<li class="col-lg-2 col-md-3 col-sm-4 col-xs-6"><a href="{{ recurring }}"><i class="fa fa-credit-card"></i>{{ text_recurring }}</a></li>
+						{% endif %} 
+					</ul>
+				</div>
+			{% endif %} 
+			{% if (descript|length > 30) %} 
+				{% if (settings['revaccount_allurls']) %}<br>{% endif %} 
+				{{ descript }} 
+			{% endif %} 
+			{{ content_bottom }} 
+		</div>
+		{{ column_right }} 
+	</div>
+</div>
+<script><!--
+var div = '.revaccblocks a';
+var maxheight = 0;$(div).each(function(){$(this).removeAttr('style');if($(this).height() > maxheight) {maxheight = $(this).height();{{ '}}' }});$(div).height(maxheight);
+//--></script>
+{{ footer }}

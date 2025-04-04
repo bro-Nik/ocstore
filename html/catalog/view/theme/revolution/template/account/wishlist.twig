@@ -1,0 +1,90 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+  {% if (success) %} 
+  <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %} 
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      {% if (products) %} 
+      <table class="table table-revolution">
+        <thead>
+          <tr>
+            <td class="text-center hidden-xs">{{ column_image }}</td>
+            <td class="text-left">{{ column_name }}</td>
+			{% if (settings['revcheckout_model']) %} 
+				<td class="text-center hidden-xs">{{ column_model }}</td>
+			{% endif %} 
+			{% if (settings['revcheckout_sku']) %} 
+				<td class="text-center hidden-xs">{{ column_sku }}</td>
+			{% endif %} 
+            <td class="text-center hidden-xs">{{ column_stock }}</td>
+            <td class="text-center hidden-xs">{{ column_price }}</td>
+            <td class="text-center">{{ column_action }}</td>
+          </tr>
+        </thead>
+        <tbody class="products_category">
+          {% for product in products %} 
+          <tr class="product_{{ product['product_id'] }}">
+            <td class="text-center image hidden-xs">{% if (product['thumb']) %} 
+              <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" /></a>
+              {% endif %}</td>
+            <td class="text-left"><a href="{{ product['href'] }}">{{ product['name'] }}</a></td>
+			{% if (settings['revcheckout_model']) %} 
+				<td class="text-center hidden-xs">{{ product['model'] }}</td>
+			{% endif %} 
+			{% if (settings['revcheckout_sku']) %} 
+				<td class="text-center hidden-xs">{{ product['sku'] }}</td>
+			{% endif %} 
+            <td class="text-center hidden-xs">{{ product['stock'] }}</td>
+            <td class="text-center hidden-xs">{% if (product['price']) %} 
+              <div class="price">
+                {% if (not product['special']) %} 
+                {{ product['price'] }}{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
+                {% else %} 
+                <span class="price-old">{{ product['price'] }}</span><span class="price-new">{{ product['special'] }}</span>{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
+                {% endif %} 
+              </div>
+              {% endif %}</td>
+            <td class="text-center wwicons">
+			{% if (product['quantity'] > 0) %} 
+				<a onclick="get_revpopup_cart('{{ product['product_id'] }}', 'catalog_mod');" data-toggle="tooltip" title="{{ button_cart }}"><i class="fa fa-border fa-shopping-basket"></i></a>
+			{% elseif (predzakaz_button) %} 
+				<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');" data-toggle="tooltip" title="{{ text_predzakaz }}"><i class="fa fa-border fa-shopping-basket predzakaz"></i></a>
+			{% endif %} 
+            <a href="{{ product['remove'] }}" data-toggle="tooltip" title="{{ button_remove }}"><i class="fa fa-trash-o"></i></a>
+			</td>
+          </tr>
+          {% endfor %} 
+        </tbody>
+      </table>
+      {% else %} 
+      <p>{{ text_empty }}</p>
+      {% endif %} 
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

@@ -1,0 +1,53 @@
+{% extends 'revolution/template/product/partials/base.twig' %}
+
+{% block container_schema %}{% endblock %}
+{% block content %}
+
+      {% if (categories) %} 
+      <p>{{ text_index }} 
+        {% for category in categories %} 
+        &nbsp;&nbsp;&nbsp;<a href="index.php?route=product/manufacturer#{{ category['name'] }}">{{ category['name'] }}</a>
+        {% endfor %} 
+      </p>
+      {% for category in categories %} 
+      <h2 id="{{ category['name'] }}">{{ category['name'] }}</h2>
+      {% if (category['manufacturer']) %} 
+	  {% if (revtheme_header_menu_images) %} {% set count_manufs = '6' %} {% else %} {% set count_manufs = '4' %} {% endif %}
+      {% for manufacturers in category['manufacturer']|batch(count_manufs) %}
+      <div class="row">
+        {% for manufacturer in manufacturers %} 
+			{% if (revtheme_header_menu_images) %} 
+				<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+					<div class="product-thumb transition">
+						<div class="image"><a href="{{ manufacturer['href'] }}"><img src="{{ manufacturer['image'] }}" alt="{{ manufacturer['name'] }}" title="{{ manufacturer['name'] }}" class="img-responsive" /></a></div>
+						<div class="caption clearfix">
+							<h4><a style="text-decoration: none" href="{{ manufacturer['href'] }}">{{ manufacturer['name'] }}</a></h4>
+						</div> 
+					</div>
+				</div>
+			{% else %} 
+				<div class="col-sm-3"><a href="{{ manufacturer['href'] }}">{{ manufacturer['name'] }}</a></div>
+			{% endif %} 
+        {% endfor %} 
+      </div>
+      {% endfor %} 
+      {% endif %} 
+      {% endfor %} 
+      {% else %} 
+      <p>{{ text_empty }}</p>
+      <div class="buttons clearfix">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {% endif %} 
+
+{{ content_bottom }} 
+{% endblock %}
+
+{% block script %}
+{% if (revtheme_header_menu_images) %} 
+	<script><!--
+		var div = '.product-thumb .caption > h4';
+		var maxheight = 0;$(div).each(function(){$(this).removeAttr('style');if($(this).height() > maxheight) {maxheight = $(this).height();{{ '}}' }});$(div).height(maxheight);
+	//--></script>
+{% endif %} 
+{% endblock %}

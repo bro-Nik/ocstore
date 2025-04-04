@@ -1,0 +1,48 @@
+<h3>{{ heading_title }}</h3>
+<div class="row">		
+	{% for special_offer in special_offers %}
+		<div class="special-offer-grid col-lg-3 col-md-4 col-sm-6 col-xs-12">
+		  <div class="special-offer-thumb">
+			{% if (not special_offer['timer_mode']) %} 
+				<div class="special_offer_status">{{ text_coming_soon }}</div>					
+			{% endif %}
+			<div class="image"><a href="{{ special_offer.href }}"><img src="{{ special_offer.thumb }}" alt="{{ special_offer.name }}" title="{{ special_offer.name }}" class="img-responsive" /></a></div>
+
+			  <div class="caption">
+				<h4><a href="{{ special_offer.href }}">{{ special_offer.name }}</a></h4>
+				<p>{{ special_offer.description }}</p>
+			  </div>
+			  {% if (not special_offer['timer_status']) %} 
+				<div class="special_offer_timer timer_banner"><div>{{ text_timer_banner }}</div></div>
+			  {% elseif (special_offer['date_end'] == '0000-00-00') %} 
+				<div class="special_offer_timer continuous"><div>{{ text_continuous_offer }}</div></div>
+			  {% else %} 
+				<div class="special_offer_timer">
+					{% if (special_offer['timer_mode']) %} 
+					  <span>{{ text_before_deadline }}</span>
+					  <div data-countdown="{{ special_offer['date_end'] }}" data-textend="{{ text_ended }}" class="item-timer"></div>
+					{% else %} 
+					  <span>{{ text_before_start }}</span>
+					  <div data-countdown="{{ special_offer['date_start'] }}"  data-textend="{{ text_started }}" class="item-timer waitspecial"></div>
+					{% endif %} 
+				</div>
+			  {% endif %}
+			  <div class="button-group">
+				<a href="{{ special_offer.href }}" class="button">{{ button_more_detailed }}</a>						
+			  </div>
+		  </div>
+		</div>
+	{% endfor %}
+</div>
+<script type="text/javascript">
+$(document).ready(function($){  
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown'), textEnded = $(this).data('textend');
+		$this.SpecTimer({
+		  DateEnd:finalDate,
+		  TextEnded:textEnded,
+		  OutputHTML:"<div>%%D%% <span>{{ text_days }}</span></div><div>%%H%% <span>{{ text_hours }}</span></div><div>%%M%% <span>{{ text_minutes }}</span></div><div>%%S%% <span>{{ text_seconds }}</span></div>"
+		});  
+	});
+});
+</script>

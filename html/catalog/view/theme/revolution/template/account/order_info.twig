@@ -1,0 +1,170 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }} {{ order_id }}</h1></li>
+</ul>
+	{% if (success) %} 
+		<div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %} 
+	{% if (error_warning) %} 
+		<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }} 
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %} 
+    <div class="row">{{ column_left }} 
+		{% if (column_left and column_right) %} 
+		{% set class = 'col-sm-6' %} 
+		{% elseif (column_left or column_right) %} 
+		{% set class = 'col-sm-9' %} 
+		{% else %} 
+		{% set class = 'col-sm-12' %} 
+		{% endif %} 
+		<div id="content" class="{{ class }}">
+			{{ content_top }} 
+			<h3 style="margin-top: 0;">{{ text_rev_order_detals }}</h3>
+			<table class="table table-revolution">
+				{% if (invoice_no) %} 
+					<tr>
+						<td class="text-left">{{ text_invoice_no }}</td>
+						<td class="text-left">{{ invoice_no }}</td>
+					</tr>
+				{% endif %} 
+				<tr>
+					<td class="text-left">{{ text_order_id }}</td>
+					<td class="text-left">#{{ order_id }}</td>
+				</tr>
+				<tr>
+					<td class="text-left">{{ text_date_added }}</td>
+					<td class="text-left">{{ date_added }}</td>
+				</tr>
+				{% if (payment_method) %} 
+					<tr>
+						<td class="text-left">{{ text_payment_method }}</td>
+						<td class="text-left">{{ payment_method }}</td>
+					</tr>
+				{% endif %} 
+				{% if (shipping_method) %} 
+					<tr>
+						<td class="text-left">{{ text_shipping_method }}</td>
+						<td class="text-left">{{ shipping_method }}</td>
+					</tr>
+					{% if (shipping_address != '') %} 
+						<tr>
+							<td class="text-left">{{ text_shipping_address }}:</td>
+							<td class="text-left">{{ shipping_address }}</td>
+						</tr>
+					{% endif %} 
+				{% endif %} 
+				{% if (comment) %} 
+					<tr>
+						<td class="text-left">{{ text_rev_order_comment }}:</td>
+						<td class="text-left">{{ comment }}</td>
+					</tr>
+				{% endif %} 
+			</table>
+			<div class="clearfix"></div>
+			<h3>{{ text_rev_order_prods }}</h3>
+			<div class="table-responsive">
+				<table class="table table-revolution" style="margin-bottom: 0;">
+					<thead>
+						<tr>
+							<td class="text-center">{{ column_image }}</td>
+							<td class="text-left">{{ column_name }}</td>
+							{% if (settings['revcheckout_model']) %} 
+								<td class="text-center hidden-xs">{{ column_model }}</td>
+							{% endif %} 
+							{% if (settings['revcheckout_sku']) %} 
+								<td class="text-center hidden-xs">{{ column_sku }}</td>
+							{% endif %} 
+							<td class="text-center">{{ column_quantity }}</td>
+							<td class="text-right">{{ column_price }}</td>
+							<td class="text-right hidden-xs">{{ column_total }}</td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for product in products %} 
+							<tr>
+								<td class="text-center" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: center;">
+									{% if (product['image']) %} 
+										<a href="{{ product['href'] }}">
+											<img src="{{ product['image'] }}" style="width: 50px;">
+										</a>
+									{% endif %} 
+								</td>
+								<td class="text-left"><a href="{{ product['href'] }}">{{ product['name'] }}</a>
+								{% for option in product['option'] %} 
+								<br />
+								<small>{{ option['name'] }}: {{ option['value'] }}</small>
+								{% endfor %}</td>
+								{% if (settings['revcheckout_model']) %} 
+									<td class="text-center hidden-xs">{% if (product['option'] and option['model']) %}{{ option['model'] }}{% else %}{{ product['model'] }}{% endif %}</td>
+								{% endif %} 
+								{% if (settings['revcheckout_sku']) %} 
+									<td class="text-center hidden-xs">{{ product['sku'] }}</td>
+								{% endif %} 
+								<td class="text-center">{{ product['quantity'] }}</td>
+								<td class="text-right">{{ product['price'] }}</td>
+								<td class="text-right hidden-xs">{{ product['total'] }}</td>
+							</tr>
+						{% endfor %} 
+						{% for voucher in vouchers %} 
+							<tr>
+								<td class="text-left">{{ voucher['description'] }}</td>
+								<td class="text-left"></td>
+								<td class="text-right">1</td>
+								<td class="text-right">{{ voucher['amount'] }}</td>
+								<td class="text-right">{{ voucher['amount'] }}</td>
+							</tr>
+						{% endfor %} 
+					</tbody>
+				</table>
+				<table class="table table-revolution">
+					{% for total in totals %} 
+						<tr>
+							<td class="text-right">{{ total['title'] }}</td>
+							<td class="text-right">{{ total['text'] }}</td>
+						</tr>
+					{% endfor %} 
+				</table>
+			</div>
+			{% if (histories) %} 
+				<h3>{{ text_rev_order_history }}</h3>
+				<table class="table table-revolution">
+					<thead>
+						<tr>
+							<td class="text-left">{{ column_date_added }}</td>
+							<td class="text-left">{{ column_status }}</td>
+							<td class="text-left">{{ column_comment }}</td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for history in histories %} 
+							<tr>
+								<td class="text-left">{{ history['date_added'] }}</td>
+								<td class="text-left">{{ history['status'] }}</td>
+								<td class="text-left">{{ history['comment'] }}</td>
+							</tr>
+						{% endfor %} 
+					</tbody>
+				</table>
+			{% endif %} 
+			{{ content_bottom }} 
+		</div>
+		{{ column_right }} 
+	</div>
+</div>
+{{ footer }}

@@ -1,0 +1,23 @@
+{% if (product['product_in_cart']) %}
+  <div class="pr_in_cart_i">
+    <i class="fa fa-check"></i>
+  </div>
+{% endif %}
+{% if (img_slider) %}
+  <div class="image owl-carousel owlproduct">
+    <div class="item text-center">
+      <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-responsive {% if ((product['quantity'] < 1 and not zakaz) or (product['price_number'] == 0 and not zakaz_price_null)) %}zatemnenie_img{% endif %}" itemprop="image"/></a>
+    </div>
+    {% if (product['images']) %}
+      {% for image in product['images'] %}
+        <!--noindex-->
+        <div class="item text-center">
+          <a href="{{ product['href'] }}"><img src="{{ image['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-responsive {% if ((product['quantity'] < 1 and not zakaz) or (product['price_number'] == 0 and not zakaz_price_null)) %}zatemnenie_img{% endif %}" rel="nofollow"/></a>
+        </div>
+        <!--/noindex-->
+      {% endfor %}
+    {% endif %}
+  </div>
+{% else %}
+  <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-responsive {% if ((product['quantity'] < 1 and not zakaz) or (product['price_number'] == 0 and not zakaz_price_null)) %}zatemnenie_img{% endif %}" itemprop="image"/></a>
+{% endif %}

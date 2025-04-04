@@ -1,0 +1,99 @@
+{{ header }}
+<div class="container product-special_offer" itemtype="http://schema.org/ItemList" itemscope>
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb" itemprop="name">{{ heading_title }}</h1></li>
+</ul>
+
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">
+		{{ content_top }}
+		<div class="row">
+			<div class="col-sm-9">		
+				<h2 >{{ heading_title }}</h2>
+ 			</div>
+			<div class="col-sm-3">		
+				<a href="{{ link_special }}" class="btn btn-danger btn-heading">{{ button_all_special_products }}</a>
+			</div>
+		</div>	
+		<div class="row">		
+			{% if special_offers %}
+				{% for special_offer in special_offers %}
+					<div class="special-offer-grid col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					  <div class="special-offer-thumb">
+						
+						<div class="image"><a href="{{ special_offer.href }}"><img src="{{ special_offer.thumb }}" alt="{{ special_offer.name }}" title="{{ special_offer.name }}" class="img-responsive" /></a></div>
+
+						  {% if (not special_offer['timer_mode']) %} 
+							  <div class="special_offer_status">{{ text_coming_soon }}</div>					
+						  {% endif %}
+						  <div class="caption">
+							<h4><a href="{{ special_offer.href }}">{{ special_offer.name }}</a></h4>
+							<p>{{ special_offer.description }}</p>
+						  </div>
+						  {% if (not special_offer['timer_status']) %}	
+							<div class="special_offer_timer timer_banner"><div>{{ text_timer_banner }}</div></div>		
+						  {% elseif (special_offer['date_end'] == '0000-00-00') %}
+							  <div class="special_offer_timer continuous"><div>{{ text_continuous_offer }}</div></div>
+						  {% else %}
+							  <div class="special_offer_timer">
+								{% if (special_offer['timer_mode']) %} 
+								  <span>{{ text_before_deadline }}</span>
+								  <div data-countdown="{{ special_offer['date_end'] }}" data-textend="{{ text_ended }}" class="item-timer"></div>
+								{% else %} 
+								  <span>{{ text_before_start }}</span>
+								  <div data-countdown="{{ special_offer['date_start'] }}"  data-textend="{{ text_started }}" class="item-timer waitspecial"></div>
+								{% endif %} 
+							  </div>
+						  {% endif %}
+						  <div class="button-group">
+							<a href="{{ special_offer.href }}" class="button">{{ button_more_detailed }}</a>						
+						  </div>
+					  </div>
+					</div>
+				{% endfor %}
+			{% else %}
+				<hr>
+				{{ text_empty }}
+				<hr>
+				<div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+			  </div>
+			{% endif %}
+		</div>
+		{{ content_bottom }}
+	</div>	
+    {{ column_right }}
+  </div>	
+</div>
+<script type="text/javascript">
+$(document).ready(function($){
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown'), textEnded = $(this).data('textend');
+		$this.SpecTimer({
+		  DateEnd:finalDate,
+
+		  TextEnded:textEnded,
+		  OutputHTML:"<div>%%D%% <span>{{ text_days }}</span></div><div>%%H%% <span>{{ text_hours }}</span></div><div>%%M%% <span>{{ text_minutes }}</span></div><div>%%S%% <span>{{ text_seconds }}</span></div>"
+		});
+	});
+});
+</script>
+{{ footer }}

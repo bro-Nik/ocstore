@@ -1,0 +1,119 @@
+.reviews-thumbnails{
+	list-style: none;
+	overflow: hidden;
+	padding: 0;
+  margin: 0;
+}
+.image-additional{
+	float: left;
+	margin: 5px;
+	text-align: center;
+}
+.reviews-thumbnails .img-thumbnail{
+	display: block;
+}
+.reviews-thumbnails .img-thumbnail img{
+	height: 100px;
+	width: 100px;
+}
+.btn-delete{
+		width: 100%;
+    height: 25px;
+    border-radius: 0 0 4px 4px;
+    background: #ff7575;
+    line-height: 10px;
+    color: #fff !important;
+    margin-top: -1px;
+    padding: 0;
+		outline: 0 !important;
+}
+.btn-delete:hover{
+	background: #ff5a5a;
+}
+.btn-delete:focus, .btn-delete:active{
+	background-color: #ff4545;
+  box-shadow: 0 0 0 0.2rem #fe1f1f5c;
+}
+.radio-group-lite {
+    display: inline-block;
+    position: relative;
+    width: 70px;
+    background: #eceeef none repeat scroll 0 0;
+    border-radius: 18px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.35) inset, 0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 2px #efefef;
+    padding: 2px;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select: none;
+}
+.hide-radio {
+    display: none;
+}
+.hide-radio + label {
+    background: transparent;
+    display: block;
+		font-weight: 600;
+		letter-spacing: -.5px;
+    float: left;
+    padding: 5px 0;
+    text-align: center;
+    -webkit-transition: 0.15s ease-in-out;
+    -moz-transition: 0.15s ease-in-out;
+    -o-transition: 0.15s ease-in-out;
+    transition: 0.15s ease-in-out;
+    width: 50%;
+    margin-bottom: 0px;
+    position: relative;
+    color: #969696;
+    cursor: pointer;
+}
+.hide-radio:checked + label{
+  color: transparent !important;
+}
+.onoffswitch-switch {
+    display: block;
+    width: 28px;
+    height: 28px;
+    box-shadow:-1px 1px 5px rgba(0, 0, 0, 0.2), 0 1px rgba(0, 0, 0, 0.02) inset;
+    background: #f9f9f9 linear-gradient(to bottom, #eeeeee, white) repeat scroll 0 0;
+    position: absolute;
+    top: 0px;
+    right: 38px;
+    border: 4px solid #FFFFFF;
+    border-radius: 15px;
+    transition: all 0.2s ease-in 0s;
+}
+.radio-on.hide-radio:checked + label .onoffswitch-switch{
+  right: -1px;
+}
+.onoffswitch-inner{
+  transition: all 0s;
+}
+.radio-on.hide-radio:checked + label .onoffswitch-inner{
+  position: absolute;
+  left: -35px;
+  top: -2px;
+  width: 70px;
+  height: 32px;
+  border-radius: 18px;
+  background: linear-gradient(45deg, #13bc4f, #02ce4d);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.33) inset, 0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 2px #7cdb9c;
+}
+.radio-off.hide-radio + label{
+  color: #fff;
+  z-index: 1;
+}
+.form-horizontal .form-group{
+  margin: 0;
+  border: none;
+}
+.panel-default, .form-group{
+  border: none;
+}
+#button-unused-images-delete{
+    float:left;
+}
+.m-20{
+    margin:0;
+    margin-left: 20%;
+}

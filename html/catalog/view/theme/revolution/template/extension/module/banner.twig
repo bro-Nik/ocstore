@@ -1,0 +1,27 @@
+<div id="banner{{ module }}" class="owl-carousel">
+  {% for banner in banners %} 
+  <div class="item" style="text-align: center;">
+    {% if (banner['link']) %} 
+    <a class="banner_name_hide banner_name_hide_{{ module }}" href="{{ banner['link'] }}">
+	<span style="display:block;padding-bottom:10px;">{{ banner['title'] }}</span>
+	<img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" />
+	</a>
+    {% else %} 
+	<span class="banner_name_hide banner_name_hide_{{ module }}" style="display:block;padding-bottom:10px;">{{ banner['title'] }}</span>
+    <img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" />
+    {% endif %} 
+  </div>
+  {% endfor %} 
+</div>
+<script><!--
+$('#banner{{ module }}').owlCarousel({
+	items: 6,
+	{% if (banners|length > 1) %} 
+	autoPlay: true,
+	{% endif %} 
+	singleItem: true,
+	navigation: false,
+	pagination: false,
+	transitionStyle: 'fade'
+});
+--></script>

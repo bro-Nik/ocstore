@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="description" content="Пример простой формы обратной связи" />
+<title>Форма связи</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+<link rel="stylesheet" type="text/css" media="screen" href="style_zap.css">
+</head>
+<body>
+<header>
+</header>
+<main>
+<div class="main-content">
+<form class="obratnuj-zvonok" autocomplete="off" action='email.php' method='post'>
+	<div class="form-zvonok"> 
+		<div>
+			<label>Имя <span>*</span></label>
+			<input type='text' name='username' required></div>
+		<div>
+			<label>Номер телефона (с кодом) <span>*</span></label>
+			<input type='text' name='usernumber' required></div>
+		<div>
+			<label>Сообщение</label>
+			<input type='text' name='question'>
+		</div>
+		<input class="bot-send-mail" type='submit' value='Послать заявку'>
+	</div>
+</form>
+<p>Шаблон формы обратной связи. Разработанно специально для <a href="http://dev.asifmoda.com">dev.asifmoda.com</a>. Можно использовать для обучения, частных и комерческих проектов.</p>
+<p>Прывітанне з Беларусі!</p>
+</div>
+</main>
+<footer>
+</footer>
+</body>
+</html>

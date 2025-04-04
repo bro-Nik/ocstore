@@ -1,0 +1,1218 @@
+{{ header }}{{ column_left }}
+<div id="content"  class="special-offer-list">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+
+   <div id="error_warning"></div>
+
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+			<div class="pull-right">
+				<button id="button_save" onclick="saveOffer();" data-toggle="tooltip" title="{{ tooltip_save }}" class="btn btn-success"><i class="fa fa-save"></i>&nbsp;&nbsp;{{ button_save }}</button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h3 class="panel-title"><i class="fa fa-pencil"></i>{{ text_form }}</h3>
+      </div>
+      <div class="panel-body">
+
+    <ul class="nav nav-tabs">
+     <li class="active"><a href="#tab-offer-info" data-toggle="tab">{{ button_offer_info }}</a></li>
+     <li><a href="#tab-offer-attributes" data-toggle="tab">{{ button_offer_attributes }}</a></li>
+     <li><a href="#tab-product-list" data-toggle="tab">{{ button_product_list }}</a></li>
+     <li><a href="#tab-seo" data-toggle="tab">{{ tab_seo }}</a></li>
+    </ul>
+
+    <form action="" method="post" enctype="multipart/form-data" id="form-special_offer" class="form-horizontal">
+    <div class="tab-content">
+
+     <!-- start Special Offer description -->
+     <div class="tab-pane active" id="tab-offer-info">
+		<div class="tab-head">
+			<h2>{{ text_main_info }}</h2>
+		</div>
+
+		<ul class="nav nav-tabs" id="language">
+			{% for language in languages %}
+				<li><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+			{% endfor %}
+		</ul>
+		<div class="tab-content">
+			{% for language in languages %}
+				<div class="tab-pane" id="language{{ language.language_id }}">
+
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_name }}</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="special_offer_description[{{ language.language_id }}][name]" value="{{ special_offer_description[language.language_id] ? special_offer_description[language.language_id].name }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control" />
+                      <div id="error_name{{ language['language_id'] }}"></div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-description{{ language.language_id }}">{{ entry_description }}</label>
+                    <div class="col-sm-10">
+                      <textarea name="special_offer_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ special_offer_description[language.language_id] ? special_offer_description[language.language_id].description }}</textarea>
+                    </div>
+                  </div>
+
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="input-meta-title{{ language.language_id }}">{{ entry_meta_title }}</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="special_offer_description[{{ language.language_id }}][meta_title]" value="{{ special_offer_description[language.language_id] ? special_offer_description[language.language_id].meta_title }}" placeholder="{{ entry_meta_title }}" id="input-meta-title{{ language.language_id }}" class="form-control" />
+                      <div id="error_meta_title{{ language['language_id'] }}"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-description{{ language.language_id }}">{{ entry_meta_description }}</label>
+                    <div class="col-sm-10">
+                      <textarea name="special_offer_description[{{ language.language_id }}][meta_description]" rows="5" placeholder="{{ entry_meta_description }}" id="input-meta-description{{ language.language_id }}" class="form-control">{{ special_offer_description[language.language_id] ? special_offer_description[language.language_id].meta_description }}</textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-keyword{{ language.language_id }}">{{ entry_meta_keyword }}</label>
+                    <div class="col-sm-10">
+                      <textarea name="special_offer_description[{{ language.language_id }}][meta_keyword]" rows="5" placeholder="{{ entry_meta_keyword }}" id="input-meta-keyword{{ language.language_id }}" class="form-control">{{ special_offer_description[language.language_id] ? special_offer_description[language.language_id].meta_keyword }}</textarea>
+                    </div>
+                  </div>
+
+				</div>
+            {% endfor %}
+        </div>
+
+    </div>
+     <!-- end Special Offer description -->
+
+     <!-- start Special Offer attributes -->
+     <div class="tab-pane" id="tab-offer-attributes">
+		<div class="tab-head">
+			<h2>{{ text_offer_attributes }}</h2>
+		</div>
+
+         <div class="form-group required">
+            <label class="col-sm-2 control-label">{{ entry_customer_group }}</label>
+            <div class="col-sm-10">
+              <div class="well well-sm" style="height: 150px; overflow: auto;">
+ 				{% for customer_group in customer_groups %}
+                <div class="checkbox">
+                  <label>
+                     {% if customer_group.customer_group_id in special_offer_customer_group %}
+						<input type="checkbox" name="special_offer_customer_group[]" value="{{ customer_group.customer_group_id}}" checked="checked" />
+						{{ customer_group.name }}
+                     {% else %}
+						<input type="checkbox" name="special_offer_customer_group[]" value="{{ customer_group.customer_group_id }}" />
+						{{ customer_group.name }}
+					{% endif %}
+                  </label>
+                </div>
+				{% endfor %}
+              </div>
+			  <div id="error_customer_group"></div>
+            </div>
+          </div>
+
+		  <div class="form-group required">
+			<label class="col-sm-2 control-label" for="input-offer-type">{{ entry_offer_type }}</label>
+			<div class="col-sm-10">
+			  <select name="offer_type" id="input-offer-type" class="form-control">
+					{% for key,value in offer_types %}
+						{% if (key == offer_type) %}
+							<option value="{{ key }}" selected="selected">{{ value }}</option>
+						{% else %}
+							<option value="{{ key }}">{{ value }}</option>
+						{% endif %}
+					{% endfor %}
+			  </select>
+			</div>
+		  </div>
+
+		  {% if offer_type == 1  or  offer_type == 5 %}<div class="gift-block">{% else %}<div class="gift-block" style="display: none;">{% endif %}
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-gift"><span data-toggle="tooltip" title="{{ help_gift }}">{{ entry_gift }}</span></label>
+					<div class="col-sm-5">
+						<input type="text" readonly name="gift_product_name" value="{{ gift_product_name }}" id="input-gift" class="form-control" />
+						<input type="hidden" name="gift_product_id" value="{{ gift_product_id }}" />
+					</div>
+					<button type="button" data-toggle="modal" data-target="#modalAddProduct" data-workmode="2" class="btn btn-primary">{{ button_select_gift }}</button>
+					<button type="button" onclick="clearGift()" class="btn btn-default">{{ button_deselect }}</button>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-gift-qty"><span data-toggle="tooltip" title="{{ help_gift_qty }}">{{ entry_gift_qty }}</span></label>
+					<div class="col-sm-3">
+					  <input type="text" name="gift_quantity" value="{{ gift_quantity }}" placeholder="{{ entry_gift_qty }}" id="input-gift-qty" class="form-control" />
+						<div id="error_gift_quantity"></div>
+					</div>
+				</div>
+		  </div>
+
+		  {% if (offer_type == 5 or offer_type == 2 or offer_type == 4 or offer_type == 7) %}<div class="form-group">{% else %}<div class="form-group" style="display: none;">{% endif %}
+			<label class="col-sm-2 control-label" for="input-product-sum"><span id="prod_sum_label" data-toggle="tooltip" title="{{ help_product_sum }}">{{ entry_product_sum }}</span></label>
+			<div class="col-sm-3">
+			  <input type="text" name="product_sum" value="{{ product_sum }}" placeholder="{{ entry_product_sum }}" id="input-product-sum" class="form-control" />
+			</div>
+		  </div>
+
+
+		  {% if offer_type == 1 or offer_type == 2 or offer_type == 3 or offer_type == 4 or offer_type == 6 or offer_type == 7 %}<div class="form-group noborder">{% else %}<div class="form-group" style="display: none;">{% endif %}
+			{% if (offer_type == 3 or offer_type == 6) %}
+				<label class="col-sm-2 control-label" for="input-product-qty"><span id="prod_qty_label" data-toggle="tooltip" title="{{ help_product_counter }}">{{ entry_product_counter }}</span></label>
+			{% else %}
+				<label class="col-sm-2 control-label" for="input-product-qty"><span id="prod_qty_label" data-toggle="tooltip" title="{{ help_product_qty }}">{{ entry_product_qty }}</span></label>
+			{% endif %}
+			<div class="col-sm-3">
+			  <input type="text" name="product_quantity" value="{{ product_quantity }}" placeholder="{{ entry_product_qty }}" id="input-product-qty" class="form-control" />
+				<div id="error_product_quantity"></div>
+			</div>
+		  </div>
+
+		  {% if (offer_type == 3 or offer_type == 4 or offer_type == 6 or offer_type == 7) %}<div class="form-group noborder">{% else %}<div class="form-group noborder" style="display: none;">{% endif %}
+			<label class="col-sm-2 control-label" for="input-percent">{{ entry_discount_percent }}</label>
+			<div class="col-sm-3">
+			  <input type="text" name="percent" value="{{ percent }}" id="input-percent" class="form-control" />
+			</div>
+		  </div>
+
+		  {% if (offer_type == 1 or offer_type == 4 or offer_type == 5 or offer_type == 7) %}<div class="form-group" id="input-shipping">{% else %}<div class="form-group" id="input-shipping" style="display: none;">{% endif %}
+            <label class="col-sm-2 control-label">{{ entry_free_shipping }}</label>
+            <div class="col-sm-3">
+                  <label class="radio-inline">
+                    {% if (free_shipping) %}
+                    <input type="radio" name="free_shipping" value="1" checked="checked" />
+                    {{ text_yes }}
+                    {% else %}
+                    <input type="radio" name="free_shipping" value="1" />
+                    {{ text_yes }}
+                    {% endif %}
+                  </label>
+                  <label class="radio-inline">
+                    {% if (not free_shipping) %}
+                    <input type="radio" name="free_shipping" value="0" checked="checked" />
+                    {{ text_no }}
+                    {% else %}
+                    <input type="radio" name="free_shipping" value="0" />
+                    {{ text_no }}
+                    {% endif %}
+                  </label>
+            </div>
+          </div>
+
+		  <div class="form-group">
+			<label class="col-sm-2 control-label" for="input-date-start">{{ entry_date_start }}</label>
+			<div class="col-sm-3">
+			  <div class="input-group date">
+				<input type="text" name="date_start" value="{{ date_start }}" placeholder="{{ entry_date_start }}" data-date-format="YYYY-MM-DD" id="input-date-start" class="form-control" />
+				<span class="input-group-btn">
+				<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+				</span></div>
+			</div>
+		  </div>
+
+		  <div class="form-group">
+			<label class="col-sm-2 control-label" for="input-date-end">{{ entry_date_end }}</label>
+			<div class="col-sm-3">
+			  <div class="input-group date">
+				<input type="text" name="date_end" value="{{ date_end }}" placeholder="{{ entry_date_end }}" data-date-format="YYYY-MM-DD" id="input-date-end" class="form-control" />
+				<span class="input-group-btn">
+				<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+				</span></div>
+			</div>
+		  </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-cycle-of-timer"><span data-toggle="tooltip" title="{{ help_cycle_of_timer }}">{{ entry_cycle_of_timer }}</span></label>
+            <div class="col-sm-3">
+              <input type="text" name="cycle_of_timer" value="{{ cycle_of_timer }}" placeholder="{{ entry_cycle_of_timer }}" id="input-cycle-of-timer" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_timer_status }}</label>
+            <div class="col-sm-3">
+              <select name="timer_status" id="input-status" class="form-control">
+                {% if (timer_status) %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-image">{{ entry_image }}</label>
+            <div class="col-sm-10"> <a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+              <input type="hidden" name="image" value="{{ image }}" id="input-image" />
+              <div><strong>{{ text_image_size }}</strong></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-image-label">{{ entry_image_label }}</label>
+            <div class="col-sm-10"> <a href="" id="thumb-image-label" data-toggle="image" class="img-thumbnail"><img src="{{ thumb_label }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+              <input type="hidden" name="image_label" value="{{ image_label }}" id="input-image-label" />
+              <div><strong>{{ text_label_image_size }}</strong></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-priority">{{ entry_priority }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="priority" value="{{ priority }}" placeholder="{{ entry_priority }}" id="input-priority" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-offer-status">{{ entry_offer_status }}</label>
+            <div class="col-sm-3">
+              <select name="offer_status" id="input-offer-status" class="form-control">
+                {% if (offer_status) %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+
+     </div>
+     <!-- end Special Offer attributes -->
+	 </form>
+
+     <!-- start Product List -->
+     <div class="tab-pane" id="tab-product-list">
+		<div class="tab-head">
+			<div class="pull-right">
+				{% if (total_found_products) %}
+						<button type="button" id="but_add_special" onclick="addFoundSOMProducts();" class="btn btn-warning" title="{{ tooltip_add_found_products }}"><i class="fa fa-plus-circle"></i> {{ button_add_found_products }}</button>
+				{% endif %}
+				<button type="button" data-toggle="modal" data-target="#modalAddProduct" data-workmode="1" class="btn btn-primary" title="{{ tooltip_product_add }}"><i class="fa fa-plus-circle"></i></button>
+				<button type="button" data-toggle="modal" data-target="#modalCalculator" class="btn btn-default" title="{{ tooltip_recalculate_prices }}"><i class="fa fa-calculator"></i></button>
+                <button type="button" id="but_stat_on" onclick="setStatus(true);" class="btn btn-success disabled" title="{{ tooltip_products_switch_on }}"><i class="fa fa-eye"></i></button>
+                <button type="button" id="but_stat_off" onclick="setStatus(false);" class="btn btn-success disabled" title="{{ tooltip_products_switch_off }}"><i class="fa fa-eye-slash"></i></button>
+				<button type="button" id="but_pr_rem" onclick="removeProducts();" class="btn btn-danger disabled" title="{{ tooltip_products_remove }}"><i class="fa fa-trash-o"></i></button>
+				<button type="button" onclick="confirm('{{ text_clear_confirm }}') ? removeAllProducts() : false;" class="btn btn-danger" title="{{ tooltip_all_products_remove }}"><i class="fa fa-trash-o"></i> {{ button_delete_all }}</button>
+			</div>
+			<h2>{{ text_product_list }}</h2>
+		</div>
+
+              <div class="table-responsive">
+
+                <table id="product_table" class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);setButtonOnOff();" /></td>
+                      <td class="text-center">{{ column_image }}</td>
+                      <td class="text-left">{{ column_name }}</td>
+                      <td class="text-left">{{ column_sku }}</td>
+                      <td class="text-left">{{ column_model }}</td>
+                      <td class="text-right">{{ column_price }}</td>
+                      <td class="text-right">{{ column_special_price }}</td>
+                      <td class="text-right">{{ column_quantity }}</td>
+                      <td class="text-left">{{ column_category }}</td>
+					  <td class="text-left">{{ column_manufacturer }}</td>
+					  <td class="text-left">{{ column_product_status }}</td>
+                      <td class="text-left">{{ column_action }}</td>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+						<tr><td class="som-loading" colspan="12"><i class="fa fa-cog fa-spin"></i><span>{{ text_loading2 }}</span></td></tr>
+                  </tbody>
+
+                  <tfoot>
+                    <tr>
+                       <td class="text-right" colspan="12"><button type="button" data-toggle="modal" data-target="#modalAddProduct" data-workmode="1" class="btn btn-primary" title="{{ tooltip_product_add }}"><i class="fa fa-plus-circle"></i></button></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+		  <div class="row">
+			<div class="som-pagination col-sm-9"></div>
+			<div class="col-sm-3">
+			  <select id="prod_per_page" class="form-control">
+					<option value=20>20 {{ text_products_per_page }}</option>
+					<option value=50>50 {{ text_products_per_page }}</option>
+					<option value=100>100 {{ text_products_per_page }}</option>
+			  </select>
+			</div>
+		  </div>
+		  
+     </div>
+     <!-- end Product List -->
+	 <!-- start SEO -->
+		<div class="tab-pane" id="tab-seo">
+		  <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_keyword }}</div>
+		  <div class="table-responsive">
+			<table class="table table-bordered table-hover">
+			  <thead>
+				<tr>
+				  <td class="text-left">{{ entry_store }}</td>
+				  <td class="text-left">{{ entry_keyword }}</td>
+				</tr>
+			  </thead>
+			  <tbody>
+			  {% for store in stores %}
+			  <tr>
+				<td class="text-left">{{ store.name }}</td>
+				<td class="text-left">{% for language in languages %}
+				  <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+					<input type="text" name="special_offer_seo_url[{{ store.store_id }}][{{ language.language_id }}]" value="{% if special_offer_seo_url[store.store_id][language.language_id] %}{{ special_offer_seo_url[store.store_id][language.language_id] }}{% endif %}" placeholder="{{ entry_keyword }}" class="form-control" />
+				  </div>
+				  <div id="error_keyword_{{ store.store_id }}_{{ language.language_id }}"></div>
+				  {% endfor %}</td>
+			  </tr>
+			  {% endfor %}
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+     <!-- end SEO -->
+	 </div>
+
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+<!-- Modal Form addProduct-->
+<style>
+
+</style>
+    <div class="modal fade" id="modalAddProduct" tabindex="-1" role="dialog" aria-labelledby="modalAddProductLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <h4 class="modal-title">{{ text_choose_gift }}</h4>
+                </div>
+                <form class="form-horizontal" id="form_add_product">
+                    <div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
+								<input type="hidden" name="special_offer_id" value="{{ special_offer_id }}" />
+								<input type="hidden" name="workmode" value="" />
+								<div class="form-group">
+										<label class="control-label col-xs-3" for="input_category">{{ text_category }}</label>
+										<div class="col-xs-9">
+											<select name="category_id" size="1" id="input_category" class="form-control">
+												<option value="0" selected>{{ text_not_selected }}</option>
+												{% for category in all_categories %}
+													<option value="{{ category.category_id }}">{{ category.name }}</option>
+												{% endfor %}
+											</select>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="control-label col-xs-3" for="input_manufacturer">{{ text_manufacturer }}</label>
+										<div class="col-xs-9">
+											<select name="manufacturer_id" size="1" id="input_manufacturer" class="form-control">
+												<option value="0" selected>{{ text_not_selected }}</option>
+												{% for manufacturer in all_manufacturers %}
+													<option value="{{ manufacturer.manufacturer_id }}">{{ manufacturer.name }}</option>
+												{% endfor %}
+											</select>
+										</div>
+								</div>
+
+							   <div class="form-group">
+									<label class="control-label col-xs-3" for="input_sku">{{ entry_product_sku }}</label>
+									<div class="col-xs-4">
+										<input type="text" name="filter_sku" value="{{ filter_sku }}" placeholder="{{ entry_product_sku }}" id="input_sku" class="form-control" />
+									</div>
+									<label class="control-label col-xs-1" for="input_model">{{ entry_product_model }}</label>
+									<div class="col-xs-4">
+										<input type="text" name="filter_model" value="{{ filter_model }}" placeholder="{{ entry_product_model }}" id="input_model" class="form-control" />
+									</div>
+								</div>
+
+							   <div class="form-group">
+									<label class="control-label col-xs-3" for="input_prname">{{ entry_product_name }}</label>
+									<div class="col-xs-9">
+										<input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_product_name }}" id="input_prname" class="form-control" />
+									</div>
+								</div>
+
+							   <div class="form-group">
+									<label class="control-label col-xs-3" for="input_min_price">{{ entry_min_price }}</label>
+									<div class="col-xs-4">
+										<input type="number" name="filter_min_price" value="{{ filter_min_price }}" id="input_min_price" class="form-control" />
+									</div>
+									<label class="control-label col-xs-1" style="text-align:center;" for="input_max_price">{{ entry_max_price }}</label>
+									<div class="col-xs-4">
+										<input type="number" name="filter_max_price" value="{{ filter_max_price }}" id="input_max_price" class="form-control" />
+									</div>
+								</div>
+
+								<div class="form-group">
+										<label class="control-label col-xs-3" for="input_special_status">{{ entry_participation_in_offers }}</label>
+										<div class="col-xs-9">
+											<select name="filter_special_status" size="1" id="input_special_status" class="form-control">
+												<option value="0" selected>{{ text_all_products }}</option>
+												<option value="1">{{ text_only_not_special }}</option>
+												<option value="2">{{ text_promotional_goods_out_offers }}</option>
+											</select>
+										</div>
+								</div>
+
+								<div class="form-group">
+									<div class="col-xs-offset-3 col-xs-5">
+										<div class="checkbox">
+											<label style="font-weight: bold;"><input type="checkbox" checked name="filter_status" style="margin-bottom: -2px; margin-right: 10px;">{{ text_only_status_on }}</label>
+										</div>
+									</div>
+									<div class="col-xs-4">
+										<div class="checkbox">
+											<label style="font-weight: bold;"><input type="checkbox" checked name="filter_in_stock" style="margin-bottom: -2px; margin-right: 10px;">{{ text_only_in_stock }}</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="modal-button-row">
+									<div class="pull-right">
+										<button type="button" id="button-clear" class="btn btn-primary">{{ button_clear }}</button>
+										<button type="button" id="button-filter" data-toggle="tool-tip" title="{{ tooltip_show_products }}" class="btn btn-primary"><i class="fa fa-filter"></i>{{ button_filter }}</button>
+										<button type="button"  id="button-add-product" onclick="addToList();" data-toggle="tool-tip" title="{{ tooltip_add_by_criteria }}" data-loading-text="{{ text_loading }}" class="btn btn-primary">{{ button_product_add }}</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ button_close }}</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+
+							<!-- modal table for product selection -->
+
+								<div class="table-responsive">
+									<table id="new_table_header" class="table table-bordered" style="width: 0px;">
+									  <thead>
+										<tr>
+										  <td class="text-left">{{ column_name }}</td>
+										  <td class="text-left">{{ column_sku }}</td>
+										  <td class="text-left">{{ column_model }}</td>
+										  <td class="text-right">{{ column_price }}</td>
+										  <td class="text-right">{{ column_quantity }}</td>
+										  <td class="text-left">{{ column_manufacturer }}</td>
+										</tr>
+									  </thead>
+									</table>
+									<div id="scroll-part-table">
+										<table id="modal_product_table" class="table table-striped table-bordered table-hover">
+										  <thead>
+											<tr>
+											  <td class="text-left">{{ column_name }}</td>
+											  <td class="text-left">{{ column_sku }}</td>
+											  <td class="text-left">{{ column_model }}</td>
+											  <td class="text-right">{{ column_price }}</td>
+											  <td class="text-right">{{ column_quantity }}</td>
+											  <td class="text-left">{{ column_manufacturer }}</td>
+											</tr>
+										  </thead>
+										  <tbody>
+												<tr class="alert-danger"><td class="text-center" colspan="6">{{ text_set_selection_criteria }}</td></tr>
+										  </tbody>
+										</table>
+									</div>
+								</div>
+
+							</div>
+						</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+ <!-- Modal Calculator-->
+    <div class="modal fade" id="modalCalculator" tabindex="-1" role="dialog" aria-labelledby="modalCalculatorLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <h4 class="modal-title">{{ text_calculator }}</h4>
+                </div>
+                <form class="form-inline" id="form_calculator">
+                    <div class="modal-body">
+						<span>{{ text_calculation_formula }}</span>
+						<div class="form-group">
+							<select id="calc_from" class="form-control">
+								<option value=0 selected>{{ text_basic_price }}</option>
+								<option value=1>{{ text_special_price }}</option>
+							</select>
+						</div>
+						<input type="button" value="–" id="calc_operation"/>
+						<div class="form-group" >
+							<input type="text" id="amount" placeholder="0" size="5" title="{{ error_not_numeric }}" class="form-control">
+						</div>
+						<div class="form-group">
+							<select id="unit_of_calc" class="form-control">
+								<option value=0 selected>%</option>
+								<option value=1>{{ text_currency_unit }}</option>
+							</select>
+						</div>
+						<br>
+ 						<span>{{ text_rounding_precision }}</span>
+						<div class="form-group">
+							<select id="precision" class="form-control">
+								<option value=0.01>100</option>
+								<option value=0.1>10</option>
+								<option value=1>0</option>
+								<option value=10>0.1</option>
+								<option value=100 selected>0.01</option>
+							</select>
+						</div>
+                     </div>
+                    <div class="modal-footer">
+						<div class="checkbox" style="margin-top: 8px; float: left;">
+                            <label style="font-weight: bold;"><input type="checkbox" id="fl_selected" style="margin-bottom: -2px; margin-right: 10px;">{{ text_only_selected }}</label>
+						</div>
+                        <button type="button" id="change_tab" data-loading-text="{{ text_loading }}" class="btn btn-primary">{{ button_recalculate_prices }}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ button_close }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript"><!--
+$('.date').datetimepicker({
+	pickTime: false
+});
+
+$('.time').datetimepicker({
+	pickDate: false
+});
+
+$('.datetime').datetimepicker({
+	pickDate: true,
+	pickTime: true
+});
+//--></script>
+<script type="text/javascript">
+
+var som_products = {};
+var aktive_page = 1;
+var formMode;
+
+$.ajax({
+	type: 'post',
+	url: 'index.php?route=extension/module/special_offer/getProducts&user_token={{ user_token }}',
+	dataType: 'json',
+	data: 'offer_id={{ special_offer_id }}',
+	beforeSend: function() {
+	},
+	complete: function() {
+		printList();
+		som_pagination(1);
+	},
+	success: function(json) {
+		som_products = json.products;
+	}
+});
+
+function som_pagination(currentPage = 1) {
+	var output, output_end, count_pages, max_links, start, end, ind;
+	max_links = 8;
+
+	count_pages = Math.ceil(som_products.length / $("#prod_per_page").val());
+	output = '';
+	output_end = '';
+
+	if (count_pages > 1) {
+		if (count_pages <= max_links) {
+			start = 1;
+			end = count_pages;
+		} else {
+			start = currentPage - Math.ceil(max_links / 2);
+			end = currentPage + Math.ceil(max_links / 2);
+
+			if (start < 1) {
+				end += Math.abs(start) + 1;
+				start = 1;
+			} else if (start === 2) {
+				output += '<button>1</button>';
+			} else if (start > 2) {
+				output += '<button>1</button><span>...</span>';
+			}
+
+			if (end > count_pages) {
+				start -= (end - count_pages);
+				end = count_pages;
+			} else if (end === count_pages-1) {
+				output_end += '<button>'+count_pages+'</button>';
+			} else if (end < count_pages) {
+				output_end += '<span>...</span><button>'+count_pages+'</button>';
+			}
+		}
+
+		for (ind = start; ind <= end; ind++) {
+			if (+currentPage == ind) {
+				output += '<button class="active">' + ind + '</button>';
+			} else {
+				output += '<button>' + ind + '</button>';
+			}
+		}
+
+	}
+
+	$(".som-pagination").html(output+output_end);
+};
+
+$(".som-pagination").on("click", 'button', function(e) {
+	e.preventDefault();
+	aktive_page = +$(this).html();
+	printList(aktive_page);
+	som_pagination(aktive_page);
+});
+
+function printList() {
+	var key_p, start, end;
+
+	if 	(som_products.length) {
+		start = (aktive_page-1)*$("#prod_per_page").val();
+		end = aktive_page*$("#prod_per_page").val();
+		if (end>som_products.length) end = som_products.length;
+
+		html  = '';
+
+		for (key_p = start; key_p < end; ++key_p) {
+
+			html += '<tr id="product-row' + som_products[key_p].product_id + '">';
+			html += '<td class="text-center"><input type="checkbox" name="selected" value="' + key_p + '" /></td>';
+			html += '  <td class="text-center"><img src="'+som_products[key_p].thumb+'" alt="'+som_products[key_p].name+'" class="img-thumbnail" /></td>';
+			html += '  <td class="text-left">'+som_products[key_p].name+'<input type="hidden" name="product_id" value="'+som_products[key_p].product_id+'" /></td>';
+			html += '  <td class="text-left">'+som_products[key_p].sku+'</td>';
+			html += '  <td class="text-left">'+som_products[key_p].model+'</td>';
+			html += '  <td class="text-right">'+som_products[key_p].price+'</td>';
+			html += '  <td class="text-right"><input type="text" name="special_price" value="'+som_products[key_p].special_price+'" placeholder="" class="form-control" /></td>';
+			html += '  <td class="text-right">';
+			if (som_products[key_p].quantity <= 0) {
+					html += '<span class="label label-warning">'+som_products[key_p].quantity+'</span>';
+			} else if (som_products[key_p].quantity <= 5) {
+					html += '<span class="label label-danger">'+som_products[key_p].quantity+'</span>';
+			} else {
+					html += '<span class="label label-success">'+som_products[key_p].quantity+'</span>';
+			}
+			html += '</td>';
+			html += '  <td class="text-left">';
+			for(var key_c in som_products[key_p].categories) {
+				html += '<div>'+som_products[key_p].categories[key_c]+'</div>';
+			};
+			html += '</td>';
+			html += '  <td class="text-left">'+som_products[key_p].manufacturer_name+'</td>';
+
+			html += '  <td class="text-left" style="width: 90px"><div class="onoffswitch">';
+				if (som_products[key_p].status==1) {
+					html += '		<input type="checkbox" name="status" value="1" class="onoffswitch-checkbox" id="status_switch' + som_products[key_p].product_id + '" checked="checked" />';
+				} else {
+					html += '		<input type="checkbox" name="status" value="1" class="onoffswitch-checkbox" id="status_switch' + som_products[key_p].product_id + '" />';
+				}
+			html += '<label class="onoffswitch-label" for="status_switch' + som_products[key_p].product_id + '"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label>';
+			html += '	</div></td>'; 
+			html += '  <td class="text-right"><button type="button" onclick="remove(' + key_p + ');" data-toggle="tooltip" title="{{ tooltip_product_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+			html += '</tr>';
+
+		}
+	} else {
+		html  = '<tr> <td class="text-center" id="message_no_product" colspan="13">{{ text_no_products_found }}</td></tr>';
+	}
+
+	$('#product_table tbody').html(html);
+
+};
+
+function setButtonOnOff() {
+	if ($('[name="selected"]:checkbox:checked').length>0) {
+		$('#but_pr_rem').toggleClass( 'disabled', false );
+		$('#but_stat_on').toggleClass( 'disabled', false );
+		$('#but_stat_off').toggleClass( 'disabled', false );
+	} else {
+		$('#but_pr_rem').toggleClass( 'disabled', true );
+		$('#but_stat_on').toggleClass( 'disabled', true );
+		$('#but_stat_off').toggleClass( 'disabled', true );
+	}
+};
+function alignColumns() {
+	var oldHeader = $('#modal_product_table thead');
+	var newHeader = $('#new_table_header');
+	var ws=$('#scroll-part-table').width();
+	$('#new_table_header').width(ws-2);
+	var wc;
+	for (var i = 0; i < 5; i++) {
+		wc=oldHeader.find('td').eq(i).width();
+		newHeader.find('td').eq(i).width(wc);
+	}
+};
+function clearProductForm() {
+		$('#input_category').val('0');
+		$('#input_manufacturer').val('0');
+		$('#input_prname').val('');
+		$('#input_sku').val('');
+		$('#input_model').val('');
+		$('#input_min_price').val('');
+		$('#input_max_price').val('');
+		$('#message_in_modal').remove();
+		$('#modal_product_table tbody').html('<tr class="alert-danger"><td class="text-center" colspan="6">{{ text_set_selection_criteria }}</td></tr>');
+};
+ $(function(){
+ 	$('#button-clear').click(function () {
+		clearProductForm();
+	});
+	$('#calc_operation').click(function () {
+		if  ($(this).attr('value')=='+') {
+			$(this).attr('value', '–');
+		} else {
+			$(this).attr('value', '+');
+		}
+	});
+	$('#amount').tooltip({
+		placement: 'bottom',
+		trigger: 'manual'
+	});
+	$('button').tooltip({
+		trigger: 'hover'
+	});
+	$('#amount').on('input', function(){
+		if (isFinite(amount.value)) {
+			$('#amount').tooltip('hide');
+		} else {
+			$('#amount').tooltip('show');
+		}
+	});
+	$('#product_table tbody').on('click', '[name="selected"]:checkbox', function(){
+		setButtonOnOff();
+	});
+	$('#input-offer-type').change(function(){
+		if	($(this).val()==1 || $(this).val()==5) {
+			$('.gift-block').show();
+		} else {
+			$('.gift-block').hide();
+		}
+		if	($(this).val()==1 || $(this).val()==2 ||  $(this).val()==3 || $(this).val()==4 || $(this).val()==6 || $(this).val()==7) {
+			$('#input-product-qty').closest('.form-group').show();
+		} else {
+			$('#input-product-qty').closest('.form-group').hide();
+		}
+		if	($(this).val()==5 || $(this).val()==2 ||  $(this).val()==4 || $(this).val()==7) {
+			$('#input-product-sum').closest('.form-group').show();
+		} else {
+			$('#input-product-sum').closest('.form-group').hide();
+		}
+		if	($(this).val()==3 || $(this).val()==4 || $(this).val()==6 || $(this).val()==7) {
+			$('#input-percent').closest('.form-group').show();
+		} else {
+			$('#input-percent').closest('.form-group').hide();
+		}
+		if	($(this).val()==1 || $(this).val()==4 || $(this).val()==5 || $(this).val()==7) {
+			$('#input-shipping').show();
+		} else {
+			$('#input-shipping').hide();
+		}
+
+		if	($(this).val()==3 || $(this).val()==6) {
+			$('#prod_qty_label').text('{{ entry_product_counter }}');
+			$('#prod_qty_label').attr('data-original-title','{{ help_product_counter }}');
+		} else {
+			$('#prod_qty_label').text('{{ entry_product_qty }}');
+			$('#prod_qty_label').attr('data-original-title','{{ help_product_qty }}');
+		}
+	});
+	$('#prod_per_page').change(function(){
+		aktive_page = 1;
+		printList(aktive_page);
+		som_pagination(aktive_page);
+	});
+	$('#modalCalculator').on('hidden.bs.modal',function() {
+		$('#amount').val('');
+		$('#amount').tooltip('hide');
+	});
+
+	$('#modalAddProduct').on('show.bs.modal', function(e) {
+		formMode = e.relatedTarget.dataset.workmode;
+		if (formMode==2) {
+			if ($('input[name="workmode"]').val()=='1') { clearProductForm(); }
+			$('#modalAddProduct h4').text('{{ text_choose_gift }}');
+			$('#button-add-product').hide();
+			$('input[name="filter_special_status"]').parent().hide();
+		} else {
+			if ($('input[name="workmode"]').val()=='2') { clearProductForm(); }
+			$('#modalAddProduct h4').text('{{ text_add_product }}');
+			$('#button-add-product').show();
+			$('input[name="filter_special_status"]').parent().show();
+		}
+		$('input[name="workmode"]').val(formMode);
+	});
+	$('#modalAddProduct').on('shown.bs.modal', function(e) {
+		alignColumns();
+	});
+	$('#product_table tbody').on('change', 'input', function(){
+		var ind=$(this).closest('tr').find('[name="selected"]').val();
+		if ($(this).attr('name') == 'special_price') {
+			som_products[ind]['special_price'] = $(this).val();
+		} else if ($(this).attr('name') == 'status') {
+			som_products[ind]['status'] = $(this).prop('checked');
+		}
+	});
+ });
+//--></script>
+<script type="text/javascript">
+  $(function() {
+		$('#change_tab').click(function() {
+			var valueAmount, startPrice, endPrice;
+			var ind;
+			var ids = [];
+			if (isFinite(amount.value)) {
+				if (calc_operation.value=='+') {
+					valueAmount=+amount.value;
+				} else {
+					valueAmount=+amount.value*(-1);
+				}
+				if ($("#fl_selected").prop('checked')) {
+					$('[name="selected"]:checkbox:checked').each(function() {
+						ind = +$(this).val();
+						ids.push(ind);
+						startPrice = (calc_from.value==0) ? +som_products[ind]['price'] : +som_products[ind]['special_price'];
+						endPrice = (unit_of_calc.value==0) ? (startPrice/100)*(100+valueAmount) : startPrice+valueAmount;
+						som_products[ind]['special_price'] = Math.round(endPrice*precision.value)/precision.value;
+					});
+				} else {
+					$.each(som_products, function (index, value) {
+						startPrice = (calc_from.value==0) ? +value['price'] : +value['special_price'];
+						endPrice = (unit_of_calc.value==0) ? (startPrice/100)*(100+valueAmount) : startPrice+valueAmount;
+						value['special_price'] = Math.round(endPrice*precision.value)/precision.value;
+					});
+				};
+				printList();
+
+				ids.forEach(function(ind) {
+					$('[name="selected"][value = "'+ind+'"]').prop('checked', true);
+				});
+				$('#modalCalculator').modal('hide');
+			} else {
+				$('#amount').tooltip('show');
+			}
+		});
+	});
+
+
+function savePage() {
+		var start = (aktive_page-1)*$("#prod_per_page").val();
+		$('[id ^= "product-row"]').each(function(index, obj){
+			som_products[start+index]['special_price'] = $(obj).find('[name="special_price"]').val();
+			som_products[start+index]['status'] = $(obj).find('[name="status"]').prop('checked');
+		});
+};
+
+function saveOffer() {
+	var price_status;
+	var offer_data = $("#form-special_offer").serialize();
+	var datablok = [];
+	console.log('старт');
+	$.each(som_products, function (index, value) {
+		price_status = (value['special_price'] == value['price']) ? 0 : 1;
+		datablok.push({'product_id':value['product_id'],'special_price' : value['special_price'],'status' : value['status'], 'price_status' : price_status});
+	});
+	offer_data += '&offer_id={{ special_offer_id }}&products='+JSON.stringify(datablok);
+		console.log('старт2');
+	$.ajax({
+		type: 'post',
+		url: 'index.php?route=extension/module/special_offer/saveOffer&user_token={{ user_token }}',
+		dataType: 'json',
+		data: offer_data,
+		beforeSend: function() {
+			$('#button_save').button('loading');
+		},
+		complete: function() {
+			$('#button_save').button('reset');
+		},
+		success: function(json) {
+			if (json.error) {
+				$('[id ^= "error_"]').html('');
+				$.each(json.error, function (index, value) {
+					if (index=="warning") {
+						$('#error_warning').html('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> '+value+'<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+					} else {
+						$('#error_'+index).html('<div class="text-danger">'+value+'</div>');
+					}
+				});
+			} else {
+				href = '{{ cancel }}';
+				location.href=href.replace("&amp;", "&");
+			}
+		}
+	});
+
+};
+</script>
+<script type="text/javascript">
+function setStatus(stat) {
+		var ind;
+		var ids = [];
+
+		$('[name="selected"]:checkbox:checked').each(function() {
+			ind = +$(this).val();
+			ids.push(ind);
+			som_products[ind]['status'] = stat;
+		});
+		printList();
+		ids.forEach(function(ind) {
+			$('[name="selected"][value = "'+ind+'"]').prop('checked', true);
+		});
+};
+function setSpecPrice() {
+		var row;
+		$('[name="selected"]:checkbox:checked').each(function() {
+			row=$(this).closest('tr');
+			$(row).find('input').eq(2).val('');
+		});
+};
+function removeProducts() {
+		var ids = [];
+
+		$('[name="selected"]:checkbox:checked').each(function() {
+			ids.push(+$(this).val());
+		});
+		var newpr = som_products.filter(function (item, index) {
+			return !ids.includes(index);
+		});
+		som_products = newpr;
+
+		if (aktive_page > Math.ceil(som_products.length / $("#prod_per_page").val())) aktive_page = Math.ceil(som_products.length / $("#prod_per_page").val());
+		printList(aktive_page);
+		som_pagination(aktive_page);
+};
+function removeAllProducts() {
+		som_products = {};
+		aktive_page = 1;
+		printList(aktive_page);
+		som_pagination(aktive_page);
+};
+function remove(prod_ind) {
+		som_products.splice(prod_ind, 1);
+		if (aktive_page > Math.ceil(som_products.length / $("#prod_per_page").val())) aktive_page = Math.ceil(som_products.length / $("#prod_per_page").val());
+		printList(aktive_page);
+		som_pagination(aktive_page);
+};
+function clearGift() {
+		$('input[name="gift_product_name"]').val('');
+		$('input[name="gift_product_id"]').val('');
+};
+</script>
+<script type="text/javascript"><!--
+function addFoundSOMProducts() {
+	$.ajax({
+		type: 'post',
+		url: 'index.php?route=extension/module/special_offer/foundSOMProducts&user_token={{ user_token }}',
+		dataType: 'json',
+		data: 'offer_id={{ special_offer_id }}',
+		beforeSend: function() {
+			$('#but_add_special').button('loading');
+			$('.tooltip').remove();
+		},
+		complete: function() {
+			$('#but_add_special').button('reset');
+		},
+		success: function(json) {
+			if (json['quantity']!=0) {
+				var newpr = som_products.concat(json.products.filter(function (item) {
+					return som_products.findIndex(element => element.product_id === item.product_id) < 0;
+				}));
+				var pr_added = newpr.length - som_products.length;
+				som_products = newpr;
+				$('#but_add_special').remove();
+				printList(aktive_page);
+				som_pagination(aktive_page);
+			}
+		}
+	});
+};
+function addToList() {
+	if (input_category.value != "0" || input_manufacturer.value != "0"  || input_prname.value || input_sku.value || input_model.value.length>2) {
+
+		$.ajax({
+			type: 'post',
+			url: 'index.php?route=extension/module/special_offer/addProductsToList&user_token={{ user_token }}',
+			dataType: 'json',
+			data: $("#form_add_product").serialize(),
+			beforeSend: function() {
+				$('#but_add_to_list').button('loading');
+				$('#message_in_modal').remove();
+				$('.modal-button-row').prepend('<div class="alertmod alert-red-white" id="message_in_modal"><i class="fa fa-spinner fa-spin"></i> Идет запрос ... </div>');
+			},
+			complete: function() {
+				$('#but_add_to_list').button('reset');
+			},
+			success: function(json) {
+				$('#message_in_modal').remove();
+				if (json['quantity']==0) {
+					$('#modal_product_table tbody').html('<tr class="alert-danger"><td class="text-center" colspan="6"> {{ text_no_products_found }}</td></tr>');
+					$('.modal-button-row').prepend('<div class="alertmod alert-danger" id="message_in_modal"><i class="fa fa-exclamation-circle"></i>  {{ text_no_products_found }}</div>');
+				} else {
+
+					var newpr = som_products.concat(json.products.filter(function (item) {
+						return som_products.findIndex(element => element.product_id === item.product_id) < 0;
+					}));
+					var pr_added = newpr.length - som_products.length;
+					som_products = newpr;
+
+					printList(aktive_page);
+					som_pagination(aktive_page);
+
+					$('.modal-button-row').prepend('<div class="alert-success" id="message_in_modal"><i class="fa fa-check-circle"></i> {{ text_products_added }}' + json['quantity'] + '</div>');
+				}
+			}
+		});
+	} else {
+		$('#modal_product_table tbody').html('<tr class="alert-danger"><td class="text-center" colspan="6">{{ text_set_selection_criteria }}</td></tr>');
+		$('#message_in_modal').remove();
+		$('.modal-button-row').prepend('<div class="alertmod alert-danger" id="message_in_modal"><i class="fa fa-exclamation-circle"></i> {{ text_not_set_criteria }}</div>');
+	}
+}
+//--></script>
+  <script type="text/javascript"><!--
+
+$(function() {
+	$('#button-filter').click(function() {
+		if (input_category.value != "0" || input_manufacturer.value != "0"  || input_prname.value || input_sku.value || input_model.value.length>2) {
+			$.ajax({
+				type: 'post',
+				url: 'index.php?route=extension/module/special_offer/addProductsToList&user_token={{ user_token }}',
+				dataType: 'json',
+				data: $("#form_add_product").serialize(),
+				beforeSend: function() {
+					$('#button-filter').button('loading');
+					$('#message_in_modal').remove();
+					$('.modal-button-row').prepend('<div class="alertmod alert-red-white" id="message_in_modal"><i class="fa fa-spinner fa-spin"></i> Идет запрос ... </div>');
+				},
+				complete: function() {
+					$('#button-filter').button('reset');
+				},
+				success: function(json) {
+					$('#message_in_modal').remove();
+					if (json['quantity']==0) {
+						$('#modal_product_table tbody').html('<tr class="alert-danger"><td class="text-center" colspan="6"> {{ text_no_products_found }}</td></tr>');
+						$('.modal-button-row').prepend('<div class="alertmod alert-danger" id="message_in_modal"><i class="fa fa-exclamation-circle"></i>  {{ text_no_products_found }}</div>');
+					} else {
+						$('#modal_product_table tbody').empty();
+						for(var key_p in json.products) {
+							html  = '<tr>';
+							html += '  <td class="text-left">'+json.products[key_p].name+'<input type="hidden" name="prod_id" value="'+json.products[key_p].product_id+'" /></td>';
+							html += '  <td class="text-left">'+json.products[key_p].sku+'</td>';
+							html += '  <td class="text-left">'+json.products[key_p].model+'</td>';
+							html += '  <td class="text-right">'+json.products[key_p].price+'</td>';
+							html += '  <td class="text-right">';
+							if (json.products[key_p].quantity <= 0) {
+									html += '<span class="label label-warning">'+json.products[key_p].quantity+'</span>';
+							} else if (json.products[key_p].quantity <= 5) {
+									html += '<span class="label label-danger">'+json.products[key_p].quantity+'</span>';
+							} else {
+									html += '<span class="label label-success">'+json.products[key_p].quantity+'</span>';
+							}
+							html += '</td>';
+							html += '  <td class="text-left">'+json.products[key_p].manufacturer_name+'</td>';
+							html += '</tr>';
+
+							$('#modal_product_table tbody').append(html);
+						}
+						alignColumns();
+
+						$('.modal-button-row').prepend('<div class="alertmod alert-success" id="message_in_modal"><i class="fa fa-check-circle"></i> {{ text_products_found }}' + json['quantity'] + '</div>');
+
+					}
+				}
+
+			});
+		} else {
+			$('#modal_product_table tbody').html('<tr class="alert-danger"><td class="text-center" colspan="6">{{ text_set_selection_criteria }}</td></tr>');
+			$('#message_in_modal').remove();
+			$('.modal-button-row').prepend('<div class="alertmod alert-danger" id="message_in_modal"><i class="fa fa-exclamation-circle"></i> {{ text_not_set_criteria }}</div>');
+		}
+	});
+});
+
+$('#modal_product_table tbody').on('dblclick', 'tr', function(){
+	var prodID=$(this).find('input').attr('value');
+	var prodName=$(this).children('td:first').text();
+	if (formMode==2) {
+		$('input[name="gift_product_name"]').val(prodName);
+		$('input[name="gift_product_id"]').val(prodID);
+		$('#modalAddProduct').modal('hide');
+	} else {
+		$.ajax({
+			type: 'post',
+			url: 'index.php?route=extension/module/special_offer/addProductToListByID&user_token={{ user_token }}',
+			dataType: 'json',
+			data: "product_id="+prodID,
+			error: function() {
+			},
+			success: function(json) {
+				if (json['success']) {
+					$('#message_no_product').remove();
+
+					if (som_products.findIndex(element => element.product_id === json.product.product_id) < 0) {
+						som_products.push(json.product);
+					}
+
+					printList(aktive_page);
+					som_pagination(aktive_page);
+
+				}
+			}
+		});
+	}
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('input[name=\'filter_name\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			type: 'post',
+			url: 'index.php?route=catalog/special_offer/autocompleteProduct&user_token={{ user_token }}',
+			dataType: 'json',
+			data: $("#form_add_product").serialize(),
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_name\']').val(item['label']);
+	}
+});
+//--></script>
+  <script type="text/javascript"><!--
+$(function() {
+	$('#button-clear').click(function() {
+
+	});
+});
+//--></script>
+<script type="text/javascript"><!--
+$('#language a:first').tab('show');
+//--></script>
+{{ footer }}

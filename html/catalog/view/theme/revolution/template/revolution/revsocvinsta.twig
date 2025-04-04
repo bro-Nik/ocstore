@@ -1,0 +1,11 @@
+<div class="module-instagram" style="width:{{ width }}px">
+    <div class="main">
+        <div class="images">
+            {% for image in images %} 
+				<a href="https://www.instagram.com/{{ username }}/" target="_blank">
+					<img src="{{ image }}" class="img-responsive" alt="" />
+				</a>
+            {% endfor %} 
+        </div>
+    </div>
+</div>

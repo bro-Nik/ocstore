@@ -1,0 +1,72 @@
+{{ header }}{{ column_left }} 
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-revcatattribs" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %} 
+        <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+        {% endfor %} 
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+	{% if (success) %} 
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %} 
+    <div class="panel panel-default alert-helper">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ heading_title }}</h3>
+      </div>
+      <div class="panel-body" style="padding: 0;">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-revcatattribs" class="form-horizontal">
+		<table class="table table-revolution">
+			<thead>
+				<tr>
+					<td class="text-left">Способ доставки</td>
+					<td class="text-center">Показывать адрес</td>
+					<td class="text-left">Способ оплаты</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for ship in shipping_extensions %} 
+					<tr>
+						<td class="col-sm-2">{{ ship['name'] }}</td>
+						<td class="col-sm-2 text-center">
+							{% if (revtheme_revcheckoutshippay[ship['cod']] is defined and ('adres_on' in revtheme_revcheckoutshippay[ship['cod']])) %} 
+									<input type="checkbox" name="revtheme_revcheckoutshippay[{{ ship['cod'] }}][]" value="adres_on" checked="checked" /> Да
+									{% else %} 
+									<input type="checkbox" name="revtheme_revcheckoutshippay[{{ ship['cod'] }}][]" value="adres_on"/> Да
+									{% endif %} 
+						</td>
+						<td class="col-sm-8">
+							<div class="well well-sm" style="max-height: 250px; overflow: auto; margin-bottom: 5px;">
+							{% for payment in payment_extensions %} 
+								<div class="checkbox">
+									<label>
+									{% if (revtheme_revcheckoutshippay[ship['cod']] is defined and (payment['cod'] in revtheme_revcheckoutshippay[ship['cod']])) %} 
+									<input type="checkbox" name="revtheme_revcheckoutshippay[{{ ship['cod'] }}][]" value="{{ payment['cod'] }}" checked="checked" />
+									{{ payment['name'] }}
+									{% else %} 
+									<input type="checkbox" name="revtheme_revcheckoutshippay[{{ ship['cod'] }}][]" value="{{ payment['cod'] }}"/>
+									{{ payment['name'] }}
+									{% endif %} 
+									</label>
+								</div>
+							{% endfor %} 
+							</div>
+							<a onclick="$(this).parent().find(':checkbox').prop('checked', true);">{{ text_select_all }}</a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);">{{ text_unselect_all }}</a>
+						</td>
+					</tr>
+				{% endfor %} 
+			</tbody>
+		</table>	
+        </form>
+    </div>
+  </div>
+</div>
+{{ footer }}

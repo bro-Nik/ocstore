@@ -1,0 +1,43 @@
+{% if (heading_title) %} 
+<div class="rev_slider">
+{% else %} 
+<div class="rev_slider_2">
+{% endif %} 
+	<div class="heading_h"><h3>{{ heading_title }}</h3>{% if (button_all) %}<a href="{{ keyword }}">{{ button_all_text }}</a>{% endif %}</div>
+	<div class="row">
+		<div id="reviews_mod">
+			{% for review in reviews %} 
+			<div class="product-layout col-lg-12">
+				<div class="review-list vertical-sreview transition">
+					<div class="caption review-caption">
+						<div class="author">{{ review['author'] }}<span> / {{ review['date_added'] }}</span></div>
+						<div class="rating">
+							{% set i = 1 %}{% for i in i..5 %} 
+								{% if (review['rating'] < i) %} 
+									<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+								{% else %} 
+									<span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
+								{% endif %} 
+							{% endfor %} 
+						</div>
+						<div class="text2">{{ review['text'] }}</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %} 
+		</div>
+	</div>
+	<script><!--
+		$("#reviews_mod").owlCarousel({
+			responsiveBaseWidth: '#reviews_mod',
+			itemsCustom: [[0, 1], [750, 2], [970, 3], [1170, 3]],
+			mouseDrag: true,
+			touchDrag: true,
+			navigation: true,
+			navigationText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
+			{% if (not heading_title) %} 
+			pagination: false
+			{% endif %} 
+		});
+	//--></script>
+</div>

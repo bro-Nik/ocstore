@@ -1,0 +1,126 @@
+<div id="popup-order-okno">
+	<div class="popup-heading">{{ heading_title }}</div>
+	<div class="popup-center">	
+		<form method="post" enctype="multipart/form-data" id="purchase-form">
+		<input name="product_id" value="{{ product_id }}" style="display: none;" type="hidden" />
+		<input class="product_max" value="{{ quantity }}" style="display: none;" type="hidden" />
+		<table class="display-products-cart porder">
+			<tbody>
+				<tr>
+					<td class="image">
+						{% if (thumb) %} 
+							<img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+						{% endif %} 
+					</td>
+					<td class="name">
+						{{ product_name }} 
+					</td>
+					<td class="totals">
+						{% if (not special) %} 
+							<span id="main-price">{{ price }}</span>
+						{% else %} 
+							<span id="main-price" class="spec">{{ price }}</span>
+							<span id="special-price">{{ special }}</span>
+						{% endif %} 
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="mobile-products-cart">
+			<div>
+			<div class="image">
+				{% if (thumb) %} 
+					<img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+				{% endif %} 
+			</div>
+			<div class="name">
+				{{ product_name }} 
+			</div>
+			<div class="totals">
+				{% if (not special) %} 
+					<span id="main-price" class="mobi">{{ price }}</span>
+				{% else %} 
+					<span id="main-price" class="mobi spec">{{ price }}</span>
+					<span id="special-price" class="mobi">{{ special }}</span>
+				{% endif %} 
+			</div>		
+			</div>
+		</div>
+		<div class="payment-info">
+			{% if (revtheme_predzakaz['firstname']) %} 
+			<div>
+			  <label>{% if (revtheme_predzakaz['firstname'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_firstname }}</label>
+			  <input name="firstname" value="{{ firstname }}" />
+			</div>
+			{% endif %} 
+			{% if (revtheme_predzakaz['telephone']) %} 
+			<div>
+			  <label>{% if (revtheme_predzakaz['telephone'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_telephone }}</label>
+			  <input name="telephone" value="{{ telephone }}" {% if (telephone_mask) %} data-mask="{{ telephone_mask }}" {% endif %} />
+			</div>
+			{% endif %} 
+			{% if (revtheme_predzakaz['email']) %} 
+			<div>
+			  <label>{% if (revtheme_predzakaz['email'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_email }}</label>
+			  <input name="email" value="{{ email }}" />
+			</div>
+			{% endif %} 
+			{% if (revtheme_predzakaz['comment']) %} 
+			<div>
+			  <label>{% if (revtheme_predzakaz['comment'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_comment }}</label>
+			  <textarea name="comment">{{ comment }}</textarea>
+			</div>
+			{% endif %} 
+		</div>
+		{% if (text_agree_pol_konf) %} 
+			<div class="rev_pol_konf pull-right text-right">
+				<span>{{ text_agree_pol_konf }}</span>
+				<input type="checkbox" name="agree_pol_konf" checked="checked" />
+			</div>
+		{% endif %} 
+		</form>
+	</div>
+	<div class="popup-footer">
+		<button onclick="$.magnificPopup.close();">{{ button_shopping }}</button>
+			<a id="popup-checkout-button">{{ button_checkout }}</a>
+	</div>
+	<script><!--
+	function masked(element, status) {
+		if (status == true) {
+			$('<div/>')
+			.attr({ 'class':'masked' })
+			.prependTo(element);
+			$('<div class="masked_loading" />').insertAfter($('.masked'));
+		} else {
+			$('.masked').remove();
+			$('.masked_loading').remove();
+		}
+	}
+	$('#popup-checkout-button').on('click', function() {
+		masked('#popup-order-okno', true);
+		$.ajax({
+			type: 'post',
+			url:  'index.php?route=revolution/revpopuppredzakaz/make_order_notify',
+			dataType: 'json',
+			data: $('#purchase-form').serialize(),
+			success: function(json) {
+				if (json['error']) {
+					if (json['error']['field']) {
+						masked('#popup-order-okno', false);
+						$('.text-danger').remove();
+						$.each(json['error']['field'], function(i, val) {
+							$('[name="' + i + '"]').addClass('error_style').after('<div class="text-danger">' + val + '</div>');
+						});
+					}
+				} else {
+					if (json['output']) {
+						masked('#popup-order-okno', false);
+						$('#popup-checkout-button').remove();
+						$('#popup-order-okno .popup-center').html(json['output']);
+					}
+				}
+			}
+		});
+	});
+	//--></script>
+</div>

@@ -1,0 +1,369 @@
+{{ header }}
+<div class="container">
+ <ul class="breadcrumb">
+		{% for i,breadcrumb in breadcrumbs %}
+			{% if (i+1<breadcrumbs|length) %}
+				<li><a href="{{ breadcrumb['href'] }}"><span>{{ breadcrumb['text'] }}</span></a></li>
+			{% else %}
+				<li>{{ breadcrumb['text'] }}</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+  <div class="row">{{ column_left }}
+    {% if (column_left and column_right) %}
+    {% set class = 'col-sm-6' %}
+    {% elseif (column_left or column_right) %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div class="{{ class }}">{{ content_top }}
+      {% if (module_header) %}
+      <h1 class="heading_title_reviews"><span>{{ module_header }}</span></h1>
+      {% endif %}
+      {% if (reviews) %}
+      <div  id="review-extended">
+        {% for review in reviews %}
+        <div class="review-list">
+         <div class="review-thumb transition">
+            <div class="image"><a href="{{ review['prod_href'] }}"><img src="{{ review['prod_thumb'] }}" alt="{{ review['prod_name'] }}" title="{{ review['prod_name'] }}" class="img-responsive" /></a></div>
+            <div class="caption" style="overflow:hidden">
+              <div class="product-name"><h4><a href="{{ review['prod_href'] }}">{{ review['prod_name'] }}</a></h4></div>
+              {% if (review['rating']) %}
+              <div class="rating">
+                {% set i = 1 %}{% for i in i..5 %}
+                {% if (review['rating'] < i) %}
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                {% else %}
+                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
+                {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+              <p class="reviews-description">{{ review['description'] }}</p><hr>
+              {% if (extended_reviews['limitations']) %}
+              {% if (review['plus']) %}
+              <p></span><strong class='plus'>{{ text_plus }} </strong><span>{{ review['plus'] }}</p>
+              {% endif %}
+              {% if (review['minus']) %}
+              <p></span><strong class='minus'>{{ text_minus }} </strong><span>{{ review['minus'] }}</p>
+                {% endif %}
+              {% endif %}
+
+          {% if (review['images'] is not empty) %}
+              <div class="owl-carousel-photo thumbnails reviews-thumbnails">
+            {% for image in review['images'] %}
+                <div class="item image-thumbnails ex-image-additional"><a class="ex-thumbnail" href="{{ image['popup'] }}"> <img src="{{ image['thumb'] }}" class ="{{ image['type'] == '0' ? 'image-crop' : 'imgbb' }}" /></a></div>
+              {% endfor %}
+              </div>
+          {% endif %}
+
+          {% if (review['videos'] is not empty) %}
+              <div class="owl-carousel-videos thumbnails">
+            {% for video in review['videos'] %}
+                <div class="item videos-thumbnails"><a class="popup-youtube" href="https://www.youtube.com/watch?v={{ video }}?autoplay=1&rel=0"><img src="//img.youtube.com/vi/{{ video }}/mqdefault.jpg" alt="" class="youtube-click">
+                  <svg viewBox="0 0 57 40" id="icon-youtube" xmlns="http://www.w3.org/2000/svg" width="30px" height="100%">
+                    <path fill= "#ff1818" d="M28.537 0C21.938 0 15.326.2 8.715.6 1.702 1 .701 6.5.301 11.9c-.4 5.4-.4 10.8 0 16.2S1.702 39 8.715 39.4c13.123.8 26.347.8 39.57 0 7.012-.4 8.014-5.9 8.414-11.3.4-5.4.4-10.8 0-16.2-.4-5.4-1.402-10.9-8.414-11.3C41.724.2 35.135 0 28.537 0zm-6.098 11l16.329 8.5L22.439 28V11z"></path>
+                    <path fill="#fff" d="M22.439 11.002l16.3 8.5-16.3 8.5v-17z"></path></svg>
+                </a></div>
+          {% endfor %}
+        </div>
+          {% endif %}
+              <div class="reviews-sign">
+                <div class="reviews-author">
+				<i class="fa fa-user" aria-hidden="true"></i> {{ review['author'] }}
+				{% if (review['purchased']) %}<span class="purchased"><i class="fa fa-cart-plus" aria-hidden="true"></i> {{ text_already_buy}}</span>{% endif %}
+				</div>
+                <div class="reviews-date">{{ review['date_added'] }}</div>
+              </div>
+
+
+              <div class="review-container-footer">
+              <div class="review-rating-change-buttons">
+              <span class="change-rating-button br-r">
+                <a class="review-vote-positive" data-value="{{ review['review_id'] }}"><i class="fa fa-thumbs-o-up fa-custom-lg" aria-hidden="true"></i></a>
+                <span class="review-vote-count" data-value="{{ review['likes'] }}" id="vote_count_positive-{{ review['review_id'] }}">{% if (review['likes']>0) %} {{ review['likes'] }}{% endif %}</span>
+              </span>
+              <span class="change-rating-button">
+                <a class="review-vote-negative" data-value="{{ review['review_id'] }}"><i class="fa fa-thumbs-o-down fa-custom-lg" aria-hidden="true"></i></a>
+                <span class="review-vote-count" data-value="{{ review['dislikes'] }}" id="vote_count_negative-{{ review['review_id'] }}">{% if (review['dislikes']>0) %} {{ review['dislikes'] }}{% endif %}</span>
+              </span>
+              </div>
+              {% if (extended_reviews['answer']) %}
+              <button type="button" class="btn btn-light fl-l review-answer-button" data-value="{{ review['review_id'] }}" data-product="{{ review['product_id'] }}"><i class="fa fa-share mr"></i> {{ text_reply }}</button>
+              {% endif %}
+              <div class="review_note" id="review-note-{{ review['review_id'] }}"></div>
+              </div>
+              <div class="review-answer-container" id="review_answer_container{{ review['review_id'] }}"></div>
+              {% if (review['admin_reply'] is not empty or review['children_reviews'] is not empty) %}
+              <div class="review-childrens-container">
+              {% if (review['admin_reply'] is not empty) %}
+              <div class="review-answer-title-container">
+                <div class="review-author"><span class="review-author-name">{{ review['admin_name'] }}</span><span class = "verification-check" data-toggle="tooltip" data-original-title="{{ text_admin_answer }}"><i class="fa fa-check" aria-hidden="true"></i></span></div>
+              </div>
+              <div class="review-text-container">
+                <div class="co-sm-12 comment-text">
+              <p>{{ review['admin_reply'] }}</p>
+              </div>
+              </div>
+              {% endif %}
+              {% if (review['children_reviews'] is not empty) %}
+                {% for children_review in review['children_reviews'] %}
+                    <div class="review-answer-title-container">
+                      <div class="review-author"><span class="review-author-name">{{ children_review['author'] }}</span></div>
+                    <div class="review-date">{{ children_review['date_added'] }}</div>
+                  </div>
+                      <div class="review-text-container">
+                        <div class="co-sm-12 comment-text">
+                      <p>{{ children_review['text'] }}</p>
+                      </div>
+                  </div>
+              {% endfor %}
+              {% endif %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- media-add-popup -->
+          <div class="hidden" id="hidden-popups">
+            <form class="form-horizontal" id="form-answer-review">
+              <div class="form-group required">
+                <div class="col-sm-12">
+                  <label class="control-label" for="input-review">{{ text_comment }}</label>
+                  <textarea name="text" rows="5" id="input-answer-review" class="form-control"></textarea>
+                </div>
+              </div>
+              <div class="form-group required">
+                <div class="col-sm-12">
+                  <label class="control-label" for="input-name">{{ entry_name }}</label>
+                  <input type="text" name="name" value="{{ customer_name }}" id="input-answer-name" class="form-control" />
+                </div>
+              </div>
+              {{ captcha }}
+              <button type="button" class="btn btn-primary fl-r button-answer-review"  data-loading-text="{{ text_loading }}">{{ leave_feedback }}</button>
+              <button type="button" class="btn btn-cancel fl-l" id="review-cancel-button">{{ text_cancel }}</button>
+            </form>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+        <div class="col-sm-6 text-right">{{ results }}</div>
+      </div>
+      {% else %}
+      <p>{{ text_empty }}</p>
+      {% endif %}
+
+
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+<script>
+
+$(document).ready(function() {
+  {% if (extended_reviews['all_owl_photo_status']) %}
+  $('.owl-carousel-photo').owlCarousel({
+    loop:true,
+    margin:10,
+    responsiveClass:true,
+    items : {{ extended_reviews['all_photo_carousel_1200'] }},
+    pagination: true,
+    navigation: true,
+    navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+    itemsCustom : [
+                  [0, {{ extended_reviews['all_photo_carousel_340'] }}],
+                  [340, {{ extended_reviews['all_photo_carousel_480'] }}],
+                  [480, {{ extended_reviews['all_photo_carousel_768'] }}],
+                  [768, {{ extended_reviews['all_photo_carousel_1199'] }}],
+                  [1200, {{ extended_reviews['all_photo_carousel_1200'] }}],
+                ],
+  });
+  {% endif %}
+  {% if (extended_reviews['all_owl_video_status']) %}
+  $('.owl-carousel-videos').owlCarousel({
+      loop:true,
+      margin:10,
+      responsiveClass:true,
+      pagination: true,
+      items : {{ extended_reviews['all_video_carousel_1200'] }},
+      navigation: true,
+      navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+      itemsCustom : [
+                    [0, {{ extended_reviews['all_video_carousel_340'] }}],
+                    [340, {{ extended_reviews['all_video_carousel_480'] }}],
+                    [480, {{ extended_reviews['all_video_carousel_768'] }}],
+                    [768, {{ extended_reviews['all_video_carousel_1199'] }}],
+                    [1200, {{ extended_reviews['all_video_carousel_1200'] }}],
+                  ],
+  });
+  {% endif %}
+$('.image-thumbnails').magnificPopup({
+  type:'image',
+  delegate: 'a',
+  gallery: {
+    enabled:true,
+  },
+  callbacks: {
+  open: function() {
+  $('.container').addClass('blur');
+  },
+  close: function() {
+  $('.container').removeClass('blur');
+  }
+  }
+});
+$('.popup-youtube, .popup-video, .popup-gmaps').magnificPopup({
+    type: 'iframe',
+    mainClass: 'mfp-fade',
+    preloader: true,
+    callbacks: {
+    open: function() {
+    $('.container').addClass('blur');
+    },
+    close: function() {
+    $('.container').removeClass('blur');
+    }
+    }
+});
+});
+var product_id;
+var review_id;
+var note_block;
+var form = $('#form-answer-review');
+$(document).on('click','.review-answer-button',function(){
+  review_id = $(this).data("value");
+  product_id = $(this).data("product");
+  var block = $('#review_answer_container'+review_id);
+  note_block = $("#review-note-"+review_id);
+  {% if (answer_guest) %}
+    if(!$(block).children(form).length > 0){
+  $(form).hide().appendTo(block).slideDown(300);
+  }
+  {% else %}
+    $('.alert-success, .alert-danger').remove();
+    $(note_block).append('<div class="alert alert-danger m-0"><i class="fa fa-exclamation-circle"></i> {{ text_login }}</div>');
+    {% endif %}
+});
+
+$('#review-cancel-button').on('click', function(){
+  var block = $('#hidden-popups');
+  $(form).slideUp(200).delay(300).queue(function (next) {
+    $(this).appendTo(block);
+    next();
+  });
+  $('.alert-success, .alert-danger').remove();
+});
+
+$('.button-answer-review').on('click',function(){
+  var form = $('#form-answer-review');
+  $.ajax({
+    url: 'index.php?route=product/extended_reviews/writeAnswer&product-id=' + product_id + '&parent_id=' + review_id,
+    type: 'post',
+    dataType: 'json',
+    data: $(form).serialize(),
+    success: function(json) {
+      $('.review-container-footer .alert').remove();
+      if (json['error']) {
+        $(note_block).append('<div class="alert alert-danger m-0"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+      }
+
+      if (json['success']) {
+        $('input[name=\'name\']').val('');
+        $('textarea[name=\'text\']').val('');
+        $('#review-cancel-button').click();
+        $(note_block).append('<div class="alert alert-success m-0"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+      }
+    }
+  });
+});
+$('.review-vote-negative').on('click', function() {
+  $('.review-container-footer .alert').remove();
+  var id = $(this).data("value");
+  var votename = "vote"+id;
+  var note_block = $("#review-note-"+id);
+  {% if (likes_guest) %}
+  if(localStorage.getItem(votename) == null){
+  var vote_count_span = $('#vote_count_negative-'+id);
+  var vote_count = parseInt(vote_count_span.data("value"));
+    $.ajax({
+      url: 'index.php?route=product/extended_reviews/minusReviewRating',
+  		type: 'post',
+  		data: { review_id : id } ,
+      dataType: 'json',
+      success: function(json) {
+        if (json['success']) {
+        $(vote_count_span).text(vote_count + 1);
+        localStorage.setItem(votename , true);
+      }
+      }
+    });
+    $(note_block).append('<div class="alert alert-success m-0"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; {{ thank_for_rating }}</div>');
+  }
+  else{
+    $(note_block).append('<div class="alert alert-warning m-0">{{ already_rating }}</div>');
+  }
+  {% else %}
+    $(note_block).append('<div class="alert alert-info m-0"><i class="fa fa-exclamation" aria-hidden="true"></i>&nbsp; {{ text_login }}</div>');
+    {% endif %}
+});
+$('.review-vote-positive').on('click', function() {
+  $('.review-container-footer .alert').remove();
+  var id = $(this).data("value");
+  var votename = "vote"+id;
+  var note_block = $("#review-note-"+id);
+  {% if (likes_guest) %}
+  if(localStorage.getItem(votename) == null){
+  var vote_count_span = $('#vote_count_positive-'+id);
+  var vote_count = parseInt(vote_count_span.data("value"));
+    $.ajax({
+      url: 'index.php?route=product/extended_reviews/plusReviewRating',
+  		type: 'post',
+  		data: { review_id : id } ,
+      dataType: 'json',
+      success: function(json) {
+        $('.success-note').remove();
+        if (json['success']) {
+        $(vote_count_span).text(vote_count + 1);
+        localStorage.setItem(votename , true);
+      }
+    }
+    });
+    $(note_block).append('<div class="alert alert-success m-0"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; {{ thank_for_rating }}</div>');
+  }
+  else{
+      $(note_block).append('<div class="alert alert-warning m-0">{{ already_rating }}</div>');
+  }
+  {% else %}
+    $(note_block).append('<div class="alert alert-info m-0"><i class="fa fa-exclamation" aria-hidden="true"></i>&nbsp; {{ text_login }}</div>');
+    {% endif %}
+});
+</script>
+<style>
+.reviews-sign{
+  overflow: hidden;
+}
+.ex-image-additional{
+  height: {{ extended_reviews['all_thumb_height'] }}px;
+  width: {{ extended_reviews['all_thumb_width'] }}px;
+  border-radius: {{ extended_reviews['all_border_radius_photo'] }}px;
+}
+.ex-image-additional .image-crop{
+  height: {{ extended_reviews['all_thumb_height']*1.8 }}px;
+  width: {{ extended_reviews['all_thumb_width']*1.8 }}px;
+}
+.imgbb{
+  height: {{ extended_reviews['all_thumb_height'] }}px;
+  width: {{ extended_reviews['all_thumb_width'] }}px;
+}
+.videos-thumbnails img{
+  height: {{ extended_reviews['all_video_thumb_height'] }}px;
+  width: {{ extended_reviews['all_video_thumb_width'] }}px;
+}
+.videos-thumbnails a{
+  height: {{ extended_reviews['all_video_thumb_height'] }}px;
+  width: {{ extended_reviews['all_video_thumb_width'] }}px;
+  border-radius: {{ extended_reviews['all_border_radius_video'] }}px;
+}
+</style>
+{{ footer }}

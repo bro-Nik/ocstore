@@ -1,0 +1,327 @@
+<div class="mod-rs-cont" id = "ex-store-reviews">
+	{% if (module_header) %}
+	<h3>{{ module_header }}</h3>
+	{% endif %}
+<div class="row rating-info-box">
+	<div class="col-xs-12 col-md-12">
+			<div class="well well-sm" id="ex-reviews">
+			<div class="row">
+				<div class="col-xs-12 col-md-3 text-center bottom-10 col-rl">
+					<div {% if (rating_store == 5) %}class="progress-striped-rev-full"{% endif %}>
+						<span class="rating-num
+					{% if ((rating_store >=1) and (rating_store < 2)) %}
+					rat-avg-1
+					{% elseif ((rating_store >=2) and (rating_store < 3)) %}
+					rat-avg-2
+					{% elseif ((rating_store >=3) and (rating_store < 4)) %}
+					rat-avg-3
+					{% elseif ((rating_store >=4) and (rating_store < 5)) %}
+					rat-avg-4
+					{% elseif (rating_store == 5) %}
+					rat-avg-5
+					{% endif %}
+					">{{ rating_store }}</span>
+					</div>
+					<div class="store-rating-container">
+			    {% if (rating_store != 0) %}
+			    {% set i = 1 %}{% for i in i..5 %}
+			    {% if (rating_store < i) %}
+			    <span class="fa fa-stack"><i class="fa fa-star star-gray"></i></span>
+			    {% else %}
+			    <span class="fa fa-stack"><i class="fa fa-star"></i></span>
+			    {% endif %}
+			    {% endfor %}
+			    {% endif %}
+			    </div>
+					<div class="rs-sum-total">
+						<span class="glyphicon glyphicon-user"></span> Всего отзывов  {{ total_reviews }}
+					</div>
+					<div class="col-xs-12 col-md-12">
+						<button type="button" onclick="window.location.href='{{ write_review }}#form-review'" class="btn btn-primary"><i class="fa fa-pencil"></i> {{ btn_write_review }}</button>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-4 bottom-10 col-rl">
+					<div class="row rating-desc">
+
+						<div class="col-xs-12 col-md-12">
+							<span class = "progress-stars">
+							<i class="fa fa-star color-star-percent-5"></i>5
+							</span>
+							<div class="progress progress-striped">
+								<div class="progress-bar progress-bar-success color-5" role="progressbar" aria-valuenow="20"
+									aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_rating['star5'] }}%">
+									<span class="sr-only">{{ percent_rating['star5'] }}%</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<span class = "progress-stars">
+							<i class="fa fa-star color-star-percent-4"></i>4
+							</span>
+							<div class="progress">
+								<div class="progress-bar progress-bar-success color-4" role="progressbar" aria-valuenow="20"
+									aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_rating['star4'] }}%">
+									<span class="sr-only">{{ percent_rating['star4'] }}%</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<span class = "progress-stars">
+							<i class="fa fa-star color-star-percent-3"></i>3
+							</span>
+							<div class="progress">
+								<div class="progress-bar progress-bar-info color-3" role="progressbar" aria-valuenow="20"
+									aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_rating['star3'] }}%">
+									<span class="sr-only">{{ percent_rating['star3'] }}%</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<span class = "progress-stars">
+							<i class="fa fa-star color-star-percent-2"></i>2
+							</span>
+							<div class="progress">
+								<div class="progress-bar progress-bar-warning color-2" role="progressbar" aria-valuenow="20"
+									aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_rating['star2'] }}%">
+									<span class="sr-only">{{ percent_rating['star2'] }}%</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<span class = "progress-stars">
+							<i class="fa fa-star color-star-percent-1"></i>1
+							</span>
+							<div class="progress">
+								<div class="progress-bar progress-bar-danger color-1" role="progressbar" aria-valuenow="80"
+									aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_rating['star1'] }}%">
+									<span class="sr-only">{{ percent_rating['star1'] }}%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-12 text-center top-15">
+						<a href="{{ link_all_reviews }}" class="btn btn-primary"><i class="fa fa-comments-o" aria-hidden="true"></i> {{ btn_all_review }}</a>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-5 col-rl">
+					<div class="review-box-wrapper">
+					<div class="all-review-box-mod carousel-reviews-store-{{ module }} owl-carousel">
+						{% for review in reviews %}
+							<div class="item">
+								<div id="review_box_{{ review['review_id']}}">
+										<div class="info-header-review-mod clearfix">
+											<div class="col-xs-12 col-sm-4 rev-author"><span class="glyphicon glyphicon-user"></span> {{ review['author'] }}</div>
+											<div class="col-xs-12 col-sm-4 rev-rating">
+
+												<div class="rating-container">
+										    {% if (review['rating'] != 0) %}
+										    {% set i = 1 %}{% for i in i..5 %}
+										    {% if (review['rating'] < i) %}
+										    <span class="fa fa-stack"><i class="fa fa-star star-gray"></i></span>
+										    {% else %}
+										    <span class="fa fa-stack"><i class="fa fa-star"></i></span>
+										    {% endif %}
+										    {% endfor %}
+										    {% endif %}
+										    </div>
+
+											</div>
+											<div class="col-xs-12 col-sm-4 rev-date-add">{{ review['date_added'] }}</div>
+										</div>
+										<div class="mod-desc-reviews">
+											<p>{{ review['text'] }}</p>
+											{% if (constant('true')) %}
+												<div class = "plus-minus">
+											{% if (review['plus']) %}
+											<p></span><strong class='plus'>{{ text_plus }} </strong><span>{{ review['plus'] }}</p>
+											{% endif %}
+											{% if (review['minus']) %}
+											<p></span><strong class='minus'>{{ text_minus }} </strong><span>{{ review['minus'] }}</p>
+												{% endif %}
+											</div>
+											{% endif %}
+										</div>
+								</div>
+								{% if (review['images'] or review['videos']) %}
+									<div class="review-media-container">
+									  {% if (constant('true')) %}
+									  {% if (review['images'] is not empty) %}
+									      <div class="owl-carousel thumbnails reviews-thumbnails">
+									    {% for image in review['images'] %}
+									        <div class="item store-image-thumbnails"><a class="ex-thumbnail" href="{{ image['popup'] }}"> <img class = "{{ image['type'] == '0' ? 'store-image-crop' : 'store-imgbb' }}" src="{{ image['thumb'] }}"/></a></div>
+									  {% endfor %}
+									</div>
+									  {% endif %}
+									{% endif %}
+									{% if (constant('true')) %}
+									  {% if (review['videos'] is not empty) %}
+									      <div class="owl-carousel-videos thumbnails">
+									    {% for video in review['videos'] %}
+									        <div class="item videos-thumbnails"><a class="popup-youtube store-review-videos" href="https://www.youtube.com/watch?v={{ video }}?autoplay=1&rel=0"><img src="//img.youtube.com/vi/{{ video }}/default.jpg" alt="" class="youtube-click">
+									          <svg viewBox="0 0 57 40" id="icon-youtube" xmlns="http://www.w3.org/2000/svg" width="30px" height="100%">
+									            <path fill= "#ff1818" d="M28.537 0C21.938 0 15.326.2 8.715.6 1.702 1 .701 6.5.301 11.9c-.4 5.4-.4 10.8 0 16.2S1.702 39 8.715 39.4c13.123.8 26.347.8 39.57 0 7.012-.4 8.014-5.9 8.414-11.3.4-5.4.4-10.8 0-16.2-.4-5.4-1.402-10.9-8.414-11.3C41.724.2 35.135 0 28.537 0zm-6.098 11l16.329 8.5L22.439 28V11z"></path>
+									            <path fill="#fff" d="M22.439 11.002l16.3 8.5-16.3 8.5v-17z"></path></svg>
+									        </a></div>
+									  {% endfor %}
+									</div>
+									  {% endif %}
+									{% endif %}
+									</div>
+								{% endif %}
+
+
+								<div class="review_note" id="review-note-{{ review['review_id'] }}"></div>
+								<div class="review-rating-change-buttons">
+								<span class="change-rating-button br-r">
+									<a class="review-vote-positive" data-value="{{ review['review_id'] }}"><i class="fa fa-thumbs-o-up fa-custom-lg" aria-hidden="true"></i></a>
+									<span class="review-vote-count" data-value="{{ review['likes'] }}" id="vote_count_positive-{{ review['review_id'] }}">{% if (review['likes']>0) %} {{ review['likes'] }}{% endif %}</span>
+								</span>
+								<span class="change-rating-button">
+									<a class="review-vote-negative" data-value="{{ review['review_id'] }}"><i class="fa fa-thumbs-o-down fa-custom-lg" aria-hidden="true"></i></a>
+									<span class="review-vote-count" data-value="{{ review['dislikes'] }}" id="vote_count_negative-{{ review['review_id'] }}">{% if (review['dislikes']>0) %} {{ review['dislikes'] }}{% endif %}</span>
+								</span>
+								</div>
+
+							</div>
+						{% endfor %}
+							</div>
+						<button class = "btn btn-light btn-review-more">Показать полностью <i class="fa fa-chevron-down"></i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="hidden" id="hidden-popups">
+	<div id="detail-review" class="popup-media-container">
+	</div>
+</div>
+<script><!--
+$(document).ready(function() {
+$('.carousel-reviews-store-{{ module }}').owlCarousel({
+	responsiveBaseWidth: ".carousel-reviews-store-{{ module }}",
+	items : 1,
+	{% if (autoplay is defined) %}
+	autoPlay: {{ autoplay_speed }},
+	{% endif %}
+	stopOnHover : true,
+	navigation: true,
+	singleItem: true,
+	pagination: false,
+	navigationText: ['<div class="btn btn-carousel-module next-prod"><i class="fa fa-angle-left arrow"></i></div>', '<div class="btn btn-carousel-module prev-prod"><i class="fa fa-angle-right arrow"></i></div>']
+});
+$('.reviews-thumbnails').owlCarousel({
+	loop:true,
+			margin:10,
+			responsiveClass:true,
+			items : 5,
+			autoplay: false,
+			pagination: false,
+			navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+			itemsDesktop: [1199, 5],
+			itemsTablet: [768, 6],
+			itemsMobile: [479, 3],
+});
+$('.owl-carousel-videos').owlCarousel({
+			loop:true,
+			margin:0,
+			responsiveClass:true,
+			pagination: false,
+			items : 3,
+			navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+			itemsDesktop: [1280, 3],
+			itemsDesktopSmall: [980, 2],
+			itemsTablet: [768, 4],
+			itemsMobile: [479, 2],
+});
+$('.reviews-thumbnails').magnificPopup({
+	type:'image',
+	delegate: 'a',
+	gallery: {
+		enabled:true,
+	},
+	 callbacks: {
+			open: function() {
+			$('.container').addClass('blur');
+			},
+			close: function() {
+			$('.container').removeClass('blur');
+			}
+			}
+});
+$('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+		type: 'iframe',
+		mainClass: 'mfp-fade',
+		preloader: true,
+		callbacks: {
+		open: function() {
+		$('.container').addClass('blur');
+		},
+		close: function() {
+		$('.container').removeClass('blur');
+		}
+		}
+});
+				});
+	$(".btn-review-more").on('click', function(){
+		$(".review-box-wrapper").toggleClass("a-height");
+		$(".plus-minus").toggle(350);
+		$(".mod-desc-reviews").toggleClass("a-height");
+		$(this).html() == 'Показать полностью <i class="fa fa-chevron-down"></i>' ? $(this).html('Скрыть <i class="fa fa-chevron-up"></i>') : $(this).html('Показать полностью <i class="fa fa-chevron-down"></i>');
+	});
+	$('.review-vote-negative').on('click', function() {
+	  $('.review_note .alert').remove();
+	  var id = $(this).data("value");
+	  var votename = "vote"+id;
+	  var note_block = $("#review-note-"+id);
+	  if(localStorage.getItem(votename) == null){
+	  var vote_count_span = $('#vote_count_negative-'+id);
+	  var vote_count = parseInt(vote_count_span.data("value"));
+	    $.ajax({
+	      url: 'index.php?route=product/ex_store_reviews/minusReviewRating',
+	  		type: 'post',
+	  		data: { review_id : id } ,
+	      dataType: 'json',
+	      success: function(json) {
+	        if (json['success']) {
+	        $(vote_count_span).text(vote_count + 1);
+	        localStorage.setItem(votename , true);
+	      }
+	      }
+	    });
+	    $(note_block).append('<div class="alert alert-success m-0"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; {{ thank_for_rating }}</div>');
+	  }
+	  else{
+	    $(note_block).append('<div class="alert alert-warning m-0">{{ already_rating }}</div>');
+	  }
+	});
+	$('.review-vote-positive').on('click', function() {
+	  $('.review_note .alert').remove();
+	  var id = $(this).data("value");
+	  var votename = "store-vote"+id;
+	  var note_block = $("#review-note-"+id);
+	  if(localStorage.getItem(votename) == null){
+	  var vote_count_span = $('#vote_count_positive-'+id);
+	  var vote_count = parseInt(vote_count_span.data("value"));
+	    $.ajax({
+	      url: 'index.php?route=product/ex_store_reviews/plusReviewRating',
+	  		type: 'post',
+	  		data: { review_id : id } ,
+	      dataType: 'json',
+	      success: function(json) {
+	        $('.success-note').remove();
+	        if (json['success']) {
+	        $(vote_count_span).text(vote_count + 1);
+	        localStorage.setItem(votename , true);
+	      }
+	    }
+	    });
+	    $(note_block).append('<div class="alert alert-success m-0"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; {{ thank_for_rating }}</div>');
+	  }
+	  else{
+	      $(note_block).append('<div class="alert alert-warning m-0">{{ already_rating }}</div>');
+	  }
+	});
+//--></script>
+</div>

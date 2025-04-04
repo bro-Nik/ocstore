@@ -1,0 +1,343 @@
+{% extends 'revolution/template/product/partials/base.twig' %}
+
+{% block container_schema %}{% endblock %}
+{% block content %}
+
+      <label class="control-label" for="input-search">{{ entry_search }}:</label>
+      <div class="row">
+	    <div class="col-sm-12">
+		<div class="row">
+        <div class="col-sm-5 xs-margin-top">
+          <input type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" class="form-control" />
+        </div>
+        <div class="col-sm-5 xs-margin-top">
+          <select name="category_id" class="form-control">
+            <option value="0">{{ text_category }}</option>
+            {% for category_1 in categories %} 
+            {% if (category_1['category_id'] == category_id) %} 
+            <option value="{{ category_1['category_id'] }}" selected="selected">{{ category_1['name'] }}</option>
+            {% else %} 
+            <option value="{{ category_1['category_id'] }}">{{ category_1['name'] }}</option>
+            {% endif %} 
+            {% for category_2 in category_1['children'] %} 
+            {% if (category_2['category_id'] == category_id) %} 
+            <option value="{{ category_2['category_id'] }}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2['name'] }}</option>
+            {% else %} 
+            <option value="{{ category_2['category_id'] }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2['name'] }}</option>
+            {% endif %} 
+            {% for category_3 in category_2['children'] %} 
+            {% if (category_3['category_id'] == category_id) %} 
+            <option value="{{ category_3['category_id'] }}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3['name'] }}</option>
+            {% else %} 
+            <option value="{{ category_3['category_id'] }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3['name'] }}</option>
+            {% endif %} 
+            {% endfor %} 
+            {% endfor %} 
+            {% endfor %} 
+          </select>
+        </div>
+		<div class="col-sm-2 xs-margin-top">
+		<input type="button" value="{{ button_search }}" id="button-search" class="btn btn-primary" />
+		</div>
+		</div>
+		</div>
+		<div class="col-sm-12">
+		<div class="row">
+		<div class="col-sm-5">
+			{% if (not ajax_search_description) %} 
+				<label class="checkbox-inline" style="padding-top: 10px;">
+				{% if (description) %} 
+				<input type="checkbox" name="description" value="1" id="description" checked="checked" style="margin-top: 2px;" />
+				{% else %} 
+				<input type="checkbox" name="description" value="1" id="description" style="margin-top: 2px;" />
+				{% endif %} 
+				{{ entry_description }}</label>
+			{% endif %} 
+		</div>
+        <div class="col-sm-5">
+			<label class="checkbox-inline" style="padding-top: 10px;">
+			{% if (sub_category) %} 
+			<input type="checkbox" name="sub_category" value="1" checked="checked" style="margin-top: 2px;" />
+			{% else %} 
+			<input type="checkbox" name="sub_category" value="1" style="margin-top: 2px;" />
+			{% endif %} 
+			{{ text_sub_category }}</label>
+        </div>
+		</div>
+		</div>
+	  </div>
+      <h2>{{ text_search }}</h2>
+      {% if (products) %} 
+	  <meta itemprop="numberOfItems" content="{{ products|length }}" />
+	  
+      {% include 'revolution/template/product/partials/products_top_line.twig' %}
+
+      <div class="row products_category">
+{% for product in products %} 
+    {% include 'revolution/template/product/partials/products_product.twig' %}
+{% endfor %} 
+      </div>
+      {% include 'revolution/template/product/partials/pagination.twig' %}
+      {% else %} 
+      <p>{{ text_empty }}</p>
+      {% endif %} 
+
+{{ content_bottom }} 
+{% endblock %}
+
+{% block script %}
+<script><!--
+$('#button-search').bind('click', function() {
+	url = 'index.php?route=product/search';
+	var search = $('#content input[name=\'search\']').prop('value');
+	if (search) {
+		url += '&search=' + encodeURIComponent(search);
+	}
+	var category_id = $('#content select[name=\'category_id\']').prop('value');
+	if (category_id > 0) {
+		url += '&category_id=' + encodeURIComponent(category_id);
+	}
+	var sub_category = $('#content input[name=\'sub_category\']:checked').prop('value');
+	if (sub_category) {
+		url += '&sub_category=true';
+	}
+	var filter_description = $('#content input[name=\'description\']:checked').prop('value');
+	if (filter_description) {
+		url += '&description=true';
+	}
+	location = url;
+});
+$('#content input[name=\'search\']').bind('keydown', function(e) {
+	if (e.keyCode == 13) {
+		$('#button-search').trigger('click');
+	}
+});
+$('select[name=\'category_id\']').on('change', function() {
+	if (this.value == '0') {
+		$('input[name=\'sub_category\']').prop('disabled', true);
+	} else {
+		$('input[name=\'sub_category\']').prop('disabled', false);
+	}
+});
+$('select[name=\'category_id\']').trigger('change');
+
+{% for product in products %} {% if (product['minimum'] > 1 and recalc_price) %} 
+	update_quantity({{ product['product_id'] }}, {{ product['minimum'] }});
+{% endif %} {% endfor %} 
+function get_revpopup_cart_quantity(product_id) {
+	input_val = $('.product_'+product_id+' .plus-minus').val();
+	quantity  = parseInt(input_val);
+	return quantity;
+}
+function validate_pole(val, product_id, znak, minimumvalue, maximumvalue) {
+	val.value = val.value.replace(/[^\d,]/g, '');
+	if (val.value == '') val.value = minimumvalue;
+	maximumvalue = Number($('.pr_quantity_'+product_id).text());
+	if (maximumvalue < 1) maximumvalue = 9999;
+	input_val = $('.product_'+product_id+' .plus-minus');	
+	quantity = parseInt(input_val.val());
+	{% if (q_zavisimost) %} 
+	if(znak=='+' && input_val.val() < maximumvalue) input_val.val(quantity+1);
+	else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
+	else if(znak=='=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val());
+	if (quantity < 1 || quantity < minimumvalue) {
+		input_val.val(minimumvalue);
+		val.value = minimumvalue;
+	} else if (quantity > maximumvalue) {
+		input_val.val(maximumvalue);
+		val.value = maximumvalue;
+	}
+	{% else %} 
+	if(znak=='+') input_val.val(quantity+1);
+	else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
+	else if(znak=='=' && input_val.val() > minimumvalue) input_val.val(input_val.val());
+	if (quantity < 1 || quantity < minimumvalue) {
+		input_val.val(minimumvalue);
+		val.value = minimumvalue;
+	}
+	{% endif %} 
+	update_quantity(product_id, input_val.val());
+}
+function update_quantity(product_id, quantity) {
+	{% if (recalc_price) %} 
+		quantity = quantity;
+	{% else %} 
+		quantity = 1;
+	{% endif %} 
+	
+	data = $('.product_'+product_id+' .options input[type=\'text\'], .product_'+product_id+' .options input[type=\'hidden\'], .product_'+product_id+' .options input[type=\'radio\']:checked, .product_'+product_id+' .options input[type=\'checkbox\']:checked, .product_'+product_id+' .options select');
+	$.ajax({
+	  url: 'index.php?route=product/product/update_prices',
+	  type: 'post',
+	  dataType: 'json',
+	  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
+	  success: function(json) {
+		{% if (recalc_price) %} 
+		
+			{% if (description_options['zamena_description'] and description_options['weight']) %} 
+				var weight = json['weight'];
+				{% if (revtheme_product_all['recalc_price_animate']) %} 
+					var start_weight = parseFloat($('.pr_weight_'+product_id).attr('data-weight'));
+					$({val:start_weight}).animate({val:weight}, {
+						duration: 500,
+						easing: 'swing',
+						step: function(val) {
+							$('.pr_weight_'+product_id).html(weight_format(val, product_id));
+						}
+					});
+					$('.pr_weight_'+product_id).attr('data-weight', json['weight']);
+				{% else %} 
+					$('.pr_weight_'+product_id).html(weight_format(weight, product_id));
+				{% endif %} 
+			{% endif %} 
+
+			{% if (stikers_status) %} 
+				var price = json['price_n'];
+				{% if (revtheme_product_all['recalc_price_animate']) %} 
+					var start_price = parseFloat($('.special_no_format'+product_id).html().replace(/\s*/g,''));
+					$({val:start_price}).animate({val:price}, {
+						duration: 500,
+						easing: 'swing',
+						step: function(val) {
+							$('.special_no_format'+product_id).html(price_format(val));
+						}
+					});
+				{% else %} 
+					$('.special_no_format'+product_id).html(price_format(price));
+				{% endif %} 
+			{% endif %} 
+			
+			var special = json['special_n'];
+			{% if (revtheme_product_all['recalc_price_animate']) %} 
+				var start_special = parseFloat($('.price_no_format'+product_id).html().replace(/\s*/g,''));
+				$({val:start_special}).animate({val:special}, {
+					duration: 500,
+					easing: 'swing',
+					step: function(val) {
+						$('.price_no_format'+product_id).html(price_format(val));
+					}
+				});
+			{% else %} 
+				$('.price_no_format'+product_id).html(price_format(special));
+			{% endif %} 
+		{% endif %} 
+	  }
+	});
+}
+function update_prices_product(product_id, minimumvalue) {
+	input_val = $('.product_'+product_id+' .plus-minus').val();
+	if (input_val > minimumvalue) {
+		input_val = minimumvalue;
+		$('.product_'+product_id+' .plus-minus').val(minimumvalue);
+	}
+	{% if (recalc_price) %} 
+	quantity = parseInt(input_val);
+	{% else %} 
+	quantity = 1;
+	{% endif %} 
+	data = $('.product_'+product_id+' .options input[type=\'text\'], .product_'+product_id+' .options input[type=\'hidden\'], .product_'+product_id+' .options input[type=\'radio\']:checked, .product_'+product_id+' .options input[type=\'checkbox\']:checked, .product_'+product_id+' .options select');
+	$.ajax({
+	  type: 'post',
+	  url:  'index.php?route=product/product/update_prices',
+	  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
+	  dataType: 'json',
+	  success: function(json) {
+		  
+		{% if (img_slider) %} 
+		$('.product_'+product_id+' .image .owl-item:first-child img').attr('src', json['opt_image']);
+		{% else %} 
+		$('.product_'+product_id+' .image img').attr('src', json['opt_image']);
+		{% endif %} 
+		
+		{% if (description_options['zamena_description'] and description_options['model']) %} 
+		$('.product_'+product_id+' .pr_model_'+product_id).html(json['opt_model']);
+		{% endif %} 
+	  
+		var end_quantity = json['option_quantity'];
+		{% if (revtheme_product_all['recalc_price_animate']) %} 
+			var start_quantity = parseFloat($('.pr_quantity_'+product_id).html().replace(/\s*/g,''));
+			$({val:start_quantity}).animate({val:end_quantity}, {
+				duration: 500,
+				easing: 'swing',
+				step: function(val) {
+					$('.pr_quantity_'+product_id).html(number_format(val, product_id));
+				}
+			});
+		{% else %} 
+			$('.pr_quantity_'+product_id).html(number_format(end_quantity, product_id));
+		{% endif %} 
+
+		{% if (description_options['zamena_description'] and description_options['weight']) %} 
+			var weight = json['weight'];
+			{% if (revtheme_product_all['recalc_price_animate']) %} 
+				var start_weight = parseFloat($('.pr_weight_'+product_id).attr('data-weight'));
+				$({val:start_weight}).animate({val:weight}, {
+					duration: 500,
+					easing: 'swing',
+					step: function(val) {
+						$('.pr_weight_'+product_id).html(weight_format(val, product_id));
+					}
+				});
+				$('.pr_weight_'+product_id).attr('data-weight', json['weight']);
+			{% else %} 
+				$('.pr_weight_'+product_id).html(weight_format(weight, product_id));
+			{% endif %} 
+		{% endif %} 
+	  
+		{% if (stikers_status) %} 
+			var price = json['price_n'];
+			{% if (revtheme_product_all['recalc_price_animate']) %} 
+				var start_price = parseFloat($('.special_no_format'+product_id).html().replace(/\s*/g,''));
+				$({val:start_price}).animate({val:price}, {
+					duration: 500,
+					easing: 'swing',
+					step: function(val) {
+						$('.special_no_format'+product_id).html(price_format(val));
+					}
+				});
+			{% else %} 
+				$('.special_no_format'+product_id).html(price_format(price));
+			{% endif %} 
+		{% endif %} 
+		
+		var special = json['special_n'];
+		{% if (revtheme_product_all['recalc_price_animate']) %} 
+			var start_special = parseFloat($('.price_no_format'+product_id).html().replace(/\s*/g,''));
+			$({val:start_special}).animate({val:special}, {
+				duration: 500,
+				easing: 'swing',
+				step: function(val) {
+					$('.price_no_format'+product_id).html(price_format(val));
+				}
+			});
+		{% else %} 
+			$('.price_no_format'+product_id).html(price_format(special));
+		{% endif %} 
+	  }
+	});
+}
+function price_format(n) {
+	c = {{ currency['decimals'] is empty ? "0" : currency['decimals'] }};
+    d = '{{ currency['decimal_point'] }}';
+    t = '{{ currency['thousand_point'] }}';
+    s_left = '{{ currency['symbol_left'] }}';
+    s_right = '{{ currency['symbol_right'] }}';
+    n = n * {{ currency['value'] }};
+    i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
+    j = ((j = i.length) > 3) ? j % 3 : 0; 
+    return s_left + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '') + s_right; 
+}
+function weight_format(n, product_id) {
+    c = 2;
+    d = '.';
+    t = ',';
+    i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
+    j = ((j = i.length) > 3) ? j % 3 : 0; 
+    return (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
+}
+function number_format(n, product_id) {
+    i = parseInt(n = Math.abs(n).toFixed(0)) + ''; 
+    return i;
+}
+--></script>
+{% endblock %}

@@ -1,0 +1,80 @@
+  <div class="stiker_panel">
+
+    {% if main_product is defined %}
+
+      {% if ((quantity > 0 and price_number != 0) or zakaz) %}
+        {% if (stiker_spec) %}
+          {% if (special) %}
+            <span class="stiker stiker_spec">{{ '- ' ~ ((price_number-special_number)/price_number*100)|round ~ '%' }}</span>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+
+      {% if (stiker_best) %}
+        <span class="stiker stiker_best">{{ text_catalog_stiker_best }}</span>
+      {% endif %}
+      {% if (stiker_last) %}
+        <span class="stiker stiker_last">{{ text_catalog_stiker_last }}</span>
+      {% endif %}
+      {% if (quantity < 1) %}
+        <span class="stiker stiker_netu">{{ text_catalog_stiker_netu }}</span>
+      {% endif %}
+      {% if (stiker_upc) %}
+        <span class="stiker stiker_user1">{{ stiker_upc }}</span>
+      {% endif %}
+      {% if (stiker_ean) %}
+        <span class="stiker stiker_user2">{{ stiker_ean }}</span>
+      {% endif %}
+      {% if (stiker_jan) %}
+        <span class="stiker stiker_user3">{{ stiker_jan }}</span>
+      {% endif %}
+      {% if (stiker_isbn) %}
+        <span class="stiker stiker_user4">{{ stiker_isbn }}</span>
+      {% endif %}
+      {% if (stiker_mpn) %}
+        <span class="stiker stiker_user5">{{ stiker_mpn }}</span>
+      {% endif %}
+
+    {% else %}
+
+      {% if ((product['quantity'] > 0 and product['price_number'] != 0) or zakaz) %}
+        {% if (product['stiker_spec']) %}
+          {% if (product['special']) %}
+            <span class="stiker stiker_spec">{{ '- ' ~ ((product['price_number']-product['special_number'])/product['special_number']*100)|round ~ '%' }}</span>
+          {% else %}
+            <span class="hidden special_no_format{{ product['product_id'] }}"></span>
+          {% endif %}
+        {% else %}
+          <span class="hidden special_no_format{{ product['product_id'] }}"></span>
+        {% endif %}
+      {% else %}
+        <span class="special_no_format{{ product['product_id'] }}" style="display:none"></span>
+      {% endif %}
+
+      {% if (product['stiker_best']) %}
+        <span class="stiker stiker_best">{{ text_catalog_stiker_best }}</span>
+      {% endif %}
+      {% if (product['stiker_last']) %}
+        <span class="stiker stiker_last">{{ text_catalog_stiker_last }}</span>
+      {% endif %}
+      {% if (product['quantity'] < 1) %}
+        <span class="stiker stiker_netu">{{ product['text_catalog_stiker_netu'] }}</span>
+      {% endif %}
+      {% if (product['stiker_upc']) %}
+        <span class="stiker stiker_user1">{{ product['stiker_upc'] }}</span>
+      {% endif %}
+      {% if (product['stiker_ean']) %}
+        <span class="stiker stiker_user2">{{ product['stiker_ean'] }}</span>
+      {% endif %}
+      {% if (product['stiker_jan']) %}
+        <span class="stiker stiker_user3">{{ product['stiker_jan'] }}</span>
+      {% endif %}
+      {% if (product['stiker_isbn']) %}
+        <span class="stiker stiker_user4">{{ product['stiker_isbn'] }}</span>
+      {% endif %}
+      {% if (product['stiker_mpn']) %}
+        <span class="stiker stiker_user5">{{ product['stiker_mpn'] }}</span>
+      {% endif %}
+    {% endif %}
+
+  </div>

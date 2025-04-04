@@ -1,0 +1,20 @@
+{#}
+<div id="cart_mobi" class="btn-group show-on-hover w100">
+	{% if (setting_header_cart['type'] == 'redirect') %} 
+		<button class="cart" onclick="get_revpopup_cart('', 'redirect_cart', '');">
+			<span id="cart-total_mobi">{{ text_items }}</span>
+		</button>
+	{% else %} 
+		<button class="cart" onclick="get_revpopup_cart('', 'show_cart', '');">
+			<span id="cart-total_mobi">{{ text_items }}</span>
+		</button>
+	<li><button class="cart" onclick="get_revpopup_cart('', 'show_cart', '');"><span id="cart-total_mobi">{{ text_items }}</span></button></li>
+	{% endif %} 
+</div>
+{#}
+
+{#}
+	<li><a onclick="get_revpopup_cart('', 'show_cart', '');"><span id="cart-total_mobi">{{ text_items }}</span></a></li>
+{#}
+	<li><a onclick="get_revpopup_cart('', 'show_cart', '');"><span id="cart-total_mobi">{{ text_items }}</span></a></li>
+<span id="cart-total_mobi"><i class="fa fa-shopping-basket"></i><span class="hidden-xs hidden-sm">Корзина</span><sup>0</sup></span>

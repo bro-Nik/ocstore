@@ -1,0 +1,77 @@
+<?php
+class ControllerRevolutionRevblocks extends Controller {
+
+    public function index() {
+		$setting = $data['revtheme_blocks_home'] = $this->config->get('revtheme_blocks_home');
+		
+		if (!$setting['status']) {
+			return false;
+		}
+
+		$this->load->model('tool/image');
+		$results = $this->config->get('revtheme_blocks_home_item');
+		if (!empty($results)){
+			foreach ($results as $result) {
+				
+				$style = '';
+				if ($result['icontype']) {
+					$image = '<i class="'.$result['icon'].'"></i>';
+					if ($result['icon'] == 'fa none') {
+						$style = 'hidden';
+					}
+				} else {
+					if (!$result['image'] || $result['image'] == 'no_image.png') {
+						$style = 'hidden';
+					}
+					$image = '<img src="'.$this->model_tool_image->resize($result['image'], 50, 50).'" alt=""/>';
+				}
+				
+				if (!empty($result['checkbox'])) {
+					$checkbox = 1;
+				} else {
+					$checkbox = 0;
+				}
+				
+				$data['blocks'][] = array(
+					'title' => $result['title'][$this->config->get('config_language_id')],
+					'image' => $image,
+					'description' => html_entity_decode($result['description'][$this->config->get('config_language_id')], ENT_QUOTES, 'UTF-8'),
+					'link'  => $result['link'][$this->config->get('config_language_id')],
+					'sort'  => $result['sort'],
+					'style' => $style,
+					'checkbox' => $checkbox
+				);
+			}
+		} else {			
+			$data['blocks'] = false;
+		}
+		if (!empty($data['blocks'])){
+			foreach ($data['blocks'] as $key => $value) {
+				$sort[$key] = $value['sort'];
+			}
+			array_multisort($sort, SORT_ASC, $data['blocks']);
+		}
+		
+		$setting_header_menu = $this->config->get('revtheme_header_menu');
+		if ($setting_header_menu['type']) {
+			$data['amazon'] = true;
+		} else {
+			$data['amazon'] = false;
+		}
+		if ($setting_header_menu['inhome']) {
+			$data['module_class'] = true;
+		} else {
+			$data['module_class'] = false;
+		}
+		
+		if ($setting_header_menu['up_menu_height']) {
+			$data['up_menu_height'] = true;
+		} else {
+			$data['up_menu_height'] = false;
+		}
+
+		return $this->load->view('revolution/revblocks', $data);
+        
+    }
+}
+?>

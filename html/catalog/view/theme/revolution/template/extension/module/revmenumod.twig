@@ -1,0 +1,461 @@
+<div class="list-group hidden-md hidden-lg">
+  {% for category in categories %} 
+  {% if (category['category_id'] == category_id) %} 
+  <a href="{{ category['href'] }}" class="list-group-item active">{{ category['name'] }}</a>
+  {% if (category['children']) %} 
+  {% for child in category['children'] %} 
+  {% if (child['category_id'] == child_id) %} 
+  <a href="{{ child['href'] }}" class="list-group-item active">&nbsp;&nbsp;&nbsp;- {{ child['name'] }}</a>
+  {% else %} 
+  <a href="{{ child['href'] }}" class="list-group-item">&nbsp;&nbsp;&nbsp;- {{ child['name'] }}</a>
+  {% endif %} 
+  {% endfor %} 
+  {% endif %} 
+  {% else %} 
+  <a href="{{ category['href'] }}" class="list-group-item">{{ category['name'] }}</a>
+  {% endif %} 
+  {% endfor %} 
+</div>
+<div id="menu2_button" class="ammodul hidden-xs hidden-sm">
+<div class="box-heading">{{ heading_title }}</div>
+<div class="box-content am">
+<div id="menu2">
+<div class="podmenu2"></div>
+<div class="catalog_list catalog_list_popup catalog_as_popup">
+{% if (revtheme_dop_menus) %} 
+	{% for revtheme_dop_menu in revtheme_dop_menus %} 
+		<div class="revlevel_1 hasChildren closed menu2dopmenu">
+			{% if (revtheme_dop_menu['children'] is defined) %} 
+				<div class="title with-child">
+					<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}" {{ revtheme_dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>
+					{% if (revtheme_dop_menu['icontype'] == 'iconka') %} <i class="am_category_icon {{ revtheme_dop_menu['dop_menu_iconka'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
+					<span class="arrow-btn"><i class="fa fa-angle-right"></i></span>
+					</a>
+				</div>
+			 {% else %}
+				<div class="title">
+					<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}" {{ revtheme_dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>
+					{% if (revtheme_dop_menu['icontype'] == 'iconka') %} <i class="am_category_icon {{ revtheme_dop_menu['dop_menu_iconka'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+				</div>
+			{% endif %} 
+			{% if (revtheme_dop_menu['children'] is defined) %}
+				<div class="childrenList">
+					{% if (revtheme_dop_menu['column'] == 1) %}
+						box_class = 'box-col-1' }} col_class = 'col-1' }} {% set image_in_ico_class = 'col-sm-12 col-lg-6' %}
+					{% elseif (revtheme_dop_menu['column'] == 2) %}
+						{% set box_class = 'box-col-2' %} {% set col_class = 'col-2' %} {% set image_in_ico_class = 'col-sm-4 col-lg-3' %}
+					{% elseif (revtheme_dop_menu['column'] == 3) %}
+						{% set box_class = 'box-col-3' %} {% set col_class = 'col-3' %} {% set image_in_ico_class = 'col-sm-3 col-lg-2' %}
+					{% else %} 
+						{% set box_class = 'box-col-4' %} {% set col_class = 'col-4' %} {% set image_in_ico_class = 'col-sm-12 col-lg-6' %}
+					{% endif %} 
+					<div class="child-box {{ box_class }}">
+						{% if (image_in_ico) %} 
+							<div class="image_in_ico_dop_{{ revtheme_dop_menu['id'] }} refine_categories clearfix">
+								{% for child in revtheme_dop_menu['children'] %} 
+									<a class="{{ image_in_ico_class }}" href="{{ child['href'~config_language_id] }}">
+										<img src="{{ child['dop_menu_image'] }}" alt="{{ child['name'~config_language_id] }}" /><span>{{ child['name'~config_language_id] }}</span>
+									</a>
+								{% endfor %} }}
+							</div>
+						{% else %} 
+							<ul class="ul_block{{ revtheme_dop_menu['id'] }} cat_dop {{ col_class }}">
+							{% for child in revtheme_dop_menu['children'] %} 
+								<li class="glavli"><a href="{{ child['href'~config_language_id] != '' ? child['href'~config_language_id] : '#' }}" {{ child['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>{% if (child['icontype'] == 'iconka') %} <i class="am_category_icon {{ child['dop_menu_iconka'] }}"></i> {% else %} {% if (child['dop_menu_image']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+									{% if (tri_level and child['children'] is defined) %}
+									<ul class="lastul">
+										{% set i_count = 0 %}
+										{% for child2 in child['children'] %}
+											{% if (child2['id'] == child2_id) %} 
+												<li class="category-{{ child2['id'] }} active"><a href="{{ child2['href'~config_language_id] }}" class="active"><i class="fa fa-minus"></i>{{ child2['name'~config_language_id] }}</a></li>
+											{% else %}
+												<li class="category-{{ child2['id'] }}"><a href="{{ child2['href'~config_language_id] }}"><i class="fa fa-minus"></i>{{ child2['name'~config_language_id] }}</a></li>
+											{% endif %}
+										{% endfor %}
+										{% if (setting_revtheme_header_menu['ogranich']) %} 
+											{% set child_count = child['children']|length %} array_splice(child['children'], 0, setting_revtheme_header_menu['ogranich_count']) {% for child2 in child['children'] %} 
+												{% if (child2['id'] == child2_id) %} 
+													<li class="category-{{ child2['id'] }} active categoryoff"><a href="{{ child2['href'~config_language_id] }}" class="active"><i class="fa fa-minus"></i>{{ child2['name'~config_language_id] }}</a></li>
+												{% else %}
+													<li class="category-{{ child2['id'] }} categoryoff"><a href="{{ child2['href'~config_language_id] }}"><i class="fa fa-minus"></i>{{ child2['name'~config_language_id] }}</a></li>
+												{% endif %}
+											{% endfor %} 
+											{% if (child_count > setting_revtheme_header_menu['ogranich_count']) %} 
+												<li class="show_categoryoff show_coff">{{ text_show_all }}</li>
+											{% endif %} 
+										{% endif %} 
+									</ul>
+									{% endif %} 
+								</li>
+							{% endfor %}
+							</ul>
+						{% endif %}  
+					</div>
+				</div>
+			{% endif %} 
+		</div>
+	{% endfor %} 
+{% endif %} 
+{% if (cats_status) %} 
+	{% for category in categories %} 
+		<div class="revlevel_1 hasChildren closed menu2categories">
+			{% if (category['children']) %} 
+				<div class="title with-child">
+				<a href="{{ category['href'] }}">
+				{% if (category['category_image']) %} {{ category['category_image'] }} {% endif %}{{ category['name'] }} 
+				<span class="arrow-btn"><i class="fa fa-angle-right"></i></span>
+				</a>
+				</div>
+			{% else %} 
+				<div class="title">
+				<a href="{{ category['href'] }}">{% if (category['category_image']) %} {{ category['category_image'] }} {% endif %}{{ category['name'] }}</a>
+				</div>
+			{% endif %} 
+			{% if (category['children']) %}	
+			<div class="childrenList">
+				{% if (category['column'] == 1) %}
+					{% set box_class = 'box-col-1' %} {% set col_class = 'col-1' %} {% set image_in_ico_class = 'col-sm-12 col-lg-6' %}
+				{% elseif (category['column'] == 2) %}
+					{% set box_class = 'box-col-2' %} {% set col_class = 'col-2' %} {% set image_in_ico_class = 'col-sm-4 col-lg-3' %}
+				{% elseif (category['column'] == 3) %}
+					{% set box_class = 'box-col-3' %} {% set col_class = 'col-3' %} {% set image_in_ico_class = 'col-sm-3 col-lg-2' %}
+				{% else %} 
+					{% set box_class = 'box-col-4' %} {% set col_class = 'col-4' %} {% set image_in_ico_class = 'col-sm-12 col-lg-6' %}
+				{% endif %} 
+				<div class="child-box {{ box_class }}">
+				{% if (image_in_ico) %} 
+					<div class="image_in_ico_{{ category['category_id'] }} refine_categories clearfix">
+						{% for child in category['children'] %} 
+							<a class="{{ image_in_ico_class }}" href="{{ child['href'] }}">
+								<img src="{{ child['thumb'] }}" alt="{{ child['name'] }}" /><span>{{ child['name'] }}</span>
+							</a>
+						{% endfor %} 
+					</div>
+				{% else %} 
+					<ul class="ul_block{{ category['category_id'] }} {{ col_class }}">
+					{% for child in category['children'] %} 
+						<li class="glavli"><a href="{{ child['href'] }}">{% if (child['category_image']) %} {{ child['category_image'] }} {% endif %}{{ child['name'] }}</a>
+							{% if (tri_level and child['children']) %} 
+							<ul class="lastul">
+								{% set i_count = 0 %}
+								{% for child2 in child['children'] %} 
+									{% if (child2['category_id'] == child2_id) %} 
+										<li class="category-{{ child2['category_id'] }} active"><a href="{{ child2['href'] }}" class="active"><i class="fa fa-minus"></i>{{ child2['name'] }}</a></li>
+									{% else %} 
+										<li class="category-{{ child2['category_id'] }}"><a href="{{ child2['href'] }}"><i class="fa fa-minus"></i>{{ child2['name'] }}</a></li>
+									{% endif %} 
+								{% endfor %} 
+								{% if (setting_revtheme_header_menu['ogranich']) %} 
+									{% set child_count = child['children']|length %} array_splice(child['children'], 0, setting_revtheme_header_menu['ogranich_count']) {% for child2 in child['children'] %} 
+										{% if (child2['category_id'] == child2_id) %} 
+											<li class="category-{{ child2['category_id'] }} active categoryoff"><a href="{{ child2['href'] }}" class="active"><i class="fa fa-minus"></i>{{ child2['name'] }}</a></li>
+										{% else %} 
+											<li class="category-{{ child2['category_id'] }} categoryoff"><a href="{{ child2['href'] }}"><i class="fa fa-minus"></i>{{ child2['name'] }}</a></li>
+										{% endif %} 
+									{% endfor %} 
+									{% if (child_count > setting_revtheme_header_menu['ogranich_count']) %} 
+										<li class="show_categoryoff show_coff">{{ text_show_all }}</li>
+									{% endif %} 
+								{% endif %} 
+							</ul>
+							{% endif %} 
+						</li>
+					{% endfor %} 	 
+					</ul>
+				{% endif %}  
+				{% if (category['thumb2']) %} 
+					<img class="img_sub" src="{{ category['thumb2'] }}" alt="{{ category['name'] }}" />	
+				{% endif %} 
+				</div>
+			</div>
+			{% endif %}  
+		</div>		
+	{% endfor %}  
+{% endif %}  
+{% if (manuf_status) %} 
+	{% if (categories_m) %} 
+	<div class="revlevel_1 hasChildren closed i_rhml_manufs">
+		<div class="title with-child">
+		<a href="{{ url_revmenu_manufs }}">{% if (manuf_image) %} {{ manuf_image }} {% endif %}{{ text_revmenu_manufs }}<span class="arrow-btn"><i class="fa fa-angle-right"></i></span></a>
+		</div>
+		<div class="childrenList">
+			{% if (n_column == 1) %}
+				{% set box_class_m = 'box-col-1' %} {% set col_class_m = 'col-1' %} {% set image_in_ico_class = 'col-sm-12 col-lg-6' %}
+			{% elseif (n_column == 2) %}
+				{% set box_class_m = 'box-col-2' %} {% set col_class_m = 'col-2' %} {% set image_in_ico_class = 'col-sm-4 col-lg-3' %}
+			{% elseif (n_column == 3) %}
+				{% set box_class_m = 'box-col-3' %} {% set col_class_m = 'col-3' %} {% set image_in_ico_class = 'col-sm-3 col-lg-2' %}
+			{% else %} 
+				{% set box_class_m = 'box-col-4' %} {% set col_class_m = 'col-4' %} {% set image_in_ico_class = 'col-sm-12 col-lg-6' %}
+			{% endif %} 
+			<div class="child-box {{ box_class_m }}">
+				{% if (image_in_ico_m) %} 
+					<div class="image_in_ico_manufacturers refine_categories clearfix">
+						{% for categorys in categories_m|batch((categories_m|length / n_column)|round) %} 
+							{% for category in categorys %} 
+								{% if (category['manufacturer']) %} 
+									{% for manufacturers in category['manufacturer'] %} 
+										<a class="{{ image_in_ico_class }}" href="{{ manufacturers['href'] }}">
+											<img src="{{ manufacturers['thumb'] }}" title="{{ manufacturers['name'] }}" alt="{{ manufacturers['name'] }}" /><span>{{ manufacturers['name'] }}</span>
+										</a>
+									{% endfor %} 
+								{% endif %} 
+							{% endfor %} 
+						{% endfor %} 
+					</div>
+				{% else %}	
+					<ul class="ul_block cat_m {{ col_class_m }}">
+						{% for category in categories_m %} 
+							<li class="glavli">{{ category['name'] }} 
+								<ul class="lastul">
+									{% for manufacturers in category['manufacturer'] %} 
+									  <li class="category"><a href="{{ manufacturers['href'] }}"><i class="fa fa-minus"></i>{{ manufacturers['name'] }}</a></li>
+									{% endfor %}	
+								</ul>
+							</li>
+						{% endfor %} 
+					</ul>
+				{% endif %} 
+			</div>		
+		</div>
+	</div>
+	{% endif %} 
+{% endif %} 
+{% if (revblog_status) %} 
+	{% for category in blog_categories %} 
+		<div class="revlevel_1 hasChildren closed i_rhml_revblog">
+			{% if (category['children']) %} 
+				<div class="title with-child">
+				<a href="{{ category['href'] }}">
+				{{ category['name'] }} 
+				<span class="arrow-btn"><i class="fa fa-angle-right"></i></span>
+				</a>
+				</div>
+			{% else %} 
+				<div class="title">
+				<a href="{{ category['href'] }}">{{ category['name'] }}</a>
+				</div>
+			{% endif %} 
+			{% if (category['children']) %}	
+			<div class="childrenList">
+				{% if (revblog_column == 1) %}
+					{% set box_class_revblog = 'box-col-1' %} {% set col_class_revblog = 'col-1' %} {% set image_in_ico_class_revblog = 'col-sm-12 col-lg-6' %}
+				{% elseif (revblog_column == 2) %}
+					{% set box_class_revblog = 'box-col-2' %} {% set col_class_revblog = 'col-2' %} {% set image_in_ico_class_revblog = 'col-sm-4 col-lg-3' %}
+				{% elseif (revblog_column == 3) %}
+					{% set box_class_revblog = 'box-col-3' %} {% set col_class_revblog = 'col-3' %} {% set image_in_ico_class_revblog = 'col-sm-3 col-lg-2' %}
+				{% else %} 
+					{% set box_class_revblog = 'box-col-4' %} {% set col_class_revblog = 'col-4' %} {% set image_in_ico_class_revblog = 'col-sm-12 col-lg-6' %}
+				{% endif %} 
+				<div class="child-box {{ box_class_revblog }}">
+				{% if (image_in_ico_revblog) %} 
+					<div class="image_in_ico_revblog refine_categories clearfix">
+						{% for child in category['children'] %} 
+							<a class="{{ image_in_ico_class_revblog }}" href="{{ child['href'] }}">
+								<img src="{{ child['thumb'] }}" alt="{{ child['name'] }}" /><span>{{ child['name'] }}</span>
+							</a>
+						{% endfor %} 
+					</div>
+				{% else %} 
+					<ul class="ul_block cat_revblog {{ col_class_revblog }}">
+					{% for child in category['children'] %} 
+						<li class="glavli"><a href="{{ child['href'] }}">{{ child['name'] }}</a>
+							{% if (tri_level and child['children']) %} 
+							<ul class="lastul">
+								{% set i_count = 0 %} {% for child2 in child['children'] %} 
+									 {% if (child2['category_id'] == child2_id) %} 
+										<li class="category-{{ child2['category_id'] }} active"><a href="{{ child2['href'] }}" class="active"><i class="fa fa-minus"></i>{{ child2['name'] }}</a></li>
+									{% else %} 
+										<li class="category-{{ child2['category_id'] }}"><a href="{{ child2['href'] }}"><i class="fa fa-minus"></i>{{ child2['name'] }}</a></li>
+									{% endif %} 
+								{% endfor %} 
+								{% if (setting_revtheme_header_menu['ogranich']) %} 
+									{% for child2 in child['children'] %} 
+										{% if (child2['category_id'] == child2_id) %} 
+											<li class="category-{{ child2['category_id'] }} active categoryoff"><a href="{{ child2['href'] }}" class="active"><i class="fa fa-minus"></i>{{ child2['name'] }}</a></li>
+										{% else %} 
+											<li class="category-{{ child2['category_id'] }} categoryoff"><a href="{{ child2['href'] }}"><i class="fa fa-minus"></i>{{ child2['name'] }}</a></li>
+										{% endif %} 
+									{% endfor %} 
+								{% endif %} 
+							</ul>
+							{% endif %} 
+						</li>
+						{% endfor %} 
+					</ul>
+				{% endif %} 
+				</div>
+			</div>
+			{% endif %} 
+		</div>		
+	{% endfor %} 
+{% endif %} 
+{% if (revtheme_header_menu_links) %} 
+	{% set i_rhml = 1 %} {% for revtheme_header_menu_link in revtheme_header_menu_links %} 
+		<div class="revlevel_1 hasChildren closed i_rhml_{{ i_rhml }}">
+			<div class="title">
+				<a href="{{ revtheme_header_menu_link['link'] }}">{% if (revtheme_header_menu_link['image']) %} {{ revtheme_header_menu_link['image'] }} {% endif %}{{ revtheme_header_menu_link['title'] }}</a>
+			</div>
+		</div>	
+	{% set i_rhml = i_rhml + 1 %} {% endfor %} 
+{% endif %} 
+</div>
+</div>
+</div>
+</div>
+<script><!--
+var defaults = {
+	columns: 4,
+	classname: 'column',
+	min: 1
+};
+$.fn.autocolumnlist = function(params){        
+	var options = $.extend({}, defaults, params);        
+	return this.each(function() {        
+		var els = $(this).find('li.glavli');
+		var dimension = els.size();
+		if (dimension > 0) {
+			var elCol = Math.ceil(dimension/options.columns);
+			if (elCol < options.min) {
+				elCol = options.min;
+			}
+			var start = 0;
+			var end = elCol;
+			for (i=0; i<options.columns; i++) {
+				if ((i + 1) == options.columns) {
+					els.slice(start, end).wrapAll('<div class="'+options.classname+' last" />');
+				} else {
+						els.slice(start, end).wrapAll('<div class="'+options.classname+'" />');
+				}
+				start = start+elCol;
+				end = end+elCol;
+			}
+	   }
+	});
+};
+{% if (setting_revtheme_header_menu['ogranich']) %} 
+var container_lastul = $("#menu2");
+container_lastul.find(".show_categoryoff").each(function () {
+	$(this).on('click', function () {
+		if ($(this).hasClass("show_coff")){
+			$(this).removeClass("show_coff");
+			$(this).parent(".lastul").find(".categoryoff").show();
+			$(this).html('{{ text_hide_all }}');
+		} else {
+			$(this).addClass("show_coff");
+			$(this).parent(".lastul").find(".categoryoff").hide();
+			$(this).html('{{ text_show_all }}');
+		}
+		var m2inh = $('.revlevel_1.open .childrenList').outerHeight();
+		$('#menu2 .podmenu2').css('height', m2inh);
+	});
+});
+{% endif %} 
+{% if (setting_revtheme_header_menu['zadergka']) %} 
+	var global_menu2_button;
+	$("#top3 #menu2_button").hover(function(){
+		global_menu2_button = setTimeout(function() {
+		$('#top3 #menu2').addClass('dblock');
+	}, 250)
+	},function(){
+		$('#top3 #menu2').removeClass('dblock');
+		clearTimeout(global_menu2_button);
+	});
+{% endif %} 
+{% if (cats_status) %} 
+	function autocol_cats(cat_id, cat_col) {
+		$('.ul_block'+cat_id).autocolumnlist({  
+			columns: cat_col,
+			min: 1
+		});
+	}
+	{% for category in categories %} 
+		autocol_cats({{ category['category_id'] }}, {{ category['column'] }});
+	{% endfor %} 
+{% endif %} 
+{% if (revtheme_dop_menus) %} 
+	function autocol_dop_menus(dop_menu_id, cat_col) {
+		$('.ul_block'+dop_menu_id+'.cat_dop').autocolumnlist({  
+			columns: cat_col,
+			min: 1
+		});
+	}
+	{% for revtheme_dop_menu in revtheme_dop_menus %} 
+		autocol_dop_menus({{ revtheme_dop_menu['id'] }}, {{ revtheme_dop_menu['column'] }});
+	{% endfor %} 
+{% endif %} 
+{% if (manuf_status) %} 
+	{% if (categories_m) %} 
+		$('.ul_block.cat_m').autocolumnlist({  
+			columns: {{ n_column }},
+			min: 1
+		});
+	{% endif %} 
+{% endif %} 
+{% if (revblog_status and blog_categories) %} 
+	$('.ul_block.cat_revblog').autocolumnlist({  
+		columns: {{ revblog_column }},
+		min: 1
+	});
+{% endif %} 
+{% if (image_in_ico) %} 
+	$('#menu2').css('display', 'block');
+	{% if (cats_status) %} 
+		{% for category in categories %} 
+			{% if (category['children']) %}	
+				var div = '.childrenList .image_in_ico_{{ category['category_id'] }}.refine_categories span';
+				var maxheight = 0;
+				$(div).each(function(){
+					$(this).removeAttr('style');
+					if($(this).height() > maxheight) {
+						maxheight = $(this).height();
+					}
+				});
+				$(div).height(maxheight);
+			{% endif %} 
+		{% endfor %} 
+	{% endif %} 
+	{% if (revtheme_dop_menus) %} 
+		{% for revtheme_dop_menu in revtheme_dop_menus %} 
+			{% if (revtheme_dop_menu['children'] is defined) %} 
+				var div1 = '.childrenList .image_in_ico_dop_{{ revtheme_dop_menu['id'] }}.refine_categories span';
+				var maxheight = 0;
+				$(div1).each(function(){
+					$(this).removeAttr('style');
+					if($(this).height() > maxheight) {
+						maxheight = $(this).height();
+					}
+				});
+				$(div1).height(maxheight);
+			{% endif %} 
+		{% endfor %} 
+	{% endif %} 
+	$('#menu2').css('display', '');
+{% endif %} 
+{% if (image_in_ico_m) %} 
+	{% if (manuf_status) %} 
+		var div2 = '.image_in_ico_manufacturers.refine_categories > a > span';
+		var maxheight = 0;
+		$(div2).each(function(){
+			$(this).removeAttr('style');
+			if($(this).height() > maxheight) {
+				maxheight = $(this).height();
+			}
+		});
+		$(div2).height(maxheight);
+	{% endif %} 
+{% endif %} 
+{% if (revblog_status) %} 
+	{% if (image_in_ico_revblog) %} 
+		var div3 = '.image_in_ico_revblog.refine_categories > a > span';
+		var maxheight = 0;
+		$(div3).each(function(){
+			$(this).removeAttr('style');
+			if($(this).height() > maxheight) {
+				maxheight = $(this).height();
+			}
+		});
+		$(div3).height(maxheight);
+	{% endif %} 
+{% endif %} 
+//--></script>

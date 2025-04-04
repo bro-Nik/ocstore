@@ -1,0 +1,39 @@
+{{ header }}
+
+<div class="container" {% block container_schema %} {% endblock %}>
+
+  {% include 'revolution/template/product/partials/breadcrumb.twig' %}
+
+  <div class="row">{{ column_left }}
+    {#{% if (column_left and column_right) %} 
+        {% set class = 'col-sm-6' %} 
+        {% elseif (column_left or column_right) %} 
+        {% set class = 'col-sm-9' %} 
+        {% else %} 
+        {% set class = 'col-sm-12' %} 
+        {% endif %} #}
+
+    {# Используется в product#}
+    {% if (column_left and column_right) %}
+      {% set class = 'col-sm-6' %}
+      {% set columns_dd = constant('true') %}
+    {% elseif (column_left or column_right or (products and recpr_rightc)) %}
+      {% set class = 'col-sm-9' %}
+      {% set columns_dd = constant('true') %}
+    {% else %}
+      {% set class = 'col-sm-12' %}
+      {% set columns_dd = constant('false') %}
+    {% endif %}
+
+    <div id="content" class="{{ class }}">{{ content_top }}
+      {% block content %}{% endblock %}
+    </div>
+
+    {{ column_right }}
+
+  </div>
+    {% block after_content %}{% endblock %}
+</div>
+
+{% block script %}{% endblock %}
+{{ footer }}

@@ -1,0 +1,474 @@
+{{ header }}{{ column_left }} 
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-revolution" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %} 
+        <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+        {% endfor %} 
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+	{% if (success) %} 
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %} 
+    <div class="panel panel-default alert-helper">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ heading_text }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-revolution" class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-2">
+					<nav class="nav-sidebar">
+						<ul class="nav tabs">
+							<li class="active"><a href="#tab_1" data-toggle="tab">Основные настройки</a></li>
+							<li><a href="#tab_2" data-toggle="tab">Опции</a></li>
+							<li><a href="#tab_3" data-toggle="tab">Атрибуты</a></li>
+							<li><a href="#tab_4" data-toggle="tab">Группировка товаров</a></li>
+						</ul>
+					</nav>
+				</div>	
+				<div class="tab-content col-sm-10">
+					<div class="tab-pane active text-style" id="tab_1">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Статус:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[status]" value="1" {{revtheme_filter['status'] is defined and revtheme_filter['status'] ? 'checked' : '' }} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[status]" value="0" {{revtheme_filter['status'] is not defined or not revtheme_filter['status'] ? 'checked' : '' }} /><span>Выкл.</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="input-width">Заголовок:</label>
+							<div class="col-sm-3">
+							{% for language in languages %} 
+								<div class="input-group">
+									<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+									<input type="text" name="revtheme_filter[{{ language['language_id'] }}][title]" value="{{revtheme_filter[language['language_id']]['title'] is defined ? revtheme_filter[language['language_id']]['title'] : '' }}" id="input-width" class="form-control" />
+								</div>
+							{% endfor %} 
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="input-razdelitel">Разделитель в атрибутах:</label>
+							<div class="col-sm-1">
+								<div class="input-group">
+									<input type="text" name="revtheme_filter[razdelitel]" value="{{revtheme_filter['razdelitel'] is defined ? revtheme_filter['razdelitel'] : ';' }}" id="input-razdelitel" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Кнопка сброса:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_refreshbutton]" value="1" {{revtheme_filter['filter_refreshbutton'] is defined and revtheme_filter['filter_refreshbutton'] ? 'checked' : '' }} /><span>Под фильтрами</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_refreshbutton]" value="0" {{revtheme_filter['filter_refreshbutton'] is not defined or not revtheme_filter['filter_refreshbutton'] ? 'checked' : '' }} /><span>В заголовке</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Фильтр по цене:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_price]" value="1" {{revtheme_filter['filter_price'] is defined and revtheme_filter['filter_price'] ? 'checked' : '' }} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().hide().next().hide().next().hide().next().hide().next().hide().next().hide();" name="revtheme_filter[filter_price]" value="0" {{revtheme_filter['filter_price'] is not defined or not revtheme_filter['filter_price'] ? 'checked' : '' }} /><span>Выкл.</span>
+								</label>
+							</div>
+							<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_price'] is not defined or not revtheme_filter['filter_price']) %} display: none {% endif %}"></div>
+							<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_price'] is not defined or not revtheme_filter['filter_price']) %} display: none {% endif %}">Сетка под слайдером цены:</label>
+							<div class="col-sm-3" {% if (revtheme_filter['filter_price'] is not defined or not revtheme_filter['filter_price']) %} style="display: none" {% endif %}>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_price_setka]" value="1" {{revtheme_filter['filter_price_setka'] is defined and revtheme_filter['filter_price_setka'] ? 'checked' : '' }} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_price_setka]" value="0" {{revtheme_filter['filter_price_setka'] is not defined or not revtheme_filter['filter_price_setka'] ? 'checked' : '' }} /><span>Выкл.</span>
+								</label>
+							</div>
+							<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_price'] is not defined or not revtheme_filter['filter_price']) %} display: none {% endif %}"></div>
+							<label class="col-sm-2 control-label" for="input-filter_price_step" style="font-weight: normal; {% if (revtheme_filter['filter_price'] is not defined or not revtheme_filter['filter_price']) %} display: none {% endif %}">Шаг ползунка:</label>
+							<div class="col-sm-1" {% if (revtheme_filter['filter_price'] is not defined or not revtheme_filter['filter_price']) %} style="display: none" {% endif %}>
+								<div class="input-group">
+									<input type="text" name="revtheme_filter[filter_price_step]" value="{{revtheme_filter['filter_price_step'] is defined ? revtheme_filter['filter_price_step'] : '100' }}" id="input-filter_price_step" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Фильтр по наличию:</label>
+							<div class="col-sm-10">
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_instock]" value="1" {% if (revtheme_filter['filter_instock'] is defined and revtheme_filter['filter_instock']) %} checked {% endif %} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().hide().next().hide().next().hide().next().hide();" name="revtheme_filter[filter_instock]" value="0" {% if ((revtheme_filter['filter_instock'] is defined and not revtheme_filter['filter_instock']) or revtheme_filter['filter_instock'] is not defined) %} checked {% endif %} /><span>Выкл.</span>
+								</label>
+							</div>
+							<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_instock'] is not defined or not revtheme_filter['filter_instock']) %} display: none {% endif %}"></div>
+							<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_instock'] is not defined or not revtheme_filter['filter_instock']) %} display: none {% endif %}">По умолчанию:</label>
+							<div class="col-sm-10" {% if (revtheme_filter['filter_instock'] is not defined or not revtheme_filter['filter_instock']) %} style="display: none" {% endif %}>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_instock_vid]" value="1" {{ revtheme_filter['filter_instock_vid'] is defined and revtheme_filter['filter_instock_vid'] ? 'checked' : '' }} /><span>Скрыт</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_instock_vid]" value="0" {{ revtheme_filter['filter_instock_vid'] is not defined or not revtheme_filter['filter_instock_vid'] ? 'checked' : '' }} /><span>Открыт</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Группировка товаров:</label>
+							<div class="col-sm-10">
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_gr]" value="radio" {% if (revtheme_filter['filter_gr'] is defined and revtheme_filter['filter_gr'] == 'radio') %} checked {% endif %} /><span>Переключатель</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_gr]" value="select" {% if (revtheme_filter['filter_gr'] is defined and revtheme_filter['filter_gr'] == 'select') %} checked {% endif %} /><span>Список</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().hide().next().hide().next().hide();" name="revtheme_filter[filter_gr]" value="false" {% if (revtheme_filter['filter_gr'] is not defined or (revtheme_filter['filter_gr'] is defined and revtheme_filter['filter_gr'] == 'false')) %} checked {% endif %} /><span>Выкл.</span>
+								</label>
+							</div>
+							<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_gr'] is not defined or revtheme_filter['filter_gr'] == 'false') %} display: none {% endif %}"></div>
+							<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_gr'] is not defined or revtheme_filter['filter_gr'] == 'false') %} display: none {% endif %}">По умолчанию:</label>
+							<div class="col-sm-10" {% if (revtheme_filter['filter_gr'] is not defined or revtheme_filter['filter_gr'] == 'false') %} style="display: none" {% endif %}>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_gr_vid]" value="1" {{(revtheme_filter['filter_gr_vid'] is defined and revtheme_filter['filter_gr_vid'] ? 'checked' : '') }} /><span>Скрыт</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_gr_vid]" value="0" {{(revtheme_filter['filter_gr_vid'] is not defined or not revtheme_filter['filter_gr_vid'] ? 'checked' : '') }} /><span>Открыт</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Фильтр по подкатегориям:</label>
+							<div class="col-sm-10">
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_subcategories]" value="radio" {% if (revtheme_filter['filter_subcategories'] is defined and revtheme_filter['filter_subcategories'] == 'radio') %} checked {% endif %} /><span>Переключатель</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_subcategories]" value="checkbox" {% if (revtheme_filter['filter_subcategories'] is defined and revtheme_filter['filter_subcategories'] == 'checkbox') %} checked {% endif %} /><span>Флажок</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_subcategories]" value="select" {% if (revtheme_filter['filter_subcategories'] is defined and revtheme_filter['filter_subcategories'] == 'select') %} checked {% endif %} /><span>Список</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().hide().next().hide().next().hide();" name="revtheme_filter[filter_subcategories]" value="false" {% if (revtheme_filter['filter_subcategories'] is not defined or (revtheme_filter['filter_subcategories'] is defined and revtheme_filter['filter_subcategories'] == 'false')) %} checked {% endif %} /><span>Выкл.</span>
+								</label>
+							</div>
+							<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_subcategories'] is not defined or revtheme_filter['filter_subcategories'] == 'false') %} display: none {% endif %}"></div>
+							<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_subcategories'] is not defined or revtheme_filter['filter_subcategories'] == 'false') %} display: none {% endif %}">По умолчанию:</label>
+							<div class="col-sm-10" {% if (revtheme_filter['filter_subcategories'] is not defined or revtheme_filter['filter_subcategories'] == 'false') %} style="display: none" {% endif %}>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_subcategories_vid]" value="1" {{(revtheme_filter['filter_subcategories_vid'] is defined and revtheme_filter['filter_subcategories_vid'] ? 'checked' : '') }} /><span>Скрыт</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_subcategories_vid]" value="0" {{(revtheme_filter['filter_subcategories_vid'] is not defined or not revtheme_filter['filter_subcategories_vid'] ? 'checked' : '') }} /><span>Открыт</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Фильтр по производителям:</label>
+							<div class="col-sm-10">
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_manufacturer]" value="radio" {% if (revtheme_filter['filter_manufacturer'] is defined and revtheme_filter['filter_manufacturer'] == 'radio') %} checked {% endif %} /><span>Переключатель</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_manufacturer]" value="checkbox" {% if (revtheme_filter['filter_manufacturer'] is defined and revtheme_filter['filter_manufacturer'] == 'checkbox') %} checked {% endif %} /><span>Флажок</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().show().next().show().next().show();" name="revtheme_filter[filter_manufacturer]" value="select" {% if (revtheme_filter['filter_manufacturer'] is defined and revtheme_filter['filter_manufacturer'] == 'select') %} checked {% endif %} /><span>Список</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" onchange="$(this).parent().parent().next().hide().next().hide().next().hide();" name="revtheme_filter[filter_manufacturer]" value="false" {% if (revtheme_filter['filter_manufacturer'] is defined and revtheme_filter['filter_manufacturer'] == 'false') %} checked {% endif %} /><span>Выкл.</span>
+								</label>
+							</div>
+							<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_manufacturer'] is not defined or revtheme_filter['filter_manufacturer'] == 'false') %} display: none {% endif %}"></div>
+							<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_manufacturer'] is not defined or revtheme_filter['filter_manufacturer'] == 'false') %} display: none {% endif %}">По умолчанию:</label>
+							<div class="col-sm-10" {% if (revtheme_filter['filter_manufacturer'] is not defined or revtheme_filter['filter_manufacturer'] == 'false') %} style="display: none" {% endif %}>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_manufacturer_vid]" value="1" {{(revtheme_filter['filter_manufacturer_vid'] is defined and revtheme_filter['filter_manufacturer_vid'] ? 'checked' : '') }} /><span>Скрыт</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_manufacturer_vid]" value="0" {{(revtheme_filter['filter_manufacturer_vid'] is not defined or not revtheme_filter['filter_manufacturer_vid'] ? 'checked' : '') }} /><span>Открыт</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Способ фильтрации:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_sposob]" value="1" {{(revtheme_filter['filter_sposob'] is defined and revtheme_filter['filter_sposob'] ? 'checked' : '') }} /><span>Авто</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_sposob]" value="0" {{(revtheme_filter['filter_sposob'] is not defined or not revtheme_filter['filter_sposob'] ? 'checked' : '') }} /><span>По кнопке</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Показывать кол-во товаров:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_count_products]" value="1" {{(revtheme_filter['filter_count_products'] is defined and revtheme_filter['filter_count_products'] ? 'checked' : '') }} /><span>Да</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_count_products]" value="0" {{(revtheme_filter['filter_count_products'] is not defined or not revtheme_filter['filter_count_products'] ? 'checked' : '') }} /><span>Нет</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Пересчет кол-ва товаров в фильтре:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_recount]" value="1" {{(revtheme_filter['filter_recount'] is defined and revtheme_filter['filter_recount'] ? 'checked' : '') }} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_recount]" value="0" {{(revtheme_filter['filter_recount'] is not defined or not revtheme_filter['filter_recount'] ? 'checked' : '') }} /><span>Выкл.</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Сетка под слайдерами:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_setka]" value="1" {{(revtheme_filter['filter_setka'] is defined and revtheme_filter['filter_setka'] ? 'checked' : '') }} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_setka]" value="0" {{(revtheme_filter['filter_setka'] is not defined or not revtheme_filter['filter_setka'] ? 'checked' : '') }} /><span>Выкл.</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Параметры в адресной строке:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_brstroka]" value="1" {{revtheme_filter['filter_brstroka'] is defined and revtheme_filter['filter_brstroka'] ? 'checked' : '' }} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_brstroka]" value="0" {{revtheme_filter['filter_brstroka'] is not defined or not revtheme_filter['filter_brstroka'] ? 'checked' : '' }} /><span>Выкл.</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Не показывать фильтр в категориях:</label>
+							<div class="col-sm-8">
+								<div class="well well-sm" style="min-height: 100px; max-height: 205px; overflow: auto; margin-bottom: 10px;">
+									<table class="table table-striped">
+										{% for category in categories %} 
+										<tr>
+											<td class="checkbox">
+												<label>
+													{% if (revtheme_filter['filter_categories'] is defined and (category['category_id'] in revtheme_filter['filter_categories'])) %} 
+														<input type="checkbox" name="revtheme_filter[filter_categories][]" value="{{ category['category_id'] }}" checked="checked" />
+													{% else %} 
+														<input type="checkbox" name="revtheme_filter[filter_categories][]" value="{{ category['category_id'] }}" />
+													{% endif %} 
+													{{ category['name'] }} 
+												</label>
+											</td>
+										</tr>
+										{% endfor %} 
+									</table>
+								</div>
+								<a onclick="$(this).parent().find(':checkbox').prop('checked', true);">Выделить все</a> / 
+								<a onclick="$(this).parent().find(':checkbox').prop('checked', false);">Снять выделения</a>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Скрипты после загрузки:</label>
+							<div class="col-sm-8">
+								<textarea name="revtheme_filter[scripts]" class="form-control" rows="4">{{(revtheme_filter['scripts'] is defined ? revtheme_filter['scripts'] : '') }}</textarea>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane text-style" id="tab_2">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Фильтр по опциям:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_options]" value="1" {{revtheme_filter['filter_options'] is defined and revtheme_filter['filter_options'] ? 'checked' : '' }} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_options]" value="0" {{revtheme_filter['filter_options'] is not defined or not revtheme_filter['filter_options'] ? 'checked' : '' }} /><span>Выкл.</span>
+								</label>
+							</div>
+						</div>
+						{% for option in options %} 
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ option['name'] }}:</label>
+								<div class="col-sm-5">
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_type]" value="radio" {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is defined and revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'radio') %} checked {% endif %} /><span>Переключатель</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_type]" value="checkbox" {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is defined and revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'checkbox') %} checked {% endif %} /><span>Флажок</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_type]" value="select" {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is defined and revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'select') %} checked {% endif %} /><span>Список</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_type]" value="slider" {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is defined and revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'slider') %} checked {% endif %} /><span>Слайдер</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_type]" value="image" {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is defined and revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'image') %} checked {% endif %} /><span>Картинка</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().hide().next().hide().next().hide().next().hide().next().hide().next().hide();" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_type]" value="false" {% if ((revtheme_filter['filter_option'][option['option_id']]['option_type'] is defined and revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'false') or revtheme_filter['filter_option'][option['option_id']]['option_type'] is not defined) %} checked {% endif %} /><span>Выкл.</span>
+									</label>
+								</div>
+								<label class="col-sm-2 control-label" style="font-weight: normal;">Сортировка:</label>
+								<div class="col-sm-1">
+									<input type="text" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_sort]" value="{{ revtheme_filter['filter_option'][option['option_id']]['option_sort'] is defined ? revtheme_filter['filter_option'][option['option_id']]['option_sort'] : '0' }}" class="form-control" />
+								</div>
+								<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is not defined or revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'false') %} display: none {% endif %}"></div>
+								<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is not defined or revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'false') %} display: none {% endif %}">По умолчанию:</label>
+								<div class="col-sm-10" {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is not defined or revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'false') %} style="display: none" {% endif %}>
+									<label class="radio-inline">
+										<input type="radio" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_vid]" value="1" {% if ((revtheme_filter['filter_option'][option['option_id']]['option_vid'] is defined and revtheme_filter['filter_option'][option['option_id']]['option_vid'])) %} checked {% endif %} /><span>Скрыт</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_vid]" value="0" {% if ((revtheme_filter['filter_option'][option['option_id']]['option_vid'] is defined and not revtheme_filter['filter_option'][option['option_id']]['option_vid']) or revtheme_filter['filter_option'][option['option_id']]['option_vid'] is not defined) %} checked {% endif %} /><span>Открыт</span>
+									</label>
+								</div>
+								<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is not defined or revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'false') %} display: none {% endif %}"></div>
+								<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is not defined or revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'false') %} display: none {% endif %}">Не показывать в категориях:</label>
+								<div class="col-sm-8" {% if (revtheme_filter['filter_option'][option['option_id']]['option_type'] is not defined or revtheme_filter['filter_option'][option['option_id']]['option_type'] == 'false') %} style="display: none" {% endif %}>
+									<div class="well well-sm" style="min-height: 100px; max-height: 205px; overflow: auto; margin-bottom: 10px;">
+										<table class="table table-striped">
+											{% for category in categories %} 
+											<tr>
+												<td class="checkbox">
+													<label>
+														{% if (revtheme_filter['filter_option'][option['option_id']]['option_categories'] is defined and (category['category_id'] in revtheme_filter['filter_option'][option['option_id']]['option_categories'])) %} 
+															<input type="checkbox" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_categories][]" value="{{ category['category_id'] }}" checked="checked" />
+														{% else %} 
+															<input type="checkbox" name="revtheme_filter[filter_option][{{ option['option_id'] }}][option_categories][]" value="{{ category['category_id'] }}" />
+														{% endif %} 
+														{{ category['name'] }} 
+													</label>
+												</td>
+											</tr>
+											{% endfor %} 
+										</table>
+									</div>
+									<a onclick="$(this).parent().find(':checkbox').prop('checked', true);">Выделить все</a> / 
+									<a onclick="$(this).parent().find(':checkbox').prop('checked', false);">Снять выделения</a>
+								</div>
+							</div>
+						{% endfor %}  
+					</div>
+					<div class="tab-pane text-style" id="tab_3">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Фильтр по атрибутам:</label>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_attributes]" value="1" {{revtheme_filter['filter_attributes'] is defined and revtheme_filter['filter_attributes'] ? 'checked' : '' }} /><span>Вкл.</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="revtheme_filter[filter_attributes]" value="0" {{revtheme_filter['filter_attributes'] is not defined or not revtheme_filter['filter_attributes'] ? 'checked' : '' }} /><span>Выкл.</span>
+								</label>
+							</div>
+						</div>
+						{% for attribute in attributes %} 
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ attribute['name'] }}:</label>
+								<div class="col-sm-5">
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_type]" value="radio" {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is defined and revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'radio') %} checked {% endif %} /><span>Переключатель</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_type]" value="checkbox" {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is defined and revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'checkbox') %} checked {% endif %} /><span>Флажок</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_type]" value="select" {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is defined and revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'select') %} checked {% endif %} /><span>Список</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().show().next().show().next().show().next().show().next().show().next().show();" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_type]" value="slider" {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is defined and revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'slider') %}  checked {% endif %} /><span>Слайдер</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" onchange="$(this).parent().parent().next().next().next().hide().next().hide().next().hide().next().hide().next().hide().next().hide();" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_type]" value="false" {% if ((revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is defined and revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'false') or revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is not defined) %} checked {% endif %} /><span>Выкл.</span>
+									</label>
+								</div>
+								<label class="col-sm-2 control-label" style="font-weight: normal;">Сортировка:</label>
+								<div class="col-sm-1">
+									<input type="text" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_sort]" value="{{ revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_sort'] is defined ? revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_sort'] : '0' }}" class="form-control" />
+								</div>
+								<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is not defined or revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'false') %} display: none {% endif %}"></div>
+								<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is not defined or revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'false') %} display: none {% endif %}">По умолчанию:</label>
+								<div class="col-sm-10" {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is not defined or revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'false') %} style="display: none" {% endif %}>
+									<label class="radio-inline">
+										<input type="radio" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_vid]" value="1" {% if ((revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_vid'] is defined and revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_vid'])) %} checked {% endif %} /><span>Скрыт</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_vid]" value="0" {% if ((revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_vid'] is defined and not revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_vid']) or revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_vid'] is not defined) %} checked {% endif %} /><span>Открыт</span>
+									</label>
+								</div>
+								<div class="clearfix" style="margin: 10px 0; {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is not defined or revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'false') %} display: none {% endif %}"></div>
+								<label class="col-sm-2 control-label" style="font-weight: normal; {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is not defined or revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'false') %} display: none {% endif %}">Не показывать в категориях:</label>
+								<div class="col-sm-8" {% if (revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] is not defined or revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_type'] == 'false') %} style="display: none" {% endif %} >
+									<div class="well well-sm" style="min-height: 100px; max-height: 205px; overflow: auto; margin-bottom: 10px;">
+										<table class="table table-striped">
+											{% for category in categories %} 
+											<tr>
+												<td class="checkbox">
+													<label>
+														<input type="checkbox" name="revtheme_filter[filter_attribute][{{ attribute['attribute_id'] }}][attribute_categories][]" value="{{ category['category_id'] }}" {{ revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_categories'] is defined and (category['category_id'] in revtheme_filter['filter_attribute'][attribute['attribute_id']]['attribute_categories']) ? 'checked' : '' }}/>
+														{{ category['name'] }} 
+													</label>
+												</td>
+											</tr>
+											{% endfor %} 
+										</table>
+									</div>
+									<a onclick="$(this).parent().find(':checkbox').prop('checked', true);">Выделить все</a> / 
+									<a onclick="$(this).parent().find(':checkbox').prop('checked', false);">Снять выделения</a>
+								</div>
+							</div>
+						{% endfor %}  
+					</div>
+					
+					<div class="tab-pane text-style" id="tab_4">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Производитель:</label>
+							<div class="col-sm-5">
+								<input type="checkbox" name="revtheme_filter[filter_m_grs]" value="1" {% if (revtheme_filter['filter_m_grs'] is defined and revtheme_filter['filter_m_grs']) %} checked {% endif %} />
+							</div>
+						</div>
+						<h4>Опции</h4>
+						{% for option in options %} 
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ option['name'] }}:</label>
+								<div class="col-sm-5">
+									<input type="checkbox" name="revtheme_filter[filter_o_grs][]" value="{{ option['option_id'] }}" {% if (filter_o_grs is defined and filter_o_grs is not empty and (option['option_id'] in filter_o_grs)) %} checked {% endif %} />
+								</div>
+							</div>
+						{% endfor %} 
+						<br/>
+						<h4>Атрибуты</h4>
+						{% for attribute in attributes %} 
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ attribute['name'] }}:</label>
+								<div class="col-sm-5">
+									<input type="checkbox" name="revtheme_filter[filter_a_grs][]" value="{{ attribute['attribute_id'] }}" {% if (filter_a_grs is defined and filter_a_grs is not empty and (attribute['attribute_id'] in filter_a_grs)) %} checked {% endif %} />
+								</div>
+							</div>
+						{% endfor %} 
+					</div>
+				</div>
+			</div>
+        </form>
+    </div>
+  </div>
+</div>
+{{ footer }}

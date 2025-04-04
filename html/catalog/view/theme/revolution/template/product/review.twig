@@ -1,0 +1,29 @@
+{% if (reviews) %} 
+{% for review in reviews %} 
+<div class="review-list" itemprop="review" itemscope itemtype="http://schema.org/Review">
+  <div class="author"><span itemprop="author">{{ review['author'] }}</span><span class="rdate" itemprop="datePublished"> / {{ review['date_added'] }}</span></div>
+  <div class="rating" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+	<meta itemprop="worstRating" content = "1">
+	<meta itemprop="bestRating" content = "5">
+	<meta itemprop="ratingValue" content = "{{ review['rating'] }}">
+	{% set i = 1 %}{% for i in i..5 %} 
+      {% if (review['rating'] < i) %} 
+      <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+      {% else %} 
+      <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
+      {% endif %} 
+    {% endfor %} 
+	</div>
+  <div class="text" itemprop="description">{{ review['text'] }}</div>
+	{% if (review['answer']) %} 
+		<div class="name_admin">{{ review['answer_from'] }}</div>
+		<div class="answer_admin">
+			<div>{{ review['answer'] }}</div>
+		</div>
+	{% endif %} 
+</div>
+{% endfor %} 
+<div class="text-right">{{ pagination }}</div>
+{% else %} 
+<p>{{ text_no_reviews }}</p>
+{% endif %}

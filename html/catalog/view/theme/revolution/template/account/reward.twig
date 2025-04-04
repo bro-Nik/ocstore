@@ -1,0 +1,67 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      <p>{{ text_total }} <b>{{ total }}</b>.</p>
+      <div class="table-responsive">
+        <table class="table table-revolution">
+          <thead>
+            <tr>
+              <td class="text-left">{{ column_date_added }}</td>
+              <td class="text-left">{{ column_description }}</td>
+              <td class="text-right">{{ column_points }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% if (rewards) %} 
+            {% for reward in rewards %} 
+            <tr>
+              <td class="text-left">{{ reward['date_added'] }}</td>
+              <td class="text-left">{% if (reward['order_id']) %} 
+                <a href="{{ reward['href'] }}">{{ reward['description'] }}</a>
+                {% else %} 
+                {{ reward['description'] }} 
+                {% endif %}</td>
+              <td class="text-right">{{ reward['points'] }}</td>
+            </tr>
+            {% endfor %} 
+            {% else %} 
+            <tr>
+              <td class="text-center" colspan="3">{{ text_empty }}</td>
+            </tr>
+            {% endif %} 
+          </tbody>
+        </table>
+      </div>
+	  {% if (rewards) %} 
+		  <div class="row">
+			<div class="col-sm-6 text-left">{{ pagination }}</div>
+			<div class="col-sm-6 text-right">{{ results }}</div>
+		  </div>
+	  {% endif %} 
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

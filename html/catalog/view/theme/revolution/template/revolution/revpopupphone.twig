@@ -1,0 +1,84 @@
+<div id="popup-order-okno" class="popphone">
+<div class="popup-heading">{{ popupphone_heading_title }}</div>
+<div class="popup-center">
+	<form method="post" enctype="multipart/form-data" id="purchase-form">
+		<div class="payment-info">
+			{% if (revtheme_header_popupphone['firstname']) %} 
+				<div>
+					<label>{% if (revtheme_header_popupphone['firstname'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_firstname }}</label>
+					<input name="firstname" value="{{ firstname }}" />
+				</div>
+			{% endif %} 
+			{% if (revtheme_header_popupphone['telephone']) %} 
+				<div>
+					<label>{% if (revtheme_header_popupphone['telephone'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_telephone }}</label>
+					<input name="telephone" value="{{ telephone }}" {% if (telephone_mask) %} data-mask="{{ telephone_mask }}" {% endif %} />
+				</div>
+			{% endif %} 
+			{% if (revtheme_header_popupphone['email']) %} 
+				<div>
+					<label>{% if (revtheme_header_popupphone['email'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_email }}</label>
+					<input name="email" value="{{ email }}" />
+				</div>
+			{% endif %} 
+			{% if (revtheme_header_popupphone['comment']) %} 
+				<div>
+					<label>{% if (revtheme_header_popupphone['comment'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_comment }}</label>
+					<textarea name="comment">{{ comment }}</textarea>
+				</div>
+			{% endif %} 
+		</div>
+		{% if (text_agree_pol_konf) %} 
+			<div class="rev_pol_konf pull-right text-right">
+				<span>{{ text_agree_pol_konf }}</span>
+				<input type="checkbox" name="agree_pol_konf" checked="checked" />
+			</div>
+		{% endif %} 
+		<input type="hidden" value="" name="site_url" />
+	</form>
+</div>
+<div class="popup-footer">
+	<button onclick="$.magnificPopup.close();">{{ button_shopping }}</button>
+	<a id="popup-checkout-button">{{ button_checkout }}</a>
+</div>
+<script><!--
+$('input[name=\'site_url\']').val(window.location.href);
+function masked(element, status) {
+	if (status == true) {
+		$('<div/>')
+		.attr({ 'class':'masked' })
+		.prependTo(element);
+		$('<div class="masked_loading" />').insertAfter($('.masked'));
+	} else {
+		$('.masked').remove();
+		$('.masked_loading').remove();
+	}
+}
+$('#popup-checkout-button').on('click', function() {
+	masked('#popup-order-okno', true);
+	$.ajax({
+		type: 'post',
+		url:  'index.php?route=revolution/revpopupphone/make_order_phone',
+		dataType: 'json',
+		data: $('#purchase-form').serialize(),
+		success: function(json) {
+			if (json['error']) {
+				if (json['error']['field']) {
+					masked('#popup-order-okno', false);
+					$('.text-danger').remove();
+					$.each(json['error']['field'], function(i, val) {
+						$('[name="' + i + '"]').addClass('error_style').after('<div class="text-danger">' + val + '</div>');
+					});
+				}
+			} else {
+				if (json['output']) {
+					masked('#popup-order-okno', false);
+					$('#popup-checkout-button').remove();
+					$('#popup-order-okno .popup-center').html(json['output']);
+				}
+			}
+		}
+	});
+});
+//--></script>
+</div>

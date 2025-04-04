@@ -1,0 +1,60 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      {% if (downloads) %} 
+      <table class="table table-revolution">
+        <thead>
+          <tr>
+            <td class="text-left">{{ column_order_id }}</td>
+            <td class="text-left">{{ column_name }}</td>
+            <td class="text-left">{{ column_size }}</td>
+            <td class="text-left">{{ column_date_added }}</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for download in downloads %} 
+          <tr>
+            <td class="text-left">{{ download['order_id'] }}</td>
+            <td class="text-left">{{ download['name'] }}</td>
+            <td class="text-left">{{ download['size'] }}</td>
+            <td class="text-left">{{ download['date_added'] }}</td>
+            <td><a href="{{ download['href'] }}" data-toggle="tooltip" title="{{ button_download }}" class="btn btn-primary"><i class="fa fa-cloud-download"></i></a></td>
+          </tr>
+          {% endfor %} 
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+        <div class="col-sm-6 text-right">{{ results }}</div>
+      </div>
+      {% else %} 
+      <p>{{ text_empty }}</p>
+      {% endif %} 
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

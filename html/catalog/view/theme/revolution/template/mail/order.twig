@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{{ title }}</title>
+<style type="text/css">
+@media (max-width: 767px) {
+.hidden-xs {display: none;}
+}
+</style>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #333333; background: #fafafa;">
+<div style="max-width: 750px; font-size: 14px; margin: 10px auto; border: 3px solid #ddd; padding: 10px; background: #fff; box-shadow: 0px 0px 5px #ccc;"><a href="{{ store_url }}" title="{{ store_name }}"><img src="{{ logo }}" alt="{{ store_name }}" style="max-width: 300px; margin-bottom: 20px; border: none;" /></a>
+	<p style="margin-top: 0px; margin-bottom: 10px;">{{ text_greeting }}</p>
+	{% if (customer_id and text_link != '') %} 
+		<p style="margin-top: 0px; margin-bottom: 10px;">{{ text_link }}</p>
+	{% endif %} 
+	{% if (download and text_download != '') %} 
+		<p style="margin-top: 0px; margin-bottom: 10px;">{{ text_download }}</p>
+	{% endif %} 
+  
+    <h3 style="font-size: 15px;">{{ text_rev_order_detals }}</h3>
+	<table class="table table-revolution" style="width: 100%; max-width: 100%; margin-bottom: 20px; font-size: 14px; border-collapse: collapse;">
+		<tr>
+			<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_order_id }}</td>
+			<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">#{{ order_id }}</td>
+		</tr>
+		<tr>
+			<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_date_added }}</td>
+			<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ date_added }}</td>
+		</tr>
+		<tr>
+			<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_order_status }}</td>
+			<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ order_status }}</td>
+		</tr>
+		{% if (payment_method) %} 
+			<tr>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_payment_method }}</td>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ payment_method }}</td>
+			</tr>
+		{% endif %} 
+		{% if (shipping_method) %} 
+			<tr>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_shipping_method }}</td>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ shipping_method }}</td>
+			</tr>
+			{% if (shipping_address != '') %} 
+				<tr>
+					<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_shipping_address }}:</td>
+					<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ shipping_address }}</td>
+				</tr>
+			{% endif %} 
+		{% endif %} 
+		{% if (shipping_address == '') %} 
+			<tr>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_rev_order_name }}:</td>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ rev_order_name }}</td>
+			</tr>
+		{% endif %} 
+		{% if (telephone != '') %} 
+			<tr>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_telephone }}</td>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ telephone }}</td>
+			</tr>
+		{% endif %} 
+		{% if (email != '') %} 
+			<tr>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_email }}</td>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ email }}</td>
+			</tr>
+		{% endif %} 
+		{% if (comment) %} 
+			<tr>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ text_rev_order_comment }}:</td>
+				<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ comment }}</td>
+			</tr>
+		{% endif %} 
+	</table>
+	<div class="clearfix"></div>
+	<h3 style="font-size: 15px;">{{ text_rev_order_prods }}</h3>
+	<div class="table-responsive">
+		<table class="table table-revolution" style="width: 100%; max-width: 100%; margin-bottom: 0; font-size: 14px; border-collapse: collapse;">
+			<thead>
+				<tr style="background-color: #eee;">
+					<td class="text-center hidden-xs" style="padding: 5px; line-height: 1.4; vertical-align: middle; text-align: center;">{{ text_image }}</td>
+					<td class="text-left" style="padding: 5px; line-height: 1.4; vertical-align: middle; text-align: left;">{{ text_product }}</td>
+					{% if (settings['revcheckout_model']) %} 
+						<td class="text-center hidden-xs" style="padding: 5px; line-height: 1.4; vertical-align: middle; text-align: center;">{{ text_model }}</td>
+					{% endif %} 
+					{% if (settings['revcheckout_sku']) %} 
+						<td class="text-center hidden-xs" style="padding: 5px; line-height: 1.4; vertical-align: middle; text-align: center;">{{ text_sku }}</td>
+					{% endif %} 
+					<td class="text-center" style="padding: 5px; line-height: 1.4; vertical-align: middle; text-align: center;">{{ text_quantity }}</td>
+					<td class="text-right" style="padding: 5px; line-height: 1.4; vertical-align: middle; text-align: right;">{{ text_price }}</td>
+					<td class="text-right hidden-xs" style="padding: 5px; line-height: 1.4; vertical-align: middle; text-align: right;">{{ text_total }}</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in products %} 
+					<tr>
+						<td class="text-center hidden-xs" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: center;">
+							{% if (product['image']) %} 
+								<a href="{{ product['href'] }}">
+									<img src="{{ product['image'] }}" style="width: 50px;">
+								</a>
+							{% endif %} 
+						</td>
+						<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;"><a href="{{ product['href'] }}">{{ product['name'] }}</a>
+						{% for option in product['option'] %} 
+						<br />
+						<small style="font-size: 12px;">{{ option['name'] }}: {{ option['value'] }}</small>
+						{% endfor %}</td>
+						{% if (settings['revcheckout_model']) %} 
+							<td class="text-center hidden-xs" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: center;">{% if (product['option'] and option['model']) %}{{ option['model'] }}{% else %}{{ product['model'] }}{% endif %}</td>
+						{% endif %} 
+						{% if (settings['revcheckout_sku']) %} 
+							<td class="text-center hidden-xs" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: center;">{{ product['sku'] }}</td>
+						{% endif %} 
+						<td class="text-center" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: center;">{{ product['quantity'] }}</td>
+						<td class="text-right" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: right; min-width: 54px;">{{ product['price'] }}</td>
+						<td class="text-right hidden-xs" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: right; min-width: 54px;">{{ product['total'] }}</td>
+					</tr>
+				{% endfor %} 
+				{% for voucher in vouchers %} 
+					<tr>
+						<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;">{{ voucher['description'] }}</td>
+						<td class="text-left" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: left;"></td>
+						<td class="text-right" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: right;">1</td>
+						<td class="text-right" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: right;">{{ voucher['amount'] }}</td>
+						<td class="text-right" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: right;">{{ voucher['amount'] }}</td>
+					</tr>
+				{% endfor %} 
+			</tbody>
+		</table>
+		<table class="table table-revolution" style="width: 100%; max-width: 100%; margin-bottom: 20px; font-size: 14px; border-collapse: collapse;">
+			{% for total in totals %} 
+				<tr>
+					<td class="text-right" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: right;">{{ total['title'] }}:</td>
+					<td class="text-right" style="border-bottom: 1px solid #ddd; vertical-align: middle; padding: 5px; line-height: 1.4; text-align: right;">{{ total['text'] }}</td>
+				</tr>
+			{% endfor %} 
+		</table>
+	</div>
+	<p style="margin-top: 0px; margin-bottom: 20px;">{{ text_footer }}</p>
+</div>
+</body>
+</html>

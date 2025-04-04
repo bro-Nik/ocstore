@@ -1,0 +1,59 @@
+FROM arm64v8/php:8.1-fpm
+
+# Установка системных зависимостей
+RUN apt-get update && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libwebp-dev \
+    libzip-dev \
+    libssl-dev \
+    libxml2-dev \
+    libicu-dev \
+    tar \
+    unzip \
+    git \
+    curl \
+    && docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        mysqli \
+        pdo \
+        pdo_mysql \
+        zip \
+        bcmath \
+        intl \
+        opcache \
+        soap \
+        sockets \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Установка ionCube для ARM64 (PHP 8.1)
+RUN mkdir -p /tmp/ioncube \
+    && curl -L -o /tmp/ioncube.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_aarch64.tar.gz \
+    && tar xzf /tmp/ioncube.tar.gz -C /tmp/ioncube --strip-components=1 \
+    && PHP_EXT_DIR=$(php -r "echo ini_get('extension_dir');") \
+    && cp "/tmp/ioncube/ioncube_loader_lin_8.1.so" "$PHP_EXT_DIR/" \
+    && echo "zend_extension=ioncube_loader_lin_8.1.so" > /usr/local/etc/php/conf.d/00-ioncube.ini \
+    && rm -rf /tmp/ioncube*
+
+
+# Настройка PHP
+RUN echo "listen = 0.0.0.0:9000" >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
+    sed -i \
+    -e 's/^;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' \
+    -e 's/^upload_max_filesize = 2M/upload_max_filesize = 64M/' \
+    -e 's/^post_max_size = 8M/post_max_size = 64M/' \
+    -e 's/^memory_limit = 128M/memory_limit = 256M/' \
+    -e 's/^max_execution_time = 30/max_execution_time = 300/' \
+    -e 's/^;date.timezone =/date.timezone = UTC/' \
+    "$PHP_INI_DIR/php.ini" && \
+    echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/opcache.ini && \
+    echo "opcache.enable_cli=1" >> /usr/local/etc/php/conf.d/opcache.ini
+
+WORKDIR /var/www/html

@@ -1,0 +1,203 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+      <h1>{{ heading_title }}</h1>
+      <p>{{ text_description }}</p>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-code">{{ entry_code }}</label>
+          <div class="col-sm-10">
+            <textarea cols="40" rows="5" placeholder="{{ entry_code }}" id="input-code" class="form-control">{{ code }}</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-generator"><span data-toggle="tooltip" title="{{ help_generator }}">{{ entry_generator }}</span></label>
+          <div class="col-sm-10">
+            <input type="text" name="product" value="" placeholder="{{ entry_generator }}" id="input-generator" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-link">{{ entry_link }}</label>
+          <div class="col-sm-10">
+            <textarea name="link" cols="40" rows="5" placeholder="{{ entry_link }}" id="input-link" class="form-control"></textarea>
+          </div>
+        </div>
+      </form>
+      <div class="buttons clearfix">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+<script type="text/javascript"><!--
+// Autocomplete */
+(function($) {
+	$.fn.autocomplete = function(option) {
+		return this.each(function() {
+			this.timer = null;
+			this.items = new Array();
+
+			$.extend(this, option);
+
+			$(this).attr('autocomplete', 'off');
+
+			// Focus
+			$(this).on('focus', function() {
+				this.request();
+			});
+
+			// Blur
+			$(this).on('blur', function() {
+				setTimeout(function(object) {
+					object.hide();
+				}, 200, this);
+			});
+
+			// Keydown
+			$(this).on('keydown', function(event) {
+				switch(event.keyCode) {
+					case 27: // escape
+						this.hide();
+						break;
+					default:
+						this.request();
+						break;
+				}
+			});
+
+			// Click
+			this.click = function(event) {
+				event.preventDefault();
+
+				value = $(event.target).parent().attr('data-value');
+
+				if (value && this.items[value]) {
+					this.select(this.items[value]);
+				}
+			}
+
+			// Show
+			this.show = function() {
+				var pos = $(this).position();
+
+				$(this).siblings('ul.dropdown-menu').css({
+					top: pos.top + $(this).outerHeight(),
+					left: pos.left
+				});
+
+				$(this).siblings('ul.dropdown-menu').show();
+			}
+
+			// Hide
+			this.hide = function() {
+				$(this).siblings('ul.dropdown-menu').hide();
+			}
+
+			// Request
+			this.request = function() {
+				clearTimeout(this.timer);
+
+				this.timer = setTimeout(function(object) {
+					object.source($(object).val(), $.proxy(object.response, object));
+				}, 200, this);
+			}
+
+			// Response
+			this.response = function(json) {
+				html = '';
+
+				if (json.length) {
+					for (i = 0; i < json.length; i++) {
+						this.items[json[i]['value']] = json[i];
+					}
+
+					for (i = 0; i < json.length; i++) {
+						if (!json[i]['category']) {
+							html += '<li data-value="' + json[i]['value'] + '"><a href="#">' + json[i]['label'] + '</a></li>';
+						}
+					}
+
+					// Get all the ones with a categories
+					var category = new Array();
+
+					for (i = 0; i < json.length; i++) {
+						if (json[i]['category']) {
+							if (!category[json[i]['category']]) {
+								category[json[i]['category']] = new Array();
+								category[json[i]['category']]['name'] = json[i]['category'];
+								category[json[i]['category']]['item'] = new Array();
+							}
+
+							category[json[i]['category']]['item'].push(json[i]);
+						}
+					}
+
+					for (i in category) {
+						html += '<li class="dropdown-header">' + category[i]['name'] + '</li>';
+
+						for (j = 0; j < category[i]['item'].length; j++) {
+							html += '<li data-value="' + category[i]['item'][j]['value'] + '"><a href="#">&nbsp;&nbsp;&nbsp;' + category[i]['item'][j]['label'] + '</a></li>';
+						}
+					}
+				}
+
+				if (html) {
+					this.show();
+				} else {
+					this.hide();
+				}
+
+				$(this).siblings('ul.dropdown-menu').html(html);
+			}
+
+			$(this).after('<ul class="dropdown-menu"></ul>');
+			$(this).siblings('ul.dropdown-menu').delegate('a', 'click', $.proxy(this.click, this));
+
+		});
+	}
+})(window.jQuery);
+$('input[name=\'product\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=affiliate/tracking/autocomplete&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['link']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'product\']').val(item['label']);
+		$('textarea[name=\'link\']').val(item['value']);
+	}
+});
+//--></script>
+{{ footer }}

@@ -1,0 +1,141 @@
+{{ header }} 
+<div class="container">
+<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
+<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<link itemprop="item" href="{{ breadcrumb['href'] }}">
+<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
+<meta itemprop="position" content="{{ position }}" />
+</div>
+{% set position = position + 1 %} {% endfor %} 
+</div>
+<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
+{% for i,breadcrumb in breadcrumbs %} 
+{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
+{% endfor %} 
+<li><h1 class="inbreadcrumb">{{ heading_title }}</h1></li>
+</ul>
+  <div class="row">{{ column_left }} 
+    {% if (column_left and column_right) %} 
+    {% set class = 'col-sm-6' %} 
+    {% elseif (column_left or column_right) %} 
+    {% set class = 'col-sm-9' %} 
+    {% else %} 
+    {% set class = 'col-sm-12' %} 
+    {% endif %} 
+    <div id="content" class="{{ class }}">{{ content_top }} 
+	    <div class="well well-sm">
+			<div class="row">
+				<div class="col-lg-9 col-md-9 col-sm-8 ">
+					<div class="input-group">
+						<span class="input-group-addon" ><i class="fa fa-sort-amount-asc"></i><span class="hidden-xs hidden-sm hidden-md"> {{ text_sort }}</span></span>
+						<select id="input-sort" class="form-control" onchange="location = this.value;">
+						{% for sorts in sorts %}
+						{% if sorts.value == '%s-%s'|format(sort, order) %}
+						<option value="{{ sorts['href'] }}" selected="selected">{{ sorts['text'] }}</option>
+						{% else %}
+						<option value="{{ sorts['href'] }}">{{ sorts['text'] }}</option>
+						{% endif %}
+						{% endfor %}
+					  </select>
+					</div>
+				</div>
+				<br class="visible-xs">
+				<div class="col-lg-3 col-md-3 col-sm-4 ">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-eye"></i><span class="hidden-xs hidden-sm hidden-md"> {{ text_limit }}</span></span>
+						<select id="input-limit" class="form-control" onchange="location = this.value;">
+						{% for limits in limits %} 
+						{% if (limits['value'] == limit) %} 
+						<option value="{{ limits['href'] }}" selected="selected">{{ limits['text'] }}</option>
+						{% else %} 
+						<option value="{{ limits['href'] }}">{{ limits['text'] }}</option>
+						{% endif %} 
+						{% endfor %} 
+					  </select>
+					</div>
+				</div>
+			</div>
+        </div>
+		{% if (description|length > 14) %} 
+			<div class="row category_description blog">
+				{% if (thumb) %} 
+					<div class="fl-l"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail" /></div>
+				{% endif %} 
+				<div>{{ description }}</div>
+			</div>
+		{% else %} 
+			<br/>
+		{% endif %} 
+		{% if (categories) %} 
+		<div class="row category_podc_blog" style="margin-top: 20px; margin-bottom: 10px;">
+			{% if (categories|length <= 5) %} 
+				<div class="col-sm-3">
+					<ul>
+						{% for category in categories %} 
+							<li><a href="{{ category['href'] }}">{{ category['title'] }}</a></li>
+						{% endfor %} 
+					</ul>
+				</div>
+			{% else %} 
+				{% for categories in categories|batch((categories|length / 4)|round) %} 
+					<div class="col-sm-3">
+						<ul>
+							{% for category in categories %} 
+								<li><a href="{{ category['href'] }}">{{ category['title'] }}</a></li>
+							{% endfor %} 
+						</ul>
+					</div>
+				{% endfor %} 
+			{% endif %} 
+		</div>
+		{% endif %} 
+		{% if (blogs) %} 
+		<div class="row">
+        {% for blog in blogs %} 
+        <div class="{{category_blog_grid is defined and category_blog_grid ? 'revblog-grid product-layout' : 'revblog-list col-xs-12' }}">
+          <div class="product-thumb">
+			{% if (category_image_status) %} 
+				<div class="image">
+					<a href="{{ blog['href'] }}"><img src="{{ blog['thumb'] }}" alt="{{ blog['title'] }}" title="{{ blog['title'] }}" class="img-responsive" /></a>
+				</div>
+			{% endif %} 
+            <div class="caption {% if (blog_date_status is defined and blog_date_status) %}with_bl_time{% endif %}">
+                <h4 style="height: inherit; margin-bottom: 5px;"><a href="{{ blog['href'] }}">{{ blog['title'] }}</a></h4>
+				{% if (blog_date_status is defined and blog_date_status) %} 
+					<p class="bl_time">{% if (category_blog_grid is not defined or not category_blog_grid) %}<i class="fa fa-clock-o"></i>{% endif %}{{ blog['data_added'] }}</p>
+				{% endif %} 
+				{% if (category_blog_grid is not defined or not category_blog_grid) %}<p>{{ blog['description'] }}</p>{% endif %} 
+            </div>
+          </div>
+        </div>
+        {% endfor %} 
+      </div>
+      <div class="row">
+		<div class="pagpages clearfix">
+			<div class="col-sm-6 text-left">{{ pagination }}</div>
+			<div class="col-sm-6 text-right">{{ results }}</div>
+		</div>
+      </div>
+      {% endif %} 
+      {% if (not blogs and not categories) %} 
+      <p>{{ text_empty }}</p>
+      <div class="buttons">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {% endif %} 
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+<script>
+	cols = $('#column-right, #column-left').length;
+	if (cols == 2) {
+		$('#content .revblog-grid.product-layout').attr('class', 'revblog-grid product-layout product-grid col-lg-6 col-md-6 col-sm-12 col-xs-12');
+	} else if (cols == 1) {
+		$('#content .revblog-grid.product-layout').attr('class', 'revblog-grid product-layout product-grid col-lg-4 col-md-4 col-sm-6 col-xs-12');
+	} else {
+		$('#content .revblog-grid.product-layout').attr('class', 'revblog-grid product-layout product-grid col-lg-3 col-md-3 col-sm-6 col-xs-12');
+	}
+	max_height_div('.revblog-grid.product-layout h4');
+</script>
+{{ footer }}
