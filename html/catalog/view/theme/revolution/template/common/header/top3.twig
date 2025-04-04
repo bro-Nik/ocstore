@@ -1,0 +1,513 @@
+
+	{% if (is_mobile) %} 
+	<!--noindex-->
+	{% if (not setting_all_settings['mobile_header']) %} 
+		<div id="top3_links" class="clearfix hidden-md hidden-lg">
+			<div class="container">
+				<div class="row">
+					<div class="top-links col-xs-12">
+							<ul class="list-inline">
+								{% for information in informations2 %} 
+									<li><a href="{{ information['href'] }}" rel="nofollow">{{ information['title'] }}</a></li>
+								{% endfor %} 
+								{% if (revtheme_header_links2) %} 
+									{% for revtheme_header_link2 in revtheme_header_links2 %} 
+										<li><a href="{{ revtheme_header_link2['link'] }}" rel="nofollow">{{ revtheme_header_link2['title'] }}</a></li>
+									{% endfor %} 
+								{% endif %} 
+							</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %} 
+	<!--/noindex-->
+	{% endif %} 
+	<div id="top3" class="clearfix {% if (setting_all_settings['mobile_header']) %}hidden-xs{% endif %}">
+		<div class="container">
+			<div class="row image_in_ico_row">
+				{% if (amazon) %} 
+				<div class="col-xs-6 col-md-3">
+					{{ revmenu }} 
+				</div>
+				{% if (is_desctope) %} 
+				<div class="top-links nav norazmivcont hidden-xs hidden-sm {{ cart_size_class_1 }}">
+					<ul class="list-inline">
+						{% for information in informations2 %} 
+							<li><a href="{{ information['href'] }}">{{ information['title'] }}</a></li>
+						{% endfor %} 
+						{% if (revtheme_header_links2) %} 
+							{% for revtheme_header_link2 in revtheme_header_links2 %} 
+								<li><a href="{{ revtheme_header_link2['link'] }}">{{ revtheme_header_link2['title'] }}</a></li>
+							{% endfor %} 
+						{% endif %} 
+					</ul>
+					{% if (revtheme_dop_menus_3) %} 
+						<nav id="menu">
+							<div class="collapse navbar-collapse navbar-ex1-collapse">
+								<ul class="nav dblock_zadergkaoff navbar-nav">
+									{% for revtheme_dop_menu in revtheme_dop_menus_3 %} 
+										{% if (revtheme_dop_menu['children'] is defined) %} 
+											<li><a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}" {{ revtheme_dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{% if (revtheme_dop_menu['icontype'] == 'iconka') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_3'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+											<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											  <div class="mmmenu" {% if (image_in_ico_dop3) %} 'style="position: initial"' {% endif %} >
+												    <div class="dropdown-menu">
+														<div class="dropdown-inner">
+															{% if (image_in_ico_dop3) %}
+																<div class="image_in_ico_dop3_{{ revtheme_dop_menu['id'] }} }} refine_categories clearfix">
+																	{% for child in revtheme_dop_menu['children'] %} 
+																		<a class="col-sm-3 col-lg-3" href="{{ child['href'~config_language_id] }}">
+																			<img src="{{ child['dop_menu_image_3'] }}" alt="{{ child['name'~config_language_id] }}" /><span>{{ child['name'~config_language_id] }}</span>
+																		</a>
+																	{% endfor %}
+																</div>
+															{% else %}
+																{% for children in revtheme_dop_menu['children']|batch((revtheme_dop_menu['children']|length / revtheme_dop_menu['column'])|round) %}
+																	<ul class="list-unstyled">
+																	{% for child in children %} 
+																	<li><a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_3'] }}"></i></span> {% else %} {% if (child['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+																		{% if (tri_level and child['children'] is defined) %}
+																		<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+																			<div class="dropdown-menu">
+																			<div class="dropdown-inner">
+																			<ul class="list-unstyled">
+																			{% for child in child['children'] %} 
+																				<li><a href="{{ child['href'~config_language_id] }}"><i class="fa fa-minus"></i>{{ child['name'~config_language_id] }}</a></li>
+																			{% endfor %}
+																			</ul>
+																			</div>
+																			</div>
+																		{% endif %}
+																	</li>
+																	{% endfor %} 
+																	</ul>
+																{% endfor %} 
+															{% endif %} 
+														</div>
+													</div>
+												</div>
+											</li>
+										 {% else %} 
+											<li><a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}" {{ revtheme_dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{% if (revtheme_dop_menu['icontype'] == 'iconka') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_3'] }}"></i></span> {% else %}  {% if (revtheme_dop_menu['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a></li>
+										{% endif %} 
+									{% endfor %} 	
+								</ul>
+							</div>
+						</nav>
+					{% endif %} 
+					{% if (revblog_status and not revblog_in_amazon) %} 
+						<nav id="menu">
+							<div class="collapse navbar-collapse navbar-ex1-collapse">
+								<ul class="nav dblock_zadergkaoff navbar-nav">
+									{% for category in blog_categories %} 
+										{% if (category['children']) %} 
+											<li><a href="{{ category['href'] }}">{{ category['name'] }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+											<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											  <div class="mmmenu" {% if (image_in_ico_revblog) %} {{ 'style="position: initial"' }}{% endif %}>
+												    <div class="dropdown-menu">
+														<div class="dropdown-inner">
+															{% if (image_in_ico_revblog) %} 
+																<div class="image_in_ico_revblog_{{ category['category_id'] }} refine_categories clearfix">
+																	{% for child in category['children'] %} 
+																		<a class="col-sm-3 col-lg-3" href="{{ child['href'] }}">
+																			<img src="{{ child['thumb'] }}" title="{{ child['name'] }}" alt="{{ child['name'] }}" /><span>{{ child['name'] }}</span>
+																		</a>
+																	{% endfor %} 
+																</div>
+															{% else %} 
+																{% for children in category['children']|batch((category['children']|length / revblog_column)|round) %} 
+																	<ul class="list-unstyled">
+																	{% for child in children %} 
+																	<li><a href="{{ child['href'] }}">{{ child['name'] }}</a>
+																		{% if (child['children']) %} 
+																		<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+																			<div class="dropdown-menu">
+																			<div class="dropdown-inner">
+																			<ul class="list-unstyled">
+																			{% for child in child['children'] %} 
+																				<li><a href="{{ child['href'] }}"><i class="fa fa-minus"></i>{{ child['name'] }}</a></li>
+																			{% endfor %} 
+																			</ul>
+																			</div>
+																			</div>
+																		{% endif %} 
+																	</li>
+																	{% endfor %} 
+																	</ul>
+																{% endfor %} 
+															{% endif %} 
+														</div>
+													</div>
+												</div>
+											</li>
+										{% else %} 
+											<li><a href="{{ category['href'] }}">{{ category['name'] }}</a></li>
+										{% endif %} 
+									{% endfor %} 
+								</ul>
+							</div>
+						</nav>
+					{% endif %} 
+				</div>
+				{% endif %} 
+				{% else %} 
+				    {% if (is_mobile) %} 
+					<div class="col-xs-6 hidden-md hidden-lg">
+						<div id="menu2_button" class="page-fader inhome">
+							{% if (setting_all_settings['mobile_header'] == '2') %} 
+								<a class="box-heading" href="#mobil_mmenu"><i class="fa fa-bars"></i>{{ text_header_menu2_heading }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+							{% else %} 
+								<div class="box-heading" data-toggle="offcanvas" data-target=".navmenu.mobcats" data-canvas="body"><i class="fa fa-bars"></i>{{ text_header_menu2_heading }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></div>
+							{% endif %} 
+						</div>
+					</div>
+					{% endif %} 
+					{% if (is_desctope) %} 
+					<div class="hidden-xs hidden-sm {{ cart_size_class_3 }}">
+						<nav id="menu">
+							<div class="collapse navbar-collapse navbar-ex1-collapse">
+							  <ul class="nav dblock_zadergkaoff navbar-nav">
+								{% if (revtheme_dop_menus) %} 
+									{% for revtheme_dop_menu in revtheme_dop_menus %} 
+										{% if (revtheme_dop_menu['children'] is defined) %} 
+											<li>
+											{% if (revtheme_dop_menu['href'~config_language_id] != '') %}
+												<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka'] is defined) %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+											 {% else %}
+												<span class="without_a">
+													{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka'] is defined) %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""></span> {% endif %} {% endif %}{{ revtheme_dop_menu['name'~config_language_id] }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span>
+												</span>
+											{% endif %}
+											<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											  <div class="mmmenu" {% if (image_in_ico) %} {{ 'style="position: initial"' }}{% endif %}>
+												  <div class="dropdown-menu">
+													<div class="dropdown-inner">
+													{% if (image_in_ico) %}
+
+													{% else %}
+														{% for children in revtheme_dop_menu['children']|batch((revtheme_dop_menu['children']|length / revtheme_dop_menu['column'])|round) %}
+															<ul class="list-unstyled">
+															{% for child in children %} 
+															<li><a href="{{ child['href'~config_language_id] != '' ? child['href'~config_language_id] : '#' }}" {{ child['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }} >{% if (child['icontype'] == 'iconka') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka'] }}"></i></span> {% else %} {% if (child['dop_menu_image']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+																{% if (tri_level and child['children'] is defined) %}
+																<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+																	<div class="dropdown-menu">
+																	<div class="dropdown-inner">
+																	<ul class="list-unstyled">
+																	{% for child in child['children'] %}
+																		<li><a href="{{ child['href'~config_language_id] }}"><i class="fa fa-minus"></i>{{ child['name'~config_language_id] }}</a></li>
+																	{% endfor %}
+																	</ul>
+																	</div>
+																	</div>
+																{% endif %}
+															</li>
+															{% endfor %}
+															</ul>
+														{% endfor %}
+													{% endif %} 
+													</div>
+													</div>
+												</div>
+											</li>
+										{% else %} 
+											<li>
+												{% if (revtheme_dop_menu['href'~config_language_id] != '') %}
+													<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka'] is defined) %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+												 {% else %}
+													<span class="without_a">
+														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka'] is defined) %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""></span> {% endif %} {% endif %}{{ revtheme_dop_menu['name'~config_language_id] }}
+													</span>
+												{% endif %}
+											</li>
+										{% endif %} 
+									{% endfor %}
+								{% endif %}  
+							    {% if (cats_status) %} 
+									{% if categories %}
+										{% for category in categories %} 
+											{% if (category['children']) %} 
+												<li><a href="{{ category['href'] }}">{% if (category['category_image']) %} {{ category['category_image'] }} {% endif %}{{ category['name'] }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+												<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+												  <div class="mmmenu" {% if (image_in_ico) %} {{ 'style="position: initial"' }}{% endif %}>
+													  <div class="dropdown-menu">
+														<div class="dropdown-inner">
+														{% if (image_in_ico) %} 
+															<div class="image_in_ico_{{ category['category_id'] }} refine_categories clearfix">
+																{% for child in category['children'] %} 
+																	<a class="col-sm-2 col-lg-2" href="{{ child['href'] }}">
+																		<img src="{{ child['thumb'] }}" title="{{ child['name'] }}" alt="{{ child['name'] }}" /><span>{{ child['name'] }}</span>
+																	</a>
+																{% endfor %} 
+															</div>
+														{% else %} 
+															{% for children in category['children']|batch((category['children']|length / category['column'])|round) %} 
+																<ul class="list-unstyled {% if (category['column']) %} {{ 'column' }}{% endif %}">
+																{% for child in children %} 
+																<li><a href="{{ child['href'] }}">{% if (child['category_image']) %} {{ child['category_image'] }} {% endif %}{{ child['name'] }}</a>
+																	{% if (tri_level and child['children']) %} 
+																	<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+																		<div class="dropdown-menu">
+																		<div class="dropdown-inner">
+																		<ul class="list-unstyled">
+																		{% for child in child['children'] %} 
+																			<li><a href="{{ child['href'] }}"><i class="fa fa-minus"></i>{{ child['name'] }}</a></li>
+																		{% endfor %} 
+																		</ul>
+																		</div>
+																		</div>
+																	{% endif %} 
+																</li>
+																{% endfor %} 
+																</ul>
+															{% endfor %} 
+														{% endif %}  
+														{% if (category['thumb2']) %} 
+															<img class="img_sub" src="{{ category['thumb2'] }}" alt="{{ category['name'] }}" />	
+														{% endif %} 
+														</div>
+														</div>
+													</div>
+												</li>
+											{% else %} 
+												<li><a href="{{ category['href'] }}">{% if (category['category_image']) %} {{ category['category_image'] }} {% endif %}{{ category['name'] }}</a></li>
+											{% endif %} 
+										{% endfor %} 
+									{% endif %} 
+								{% endif %} 
+								{% if (manuf_status) %} 
+									{% if (categories_m) %} 
+										{% if (image_in_ico_m) %} 
+											<li><a href="{{ url_revmenu_manufs }}">{% if (manuf_image) %} {{ manuf_image }} {% endif %}{{ text_revmenu_manufs }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+											<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											  <div class="mmmenu" style="position: initial">
+													<div class="dropdown-menu">
+														<div class="dropdown-inner">
+															<div class="image_in_ico_manufacturers refine_categories clearfix">
+																{% for categorys in categories_m|batch((categories_m|length / n_column)|round) %} 
+																	{% for category in categorys %} 
+																		{% if (category['manufacturer']) %} 
+																			{% for manufacturers in category['manufacturer'] %} 
+																				<a class="col-sm-2 col-lg-2" href="{{ manufacturers['href'] }}">
+																					<img src="{{ manufacturers['thumb'] }}" title="{{ manufacturers['name'] }}" alt="{{ manufacturers['name'] }}" /><span>{{ manufacturers['name'] }}</span>
+																				</a>
+																			{% endfor %} 
+																		{% endif %} 
+																	{% endfor %} 
+																{% endfor %} 
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+										{% else %} 
+											<li><a href="{{ url_revmenu_manufs }}">{{ text_revmenu_manufs }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+											<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											  <div class="mmmenu">
+												  <div class="dropdown-menu">
+													<div class="dropdown-inner">
+														{% for categorys in categories_m|batch((categories_m|length / n_column)|round) %} 
+															<ul class="list-unstyled">
+																{% for category in categorys %} 
+																	<li><span class="manuf_in_menu">{{ category['name'] }}</span>
+																		{% if (category['manufacturer']) %} 
+																			<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+																			<div class="dropdown-menu">
+																				<div class="dropdown-inner">
+																					<ul class="list-unstyled">
+																					{% for manufacturers in category['manufacturer'] %} 
+																						<li><a href="{{ manufacturers['href'] }}"><i class="fa fa-minus"></i>{{ manufacturers['name'] }}</a></li>
+																					{% endfor %} 
+																					</ul>
+																				</div>
+																			</div>
+																		{% endif %} 
+																	</li>
+																{% endfor %} 
+															</ul>
+														{% endfor %} 
+													</div>
+													</div>
+												</div>
+											</li>
+										{% endif %} 
+									{% endif %} 
+								{% endif %} 
+								{% for information in informations2 %} 
+									<li><a href="{{ information['href'] }}">{{ information['title'] }}</a></li>
+								{% endfor %} 
+								{% if (revtheme_header_links2) %} 
+									{% for revtheme_header_link2 in revtheme_header_links2 %} 
+										<li><a href="{{ revtheme_header_link2['link'] }}">{{ revtheme_header_link2['title'] }}</a></li>
+									{% endfor %} 
+								{% endif %} 
+								{% for revtheme_dop_menu in revtheme_dop_menus_3 %} 
+									{% if (revtheme_dop_menu['children'] is defined) %} 
+										<li>
+											{% if (revtheme_dop_menu['href'~config_language_id] != '') %}
+												<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_3'] is defined) %} <i class="hidden-md {{ revtheme_dop_menu['dop_menu_iconka_3'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image_3']) %} <span class="hidden-md"><img src="{{ revtheme_dop_menu['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+											 {% else %}
+												<span class="without_a">
+													{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_3'] is defined) %} <i class="hidden-md {{ revtheme_dop_menu['dop_menu_iconka_3'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image_3']) %} <span class="hidden-md"><img src="{{ revtheme_dop_menu['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span>
+												</span>
+											{% endif %}
+											<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											<div class="mmmenu" {% if (image_in_ico_dop3) %} {{ 'style="position: initial"' }}{% endif %}>
+												<div class="dropdown-menu">
+													<div class="dropdown-inner">
+														{% if (image_in_ico_dop3) %} 
+															<div class="image_in_ico_dop3_{{ revtheme_dop_menu['id'] }} refine_categories clearfix">
+																{% for child in revtheme_dop_menu['children'] %} 
+																	<a class="col-sm-3 col-lg-3" href="{{ child['href'~config_language_id] }}">
+																		<img src="{{ child['dop_menu_image_3'] }}" alt="{{ child['name'~config_language_id] }}" /><span>{{ child['name'~config_language_id] }}</span>
+																	</a>
+																{% endfor %}
+															</div>
+														{% else %}
+															{% for children in revtheme_dop_menu['children']|batch((revtheme_dop_menu['children']|length / revtheme_dop_menu['column'])|round) %}
+																<ul class="list-unstyled">
+																{% for child in children %} 
+																<li><a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_3'] is defined) %} <i class="hidden-md {{ child['dop_menu_iconka_3'] }}"></i> {% else %} {% if (child['dop_menu_image_3']) %} <span class="hidden-md"><img src="{{ child['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %}{{ child['name'~config_language_id] }}</a>
+																	{% if (tri_level and child['children']) %} 
+																	<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+																		<div class="dropdown-menu">
+																		<div class="dropdown-inner">
+																		<ul class="list-unstyled">
+																		{% for child in child['children'] %} 
+																			<li><a href="{{ child['href'~config_language_id] }}"><i class="fa fa-minus"></i>{{ child['name'~config_language_id] }}</a></li>
+																		{% endfor %} 
+																		</ul>
+																		</div>
+																		</div>
+																	{% endif %} 
+																</li>
+																{% endfor %} 
+																</ul>
+															{% endfor %} 
+														{% endif %} 
+													</div>
+												</div>
+											</div>
+										</li>
+									 {% else %} 
+										<li>
+											{% if (revtheme_dop_menu['href'~config_language_id] != '') %}
+												<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#'}}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_3'] is defined) %} <i class="hidden-md {{ revtheme_dop_menu['dop_menu_iconka_3'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image_3']) %} <span class="hidden-md"><img src="{{ revtheme_dop_menu['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+											 {% else %}
+												<span class="without_a">
+													{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_3'] is defined) %} <i class="hidden-md {{ revtheme_dop_menu['dop_menu_iconka_3'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image_3']) %} <span class="hidden-md"><img src="{{ revtheme_dop_menu['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
+												</span>
+											{% endif %}
+										</li>
+									{% endif %} 
+								{% endfor %}  
+								{% if (revblog_status) %} 
+									{% for category in blog_categories %} 
+										{% if (category['children']) %} 
+											<li><a href="{{ category['href'] }}">{{ category['name'] }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a>
+											<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											  <div class="mmmenu" {% if (image_in_ico_revblog) %} {{ 'style="position: initial"' }}{% endif %}>
+												    <div class="dropdown-menu">
+														<div class="dropdown-inner">
+															{% if (image_in_ico_revblog) %} 
+																<div class="image_in_ico_revblog_{{ category['category_id'] }} refine_categories clearfix">
+																	{% for child in category['children'] %} 
+																		<a class="col-sm-2 col-lg-2" href="{{ child['href'] }}">
+																			<img src="{{ child['thumb'] }}" title="{{ child['name'] }}" alt="{{ child['name'] }}" /><span>{{ child['name'] }}</span>
+																		</a>
+																	{% endfor %} 
+																</div>
+															{% else %} 
+																{% for children in category['children']|batch((category['children']|length / revblog_column)|round) %} 
+																	<ul class="list-unstyled">
+																	{% for child in children %} 
+																	<li><a href="{{ child['href'] }}">{{ child['name'] }}</a>
+																		{% if (child['children']) %} 
+																		<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+																			<div class="dropdown-menu">
+																			<div class="dropdown-inner">
+																			<ul class="list-unstyled">
+																			{% for child in child['children'] %} 
+																				<li><a href="{{ child['href'] }}"><i class="fa fa-minus"></i>{{ child['name'] }}</a></li>
+																			{% endfor %} 
+																			</ul>
+																			</div>
+																			</div>
+																		{% endif %} 
+																	</li>
+																	{% endfor %} 
+																	</ul>
+																{% endfor %} 
+															{% endif %} 
+														</div>
+													</div>
+												</div>
+											</li>
+										{% else %} 
+											<li><a href="{{ category['href'] }}">{{ category['name'] }}</a></li>
+										{% endif %} 
+									{% endfor %} 
+								{% endif %} 
+							  </ul>
+							</div>
+						</nav>
+						<script><!--
+						{% if (image_in_ico) %} 
+							$('#menu .nav > li .dropdown-menu').css('display', 'block');
+							{% for category in categories %} 
+								var div = '#menu .image_in_ico_{{ category['category_id'] }}.refine_categories > a span';
+								var maxheight = 0;
+								$(div).each(function(){
+									$(this).removeAttr('style');
+									if($(this).height() > maxheight) {
+										maxheight = $(this).height();
+									}
+								});
+							{% endfor %} 
+							{% if (manuf_status) %} 
+								var div = '.image_in_ico_manufacturers.refine_categories span';
+								var maxheight = 0;
+								$(div).each(function(){
+									$(this).removeAttr('style');
+									if($(this).height() > maxheight) {
+										maxheight = $(this).height();
+									}
+								});
+								$(div).height(maxheight);
+							{% endif %} 
+							$('#menu .nav > li .dropdown-menu').css('display', 'none');
+						{% endif %} 
+						{% if (revblog_status and image_in_ico_revblog) %} 
+							{% for category in blog_categories %} 
+								var div = '#menu .image_in_ico_revblog_{{ category['category_id'] }}.refine_categories > a span';
+								var maxheight = 0;
+								$(div).each(function(){
+									$(this).removeAttr('style');
+									if($(this).height() > maxheight) {
+										maxheight = $(this).height();
+									}
+								});
+							{% endfor %} 
+						{% endif %} 
+						{% if (revtheme_dop_menus_3 and image_in_ico_dop3) %} 
+							{% for revtheme_dop_menu in revtheme_dop_menus_3 %} 
+								var div = '#menu image_in_ico_dop3_{{ revtheme_dop_menu['id'] }}.refine_categories > a span';
+								var maxheight = 0;
+								$(div).each(function(){
+									$(this).removeAttr('style');
+									if($(this).height() > maxheight) {
+										maxheight = $(this).height();
+									}
+								});
+							{% endfor %} 
+						{% endif %} 
+						//--></script>
+					</div>
+					{% endif %} 
+				{% endif %}
+				<div class="{{ cart_size_class_2 }}">
+					{{ cart }} 
+				</div>		 					
+			</div>
+		</div>
+	</div>

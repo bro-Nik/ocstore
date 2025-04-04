@@ -1,0 +1,28 @@
+{% if (microdata_status) %} 
+	<div itemscope itemtype="http://schema.org/Organization" style="display:none;">
+		<meta itemprop="name" content="{{ name }}" />
+		<link itemprop="url" href="{{ og_url }}" />
+		<link itemprop="logo" href="{{ logo }}" />
+		{% if (description) %} 
+			<meta itemprop="description" content="{{ description }}" />
+		{% endif %} 
+		{% if (microdata_postcode and microdata_city and microdata_adress) %} 
+			<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+				<meta itemprop="postalCode" content="{{ microdata_postcode }}" />
+				<meta itemprop="addressLocality" content="{{ microdata_city }}" />
+				<meta itemprop="streetAddress" content="{{ microdata_adress }}" />
+			</div>
+		{% endif %} 
+		{% if (microdata_phones) %} 
+			{% for microdata_phone in microdata_phones %} 
+				<meta itemprop="telephone" content="{{ microdata_phone }}" />
+			{% endfor %} 
+		{% endif %} 
+		<meta itemprop="email" content="{{ microdata_email }}" />	
+		{% if (microdata_social) %} 
+		{% for microdata_soc in microdata_social %} 
+		<link itemprop="sameAs" href="{{ microdata_soc }}" />
+		{% endfor %} 
+		{% endif %} 
+	</div>
+{% endif %} 
