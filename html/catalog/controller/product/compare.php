@@ -34,17 +34,11 @@ class ControllerProductCompare extends Controller {
 			$this->document->setKeywords($this->config->get('revtheme_meta')['comp_meta_keyword'][(int)$this->config->get('config_language_id')]);
 		}
 
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
-
-		$data['breadcrumbs'][] = array(
+		$basicBreadcrumbs = $this->load->controller('extension/module/breadcrumbs/getBasicBreadcrumbs');
+		$data['breadcrumbs'] = array_merge($basicBreadcrumbs, [[
 			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('product/compare')
-		);
+		]]);
 
 		if (isset($this->session->data['success'])) {
 			$data['success'] = $this->session->data['success'];

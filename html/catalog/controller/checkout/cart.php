@@ -8,17 +8,11 @@ class ControllerCheckoutCart extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->document->setRobots('noindex,follow');
 
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'href' => $this->url->link('common/home'),
-			'text' => $this->language->get('text_home')
-		);
-
-		$data['breadcrumbs'][] = array(
+		$basicBreadcrumbs = $this->load->controller('extension/module/breadcrumbs/getBasicBreadcrumbs');
+		$data['breadcrumbs'] = array_merge($basicBreadcrumbs, [[
 			'href' => $this->url->link('checkout/cart'),
 			'text' => $this->language->get('heading_title')
-		);
+		]]);
 
 		if ($this->cart->hasProducts() || !empty($this->session->data['vouchers'])) {
 			if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {

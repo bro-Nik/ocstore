@@ -34,22 +34,11 @@ class ControllerAccountWishList extends Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', '', 'SSL')
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('account/wishlist')
-		);
+		$basicBreadcrumbs = $this->load->controller('extension/module/breadcrumbs/getBasicBreadcrumbs');
+		$data['breadcrumbs'] = array_merge($basicBreadcrumbs, [[
+    	'text'  => $this->language->get('heading_title'),
+    	'href'  => $this->url->link('account/wishlist')
+		]]);
 		
 		$data['heading_title'] = $this->language->get('heading_title');
 
