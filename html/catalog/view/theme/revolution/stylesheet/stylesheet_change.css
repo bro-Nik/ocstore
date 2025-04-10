@@ -43,7 +43,6 @@ footer .footer {background-color: #454552;}
 @media (max-width: 767px) {#top {background-color: #FFFFFF;}}
 @media (max-width: 767px) {#top {position: fixed; top: 0; width: 100%; box-shadow: 0 0 10px 2px rgba(0,0,0,.2); color: #fff; border-bottom: none;} #top2 {margin-top: 38px;} #top2 .container {padding: 15px 15px 5px;} #cart_mobi {float: right; width: initial; height: 36px; line-height: 36px; margin-left: 10px;} #top2 #logo {margin-bottom: 0;} .mobile_info .navbar-default .navbar-toggle:focus,.mobile_info .navbar-default .navbar-toggle:hover {background-color: #eee; background-color: transparent; box-shadow: inset 0px 0px 50px rgba(255,255,255, 0.25); color: #fff;}}
 @media (max-width: 767px) {#top .mobile_info button:first-child {background-color: #0063D1;}}
-@media (max-width: 767px) {#top .top-links .fa {min-width: 15px; color: #fff;}}
 @media (max-width: 767px) {.top-links.verh a.dropdown-toggle {padding: 0 5px; color: #fff; transition: none;}}
 @media (max-width: 767px) {.top-links.verh a.dropdown-toggle:hover sup {color: #fff;}}
 @media (max-width: 767px) {#top2 .search {display: none;}}
@@ -163,6 +162,7 @@ select#input-sort {width: auto;}
 }
 #top3 {background: linear-gradient(90deg,#449ce0 0%,#4ea1d3 100%); padding: 5px 0;}
 .box-content.am {z-index: initial;}
+#menu2_button .box-heading, #top3 .top-links.nav.norazmivcont ul.list-inline a {border-radius: 4px;}
 .child-box {border-radius: 0 4px 4px 0;}
 #menu2, .podmenu2 {border-radius: 2px 2px 4px 4px;}
 body {color: #333;}
@@ -337,7 +337,6 @@ h1, h2, h3 {font-weight: bold;}
 #cart_mobi button.cart{background: none;}
 #cart_mobi #cart-total_mobi > .fa {padding-right: 5px;}
 sub, sup {padding-left: 3px;}
-.top-links.verh.nav.pull-right .hidden-xs:hover {color: #3881DF;}
 a:hover sup {color: #333;}
 #cart, #cart_mobi {height: 36px;line-height: 36px;}
 #cart_mobi button.cart{font-size: 14px;}
@@ -718,10 +717,12 @@ h3 {font-size: 1em;}
 #top2 .tel {text-align: right;}
 #top2 .tel .s22 {font-size: 16px;}
 #top2 .search {display: flex; margin-top: 5px !important;margin-bottom: 5px;}
+#menu2_button .box-heading, a.mobil_mmenu_three {background:none; border:none; font-size: 28px;}
 #top2 #logo {top: 65%;}
 #top2 .tel .dropdown-menu {width: max-content;}
 }
 @media (max-width: 550px) {
+#menu2_button .box-heading, a.mobil_mmenu_three {background:none; border:none; font-size: 28px;}
 ul.manuf-category-page-list {padding-left: 15px;}
 }
 @media (max-width: 520px) {

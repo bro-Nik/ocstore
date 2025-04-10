@@ -163,7 +163,7 @@ if (isset($this->request->post['revtheme_all_settings'])) {
 		$tcss .= '@media (max-width: 767px) {#top {background-color: #' . $revtheme_all_settings['color_top3'] . ';}}' . "\n";
 		$tcss .= '@media (max-width: 767px) {#top {position: fixed; top: 0; width: 100%; box-shadow: 0 0 10px 2px rgba(0,0,0,.2); color: #fff; border-bottom: none;} #top2 {margin-top: 38px;} #top2 .container {padding: 15px 15px 5px;} #cart_mobi {float: right; width: initial; height: 36px; line-height: 36px; margin-left: 10px;} #top2 #logo {margin-bottom: 0;} .mobile_info .navbar-default .navbar-toggle:focus,.mobile_info .navbar-default .navbar-toggle:hover {background-color: #eee; background-color: transparent; box-shadow: inset 0px 0px 50px rgba(255,255,255, 0.25); color: #fff;}}' . "\n";
 		$tcss .= '@media (max-width: 767px) {#top .mobile_info button:first-child {background-color: #' . $revtheme_all_settings['color_amazon'] . ';}}' . "\n";
-		$tcss .= '@media (max-width: 767px) {#top .top-links .fa {min-width: 15px; color: #fff;}}' . "\n";
+		// $tcss .= '@media (max-width: 767px) {#top .top-links .fa {min-width: 15px; color: #fff;}}' . "\n";
 		$tcss .= '@media (max-width: 767px) {.top-links.verh a.dropdown-toggle {padding: 0 5px; color: #fff; transition: none;}}' . "\n";
 		$tcss .= '@media (max-width: 767px) {.top-links.verh a.dropdown-toggle:hover sup {color: #fff;}}' . "\n";
 		if ($revtheme_all_settings['mobile_header'] == '2') {

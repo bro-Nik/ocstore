@@ -1225,7 +1225,6 @@ display: inline-block;
 }
 .top-links.verh .span-a:hover .fa,
 .top-links.verh a:hover .fa {
-color: #dd4b39;
 -webkit-transition: all 100ms linear;
 -moz-transition: all 100ms linear;
 -ms-transition: all 100ms linear;
@@ -1301,11 +1300,6 @@ max-width: 21px;
 text-align: center;
 margin-right: 5px;
 padding: 0;
-}
-#top .top-links .fa {
-color: #555;
-text-align: right;
-min-width: 20px;
 }
 .top-links .badge {
 background-color: #eee;
