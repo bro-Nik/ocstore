@@ -99,22 +99,6 @@
 						</li>
 					{% endfor %} 
 				{% endif %} 
-				{% if (revtheme_dop_menus_3) %} 
-					{% for revtheme_dop_menu in revtheme_dop_menus_3 %} 
-						<li>								
-							{% if (revtheme_dop_menu['children'] is defined) %}
-								<span><a href="{{ revtheme_dop_menu['href'~config_language_id] }}" rel="nofollow">{{ revtheme_dop_menu['name'~config_language_id] }}</a></span>
-								<ul class="list-unstyled">
-									{% for child in revtheme_dop_menu['children'] %}
-										<li><a href="{{ child['href'~config_language_id] }}" rel="nofollow">{{ child['name'~config_language_id] }}</a></li>
-									{% endfor %}
-								</ul>
-							{% else %} 
-								<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" rel="nofollow">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
-							{% endif %}
-						</li>
-					{% endfor %} 
-				{% endif %} 					
 		{% endif %} 				
 		{% for information in informations2 %} 
 			<li><a href="{{ information.href }}" rel="nofollow">{{ information.title }}</a></li>
