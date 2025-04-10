@@ -33,31 +33,32 @@
 					</li>
 				{% endfor %} 
 			{% endif %}
-			{% if (cats_status) %} 
-				{% for category in categories %} 
-					<li>							
-						{% if (category['children']) %} 
-							<span><a href="{{ category['href'] }}" rel="nofollow">{{ category['name'] }}</a></span>
-							<ul>
-								{% for child in category['children'] %} 
-									<li>
-										<a href="{{ child['href'] }}" rel="nofollow">{{ child['name'] }}</a>
-										{% if (tri_level and child['children']) %} 
-											<ul class="list-unstyled">
-												{% for child in child['children'] %} 
-													<li><a href="{{ child['href'] }}" rel="nofollow">{{ child['name'] }}</a></li>
-												{% endfor %} 
-											</ul>
-										{% endif %} 
-									</li>
-								{% endfor %} 
-							</ul>
-						{% else %}
-							<a href="{{ category['href'] }}" rel="nofollow">{{ category['name'] }}</a>									
-						{% endif %} 
-					</li>
-				{% endfor %} 
-			{% endif %} 
+
+			{% for category in categories %} 
+				<li>							
+					{% if (category.children) %} 
+						<span>{{ category.name }}</span>
+
+						<ul>
+							{% for child in category.children %} 
+								<li>
+									<a href="{{ child.href }}" rel="nofollow">{{ child.name }}</a>
+									{% if (tri_level and child.children) %} 
+										<ul class="list-unstyled">
+											{% for child in child.children %} 
+												<li><a href="{{ child.href }}" rel="nofollow">{{ child.name }}</a></li>
+											{% endfor %} 
+										</ul>
+									{% endif %} 
+								</li>
+							{% endfor %} 
+						</ul>
+					{% else %}
+						<a href="{{ category.href }}" rel="nofollow">{{ category.name }}</a>									
+					{% endif %} 
+				</li>
+			{% endfor %} 
+
 			{% if (revtheme_header_menu_links) %} 
 				{% for revtheme_header_menu_link in revtheme_header_menu_links %} 
 					<li><a href="{{ revtheme_header_menu_link['link'] }}" rel="nofollow">{{ revtheme_header_menu_link['title'] }}</a></li>
@@ -66,13 +67,14 @@
 		{% endif %} 
 
 		{% if (manuf_status) %} 
-			<li><span><i class="fa fa-folder"></i> {{ text_revmenu_manufs }}</span>
+			<li>
+				<span>{{ text_revmenu_manufs }}</span>
 				{% if (categories_m) %} 
 					<ul>
 						{% for category in categories_m %} 
-								{% if (category['manufacturer']) %} 
-									{% for manufacturers in category['manufacturer'] %} 
-										<li><a href="{{ manufacturers['href'] }}" rel="nofollow">{{ manufacturers['name'] }}</a></li>
+								{% if (category.manufacturer) %} 
+									{% for manufacturers in category.manufacturer %} 
+										<li><a href="{{ manufacturers.href }}" rel="nofollow">{{ manufacturers.name }}</a></li>
 									{% endfor %} 
 								{% endif %} 
 						{% endfor %} 
@@ -82,7 +84,7 @@
 		{% endif %} 
 
 		{% if (informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3) %} 
-			<li><span>{{ text_header_information }}</span>					
+			<span class="mm-listitem__text">{{ text_header_information }}</span>
 				{% if (revtheme_dop_menus_2) %} 
 					{% for revtheme_dop_menu in revtheme_dop_menus_2 %} 
 						<li>
@@ -113,14 +115,13 @@
 						</li>
 					{% endfor %} 
 				{% endif %} 					
-			</li>
 		{% endif %} 				
 		{% for information in informations2 %} 
-			<li><a href="{{ information['href'] }}" rel="nofollow">{{ information['title'] }}</a></li>
+			<li><a href="{{ information.href }}" rel="nofollow">{{ information.title }}</a></li>
 		{% endfor %} 
 		{% if (revtheme_header_links2) %} 
 			{% for revtheme_header_link2 in revtheme_header_links2 %} 
-				<li><a href="{{ revtheme_header_link2['link'] }}" rel="nofollow">{{ revtheme_header_link2['title'] }}</a></li>
+				<li><a href="{{ revtheme_header_link2.link }}" rel="nofollow">{{ revtheme_header_link2.title }}</a></li>
 			{% endfor %} 
 		{% endif %} 
 		{% if (revblog_status and blog_categories) %} 
@@ -146,29 +147,24 @@
 				</li>
 			{% endfor %} 
 		{% endif %} 			
-		{% if (revtheme_header_popupphone['status']) %} 
-			<li class="Divider">
-				<a class="mob_telef" onclick="get_revpopup_phone();"><i class="fa fa-phone" aria-hidden="true"></i> {{ text_header_revpopup_phone }}</a>
-			</li>
-		{% endif %} 
+
+		<span class="mm-listitem__text">Связь</span>
 		{% if (header_phone_text) %} 
-			<li class="Divider">{{ header_phone_text }}</li>
+			<li>{{ header_phone_text }}</li>
 		{% endif %} 
 		{% if (header_phone_text2) %} 
-				<li class="Divider">{{ header_phone_text2 }}</li>
+				<li>{{ header_phone_text2 }}</li>
 			{% endif %} 
 		{% if (header_phone_number) %} 
-			<li class="Divider">
-				<a href="tel:{{ header_phone_cod is defined ? header_phone_cod : '' }}{{ header_phone_number }}" rel="nofollow">{% if (header_phone_cod) %}{{ header_phone_cod }}{% endif %} {{ header_phone_number }}</a>
-			</li>
+			<li><a href="tel:{{ (header_phone_cod ~ header_phone_number)|replace({' ': '', '-': '', '(': '', ')': ''}) }}" rel="nofollow">{{ header_phone_cod ~ header_phone_number }}</a></li>
 		{% endif %} 
-		{% if (header_phone_number2) %} 
-			<li class="Divider">
-				<a href="tel:{{ header_phone_cod2 is defined ? header_phone_cod2 : '' }}{{ header_phone_number2 }}" rel="nofollow">{% if (header_phone_cod2) %}{{ header_phone_cod2 }}{% endif %} {{ header_phone_number2 }}</a>
-			</li>
-		{% endif %} 			
+		{% for contact in dop_contacts %} 
+			<li><a href="{{ contact.href }}">{{ contact.number }}</a></li>
+		{% endfor %} 
+		<li><a class="mob_telef" onclick="get_revpopup_phone();">Обратный звонок</a></li> 
+
 		{% if (phone_dop_text2|length > 30) %} 
-			<li class="Divider wrspnormal">
+			<li class="wrspnormal">
 				{{ phone_dop_text2 }} 
 			</li>
 		{% endif %} 

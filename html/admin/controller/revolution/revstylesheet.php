@@ -97,9 +97,9 @@ if (isset($this->request->post['revtheme_all_settings'])) {
 		$tcss .= '.product-info #button-cart:hover,.popup-phone-wrapper,.popup_notification .popup-footer a:hover, #popup-order-okno .popup-footer a:hover, #popup-okno .popup-footer a:hover,.btn-danger:hover {background-color: #' . $revtheme_all_settings['color_cart_hover'] . ';}' . "\n";
 		$tcss .= '.product-thumb .fa-border.fa-shopping-basket:hover, .options_buy .fa-border:hover,.cd-products-comparison-table .fa-border.fa-shopping-basket:hover,.wwicons .fa-border.fa-shopping-basket:hover {background-color: #' . $revtheme_all_settings['color_cart_hover'] . '; border-color: #' . $revtheme_all_settings['color_cart_hover'] . ';}' . "\n";
 	}
-	if ($revtheme_all_settings['color_amazon']) {
-		$tcss .= '#menu2_button .box-heading, a.mobil_mmenu_three {background-color: #' .$revtheme_all_settings['color_amazon'] . ';}' . "\n";
-	}
+	// if ($revtheme_all_settings['color_amazon']) {
+	// 	$tcss .= '#menu2_button .box-heading, a.mobil_mmenu_three {background-color: #' .$revtheme_all_settings['color_amazon'] . ';}' . "\n";
+	// }
 	if ($revtheme_all_settings['color_top3']) {
 		$tcss .= '#top3 {background-color: #' . $revtheme_all_settings['color_top3'] . ';}' . "\n";
 	}

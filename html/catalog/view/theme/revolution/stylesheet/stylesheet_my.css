@@ -28,7 +28,7 @@ a:hover,.list-group a:hover,.list-group a.active:hover,.pagination>li>a:hover,.p
 .product-info .radio .btn-default:active {border-color: #FF8800;}
 .product-info #button-cart:hover,.popup-phone-wrapper,.popup_notification .popup-footer a:hover, #popup-order-okno .popup-footer a:hover, #popup-okno .popup-footer a:hover,.btn-danger:hover {background-color: #D05604;}
 .options_buy .fa-border:hover {background-color: #D05604; border-color: #D05604;}
-#menu2_button .box-heading, a.mobil_mmenu_three {background-color: #0063D1;}
+/* #menu2_button .box-heading, a.mobil_mmenu_three {background-color: #0063D1;} */
 #top3 {background-color: #FFFFFF;}
 #cart button.cart {background-color: #333333;}
 footer .footer {background-color: #454552;}
@@ -722,12 +722,12 @@ h3 {font-size: 1em;}
 #top2 .tel {text-align: right;}
 #top2 .tel .s22 {font-size: 16px;}
 #top2 .search {display: flex; margin-top: 5px !important;margin-bottom: 5px;}
-#menu2_button .box-heading, a.mobil_mmenu_three {background:none; border:none; font-size: 28px;}
+/* #menu2_button .box-heading, a.mobil_mmenu_three {background:none; border:none; font-size: 28px;} */
 #top2 #logo {top: 65%;}
 #top2 .tel .dropdown-menu {width: max-content;}
 }
 @media (max-width: 550px) {
-#menu2_button .box-heading, a.mobil_mmenu_three {background:none; border:none; font-size: 28px;}
+/* #menu2_button .box-heading, a.mobil_mmenu_three {background:none; border:none; font-size: 28px;} */
 ul.manuf-category-page-list {padding-left: 15px;}
 }
 @media (max-width: 520px) {
@@ -775,7 +775,7 @@ width:auto;
 .accessories:hover.accessories::-webkit-scrollbar-thumb {border-radius: 10px;background-color: #adadad;height: 3px;}
 .accessories:hover.accessories::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.1);border-radius: 10px;}
 .well-sm.product-info {width: fit-content;}
-#menu2_button .box-heading, a.mobil_mmenu_three {box-shadow: 0 9px 13px rgb(0 85 255 / 43%);}
+/* #menu2_button .box-heading, a.mobil_mmenu_three {box-shadow: 0 9px 13px rgb(0 85 255 / 43%);} */
 .ocf-header {display: none !important;}
 }
 @media (min-width: 1200px) {
@@ -804,3 +804,4 @@ ul.hometab.hometabsliders.nav.nav-tabs {display: none;}
 .well .input-group * {font-size: 12px !important;}
 .well select.form-control, .well input.form-control, .well textarea.form-control {background: none; box-shadow: none; color: #0063D1; padding: 0; }
 .well .input-group * { padding: 0; }
+.mobil_mmenu_three {color: #fff;}

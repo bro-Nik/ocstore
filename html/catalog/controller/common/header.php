@@ -41,8 +41,7 @@ class ControllerCommonHeader extends Controller {
 			$this->config->get('revtheme_header_menu')['type'] ? 'view/javascript/revolution/aim.js' : false,
 			$this->config->get('revtheme_header_menu')['type'] ? $this->config->get('revtheme_header_menu')['on_line_cat'] ? 'view/javascript/revolution/amazoncategory_2.js' : 'view/javascript/revolution/amazoncategory.js' : false,
 			$this->config->get('revtheme_header_search')['ajax_search_status'] ? 'view/javascript/revolution/ajax_search.js' : false,
-			$this->config->get('revtheme_all_settings')['all_document_snow_on'] ? 'view/javascript/revolution/snow.min.js' : false,
-			$this->config->get('revtheme_all_settings')['mobile_header'] == '2' || $this->config->get('revtheme_all_settings')['mobile_header'] == '3' ? 'view/javascript/revolution/jquery.mmenu.js' : false
+			'view/javascript/mmenu-light.js'
 		);
 		$file_min_js = DIR_APPLICATION . 'view/javascript/revolution/javascript_min.js';
 		if ($js_files) {
@@ -379,7 +378,8 @@ class ControllerCommonHeader extends Controller {
 						if (!$result['image'] || $result['image'] == 'no_image.png') {
 							$style = ' hidden';
 						}
-						$image = '<span class="hidden-md '.$style.'"><img src="'.$this->model_tool_image->resize($result['image'], 21, 21).'" alt=""/></span>';
+						// $image = '<span class="hidden-md '.$style.'"><img src="'.$this->model_tool_image->resize($result['image'], 21, 21).'" alt=""/></span>';
+						$image = '<img src="'.$this->model_tool_image->resize($result['image'], 21, 21).'" alt=""/>';
 					}
 					$result_title = ($image . $result['title'][$this->config->get('config_language_id')]);
 					

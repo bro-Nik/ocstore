@@ -13,28 +13,7 @@
 	$('.mobsearch_two .search input[name=\"search\"]').on('keydown', function(e) {
 	if (e.keyCode == 13) {$('.mobsearch_two .search-button').trigger('click');}
 	});
-	$(document).ready(function() {
-		$('nav#mobil_mmenu').mmenu({
-			"extensions": ["theme-dark", "pagedim-black"],
-			"counters": true,
-			"navbars": [
-				{
-				   "position": "top",
-				   "type": "tabs",
-				   "content": [
-					  "<a href='#panel-menu'><i class='fa fa-bars'></i></a>",
-					  "<a href='#panel-language'><i class='fa fa-info'></i></a>"
-				   ]
-				},
-				
 
-			],
-			"navbar": {
-				"title": ''
-			}
-		  });
-		$("nav#mobil_mmenu").removeClass('dnone');
-	});	
 
 
 
