@@ -163,7 +163,6 @@ select#input-sort {width: auto;}
 }
 #top3 {background: linear-gradient(90deg,#449ce0 0%,#4ea1d3 100%); padding: 5px 0;}
 .box-content.am {z-index: initial;}
-#menu2_button .box-heading, #top3 .top-links.nav.norazmivcont ul.list-inline a {border-radius: 4px;}
 .child-box {border-radius: 0 4px 4px 0;}
 #menu2, .podmenu2 {border-radius: 2px 2px 4px 4px;}
 body {color: #333;}
