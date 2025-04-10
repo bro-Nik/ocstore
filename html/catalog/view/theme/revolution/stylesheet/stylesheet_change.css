@@ -337,6 +337,7 @@ h1, h2, h3 {font-weight: bold;}
 #cart_mobi button.cart{background: none;}
 #cart_mobi #cart-total_mobi > .fa {padding-right: 5px;}
 sub, sup {padding-left: 3px;}
+.top-links.verh.nav.pull-right .hidden-xs:hover {color: #3881DF;}
 a:hover sup {color: #333;}
 #cart, #cart_mobi {height: 36px;line-height: 36px;}
 #cart_mobi button.cart{font-size: 14px;}
