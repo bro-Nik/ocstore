@@ -681,7 +681,6 @@ i.fa.fa-border.fa-shopping-basket.predzakaz {display: none;}
 .refine_categories a {padding: 5px 10px;}
 }
 @media (min-width: 768px) {
-span#cart-total_mobi {color: #333;font-size: 14px;}
 .col-xs-12.col-sm-6.col-md-3 {min-height: 5em;}
 #top2 #logo {;top: 59%;}
 }

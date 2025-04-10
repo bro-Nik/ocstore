@@ -1,121 +1,56 @@
-
-	<div id="top2">
-	  <div class="container">
+<div id="top2">
+	<div class="container">
 		<div class="row">
-		<div class="col-xs-12 col-sm-6 col-md-3">
-			<div id="logo">
-			  {% if (logo) %} 
-				{% if (home == og_url) %} 
-				  <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" />
-				{% else %} 
-				  <a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
-				{% endif %} 
-			  {% else %} 
-				<a href="{{ home }}">{{ name }}</a>
-			  {% endif %} 
-			</div>
-		</div>
-		{% if (is_desctope) %} 
-		<div class="bigsearch {% if (header_phone_number != '' or header_phone_text != '') %}{% if (revtheme_header_cart['cart_position'] is defined and revtheme_header_cart['cart_position']) %}col-xs-12 col-sm-4 col-md-4{% else %}col-xs-12 col-sm-6 col-md-6{% endif %}{% else %}{% if (revtheme_header_cart['cart_position'] is defined and revtheme_header_cart['cart_position']) %}col-xs-12 col-sm-7 col-md-7 col-lg-7{% else %}col-xs-12 col-sm-9 col-md-9 col-lg-9{% endif %}{% endif %}"> 
-			{% if (header_search_doptext) %} 
-				<div class="header_search_doptext">
-					{{ header_search_doptext }} 
+			<div class="col-xs-12 col-sm-6 col-md-3">
+				<div id="logo">
+					{% if (logo) %} 
+					{% if (home == og_url) %} 
+						<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" />
+					{% else %} 
+						<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
+					{% endif %} 
+					{% else %} 
+					<a href="{{ home }}">{{ name }}</a>
+					{% endif %} 
 				</div>
-				{% if (setting_header_search['ch_text_w_serch']) %} 
-					{{ search }} 
-				{% endif %} 
-			{% else %} 
-				{{ search }} 
-			{% endif %} 
-		</div>
-		{% endif %} 
-		{% if (header_phone_number != '' or header_phone_text != '') %} 
-			<div class="col-xs-12 col-sm-6 col-md-3 pull-right">
-				<div class="header_conts t-ar">
-					<div class="tel">
-						{% if (header_phone_number != '' or header_phone_number2 != '') %} 
-							<span class="header_phone_image">{{ header_phone_image }}</span>
-						{% endif %} 
-						<div class="header_phone_nomer">
-							{% if (header_phone_text != '') %} 
-								<span class="s11">{{ header_phone_text }}</span>
-								{% if (header_phone_text2) %} 
-									<span class="s12">{{ header_phone_text2 }}</span>
+			</div>
+
+			<div class="bigsearch col-xs-12 col-sm-4 col-md-4">{{ search }}</div>
+			{% if (header_phone_number != '' or header_phone_text != '') %} 
+				<div class="col-xs-12 col-sm-6 col-md-3 pull-right">
+					<div class="header_conts t-ar">
+						<div class="tel">
+							<div class="header_phone_nomer">
+								{% if (header_phone_number != '') %} 
+									<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										<span class="s22">
+											{% if (header_phone_cod) %}<span class="telefon">{{ header_phone_cod }}</span>{% endif %} {{ header_phone_number }}
+											<i class="fa fa-chevron-down"></i>
+										</span>
+									</button>
 								{% endif %} 
-							{% endif %} 
-							{% if (header_phone_number != '' or header_phone_number2 != '') %} 
-								{% if (revtheme_header_popupphone['status'] and not revtheme_header_popupphone['under_phone'] or dop_contacts or phone_dop_text|length > 30) %} 
-								<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-									<span class="s22">
-										{% if (header_phone_cod) %}<span class="telefon">{{ header_phone_cod }}</span>{% endif %} {{ header_phone_number }}{% if (header_phone_number2) %}<br>
-											{% if (header_phone_cod2) %}<span class="telefon">{{ header_phone_cod2 }}</span>{% endif %} {{ header_phone_number2 }}{% endif %} 
-										{% if (revtheme_header_popupphone['status'] and not revtheme_header_popupphone['under_phone'] or dop_contacts or phone_dop_text|length > 30) %} 
-										<i class="fa fa-chevron-down"></i>
-										{% endif %} 
-									</span>
-								</button>
-								{% else %} 
-									<span class="s22">
-										<a href="tel:{{ header_phone_cod is defined ? header_phone_cod : '' }}{{ header_phone_number }}">{% if (header_phone_cod) %}<span class="telefon">{{ header_phone_cod }}</span>{% endif %} {{ header_phone_number }}</a>{% if (header_phone_number2) %}<br>
-											<a href="tel:{{ header_phone_cod2 is defined ? header_phone_cod2 : '' }}{{ header_phone_number2 }}">{% if (header_phone_cod2) %}<span class="telefon">{{ header_phone_cod2 }}</span>{% endif %} {{ header_phone_number2 }}</a>{% endif %} 
-										{% if (revtheme_header_popupphone['status'] and not revtheme_header_popupphone['under_phone'] or dop_contacts or phone_dop_text|length > 30) %} 
-										<i class="fa fa-chevron-down"></i>
-										{% endif %} 
-									</span>
-								{% endif %} 
-							{% endif %} 
-							{% if (revtheme_header_popupphone['status'] and not revtheme_header_popupphone['under_phone'] or dop_contacts or phone_dop_text|length > 30) %} 
+
 								<ul class="dropdown-menu dropdown-menu-right dop_contss">
-									{% if (revtheme_header_popupphone['status'] and not revtheme_header_popupphone['under_phone']) %} 
-									<li>
-										<a onclick="get_revpopup_phone();"><i class="fa fa-reply-all" aria-hidden="true"></i>{{ text_header_revpopup_phone }}</a>
-									</li>
-									{% endif %} 
-									{% if (revtheme_header_popupphone['status'] and not revtheme_header_popupphone['under_phone'] and dop_contacts) %} 
-									<li class="divider"></li>
-									{% endif %} 
-									{% if (dop_contacts) %} 
-										{% for dop_contact in dop_contacts %} 
-											{% if (dop_contact['href']) %} 
-												<li><a href="{{ dop_contact['href'] }}"><span>{{ dop_contact['icon'] }}<span>{{ dop_contact['number'] }}</span></span></a></li>
-											{% else %} 
-												<li><span>{{ dop_contact['icon'] }}<span>{{ dop_contact['number'] }}</span></span></li>
-											{% endif %} 
+									<li><a href="tel:{{ (header_phone_cod ~ header_phone_number)|replace({' ': '', '-': '', '(': '', ')': ''}) }}" rel="nofollow">{{ header_phone_cod ~ header_phone_number }}</a></li>
+										{% for contact in dop_contacts %} 
+											<li><a href="{{ contact.href }}"><span>{{ contact.icon }}<span>{{ contact.number }}</span></span></a></li>
 										{% endfor %} 
-									{% endif %} 
+									<li><a onclick="get_revpopup_phone();"><i class="fa fa-reply-all" aria-hidden="true"></i>Обратный звонок</a></li>
 									{% if (phone_dop_text|length > 30) %} 
-										<div class="phone_dop_text">
-											{{ phone_dop_text }} 
-										</div>
+										<div class="phone_dop_text">{{ phone_dop_text }}</div>
 									{% endif %} 
 								</ul>	
-							{% endif %} 
+							</div>
 						</div>
 					</div>
-					{% if (revtheme_header_popupphone['status'] and revtheme_header_popupphone['under_phone']) %} 
-						<span class="header_under_phone"><a onclick="get_revpopup_phone();"><i class="fa fa-reply-all" aria-hidden="true"></i>{{ text_header_revpopup_phone }}</a></span>
-					{% endif %} 
-
 				</div>
-			</div>
-		{% endif %} 
-		
-		{% if (is_mobile) %} 
-		<div class="hidden-md hidden-lg mobsearch col-xs-12 col-sm-12">
-			<!--noindex-->
-			{% if (header_search_doptext) %} 
-				<div class="header_search_doptext">
-					{{ header_search_doptext }} 
-				</div>
-				{% if (setting_header_search['ch_text_w_serch']) %} 
-					{{ search }} 
-				{% endif %} 
-			{% else %} 
-				{{ search }} 
 			{% endif %} 
-			<!--/noindex-->
+		
+			<div class="hidden-md hidden-lg mobsearch col-xs-12 col-sm-12">
+				<!--noindex-->
+					{{ search }} 
+				<!--/noindex-->
+			</div>
 		</div>
-		{% endif %} 
-		</div>
-	  </div>
-	</div>  
+	</div>
+</div>  

@@ -1,4 +1,6 @@
 <?php
+// *	My modifications
+
 class ControllerCommonCartMobi extends Controller {
 	public function index() {
 		// $this->load->language('common/cart');
@@ -41,6 +43,8 @@ class ControllerCommonCartMobi extends Controller {
 
 		$data['cart'] = $this->url->link('checkout/cart');
 		$data['checkout'] = $this->url->link(isset($this->config->get('revtheme_all_settings')['revcheckout_status']) && $this->config->get('revtheme_all_settings')['revcheckout_status'] ? 'revolution/revcheckout' : 'checkout/checkout', '', true);
+		$data['cart_count'] = $this->cart->countProducts() + isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0;
+		// return $data['cart_count']
 
 		return $this->load->view('common/cart_mobi', $data);
 

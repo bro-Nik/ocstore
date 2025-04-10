@@ -2,7 +2,7 @@
 class ControllerAccountWishList extends Controller {
 	public function index() {
 		
-		$this->load->language('revolution/revolution');
+		// $this->load->language('revolution/revolution');
 		$this->load->language('account/wishlist');
 		$this->load->model('account/wishlist');
 		$this->load->model('catalog/product');
@@ -275,9 +275,9 @@ class ControllerAccountWishList extends Controller {
 			
 			if ($this->customer->isLogged()) {
 				$this->model_account_wishlist->deleteWishlist($product_id);
-				$json['total'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
+				$json['total'] = count($this->session->data['wishlist'] ?? []);
 			} else {
-				$json['total'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
+				$json['total'] = count($this->session->data['wishlist'] ?? []);
 			}
 
 		}

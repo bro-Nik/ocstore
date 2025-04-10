@@ -27,3 +27,7 @@ ahtml/dmin/test/
 
 *sitemap
 *.DS_Store
+
+
+# Копии оригинальных файлов
+*.ORIG

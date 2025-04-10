@@ -658,7 +658,7 @@ class ControllerProductCompare extends Controller {
 				$json['button_compare'] = $this->language->get('button_compare');
 			}
 		
-			$json['total'] = sprintf($this->language->get('text_revcompare'), (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0));
+			$json['total'] = count($this->session->data['compare'] ?? []);
 			$json['title'] = $this->language->get('heading_title');
 
 		}

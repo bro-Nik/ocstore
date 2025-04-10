@@ -64,29 +64,7 @@
 				{% endfor %} 
 			{% endif %} 				
 		{% endif %} 
-		{% if (rev_acc) %} 
-			<li><span><i class="fa fa-user"></i> {{ text_revlogged }}</span>
-				<ul>
-					{% if (logged) %} 
-						<li><a href="{{ account }}" rel="nofollow">{{ text_account }}</a></li>
-						{% if (setting_all_settings['revaccount_orders'] is defined and setting_all_settings['revaccount_orders']) %} 
-							<li><a href="{{ order }}" rel="nofollow">{{ text_rev_text_order }}</a></li>
-						{% endif %} 
-						{% if (setting_all_settings['revaccount_files'] is defined and setting_all_settings['revaccount_files']) %} 
-							<li><a href="{{ download }}" rel="nofollow">{{ text_rev_text_download }}</a></li>
-						{% endif %} 
-						<li><a href="{{ logout }}" rel="nofollow">{{ text_logout }}</a></li>
-					{% else %} 
-						{% if (popup_login) %} 
-							<li><a href="javascript:void(0);" onclick="get_revpopup_login();" rel="nofollow">{{ text_login }}</a></li>
-						{% else %} 
-							<li><a href="{{ login }}" rel="nofollow">{{ text_login }}</a></li>
-						{% endif %} 
-						<li><a href="{{ register }}" rel="nofollow">{{ text_register }}</a></li>
-					{% endif %} 
-				</ul>
-			</li>
-		{% endif %}
+
 		{% if (manuf_status) %} 
 			<li><span><i class="fa fa-folder"></i> {{ text_revmenu_manufs }}</span>
 				{% if (categories_m) %} 
@@ -102,6 +80,7 @@
 				{% endif %} 
 			</li>
 		{% endif %} 
+
 		{% if (informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3) %} 
 			<li><span>{{ text_header_information }}</span>					
 				{% if (revtheme_dop_menus_2) %} 

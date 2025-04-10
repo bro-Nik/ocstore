@@ -1,6 +1,5 @@
 <?php
-// *	@source		See SOURCE.txt for source and other copyright.
-// *	@license	GNU General Public License version 3; see LICENSE.txt
+// *	My modifications
 
 class ControllerCheckoutCart extends Controller {
 	public function index() {
@@ -77,7 +76,12 @@ class ControllerCheckoutCart extends Controller {
 				if ($product['image']) {
 					$image = $this->model_tool_image->resize($product['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height'));
 				} else {
-					$image = '';
+					// Revolution start
+					// $image = '';
+					$config_image_cart_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width');
+					$config_image_cart_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height');
+					$image = $this->model_tool_image->resize('no_image.png', $config_image_cart_width, $config_image_cart_height);
+					// Revolution end
 				}
 
 				$option_data = array();
@@ -95,8 +99,23 @@ class ControllerCheckoutCart extends Controller {
 						}
 					}
 
+					// Revolution start
+					if (isset($option['opt_image'])) {
+						$config_image_cart_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width');
+						$config_image_cart_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height');
+						if ($option['opt_image']) {
+							$image = $option['opt_image'] ? $this->model_tool_image->resize($option['opt_image'], $config_image_cart_width, $config_image_cart_height) : '';
+						} else {
+							$image = $image;
+						}
+					}
+					// Revolution end
+
 					$option_data[] = array(
 						'name'  => $option['name'],
+						// Revolution start
+						'model'  => (isset($option['model']) ? $option['model'] : false),
+						// Revolution end
 						'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)
 					);
 				}
@@ -159,7 +178,8 @@ class ControllerCheckoutCart extends Controller {
 						'key'         => $key,
 						'description' => $voucher['description'],
 						'amount'      => $this->currency->format($voucher['amount'], $this->session->data['currency']),
-						'remove'      => $this->url->link('checkout/cart', 'remove=' . $key)
+						// 'remove'      => $this->url->link('checkout/cart', 'remove=' . $key)
+						'remove'      => $this->url->link(isset($this->config->get('revtheme_all_settings')['revcheckout_status']) && $this->config->get('revtheme_all_settings')['revcheckout_status'] ? 'revolution/revcheckout' : 'checkout/checkout', 'remove=' . $key)
 					);
 				}
 			}
@@ -374,7 +394,35 @@ class ControllerCheckoutCart extends Controller {
 					array_multisort($sort_order, SORT_ASC, $totals);
 				}
 
-				$json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total, $this->session->data['currency']));
+				// Revolution start
+				// $json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total, $this->session->data['currency']));
+				$style = '';
+				$this->load->model('tool/image');
+				$data['setting_header_cart'] = $revtheme_header_cart = $this->config->get('revtheme_header_cart');
+				if ($data['setting_header_cart']['icontype']) {
+					if ($data['setting_header_cart']['icon'] == 'fa none') {
+						$style = ' hidden';
+					}
+					$image = '<i class="'.$data['setting_header_cart']['icon'].$style.'"></i>';
+				} else {
+					if (!$data['setting_header_cart']['image'] || $data['setting_header_cart']['image'] == 'no_image.png') {
+						$style = ' hidden';
+					}
+					$image = '<span class="heading_ico_image'.$style.'"><img src="'.$this->model_tool_image->resize($data['setting_header_cart']['image'], 21, 21).'" alt=""/></span>';
+				}
+				$this->load->language('revolution/revolution');
+				// if ($revtheme_header_cart['cart_size'] == 'small') {
+				// 	$heading_title = ($image . $this->language->get('text_rev_items_small'));
+				// } else if ($revtheme_header_cart['cart_size'] == 'mini') {
+				// 	$heading_title = ($image . $this->language->get('text_rev_items_mini'));
+				// } else {
+				// 	$heading_title = ($image . $this->language->get('text_rev_items'));
+				// }
+				$json['redirect_cart'] = $this->url->link('checkout/checkout');
+				// $json['total'] = sprintf($heading_title
+				// $json['total'] = $this->cart->countProducts() + count($this->session->data['vouchers'] ?? []);
+				$json['total'] = $this->cart->countProducts();
+				// Revolution end
 			} else {
 				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']));
 			}
@@ -395,7 +443,7 @@ class ControllerCheckoutCart extends Controller {
 				$this->cart->update($key, $value);
 			}
 
-			$this->session->data['success'] = $this->language->get('text_remove');
+			// $this->session->data['success'] = $this->language->get('text_remove');
 
 			unset($this->session->data['shipping_method']);
 			unset($this->session->data['shipping_methods']);

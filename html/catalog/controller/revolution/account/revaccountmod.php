@@ -15,7 +15,7 @@ class ControllerRevolutionAccountRevAccountMod extends Controller {
 		$data['text_logout'] = $this->language->get('text_rev_logout');
 		
 		$data['text_edit'] = $this->language->get('text_rev_text_edit');
-		$data['text_wishlist'] = $this->language->get('text_rev_text_wishlist');
+		// $data['text_wishlist'] = $this->language->get('text_rev_text_wishlist');
 		$data['text_order'] = $this->language->get('text_rev_text_order');
 		$data['text_download'] = $this->language->get('text_rev_text_download');
 		$data['text_reward'] = $this->language->get('text_reward');

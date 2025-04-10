@@ -1,48 +1,18 @@
-	{% if (informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3 or rev_lang or rev_curr or rev_srav or rev_wish or rev_acc or setting_all_settings['mobile_header']) %} 
 	<div id="top">
 		<div class="container">									
+		{#}
 			<div class="top-links verh nav pull-right">{{ cart_mobi }}</div>				
-			{% if (informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3 or setting_all_settings['mobile_header']) %} 
-				{% if (is_mobile) %} 
+		{#}
 				<div class="hidden-md hidden-lg mobile_info">
 					<div class="navbar navbar-default pull-left">						
-						{% if (setting_all_settings['mobile_header']) %} 
-							{% if (setting_all_settings['mobile_header'] == '2') %} 
-								<a class="mobil_mmenu_three" href="#mobil_mmenu"><i class="fa fa-bars"></i></a>
-							{% else %} 
-								<button type="button" class="navbar-toggle" data-toggle="offcanvas"
-								data-target=".navmenu.mobcats" data-canvas="body">
-								<i class="fa fa-bars"></i>
-								</button>
-							{% endif %} 
-							{% if ((informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3) and setting_all_settings['mobile_header'] != '2') %} 
-								<button type="button" class="navbar-toggle" data-toggle="offcanvas"
-								data-target=".navmenu.moblinks" data-canvas="body">
-								<i class="fa fa-info"></i>
-								</button>
-							{% endif %} 
-						{% else %} 
-							{% if (informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3) %} 
-								<button type="button" class="navbar-toggle" data-toggle="offcanvas"
-								data-target=".navmenu.moblinks" data-canvas="body">
-								<i class="fa fa-info" aria-hidden="true"></i>
-								<span class="hidden-xs">{{ text_header_information }}</span>
-								<i class="fa fa-chevron-left"></i>
-								</button>
-							{% endif %} 
-						{% endif %} 
+						<a class="mobil_mmenu_three" href="#mobil_mmenu"><i class="fa fa-bars"></i></a>
 					</div>
 				</div>
-				{% endif %} 
 				<div class="top-links hidden-xs verh nav pull-left text-center">
-					{% for information in informations %} 
-						<a href="{{ information['href'] }}">{{ information['title'] }}</a>
-					{% endfor %} 
-					{% if (revtheme_header_links) %} 
-						{% for revtheme_header_link in revtheme_header_links %} 
-							<a href="{{ revtheme_header_link['link'] }}">{{ revtheme_header_link['title'] }}</a>
-						{% endfor %} 
-					{% endif %} 
+				  {% for info in informations %}<a href="{{ info.href }}">{{ info.title }}</a>{% endfor %}
+
+  				{% for link in revtheme_header_links %}<a href="{{ link.link }}">{{ link.title }}</a>{% endfor %}
+
 					{% if (revtheme_dop_menus_2) %} 
 						<ul class="list-inline ul_dop_menu">
 							{% for revtheme_dop_menu in revtheme_dop_menus_2 %} 
@@ -62,40 +32,16 @@
 					{% endif %} 
 					<span class="foroppro" style="display:none;"></span>
 				</div>
-			{% endif %} 
-			{% if (rev_lang or rev_curr or rev_srav or rev_wish or rev_acc) %} 
+
 				<div class="top-links verh nav pull-right {% if ((revtheme_header_links and informations) and ((informations|length + revtheme_header_links|length) > 4)) %}text_ico_skrit{% endif %}">
 					<ul class="list-inline">
-						{% if (rev_lang) %}{{ language }}{% endif %} 
-						{% if (rev_curr) %}{{ currency }}{% endif %} 
-						{% if (rev_srav) %}<li><a href="{{ compare }}" class="dropdown-toggle"><span id="compare-total">{{ text_compare }}</span></a></li>{% endif %} 
-						{% if (rev_wish) %}<li><a href="{{ wishlist }}" class="dropdown-toggle"><span id="wishlist-total">{{ text_wishlist }}</span></a></li>{% endif %} 
-						{% if (rev_acc) %} 
-							<li class="dropdown {% if (rev_acc and setting_all_settings['mobile_header'] == '2') %}hidden-xs{% endif %}"><a href="{{ account }}" title="{{ text_revlogged }}" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <span class="hidden-xs hidden-sm">{{ text_revlogged }}</span><i class="fa fa-chevron-down strdown"></i></a>
-								<ul class="dropdown-menu dropdown-menu-right">
-								{% if (logged) %} 
-									<li><a href="{{ account }}">{{ text_account }}</a></li>
-									{% if (setting_all_settings['revaccount_orders'] is defined and setting_all_settings['revaccount_orders']) %} 
-										<li><a href="{{ order }}">{{ text_rev_text_order }}</a></li>
-									{% endif %} 
-									{% if (setting_all_settings['revaccount_files'] is defined and setting_all_settings['revaccount_files']) %} 
-										<li><a href="{{ download }}">{{ text_rev_text_download }}</a></li>
-									{% endif %} 
-									<li><a href="{{ logout }}">{{ text_logout }}</a></li>
-								{% else %} 
-									{% if (popup_login) %} 
-										<li><a href="javascript:void(0);" onclick="get_revpopup_login();">{{ text_login }}</a></li>
-									{% else %} 
-										<li><a href="{{ login }}">{{ text_login }}</a></li>
-									{% endif %} 
-									<li><a href="{{ register }}">{{ text_register }}</a></li>
-								{% endif %} 
-								</ul>
-							</li>
-						{% endif %} 
+						<li><a href="{{ compare }}"><i class="fa fa-bar-chart"></i><span class="hidden-xs hidden-sm">Сравнение</span><sup><span id="compare-total">{{ compare_count }}</span></sup></a></li>
+						<li><a href="{{ wishlist }}"><i class="fa fa-heart"></i><span class="hidden-xs hidden-sm">Избранное</span><sup><span id="wishlist-total">{{ wishlist_count }}</span></sup></a></li>
+						<li><a onclick="get_revpopup_cart('', 'show_cart', '');"><i class="fa fa-shopping-basket"></i><span class="hidden-xs hidden-sm">Корзина</span><sup><span id="cart-total_mobi">{{ cart_count }}</span></sup></a></li>
+						{#}
+						<li><a href="{{ cart }}"><i class="fa fa-heart"></i><span class="hidden-xs hidden-sm">Корзина</span><span id="wishlist-total"><sup>{{ cart_count }}</sup></span></a></li>
+						{#}
 					</ul>
 				</div>
-			{% endif %} 
 		</div>
 	</div>
-	{% endif %} 
