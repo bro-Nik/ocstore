@@ -802,3 +802,39 @@ ul.hometab.hometabsliders.nav.nav-tabs {display: none;}
 .mobil_mmenu_three {color: #fff;}
 
 #menu2_button .box-heading {background-color: #0063D1;box-shadow: 0 9px 13px rgb(0 85 255 / 43%);border-radius: 10px;}
+#menu2 {
+  display: none;
+}
+
+#menu2_button:hover #menu2,
+#menu2:hover {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Стили для выпадающего меню при наведении */
+.header_phone_nomer {
+  position: relative;
+  display: inline-block;
+}
+
+.header_phone_nomer .dropdown-menu {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.header_phone_nomer:hover .dropdown-menu,
+.header_phone_nomer .dropdown-menu:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Возвращаем взаимодействие */
+  transition-delay: 0s; /* Убираем задержку при открытии */
+}

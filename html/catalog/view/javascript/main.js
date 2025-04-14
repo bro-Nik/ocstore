@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
 if (!localStorage.getItem('display')) {
 	localStorage.setItem('display', 'grid');
 }
 
-	$('#menu2_button').click(function(){$('#menu2').toggleClass('dblock');});
 
 	$('.footer-category').append($('.category_description'));
 	$('.category_description').removeClass('dnone');

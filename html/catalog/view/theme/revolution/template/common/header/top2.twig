@@ -16,6 +16,7 @@
 			</div>
 
 			<div class="bigsearch col-xs-12 col-sm-4 col-md-4">{{ search }}</div>
+
 			{% if (header_phone_number != '' or header_phone_text != '') %} 
 				<div class="col-xs-12 col-sm-6 col-md-3 pull-right">
 					<div class="header_conts t-ar">
@@ -33,9 +34,13 @@
 								<ul class="dropdown-menu dropdown-menu-right dop_contss">
 									<li><a href="tel:{{ (header_phone_cod ~ header_phone_number)|replace({' ': '', '-': '', '(': '', ')': ''}) }}" rel="nofollow">{{ header_phone_cod ~ header_phone_number }}</a></li>
 										{% for contact in dop_contacts %} 
+										{#}
 											<li><a href="{{ contact.href }}"><span>{{ contact.icon }}<span>{{ contact.number }}</span></span></a></li>
+											<i class="fa fa-reply-all" aria-hidden="true"></i>
+										{#}
+											<li><a href="{{ contact.href }}"><span>{{ contact.number }}</span></a></li>
 										{% endfor %} 
-									<li><a onclick="get_revpopup_phone();"><i class="fa fa-reply-all" aria-hidden="true"></i>Обратный звонок</a></li>
+									<li><a onclick="get_revpopup_phone();">Обратный звонок</a></li>
 									{% if (phone_dop_text|length > 30) %} 
 										<div class="phone_dop_text">{{ phone_dop_text }}</div>
 									{% endif %} 

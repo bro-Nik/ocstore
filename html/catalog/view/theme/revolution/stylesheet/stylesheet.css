@@ -498,18 +498,6 @@ z-index: 10;
 -o-transition: all 100ms linear;
 transition: all 100ms linear;
 }
-#menu2:before {
-border-color: transparent transparent #fff;
-border-style: solid;
-border-width: 0 6px 7px;
-top: -7px;
-content: "";
-height: 0;
-left: 9px;
-position: absolute;
-width: 0;
-z-index: 4;
-}
 #menu2 ul.child2-box {
 width: initial;
 margin-left: 10px;
@@ -565,9 +553,6 @@ margin-bottom: 20px;
 #menu2_button.ammodul #menu2 {
 background: transparent;
 padding: 0;
-}
-#menu2_button.ammodul #menu2:before {
-display: none;
 }
 #menu2_button.ammodul .catalog_list .revlevel_1 > .title a {
 padding: 7px 10px;
