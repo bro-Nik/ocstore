@@ -23,6 +23,14 @@ services:
       - ./html:/var/www/html
       - ./storage:/var/www/storage
 
+  node:
+    image: node:16
+    working_dir: /var/www/html
+    volumes:
+      - ./html:/var/www/html
+    command: npm run dev  # запуск Webpack в watch-режиме
+    # command: npm run build  # запуск Webpack с минификацией
+
   db:
     image: mariadb:11.4
     env_file:
