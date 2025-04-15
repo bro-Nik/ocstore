@@ -1,0 +1,26 @@
+
+{% if (images) %}
+ <div style="--swiper-navigation-color: #333; --swiper-pagination-color: #333" class="swiper product_main_swiper">
+    <div class="swiper-wrapper">
+      {% for image in images %}
+        <div class="swiper-slide">
+          <img src="{{ image['thumb_big'] }}" title="{{ heading_title }}" alt="{{ heading_title }}" loading="lazy">
+          <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-scrollbar"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <div thumbsSlider="" class="swiper product_thumbs_swiper">
+    <div class="swiper-wrapper">
+      {% for image in images %}
+        <div class="swiper-slide">
+          <img src="{{ image['thumb'] }}" title="{{ heading_title }}" alt="{{ heading_title }}">
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

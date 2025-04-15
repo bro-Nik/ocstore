@@ -13,18 +13,9 @@
         {% endif %}
         <div class="{{ class2 }} product_informationss">
 
-		{% include 'revolution/template/product/partials/stickers.twig' with {'main_product': 'true'} %}
+		      {% include 'revolution/template/product/partials/stickers.twig' with {'main_product': 'true'} %}
+		      {% include 'revolution/template/product/partials/product_images.twig' with {'images' : images} %}
 
-          {% if (images) %}
-            <div class="fotorama" data-nav="thumbs" data-thumbheight="100" data-thumbwidth="100" data-allowfullscreen="true" data-swipe="true" data-keyboard="true" data-loop="true"
-			data-width="400" data-height="400">
-              {% for image in images %}
-                <a target="_blank" href="{{ image['medium'] }}" data-full="{{ image['popup'] }}" title="{{ heading_title }}">
-                  <img src="{{ image['thumb'] }}" title="{{ heading_title }}" alt="{{ heading_title }}">
-                </a>
-              {% endfor %}
-            </div>
-          {% endif %}
         </div>
         {% if (column_left or column_right) %}
           {% set class3 = 'col-sm-12 col-md-6' %}
