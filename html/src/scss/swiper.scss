@@ -1,0 +1,27 @@
+@use 'swiper/scss' as swiper;
+@use 'swiper/scss/navigation';
+
+:root {
+  // --swiper-navigation-size: 44px;
+  --swiper-navigation-color: var(--text-base);
+}
+
+// Дополнительные кастомные стили
+
+.swiper-slide-thumb-active {
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--color-primary);
+}
+
+.swiper-slide {
+  display: flex ;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
+}

@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.2",
     "mini-css-extract-plugin": "^2.9.2",
@@ -17,7 +18,11 @@
     "sass-loader": "^16.0.5",
     "terser-webpack-plugin": "^5.3.14",
     "webpack": "^5.99.5",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "webpack-manifest-plugin": "^5.0.1"
   },
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "swiper": "^11.2.6"
+  }
 }

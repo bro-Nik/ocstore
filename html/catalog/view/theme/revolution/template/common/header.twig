@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+{#}
 <html dir="ltr" lang="ru" class="{{ class }} {{ opacity_cont_class }}">
+{#}
+<html dir="ltr" lang="ru" class="{{ class }}">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,21 +30,13 @@
 	<link href="catalog/view/javascript/revolution/jasny-bootstrap.min.css" rel="stylesheet">
 	<link href="catalog/view/javascript/revolution/magnific-popup.css" rel="stylesheet" media="screen" />
 	<link href="catalog/view/javascript/revolution/owl-carousel/owl.carousel.css" type="text/css" rel="stylesheet" media="screen">
-	{% if (setting_all_settings['mobile_header'] == '2') %} 
-	<link href="catalog/view/theme/revolution/stylesheet/mmenu-light.css" rel="stylesheet">
-	{% endif %} 
-	<!-- <link href="catalog/view/theme/revolution/stylesheet/stylesheet_change.css" rel="stylesheet"> -->
+
 	<link href="catalog/view/theme/revolution/stylesheet/stylesheet_my.css" rel="stylesheet">
-	<!-- <link href="catalog/view/javascript/fotorama.css" rel="stylesheet"> -->
-	<!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+	<link href="catalog/view/theme/revolution/css/styles.css" rel="stylesheet">
 {% else %} 
 	<link href="catalog/view/theme/revolution/stylesheet/stylesheet_min.css" rel="stylesheet">
 {% endif %} 
 
-<!-- Bootstrap 5 CSS -->
- <!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-	<!-- <link href="catalog/view/theme/revolution/stylesheet/stylesheet_my_bootstrap.css" rel="stylesheet"> -->
   <!-- Font Awesome 6 -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 {% for style in styles %} 

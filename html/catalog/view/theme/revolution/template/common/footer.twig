@@ -301,17 +301,8 @@
 {% if (not setting_all_settings['minif_on']) %} 
 	<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
 	<script src="catalog/view/javascript/revolution/common.js"></script>
-	{% if (setting_all_settings['all_document_snow_on']) %} 
-		<script src="catalog/view/javascript/revolution/snow.min.js"></script>
-	{% endif %} 
-	<script src="catalog/view/javascript/mmenu-light.js"></script>
-	<script src="catalog/view/javascript/main.js"></script>
-	<!-- <script src="catalog/view/javascript/fotorama.js"></script> -->
-	<!-- <script src="catalog/view/javascript/jquery/fotorama/fotorama.js"></script> -->
+	<script src="catalog/view/theme/revolution/js/main.js"></script>
 	
-	<!-- <script src="catalog/view/javascript/revolution/js_change.js"></script> -->
-	<!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 {% else %} 
 	<script src="catalog/view/javascript/revolution/javascript_min.js"></script>
 {% endif %} 
@@ -799,39 +790,5 @@
 	//--></script>
 	<!--/noindex-->
 {% endif %} 
-
- <!-- Initialize Swiper -->
-  <script>
-    var swiper = new Swiper(".product_thumbs_swiper", {
-      loop: true,
-      spaceBetween: 10,
-      slidesPerView: 4,
-      freeMode: true,
-      watchSlidesProgress: true,
-    });
-    var swiper2 = new Swiper(".product_main_swiper", {
-      loop: true,
-      spaceBetween: 10,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      thumbs: {
-        swiper: swiper,
-      },
-      scrollbar: {
-        el: ".swiper-scrollbar",
-        hide: true,
-      },
-      keyboard: {
-        enabled: true,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        type: "progressbar",
-      },
-
-    });
-  </script>
 
 </body></html>

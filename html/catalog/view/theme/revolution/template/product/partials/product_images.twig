@@ -1,6 +1,6 @@
 
 {% if (images) %}
- <div style="--swiper-navigation-color: #333; --swiper-pagination-color: #333" class="swiper product_main_swiper">
+ <div class="swiper product_main_swiper">
     <div class="swiper-wrapper">
       {% for image in images %}
         <div class="swiper-slide">
@@ -9,7 +9,6 @@
         </div>
       {% endfor %}
     </div>
-    <div class="swiper-scrollbar"></div>
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
   </div>

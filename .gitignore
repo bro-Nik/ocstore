@@ -11,7 +11,10 @@ html/catalog/language/*/
 !html/catalog/language/russian/
 
 html/catalog/test/
-ahtml/dmin/test/
+html/dmin/test/
+
+html/catalog/view/theme/revolution/js/*
+html/catalog/view/theme/revolution/css/*
 
 *.env
 

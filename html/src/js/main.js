@@ -1,26 +1,10 @@
+// swiper
+import { initProductSwipers } from './swiper';
+initProductSwipers();
+
 // mobile-menu
-document.addEventListener('DOMContentLoaded', function() {
-    var menu = new MmenuLight(document.querySelector("#mobil_mmenu"), "all");
-
-    var navigator = menu.navigation({
-        // selectedClass: 'Selected',
-        // slidingSubmenus: true,
-        title: 'Меню'
-    });
-
-    var drawer = menu.offcanvas({
-        // position: 'left'
-    });
-
-    // Open the menu.
-    var menuButton = document.querySelector('a[href="#mobil_mmenu"]');
-    if (menuButton) {
-        menuButton.addEventListener("click", function(evnt) {
-            evnt.preventDefault();
-            drawer.open();
-        });
-    }
-});
+import { initMobilMenu } from './mmenu-light';
+initMobilMenu();
 
 
 if (!localStorage.getItem('display')) {
@@ -53,7 +37,7 @@ function list_view(){
 	localStorage.setItem('display', 'list');
 }
 function grid_view(){
-	cols = $('#column-right, #column-left').length;
+	var cols = $('#column-right, #column-left').length;
 	if (cols == 2) {
 		$('#content .product-list, #content .product-price').attr('class', 'product-layout product-grid col-lg-6 col-md-6 col-sm-12 col-xs-12');
 	} else if (cols == 1) {
