@@ -18,7 +18,7 @@ const SELECTORS = {
   total: '#cart-total, #cart-total_mobi, #cart-total-popup', // Элементы с общей суммой
   btns: [
     '.product-thumb.product_{product_id} .add-to-cart',       // Кнопки в карточках товаров
-    '.product-info .add-to-cart.pjid_{product_id}',          // Кнопки на странице товара
+    '.product-info .add-to-cart',          // Кнопки на странице товара
     '.quickview .add-to-cart.pjid_{product_id}'              // Кнопки в быстром просмотре
   ],
   forms: {
@@ -29,8 +29,7 @@ const SELECTORS = {
     module: `#{block_id} .product_{product_id} .options`
   },
   cartItems: '#cart > ul', // Список товаров в корзине
-  toggle: 'add-to-cart',
-  // toggleClassToRemove: 'in_wishlist'
+  add: 'add-to-cart',
 };
 
 class Cart extends BaseModule {
@@ -49,7 +48,7 @@ class Cart extends BaseModule {
   bindEvents() {
     document.addEventListener('click', (e) => {
       // Обработка кликов по кнопкам с классом add-to-cart
-      const addButton = e.target.closest(`.${this.selectors.toggle}`);
+      const addButton = e.target.closest(`.${this.selectors.add}`);
       if (addButton) {
         e.preventDefault();
         const productId = addButton.dataset.productId;
@@ -61,7 +60,7 @@ class Cart extends BaseModule {
       }
 
       // Обработка открытия попапа корзины
-      const popupTrigger = e.target.closest('.cart-popup-trigger');
+      const popupTrigger = e.target.closest('.cart-show-popup');
       if (popupTrigger) {
         e.preventDefault();
         this.popup.show();
@@ -162,6 +161,17 @@ class Cart extends BaseModule {
     if (json.redirect) return window.location.assign(json.redirect);
     if (json.error) return this.showErrors(json.error);
     
+    // Обновляем кнопки
+    const updateParams = {
+      baseClass: '',
+      newClass: 'in-cart',
+      newTitle: 'Перейти в корзину',
+      classToRemove: this.selectors.add,
+      newText: 'В корзине',
+      newUrl: 'index.php?route=checkout/cart'
+    };
+    this.updateButtons(productId, updateParams);
+
     this.updateCart(json);
     this.markProduct(productId);
     this.popup.show();

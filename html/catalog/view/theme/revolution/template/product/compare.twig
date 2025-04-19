@@ -174,7 +174,7 @@
 											{% endif %} 
 											{% if (rev_wish_prod) %} 
 												<div class="wishlist">
-													<a class="wishlist wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+													<a class="wishlist-toggle wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-product-id="{{ product['product_id'] }}" data-toggle="tooltip" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
 												</div>
 											{% endif %} 
 											<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">
@@ -340,7 +340,7 @@
 									{% endif %} 
 									{% if (rev_wish_prod) %} 
 										<div class="wishlist">
-											<a class="wishlist wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+											<a class="wishlist-toggle wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-product-id="{{ product['product_id'] }}" data-toggle="tooltip" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
 										</div>
 									{% endif %} 
 									<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">

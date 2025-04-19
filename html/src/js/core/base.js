@@ -61,7 +61,7 @@ export class BaseModule {
    * @param {string} params.newTitle - Текст для title
    * @param {string} [params.classToRemove] - Класс для удаления
    */
-  updateButtons(productId, { baseClass, newClass, newTitle, classToRemove }) {
+  updateButtons(productId, { baseClass, newClass, newTitle, classToRemove, newText, newUrl }) {
     const selectors = this.getSelectors(this.selectors.btns, { product_id: productId });
     selectors.forEach(selector => {
       document.querySelectorAll(selector).forEach(button => {
@@ -75,6 +75,18 @@ export class BaseModule {
         // Обновляем атрибуты
         button.setAttribute('title', newTitle);
         button.setAttribute('data-original-title', newTitle);
+        button.setAttribute('data-toggle', 'tooltip');
+
+        // Меняем текст, если нужно
+        button.innerHTML = newText;
+
+        // Ставим ссылку
+        if (newUrl) {
+          button.onclick = (e) => {
+            e.preventDefault();
+            window.location.href = newUrl;
+          };
+        }
 
         // Анимация
         this.animateElement(button);
