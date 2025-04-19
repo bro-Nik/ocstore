@@ -71,7 +71,7 @@
               {% endif %}</td>
             <td class="text-center wwicons">
 			{% if (product['quantity'] > 0) %} 
-				<a onclick="get_revpopup_cart('{{ product['product_id'] }}', 'catalog_mod');" data-toggle="tooltip" title="{{ button_cart }}"><i class="fa fa-border fa-shopping-basket"></i></a>
+				<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod" data-toggle="tooltip" title="{{ button_cart }}"><i class="fa fa-border fa-shopping-basket"></i></a>
 			{% elseif (predzakaz_button) %} 
 				<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');" data-toggle="tooltip" title="{{ text_predzakaz }}"><i class="fa fa-border fa-shopping-basket predzakaz"></i></a>
 			{% endif %} 

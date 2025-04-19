@@ -148,11 +148,6 @@
 	update_quantity({{ product['product_id'] }}, {{ product['minimum'] }});
 {% endif %} {% endfor %} 
 {% endfor %} 
-function get_revpopup_cart_quantity(product_id) {
-	input_val = $('.products_category .product_'+product_id+' .plus-minus').val();
-	quantity  = parseInt(input_val);
-	return quantity;
-}
 function validate_pole(val, product_id, znak, minimumvalue, maximumvalue) {
 	val.value = val.value.replace(/[^\d,]/g, '');
 	if (val.value == '') val.value = minimumvalue;

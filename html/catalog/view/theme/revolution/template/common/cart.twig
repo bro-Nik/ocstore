@@ -7,16 +7,16 @@
 		</button>
 		{% endif %} 
 		{% if (is_mobile) %} 
-		<button class="cart hidden-md hidden-lg" onclick="get_revpopup_cart('', 'show_cart', '');">
+		<button class="cart hidden-md hidden-lg add-to-cart" data-action="show_cart">
 			<span id="cart-total-popup">{{ text_items }}</span>
 		</button>
 		{% endif %} 
 	{% elseif (setting_header_cart['type'] == 'redirect') %} 
-		<button class="cart" onclick="get_revpopup_cart('', 'redirect_cart', '');">
+		<button class="cart add-to-cart" data-action="redirect_cart">
 			<span id="cart-total">{{ text_items }}</span>
 		</button>
 	{% else %} 
-		<button class="cart" onclick="get_revpopup_cart('', 'show_cart', '');">
+		<button class="cart add-to-cart" data-action="show_cart">
 			<span id="cart-total">{{ text_items }}</span>
 		</button>
 	{% endif %} 

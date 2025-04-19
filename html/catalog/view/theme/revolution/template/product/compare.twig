@@ -165,7 +165,7 @@
 										<div class="cart_wish">
 											{% if (product['quantity'] > 0) %} 
 											<div class="cart">
-												<a onclick="get_revpopup_cart('{{ product['product_id'] }}', 'catalog_mod', '{{ product['minimum'] }}');"><i class="fa fa-border fa-shopping-basket"><span class="prlistb">{{ button_cart }}</span></i></a>
+												<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod"><i class="fa fa-border fa-shopping-basket"><span class="prlistb">{{ button_cart }}</span></i></a>
 											</div>
 											{% elseif (predzakaz_button) %} 
 												<div class="cart">
@@ -331,7 +331,7 @@
 								<div class="cart_wish">
 									{% if (product['quantity'] > 0) %} 
 									<div class="cart">
-										<a onclick="get_revpopup_cart('{{ product['product_id'] }}', 'catalog_mod', '{{ product['minimum'] }}');"><i class="fa fa-border fa-shopping-basket"><span class="prlistb">{{ button_cart }}</span></i></a>
+										<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod"><i class="fa fa-border fa-shopping-basket"><span class="prlistb">{{ button_cart }}</span></i></a>
 									</div>
 									{% elseif (predzakaz_button) %} 
 										<div class="cart predz">

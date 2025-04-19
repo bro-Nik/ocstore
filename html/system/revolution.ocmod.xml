@@ -2001,8 +2001,6 @@
 		<operation>
 			<search><![CDATA[$this->load->model('catalog/category');]]></search>
 			<add position="after"><![CDATA[
-				$this->document->addScript('catalog/view/javascript/revolution/cloud-zoom/cloud-zoom.1.0.2.js');		
-				$this->document->addStyle('catalog/view/javascript/revolution/cloud-zoom/cloud-zoom.css');
 				$all_settings = $this->config->get('revtheme_product_all');
 				$data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
 				$images_settings = $this->config->get('revtheme_product_images');

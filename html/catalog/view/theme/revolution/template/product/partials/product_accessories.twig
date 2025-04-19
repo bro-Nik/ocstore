@@ -23,7 +23,7 @@
                   <div class="number bordnone"></div>
                   <input type="hidden" name="quantity" class="plus-minus" value='{{ product['minimum'] }}'>
                   <div class="cart">
-                    <a onclick="get_revpopup_cart({{ product['product_id'] }},'module_in_product',get_revpopup_cart_quantity_product_accessories('{{ product['product_id'] }}'),'product_accessories');" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" {% endif %}>
+                    <a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="module_in_product" data-block-id="product_accessories" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" {% endif %}>
                       <span>{{ button_cart }}</span>
                     </a>
                   </div>
@@ -48,13 +48,5 @@
       </div>
     </div>
     <script src="catalog/view/javascript/dragscroll.js"></script>
-    <script>
-      <!--
-      function get_revpopup_cart_quantity_product_accessories(product_id) {
-        input_val = $('#product_accessories .product_' + product_id + ' .plus-minus').val();
-        quantity = parseInt(input_val);
-        return quantity;
-      }
-      //--></script>
   </div>
 {% endif %}

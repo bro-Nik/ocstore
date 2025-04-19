@@ -1,6 +1,6 @@
 <div class="compare_rating">
   <div class="compare">
-    <a class="compare {{ product['compare_class'] }}" data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');">
+    <a class="compare {{ product['compare_class'] }} compare-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" data-brand="{{ product['brand'] }}">
       <i class="fa fa-bar-chart-o"></i>
       <span>{{ product['button_compare'] }}</span>
     </a>
@@ -64,7 +64,7 @@
         {% endif %}
         {% if (rev_wish_prod) %}
           <div class="wishlist">
-            <a class="{{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}">
+            <a class="{{ product['wishlist_class'] }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" title="{{ product['button_wishlist'] }}">
               <i class="fa fa-border fa-heart"></i>
             </a>
           </div>
@@ -158,22 +158,13 @@
     <div class="clearfix"></div>
   {% endif %}
   <div>
-  {#
-  {% if ((rev_srav_prod or rev_wish_prod) and not setting_catalog_all['rev_wish_srav_prod']) %}
-    {% if (rev_wish_prod) %}
-    {% endif %}
-    #}
-    {% set button_cart_class = 'prlistb' %}
-  {#
-  {% else %}
-    {% set button_cart_class = 'prlistb active' %}
-  {% endif %}
-  #}
+
+  {% set button_cart_class = 'prlistb' %}
   {% if (product['quantity'] > 0 or zakaz or predzakaz_button) %}
     {% if (product['price_number'] > 0 or zakaz_price_null) %}
       {% if (product['quantity'] < 1 and predzakaz_button) %}
         <div class="cart predzakaz_cart">
-          <a onclick="get_revpopup_predzakaz({{ product['product_id'] }});" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ text_predzakaz }}" {% endif %}>
+          <a onclick="get_revpopup_predzakaz({{ product['product_id'] }});" data-toggle="tooltip" title="{{ text_predzakaz }}">
             <i class="fa fa-border fa-shopping-basket predzakaz">
               <span class="{{ button_cart_class }}">{{ text_predzakaz }}</span>
             </i>
@@ -181,24 +172,22 @@
         </div>
       {% else %}
         <div class="cart">
-          <a onclick="get_revpopup_cart({{ product['product_id'] }},'catalog',get_revpopup_cart_quantity('{{ product['product_id'] }}'));" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
+          <a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
             <i class="fa fa-border fa-shopping-basket">
               <span class="{{ button_cart_class }}">{{ button_cart }}</span>
             </i>
           </a>
         </div>
-        {#
-        {% if (revpopuporder_settings['quick_btn']) %}
+        {#}
           <a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('{{ product['product_id'] }}');">
             <i class="fa fa-hand-pointer-o"></i>
             {{ text_catalog_revpopup_purchase }}</a>
-        {% endif %}
-        #}
+        {#}
       {% endif %}
     {% endif %}
   {% endif %}
   <div class="wishlist">
-    <a class="{{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}">
+    <a class="{{ product['wishlist_class'] }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" title="{{ product['button_wishlist'] }}">
       <i class="fa fa-border fa-heart"></i>
     </a>
   </div>

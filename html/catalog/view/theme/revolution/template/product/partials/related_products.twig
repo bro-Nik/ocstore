@@ -50,7 +50,7 @@
 				{% if (product['quantity'] > 0 or zakaz) %} 
 					{% if (product['price_number'] > 0) %} 
 						<div class="cart">
-							<a onclick="get_revpopup_cart('{{ product['product_id'] }}', 'catalog_mod', '{{ product['minimum'] }}');" {% if (button_cart_class != 'prlistb active') %}data-toggle="tooltip" title="{{ button_cart }}"{% endif %}><i class="fa fa-border fa-shopping-basket"><span class="{{ button_cart_class }}">{{ button_cart }}</span></i></a>
+							<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod" {% if (button_cart_class != 'prlistb active') %}data-toggle="tooltip" title="{{ button_cart }}"{% endif %}><i class="fa fa-border fa-shopping-basket"><span class="{{ button_cart_class }}">{{ button_cart }}</span></i></a>
 						</div>
 					{% endif %} 
 				{% endif %} 

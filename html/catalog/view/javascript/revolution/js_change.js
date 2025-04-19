@@ -1,41 +1,82 @@
-// swiper
-import { initProductSwipers } from './swiper';
-initProductSwipers();
 
-// mobile-menu
-import { initMobilMenu } from './mmenu-light';
-initMobilMenu();
+	one_sch = $('.mobsearch').html(),
+	$('.mobsearch').html('');
+	$('.mobsearch_two').html(one_sch);
+	$('.mobsearch_two .search-button').on('click', function() {
+	url = $('base').attr('href') + 'index.php?route=product/search';
+	var value = $('.mobsearch_two input[name=\"search\"]').val();
+	if (value) {url += '&search=' + encodeURIComponent(value);}
+	var category_id = $('.mobsearch_two input[name=\"category_id\"]').prop('value');
+	if (category_id > 0) {url += '&category_id=' + encodeURIComponent(category_id) + '&sub_category=true';}
+	location = url;
+	});
+	$('.mobsearch_two .search input[name=\"search\"]').on('keydown', function(e) {
+	if (e.keyCode == 13) {$('.mobsearch_two .search-button').trigger('click');}
+	});
+	$(document).ready(function() {
+		$('nav#mobil_mmenu').mmenu({
+			"extensions": ["theme-dark", "pagedim-black"],
+			"counters": true,
+			"navbars": [
+				{
+				   "position": "top",
+				   "type": "tabs",
+				   "content": [
+					  "<a href='#panel-menu'><i class='fa fa-bars'></i></a>",
+					  "<a href='#panel-language'><i class='fa fa-info'></i></a>"
+				   ]
+				},
+				
 
-import compare from './compare';
-import wishlist from './wishlist';
-import cart from './cart';
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Обработка кликов на кнопках сравнения
-  // document.querySelectorAll('.add-to-compare').forEach(el => {
-  //   el.addEventListener('click', () => {
-  //     const productId = el.dataset.productId || '';
-  //     const brand = el.dataset.brand || '';
-  //     compare.add(productId, brand);
-  //   });
-  // });
-
-});
-
-
+			],
+			"navbar": {
+				"title": ''
+			}
+		  });
+		$("nav#mobil_mmenu").removeClass('dnone');
+	});	
 
 
 
 
 if (!localStorage.getItem('display')) {
+
+
 	localStorage.setItem('display', 'grid');
+
+
 }
+
+
+
+
+	$('#menu2_button').click(function(){$('#menu2').toggleClass('dblock');});
+
+
+$(function () {
+  $("#menu .nav > li .mmmenu").mouseenter(function(){
+		$('#pagefader').fadeIn(70);
+		$('body').addClass('razmiv');
+   });
+	$("#menu .nav > li .mmmenu").mouseleave(function(){
+		$('#pagefader').fadeOut(70);
+		$('body').removeClass('razmiv');
+   });
+});
 
 
 	$('.footer-category').append($('.category_description'));
 	$('.category_description').removeClass('dnone');
 
+
+
+
+
+
+
+
 	$('.owl-carousel.owlproduct').remove();
+
 
 function list_view(){
 	$('#content .products_category .product-grid > .clearfix').remove();
@@ -44,6 +85,7 @@ function list_view(){
 	$('#content .product-list .cart > a').attr('title', '');
 	$(document).ready(function() {
 		var w_list_img = $('.product-list .product-thumb .image').outerWidth();
+		
 
 	});
 	$('.product-list .product-thumb h4').css('height', 'initial');
@@ -57,7 +99,7 @@ function list_view(){
 	localStorage.setItem('display', 'list');
 }
 function grid_view(){
-	var cols = $('#column-right, #column-left').length;
+	cols = $('#column-right, #column-left').length;
 	if (cols == 2) {
 		$('#content .product-list, #content .product-price').attr('class', 'product-layout product-grid col-lg-6 col-md-6 col-sm-12 col-xs-12');
 	} else if (cols == 1) {
@@ -131,6 +173,11 @@ $('#price-view').click(function() {
 
 
 	$('html').removeClass('opacity_minus').addClass('opacity_plus');
+	
+
+
+
+
 
 	$(document).ready(function(){
 	var triggered = false;
@@ -150,6 +197,9 @@ $('#price-view').click(function() {
 		}
 	})
 })
+
+
+
 
 	NProgress.start();
 	$(window).load(function() {
@@ -210,20 +260,39 @@ function podgon_fona() {
 	$('html.common-home #menu2.inhome .podmenu2').css('height', m2inh);
 	var m2inhw = $('html.common-home #menu2_button').outerWidth();
 	$('html.common-home #menu2.inhome .podmenu2').css('min-width', m2inhw-0.5);
+	
+
+	
 
 		var h_top3 = $('#top3').outerHeight();
+		
 
 		$('.main-content').css('padding-top', h_top3+25);
+		
+
+	
+
+	
 
 		$('#top3').addClass('absolutpo');
+	
+
+	
 
 		if($(window).width() < 767) {
 			grid_view();
 		}
+	
+
+	
 
 		if ($(window).width() > 294 && $(window).width() < 975) {
 			$('#content .product-layout.product-grid').attr('class', 'product-layout product-grid col-lg-4 col-md-4 col-sm-4 col-xs-6');
 		}
+	
+
+	
+
 
 	var product_grid_width = $('.product-layout .product-thumb').outerWidth();
 	var product_item_width = $('.rev_slider .item .product-thumb').outerWidth();

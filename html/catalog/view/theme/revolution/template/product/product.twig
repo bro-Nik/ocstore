@@ -306,24 +306,18 @@
 						{% if ((price_number > 0 or zakaz_price_null) and (zakaz or quantity > 0)) %} 
 							{% if (quantity < 1 and predzakaz_button) %} 
 								<div class="pop_left">
-									<input type="hidden" name="quantity" class="plus-minus" value="{{ minimum }}">
 									<button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
 								</div>
 							{% else %} 
 								<div class="pop_left">
-									<input type="hidden" name="quantity" class="plus-minus" value="{{ minimum }}">
-									
-									<button type="button" id="button-cart" onclick="get_revpopup_cart({{ product_id }},'product',get_revpopup_cart_quantity('{{ product_id }}'));" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+									<button type="button" id="button-cart" class="add-to-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
 								</div>
 							{% endif %} 
 						{% else %} 
 							{% if (predzakaz_button) %} 
 								<div class="pop_left">
-									<input type="hidden" name="quantity" class="plus-minus" value="{{ minimum }}">
 									<button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
 								</div>
-							{% else %} 
-								<input type="hidden" name="quantity" class="plus-minus" value="{{ minimum }}">
 							{% endif %} 
 						{% endif %} 
 						{% if (rev_wish_prod or popup_purchase) %} 
@@ -571,11 +565,6 @@ $('#button-answers').on('click', function() {
 {% if (minimum > 1 and recalc_price) %} 
 	update_quantity({{ product_id }},{{ minimum }});
 {% endif %} 
-function get_revpopup_cart_quantity() {
-	input_val = $('.product-info.product_informationss .plus-minus').val();
-	quantity  = parseInt(input_val);
-	return quantity;
-}
 function validate_pole(val, product_id, znak, minimumvalue, maximumvalue) {
 	val.value = val.value.replace(/[^\d,]/g, '');
 	if (val.value == '') val.value = minimumvalue;

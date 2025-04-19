@@ -594,7 +594,7 @@
 									<input type="text" name="quantity" class="plus-minus" value='{{ minimum }}' onchange="validate_pole_popup(this);" onkeyup="validate_pole_popup(this,{{ product_id }},'=',{{ minimum }},{{ quantity }});">
 								</div>
 							{% if (rev_srav_prod or rev_wish_prod) %} {% set button_cart_class = 'prlistb hidden-xs hidden-sm hidden-md hidden-lg' %} {% else %} {% set button_cart_class = 'prlistb hidden-xs' %} {% endif %}
-							<button type="button" id="button-cart" data-toggle="tooltip" title="{{ button_cart }}" onclick="get_revpopup_cart({{ product_id }}, 'popup_product',get_revpopup_cart_quantity_popup('{{ product_id }}'));" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"><span class="{{ button_cart_class }}">{{ button_cart }}</span></i></button>
+							<button type="button" id="button-cart" class="add-to-cart" data-product-id="{{ product_id }}" data-action="popup_product" data-toggle="tooltip" title="{{ button_cart }}" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"><span class="{{ button_cart_class }}">{{ button_cart }}</span></i></button>
 							</div>
 							{% if (rev_srav_prod or rev_wish_prod) %} 
 								<div class="pop_right">
@@ -849,11 +849,6 @@ $('#button-cart').on('click', function() {
 {% if (minimum > 1 and recalc_price) %} 
 	update_quantity_popup({{ product_id }},{{ minimum }});
 {% endif %} 
-function get_revpopup_cart_quantity_popup() {
-	input_val = $('#popup-view-wrapper .plus-minus').val();
-	quantity  = parseInt(input_val);
-	return quantity;
-}
 function validate_pole_popup(val, product_id, znak, minimumvalue, maximumvalue) {
 	val.value = val.value.replace(/[^\d,]/g, '');
 	if (val.value == '') val.value = minimumvalue;
