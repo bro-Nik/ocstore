@@ -36,10 +36,13 @@ export class BaseModule {
    * @param {number} total - Новое значение счетчика
    */
   updateTotalCount(total) {
-    const totalElement = document.querySelector(this.selectors.total);
-    if (totalElement) {
-      totalElement.textContent = total;
-      this.animateElement(totalElement);
+    const elements = document.querySelectorAll(this.selectors.total);
+    
+    if (elements) {
+      elements.forEach(element => {
+        element.textContent = total;
+        this.animateElement(element);
+      });
     }
   }
 
@@ -78,7 +81,9 @@ export class BaseModule {
         button.setAttribute('data-toggle', 'tooltip');
 
         // Меняем текст, если нужно
-        button.innerHTML = newText;
+        if (newText) {
+          button.innerHTML = newText;
+        }
 
         // Ставим ссылку
         if (newUrl) {

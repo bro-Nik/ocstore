@@ -1,33 +1,25 @@
-<div id="top2">
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-3">
-				<div id="logo">
+<div id="top2" class="header__row top2">
+<div class="header__logo">
 					{% if (logo) %} 
 					{% if (home == og_url) %} 
-						<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" />
+						<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="" />
 					{% else %} 
-						<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
+						<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="" /></a>
 					{% endif %} 
 					{% else %} 
 					<a href="{{ home }}">{{ name }}</a>
 					{% endif %} 
-				</div>
-			</div>
+</div>
 
-			<div class="bigsearch col-xs-12 col-sm-4 col-md-4">{{ search }}</div>
+			<div class="bigsearch header__search">{{ search }}</div>
 
 			{% if (header_phone_number != '' or header_phone_text != '') %} 
-				<div class="col-xs-12 col-sm-6 col-md-3 pull-right">
-					<div class="header_conts t-ar">
-						<div class="tel">
-							<div class="header_phone_nomer">
+				<div class="header__group">
+					<div class="header__action">
+					<div class="dropdown">
 								{% if (header_phone_number != '') %} 
-									<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-										<span class="s22">
-											{% if (header_phone_cod) %}<span class="telefon">{{ header_phone_cod }}</span>{% endif %} {{ header_phone_number }}
-											<i class="fa fa-chevron-down"></i>
-										</span>
+									<button type="button" class="dropdown-toggle btn-phone header__action-btn" data-toggle="dropdown" aria-expanded="true">
+										{% if (header_phone_cod) %}<span class="telefon">{{ header_phone_cod }}</span>{% endif %} {{ header_phone_number }}
 									</button>
 								{% endif %} 
 
@@ -44,13 +36,9 @@
 									{% if (phone_dop_text|length > 30) %} 
 										<div class="phone_dop_text">{{ phone_dop_text }}</div>
 									{% endif %} 
-								</ul>	
+								</ul>	</div>
 							</div>
-						</div>
-					</div>
 				</div>
 			{% endif %} 
 		
-		</div>
-	</div>
 </div>  

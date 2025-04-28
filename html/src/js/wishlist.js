@@ -13,7 +13,7 @@ const CONFIG = {
 };
 
 const SELECTORS = {
-  total: '#wishlist-total',    // Счетчик общего количества в избранном
+  total: '.wishlist-total',    // Счетчик общего количества в избранном
   btns: [
     '.product-thumb.product_{product_id} .wishlist a',       // Кнопки в карточках товаров
     '.product-info a.wishlist.pjid_{product_id}',           // Кнопки на странице товара

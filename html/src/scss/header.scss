@@ -1,0 +1,213 @@
+@use 'variables' as *;
+
+.header {
+  box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.05);
+
+  @media (min-width: $desktop) {
+    background: #f7f7f7;
+  }
+  @media (max-width: $desktop - 1) {
+    background: #fff;
+    border-bottom: 1px solid #E4E7F1;
+  }
+
+  &__mobile {
+    @media (min-width: $desktop) {
+      display: none;
+    }
+    @media (max-width: $desktop - 1) {
+      color: #343434;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-align: center;
+      align-items: center;
+      -ms-flex-pack: center;
+      justify-content: space-between;
+      height: 7.5rem;
+    }
+    a {
+      font-size: 2rem;
+    }
+  }
+
+
+  &__desktop {
+    // @media (min-width: $desktop) {
+    // }
+    @media (max-width: $desktop - 1) {
+      display: none;
+    }
+  }
+
+
+  &__row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: center;
+    position: relative;
+  }
+
+  &__desktop {
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  & .top1 {
+    font-size: 1.3rem;
+    height: 3.5rem;
+    gap: 2rem;
+  }
+  & .top2 {
+    padding: 10px 0;
+    gap: 2rem;
+  }
+
+  & .top3 {
+    gap: 2rem;
+  }
+
+  &__info {
+    font-size: 1.3rem;
+    line-height: 1.2;
+    font-weight: 500;
+    @media (min-width: 1199px) {
+      margin: 0 auto 0 23rem;
+      -ms-flex: 1;
+      flex: 1;
+      max-width: 80rem;
+    }
+  }
+
+
+  &__logo {
+    flex: 0 0 21rem;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    & img {
+      max-width: 100%;
+    }
+  }
+
+  &__search {
+    max-width: 80rem;
+    margin: 0 auto 0 0;
+    position: relative;
+    -ms-flex: 1;
+    flex: 1;
+    & .input-group {
+      height: 4.6rem;
+    }
+
+    &-input {
+      display: block;
+      width: 100%;
+      border: 1px solid transparent;
+      background: var(--theme-secondary-color);
+      border-radius: 5px;
+      padding: 1rem 10rem 1rem 2rem;
+      font-size: 1.3rem;
+      line-height: 2.4rem;
+      font-weight: 400;
+      height: 4.6rem;
+      color: #fff;
+      transition: background 0.25s, border-color 0.25s;
+    }
+  }
+
+  &__group {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 1.3rem;
+    i {
+      margin-right: 0.3rem;
+    }
+  }
+  &__action {
+    margin: 0 0.5rem 0 0;
+
+    &-btn {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        height: 4.6rem;
+    }
+
+  }
+  &__catalog {
+            flex: 0 0 21rem;
+        position: relative;
+        z-index: 100;
+        -ms-flex: 0 0 210px;
+  }
+  &__tags {
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    &-menu {
+      margin: 0;
+        padding: 0;
+        list-style: none;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        gap: 1rem;
+    }
+    &-btn {
+        border-color: rgba(52, 52, 52, 0.1);
+        color: #343434;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        height: 3.5rem;
+        font-size: 1.5rem;
+        line-height: 1.2;
+        font-weight: 500;
+        padding: 0 1.5rem;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        transition: border-color 0.25s;
+        text-decoration: none;
+      cursor: pointer;
+    }
+  }
+
+  &__phone {
+    position: relative;
+    display: inline-block;
+    height: 4.6rem;
+
+    .dropdown-menu {
+      display: block;
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    &:hover .dropdown-menu,
+    .dropdown-menu:hover {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto; // Возвращаем взаимодействие
+      transition-delay: 0s; // Убираем задержку при открытии
+    }
+  }
+
+}

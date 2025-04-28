@@ -15,7 +15,7 @@ const CONFIG = {
 };
 
 const SELECTORS = {
-  total: '#cart-total, #cart-total_mobi, #cart-total-popup', // Элементы с общей суммой
+  total: '.cart-total, #cart-total-popup', // Элементы с общей суммой
   btns: [
     '.product-thumb.product_{product_id} .add-to-cart',       // Кнопки в карточках товаров
     '.product-info .add-to-cart',          // Кнопки на странице товара

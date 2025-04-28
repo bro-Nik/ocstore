@@ -1,6 +1,16 @@
+// Abstracts
+@use 'variables' as var;
+
+// Components
 @use './swiper.scss';
 @use './mmenu-light.scss';
+@use './grid.scss';
+@use './utilities.scss';
+@use './bootstrap.css';
+@use './btns.scss';
+@use './header.scss';
 
+// Основные стили
 :root {
   --color-primary:      #0063D1;  /* Основной брендовый цвет (акцентные элементы, кнопки) */  
   --color-secondary:    #6c757d;  /* Второстепенный фон (карточки, разделители) */  
@@ -15,8 +25,27 @@
   --text-muted:	#adb5bd; //(светло-серый)	Неактивный/выключенный текст
   --text-base:	#333; //(тёмно-серый/почти чёрный)	Основной цвет текста (параграфы, body)
   --text-heading:	#000; //(чёрный)	Заголовки (h1-h6)
+
+  --font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+html {
+  // font-size: 0.75vw;
+  // font-size: 16px;
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans-serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 
 .btn-loading {
   position: relative;
@@ -40,4 +69,60 @@
 
 @keyframes btn-spinner {
   to { transform: rotate(360deg); }
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+  -webkit-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out;
+}
+
+a:hover, a:focus {
+  color: var(--color-primary);
+  text-decoration: none;
+  // text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover sup {
+// text-decoration: none;
+// display: inline-block;
+}
+.container-fluid {
+    max-width: 147rem;
+    padding: 0 2.5rem;
+}
+
+button, input, textarea, select {
+    border: none;
+    background: none;
+    padding: 0;
+    font-family: inherit;
+}
+
+// Общие стили выпадающего меню
+[class*="dropdown"] {
+  position: relative;
+
+  .dropdown-menu {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  &:hover .dropdown-menu,
+  .dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .dropdown-toggle {
+    cursor: pointer;
+  }
 }

@@ -17,6 +17,7 @@
 <meta property="og:url" content="{{ og_url }}" />
 <meta property="og:image" content="{{ og_image is not empty ? og_image : logo }}" />
 <meta property="og:site_name" content="{{ name }}" />
+{% include 'revolution/template/common/header/microdata.twig' %}
 {% if (not setting_all_settings['minif_on']) %} 
 	<link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
 	<link href="catalog/view/javascript/revolution/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -69,25 +70,19 @@
 <!-- /Yandex.Metrika counter -->
 </head>
 <body>
-<div class="all_content_mmenu">
-  {% include 'revolution/template/common/header/mobil_menu.twig' %}
-  {% include 'revolution/template/common/header/microdata.twig' %}
+<div class="app-content">
 
-
-{#}
-{% if (not setting_all_settings['all_document_width'] and not setting_all_settings['all_document_h_f_width']) %} 
-<div id="all_document">
-{% endif %} 
-{#}
-
-<header>
-  {% include 'revolution/template/common/header/top.twig' %}
-  {% include 'revolution/template/common/header/top2.twig' %}
-  {% include 'revolution/template/common/header/top3.twig' %}
+<header class="header">
+  <div class="container-fluid">
+    <div class="header__mobile">
+      {% include 'revolution/template/common/header/top_mobil.twig' %}
+    </div>
+    <div class="header__desktop">
+      {% include 'revolution/template/common/header/top.twig' %}
+      {% include 'revolution/template/common/header/top2.twig' %}
+      {% include 'revolution/template/common/header/top3.twig' %}
+    </div>
+  </div>
 </header>
-{#}
-{% if (not setting_all_settings['all_document_width'] and setting_all_settings['all_document_h_f_width']) %} 
-<div id="all_document">
-{% endif %} 
-{#}
+
 <section class="main-content">

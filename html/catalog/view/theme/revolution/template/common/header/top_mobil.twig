@@ -1,0 +1,25 @@
+
+<div class="header__nav">
+	<a href="#mobil_mmenu"><i class="fa fa-bars"></i></a>
+	{% include 'revolution/template/common/header/mobil_menu.twig' %}
+</div>
+	
+
+<div class="header__logo">
+					{% if (logo) %} 
+					{% if (home == og_url) %} 
+						<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" />
+					{% else %} 
+						<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" /></a>
+					{% endif %} 
+					{% else %} 
+					<a href="{{ home }}">{{ name }}</a>
+					{% endif %} 
+</div>
+
+<div class="header__group">
+	<a href="{{ compare }}"><i class="fa fa-bar-chart"></i><sup><span class="compare-total">{{ compare_count }}</span></sup></a>
+	<a href="{{ wishlist }}"><i class="fa fa-heart"></i><sup><span class="wishlist-total">{{ wishlist_count }}</span></sup></a>
+	<a class="cart-show-popup" data-action="show_cart"><i class="fa fa-shopping-basket"></i><sup><span class="cart-total">{{ cart_count }}</span></sup></a>
+</div>
+

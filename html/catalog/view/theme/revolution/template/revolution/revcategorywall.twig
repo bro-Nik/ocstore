@@ -17,7 +17,7 @@
 								{% if (category['manufacturer']) %} 
 									{% for manufacturers in category['manufacturer']|batch(4) %}
 										{% for manufacturer in manufacturers %} 
-										<h4><a style="text-decoration: none" href="{{ manufacturer['href'] }}">{{ manufacturer['name'] }}</a></h4>
+										<h4><a href="{{ manufacturer['href'] }}">{{ manufacturer['name'] }}</a></h4>
 										{% endfor %} 
 									{% endfor %} 
 								{% endif %} 
@@ -65,7 +65,7 @@
 							</div>
 							<div class="col-xs-12 col-sm-6">
 								<div class="caption clearfix">
-									<h4><a style="text-decoration: none" href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
+									<h4><a href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
 								</div>
 								{% if (category['children']) %} 
 									<div class="aftercaption">
@@ -88,7 +88,7 @@
 						<div class="product-thumb transition">
 							<div class="image"><a href="{{ category['href'] }}"><img src="{{ category['image'] }}" alt="{{ category['name'] }}" title="{{ category['name'] }}" class="img-responsive" /></a></div>
 							<div class="caption clearfix">
-								<h4><a style="text-decoration: none" href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
+								<h4><a href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
 							</div> 
 						</div>
 					</div>
@@ -100,7 +100,7 @@
 					<div class="product-thumb transition">
 						<div class="image"><a href="{{ category['href'] }}"><img src="{{ category['image'] }}" alt="{{ category['name'] }}" title="{{ category['name'] }}" class="img-responsive" /></a></div>
 						<div class="caption clearfix">
-							<h4><a style="text-decoration: none" href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
+							<h4><a href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
 						</div> 
 					</div>
 				</div>

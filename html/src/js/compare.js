@@ -13,7 +13,7 @@ const CONFIG = {
 };
 
 const SELECTORS = {
-  total: '#compare-total', // Общее количество в сравнении
+  total: '.compare-total', // Общее количество в сравнении
   btns: [
     '.product-thumb.product_{product_id} .compare a', // Кнопки в миниатюрах товаров
     '.product-info a.compare.pjid_{product_id}',      // Кнопки на странице товара

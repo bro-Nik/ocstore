@@ -10,129 +10,26 @@ import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Обработка кликов на кнопках сравнения
-  // document.querySelectorAll('.add-to-compare').forEach(el => {
-  //   el.addEventListener('click', () => {
-  //     const productId = el.dataset.productId || '';
-  //     const brand = el.dataset.brand || '';
-  //     compare.add(productId, brand);
-  //   });
-  // });
+import { productView } from './view';
 
-});
-
-
-
-
-
+// document.addEventListener('DOMContentLoaded', () => {
+// });
+var h_top3 = $('#top3').outerHeight();
+$('.main-content').css('padding-top', h_top3+25);
 
 if (!localStorage.getItem('display')) {
 	localStorage.setItem('display', 'grid');
 }
 
 
-	$('.footer-category').append($('.category_description'));
-	$('.category_description').removeClass('dnone');
+$('.footer-category').append($('.category_description'));
+$('.category_description').removeClass('dnone');
 
-	$('.owl-carousel.owlproduct').remove();
+$('.owl-carousel.owlproduct').remove();
 
-function list_view(){
-	$('#content .products_category .product-grid > .clearfix').remove();
-	$('#content .products_category .product-grid, #content .products_category .product-price').attr('class', 'product-layout product-list col-xs-12');
-	$('#content .product-list .cart > a').attr('data-toggle', 'none');
-	$('#content .product-list .cart > a').attr('title', '');
-	$(document).ready(function() {
-		var w_list_img = $('.product-list .product-thumb .image').outerWidth();
+$('html').removeClass('opacity_minus').addClass('opacity_plus');
 
-	});
-	$('.product-list .product-thumb h4').css('height', 'initial');
-	$('.product-list .product-thumb .product_buttons').css('height', 'initial');
-	$('.product-list .product-thumb .caption').css('margin-left', 'px');
-	$('.product-list .product-thumb .description_options').addClass('view_list_options');
-	$('.product-list .product-thumb .description_options').css('height', 'initial');
-	$('.product-layout.product-list').css('height', 'initial');
-	$('#grid-view, #price-view').removeClass('active');
-	$('#list-view').addClass('active');
-	localStorage.setItem('display', 'list');
-}
-function grid_view(){
-	var cols = $('#column-right, #column-left').length;
-	if (cols == 2) {
-		$('#content .product-list, #content .product-price').attr('class', 'product-layout product-grid col-lg-6 col-md-6 col-sm-12 col-xs-12');
-	} else if (cols == 1) {
-		$('#content .product-list, #content .product-price').attr('class', 'product-layout product-grid col-lg-4 col-md-4 col-sm-6 col-xs-12');
-	} else {
-		$('#content .product-list, #content .product-price').attr('class', 'product-layout product-grid col-lg-3 col-md-3 col-sm-6 col-xs-12');
-	}
-	
-
-		if ($(window).width() > 294 && $(window).width() < 975) {
-			$('#content .product-layout.product-grid').attr('class', 'product-layout product-grid col-lg-4 col-md-4 col-sm-4 col-xs-6');
-		}
-	
-
-	$('.product-grid .product-thumb .caption').css('margin-left', 'initial');
-	$('.product-grid .product-thumb .description_options').removeClass('view_list_options');
-	var product_grid_width = $('.product-layout .product-thumb').outerWidth();
-	var product_item_width = $('.rev_slider .item .product-thumb').outerWidth();
-	if (product_grid_width < 240) {
-		$('.product-layout').addClass('new_line');
-		$('.rev_slider .item').addClass('new_line');
-	} else {
-		$('.product-layout').removeClass('new_line');
-		$('.rev_slider .item').removeClass('new_line');
-	}
-	if (product_item_width < 240) {
-		$('.rev_slider .item').addClass('new_line');
-	} else {
-		$('.rev_slider .item').removeClass('new_line');
-	}
-	
-
-	max_height_div('.product-grid .product-thumb h4');
-	max_height_div('.product-grid .product-thumb .price');
-	max_height_div('.product-grid .product-thumb .product_buttons');
-	
-
-	setTimeout(function() {
-		max_height_div('.product-grid .product-thumb .description_options');
-	}, 300);
-	
-
-	$('#list-view, #price-view').removeClass('active');
-	$('#grid-view').addClass('active');
-	localStorage.setItem('display', 'grid');
-}
-function price_view(){
-	$('#content .products_category .product-grid > .clearfix').remove();
-	$('#content .products_category .product-list, #content .products_category .product-grid').attr('class', 'product-layout product-price col-xs-12');
-	$('#content .product-view .cart > a').attr('data-toggle', 'none');
-	$('#content .product-view .cart > a').attr('title', '');
-	$('.product-price .product-thumb h4').css('height', 'initial');
-	$('.product-price .product-thumb .caption').css('margin-left', 'initial');
-	$('.product-price .product-thumb .product_buttons').css('height', 'initial');
-	$('.product-price .product-thumb .description_options').removeClass('view_list_options');
-	$('.product-price .product-thumb .description_options').css('height', 'initial');
-	$('.product-layout.product-price').css('height', 'initial');
-	$('#list-view, #grid-view').removeClass('active');
-	$('#price-view').addClass('active');
-	localStorage.setItem('display', 'price');
-}
-$('#list-view').click(function() {
-	list_view();
-});
-$('#grid-view').click(function() {
-	grid_view();
-});
-$('#price-view').click(function() {
-	price_view();
-});
-
-
-	$('html').removeClass('opacity_minus').addClass('opacity_plus');
-
-	$(document).ready(function(){
+$(document).ready(function(){
 	var triggered = false;
 	$(".triggerbtn").click(function(){
 		if(triggered == false){
@@ -160,17 +57,6 @@ $('#price-view').click(function() {
 
 
 
-	if($(window).width() > 768) {
-		$('#top3').affix({
-			offset: {
-				
-
-					top: $('#top').outerHeight()+$('#top2').outerHeight()+$('html.common-home #menu2.inhome').outerHeight()
-				
-
-			}
-		});
-	}
 	
 
 	var win_shopcart = $(window).height();
@@ -179,78 +65,6 @@ $('#price-view').click(function() {
 	$('#top3 #menu2 .child-box').css('max-height', win_shopcart-win_shopcart2).css('overflow-y', 'auto');
 
 
-$(function() {
-	if (localStorage.getItem('display') == 'list') {
-		list_view();
-	} else if (localStorage.getItem('display') == 'price') {
-		price_view();
-	} else if (localStorage.getItem('display') == 'grid') {
-		grid_view();
-	} else {
-		
-
-			grid_view();
-		
-
-	}
-	
-
-	podgon_fona();
-	$(window).resize(podgon_fona);
-});
-function podgon_fona() {
-	toggle_ellipses();
-	var h_top5 = $('.inhome #menu2').outerHeight();
-	if (h_top5) {
-		$('#top5').css('min-height', h_top5+20);
-	}
-	
-
-	var m2inh = $('html.common-home #menu2.inhome').outerHeight();
-	$('html.common-home #menu2.inhome .podmenu2').css('height', m2inh);
-	var m2inhw = $('html.common-home #menu2_button').outerWidth();
-	$('html.common-home #menu2.inhome .podmenu2').css('min-width', m2inhw-0.5);
-
-		var h_top3 = $('#top3').outerHeight();
-
-		$('.main-content').css('padding-top', h_top3+25);
-
-		$('#top3').addClass('absolutpo');
-
-		if($(window).width() < 767) {
-			grid_view();
-		}
-
-		if ($(window).width() > 294 && $(window).width() < 975) {
-			$('#content .product-layout.product-grid').attr('class', 'product-layout product-grid col-lg-4 col-md-4 col-sm-4 col-xs-6');
-		}
-
-	var product_grid_width = $('.product-layout .product-thumb').outerWidth();
-	var product_item_width = $('.rev_slider .item .product-thumb').outerWidth();
-	if (product_grid_width < 240) {
-		$('.product-layout').addClass('new_line');
-		$('.rev_slider .item').addClass('new_line');
-	} else {
-		$('.product-layout').removeClass('new_line');
-		$('.rev_slider .item').removeClass('new_line');
-	}
-	if (product_item_width < 240) {
-		$('.rev_slider .item').addClass('new_line');
-	} else {
-		$('.rev_slider .item').removeClass('new_line');
-	}
-	max_height_div('.product-grid .product-thumb h4');
-	max_height_div('.product-grid .product-thumb .price');
-	max_height_div('.product-grid .product-thumb .product_buttons');
-	
-
-	setTimeout(function() {
-		max_height_div('.product-grid .product-thumb .description_options');
-	}, 300);
-	
-
-	max_height_div('#content .refine_categories.clearfix a > span');
-}
 function toggle_ellipses() {
   var ellipses1 = $('.br_ellipses');
   var howlong = $('.breadcrumb li:hidden').length;

@@ -485,42 +485,6 @@ function get_revpopup_purchase(product_id) {
 		}
 	});
 }
-function get_revpopup_cartquick() {
-	$('#cart .dropdown-menu').css('display', 'none');
-	if (document.body.scrollHeight > document.body.offsetHeight) {
-		$('#top3.absolutpo').css('right', '8.5px');
-		if ($(window).width() < 768) {
-			$('#top #cart_mobi').css('margin-right', '17px');
-		}
-	}
-	$('.tooltip').hide();
-	$.magnificPopup.open({
-		removalDelay: 170,
-		callbacks: {
-			beforeOpen: function() {
-			   this.st.mainClass = 'mfp-zoom-in';
-			},
-			open: function() {
-				$('body').addClass('razmiv2');
-				$('#pagefader2').fadeIn(70);
-			}, 
-			close: function() {
-				$('body').removeClass('razmiv2');
-				$('#pagefader2').fadeOut(70);
-				$('#top3.absolutpo').css('right', 'initial');
-				if ($(window).width() < 768) {
-					$('#top #cart_mobi').css('margin-right', 'initial');
-				}
-				$('#cart .dropdown-menu').css('display', '');
-			}
-		},
-		tLoading: '',
-		items: {
-			src: 'index.php?route=revolution/revpopupcartquick',
-			type: 'ajax'
-		}
-	});
-}
 function get_revpopup_cart_option (opt_id, option, quantity, product_id) {
 	$('.tooltip').hide();
 	$('.options_buy .pro_'+option+' input[name=\"option['+opt_id+']\"]').val(option);

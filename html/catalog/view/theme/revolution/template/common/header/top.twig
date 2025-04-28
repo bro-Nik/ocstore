@@ -1,47 +1,29 @@
-	<div id="top">
-		<div class="container">									
-		{#}
-			<div class="top-links verh nav pull-right">{{ cart_mobi }}</div>				
-		{#}
-				<div class="hidden-md hidden-lg mobile_info">
-					<div class="navbar navbar-default pull-left">						
-						<a class="mobil_mmenu_three" href="#mobil_mmenu"><i class="fa fa-bars"></i></a>
-					</div>
-				</div>
-				<div class="top-links hidden-xs verh nav pull-left text-center">
+	<div id="top" class="header__row top1">
+				<div class="header__group header__info">
 				  {% for info in informations %}<a href="{{ info.href }}">{{ info.title }}</a>{% endfor %}
 
   				{% for link in revtheme_header_links %}<a href="{{ link.link }}">{{ link.title }}</a>{% endfor %}
 
 					{% if (revtheme_dop_menus_2) %} 
-						<ul class="list-inline ul_dop_menu">
 							{% for revtheme_dop_menu in revtheme_dop_menus_2 %} 
 								{% if (revtheme_dop_menu['children'] is defined) %} 
-									<li class="dropdown"><a href="{{ revtheme_dop_menu['href'~config_language_id] }}" class="dropdown-toggle" data-toggle="dropdown">{{ revtheme_dop_menu['name'~config_language_id] }}<i class="fa fa-chevron-down strdown"></i></a>
+									<div class="dropdown"><a href="{{ revtheme_dop_menu['href'~config_language_id] }}" class="dropdown-toggle" data-toggle="dropdown">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
 										<ul class="dropdown-menu dropdown-menu-right">
 											{% for child in revtheme_dop_menu['children'] %}
 												<li><a href="{{ child['href'~config_language_id] }}">{{ child['name'~config_language_id] }}</a></li>
 											{% endfor %}
 										</ul>
-									</li>
+									</div>
 								{% else %}
-									<li><a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{{ revtheme_dop_menu['name'~config_language_id] }}</a></li>
+									<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
 								{% endif %}
 							{% endfor %}
-						</ul>
 					{% endif %} 
-					<span class="foroppro" style="display:none;"></span>
 				</div>
 
-				<div class="top-links verh nav pull-right {% if ((revtheme_header_links and informations) and ((informations|length + revtheme_header_links|length) > 4)) %}text_ico_skrit{% endif %}">
-					<ul class="list-inline">
-						<li><a href="{{ compare }}"><i class="fa fa-bar-chart"></i><span class="hidden-xs hidden-sm">Сравнение</span><sup><span id="compare-total">{{ compare_count }}</span></sup></a></li>
-						<li><a href="{{ wishlist }}"><i class="fa fa-heart"></i><span class="hidden-xs hidden-sm">Избранное</span><sup><span id="wishlist-total">{{ wishlist_count }}</span></sup></a></li>
-						<li><a class="cart-show-popup" data-action="show_cart"><i class="fa fa-shopping-basket"></i><span class="hidden-xs hidden-sm">Корзина</span><sup><span id="cart-total_mobi">{{ cart_count }}</span></sup></a></li>
-						{#}
-						<li><a href="{{ cart }}"><i class="fa fa-heart"></i><span class="hidden-xs hidden-sm">Корзина</span><span id="wishlist-total"><sup>{{ cart_count }}</sup></span></a></li>
-						{#}
-					</ul>
-				</div>
-		</div>
+			<div class="header__group header__action">
+						<a href="{{ compare }}"><i class="fa fa-bar-chart"></i>Сравнение<sup><span class="compare-total">{{ compare_count }}</span></sup></a>
+						<a href="{{ wishlist }}"><i class="fa fa-heart"></i>Избранное<sup><span class="wishlist-total">{{ wishlist_count }}</span></sup></a>
+						<a class="cart-show-popup" data-action="show_cart"><i class="fa fa-shopping-basket"></i>Корзина<sup><span class="cart-total">{{ cart_count }}</span></sup></a>
+			</div>
 	</div>
