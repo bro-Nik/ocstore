@@ -11195,6 +11195,17 @@ textarea.form-control-lg {
   cursor: default;
 }
 
+footer {
+  background-color: #232323;
+  color: #fff;
+}
+footer a, footer a:active, footer a:visited {
+  color: #fff;
+}
+footer a:hover {
+  color: #eee;
+}
+
 .product-thumb {
   display: flex;
   flex-direction: column;

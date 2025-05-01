@@ -1523,31 +1523,6 @@ z-index: -1;
 #revsubscribe span.susbs_head_text {
 font-size: 19px;
 }
-footer .footer {
-background-color: #232323;
-color: #fff;
-}
-footer .container a,
-footer .container a:active,
-footer .container a:visited {
-color: #fff;
-margin-right: 10px;
-}
-footer .footer a:hover {
-color: #eee;
-}
-footer .footer_links {
-padding-top: 20px;
-padding-bottom: 20px;
-}
-/*
-footer .footer_links a {
-border-bottom: 1px solid #777;
-}
-footer .footer_links a:hover {
-border-bottom: 1px solid transparent;
-}
-*/
 footer .soc_s {
 text-align: right;
 font-size: 20px;

@@ -1,0 +1,19 @@
+
+footer {
+background-color: #232323;
+color: #fff;
+
+  & a,
+  & a:active,
+  & a:visited {
+    color: #fff;
+  }
+
+  & a:hover {
+    color: #eee;
+  }
+}
+// footer .footer_links {
+// padding-top: 20px;
+// padding-bottom: 20px;
+// }
