@@ -77,23 +77,24 @@ function toggle_ellipses() {
   }
 }
 
-$(document).on('scroll', function() {
-	if ($(window).scrollTop() > 100) {
-		$('.scroll-top-wrapper').addClass('show');
-	} else {
-		$('.scroll-top-wrapper').removeClass('show');
-	}
+// Скрол вверх
+document.addEventListener('scroll', function() {
+  const scrollTopWrapper = document.querySelector('.scroll-top-wrapper');
+  scrollTopWrapper.classList.toggle('show', window.scrollY > 100);
 });
 
-$('.scroll-top-wrapper').on('click', scrollToTop);
+const scrollTopButton = document.querySelector('.scroll-top-wrapper');
+if (scrollTopButton) {
+  scrollTopButton.addEventListener('click', function() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
 $('.popup-phone-wrapper').on('click', get_revpopup_phone);
-function scrollToTop() {
-	verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
-	element = $('body');
-	offset = element.offset();
-	offsetTop = offset.top;
-	$('html, body').animate({scrollTop: offsetTop}, 200, 'linear');
-};
+
 function get_revpopup_notification(m_class, m_header, message) {
 	if (document.body.scrollHeight > document.body.offsetHeight) {
 		$('#top3.absolutpo').css('right', '8.5px');
