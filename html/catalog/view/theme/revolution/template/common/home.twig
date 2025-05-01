@@ -1,12 +1,9 @@
 {{ header }} 
-<div id="top5" class="clearfix">
+<div id="" class="clearfix">
 {% if (slideshow) %} 
-<div id="top4" class="clearfix">
-	{% if ((setting_home_slideshow['allwide'] and not amazon) or (setting_home_slideshow['allwide'] and amazon and not allwide)) %} 
-	{% else %} 
-	<div class="container">
+<div class="clearfix">
+	<div class="container-fluid">
 		<div class="row">
-		{% endif %} 
 			{% if (allwide and amazon) %} 
 				{% if (h1_home) %} 
 					<div class="col-md-offset-3"><h1 class="home_h1">{{ h1_home }}</h1></div>
@@ -19,15 +16,12 @@
 				{% endif %}	
 				<div class="col-sm-12 col-md-12">{{ slideshow }}</div>
 			{% endif %} 
-		{% if ((setting_home_slideshow['allwide'] and not amazon) or (setting_home_slideshow['allwide'] and amazon and not allwide)) %} 
-		{% else %} 
 		</div>
 	</div>
-	{% endif %} 
 </div>
 {% else %} 
 	{% if (h1_home and is_desctope) %} 
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				{% if (allwide and amazon) %} 
 				<div class="hidden-xs hidden-sm col-md-offset-3"><h1 class="home2_h1">{{ h1_home }}</h1></div>
@@ -40,7 +34,7 @@
 {% endif %} 
 {% if (blocks) %} 
 <div id="top6" class="clearfix">
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			{{ blocks }} 
 		</div>
@@ -55,7 +49,7 @@
 {% endif %} 
 </div>
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 	{{ column_left }} 
 	

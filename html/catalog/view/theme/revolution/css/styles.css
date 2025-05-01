@@ -344,15 +344,18 @@
   --swiper-navigation-color: var(--text-base);
 }
 
-.swiper-slide-thumb-active {
-  padding-bottom: 10px;
-  border-bottom: 3px solid var(--color-primary);
+.swiper-container {
+  overflow-x: clip;
 }
-
 .swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: auto;
+}
+.swiper-slide-thumb-active {
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--color-primary);
 }
 
 @media (min-width: 768px) {
@@ -4572,7 +4575,7 @@ textarea.form-control-lg {
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
-  margin-bottom: 0;
+  /* margin-bottom: 0; */
   list-style: none;
 }
 
@@ -4597,10 +4600,6 @@ textarea.form-control-lg {
   color: #6c757d;
   pointer-events: none;
   cursor: default;
-}
-
-.nav-tabs {
-  border-bottom: 1px solid #dee2e6;
 }
 
 .nav-tabs .nav-link {
@@ -11176,6 +11175,83 @@ textarea.form-control-lg {
   transition-delay: 0s;
 }
 
+.home__section {
+  margin: 0 0 7.5rem;
+}
+
+.tab-headers a {
+  display: block;
+  padding: 0.75rem;
+  text-align: center;
+  background: #f8f9fa;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 1.4rem;
+}
+.tab-headers .active a {
+  color: #0063D1;
+  cursor: default;
+}
+
+.product-thumb {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 12px;
+  width: 25rem;
+  height: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.product-thumb .description_options {
+  flex-grow: 1; /* Растягивает блок описания */
+}
+.product-thumb .product_buttons {
+  margin-top: auto; /* Прижимает кнопки к низу */
+  padding: 10px 0;
+}
+.product-thumb:hover .cart a * {
+  border-color: #0063D1;
+  color: #0063D1;
+}
+.product-thumb a {
+  border-radius: 0.5rem;
+}
+.product-thumb .product_buttons a * {
+  font-size: 1.4rem;
+}
+.product-thumb .product_buttons a:hover * {
+  border-color: #0063D1;
+  color: #FFF !important;
+  background: #0063D1;
+}
+
+.categories__item {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  min-height: 100%;
+  padding: 2rem;
+  transition: box-shadow 0.25s;
+  text-align: center;
+  width: 25rem;
+  margin: auto;
+}
+.categories__item-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 1rem;
+}
+.categories__item-title {
+  display: block;
+  margin: auto 0 0 0;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  font-weight: 400;
+}
+
 :root {
   --color-primary: #0063D1; /* Основной брендовый цвет (акцентные элементы, кнопки) */
   --color-secondary: #6c757d; /* Второстепенный фон (карточки, разделители) */
@@ -11205,6 +11281,11 @@ body {
   background-color: #fff;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .btn-loading {
@@ -11277,4 +11358,38 @@ button, input, textarea, select {
 }
 [class*=dropdown] .dropdown-toggle {
   cursor: pointer;
+}
+
+.skeleton-slide {
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+.shadow-box {
+  border-radius: 16px;
+  box-shadow: 0 5px 9px rgba(204, 204, 204, 0.21);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid #eaeaea;
+}
+
+.shadow-box:hover {
+  box-shadow: 0 5px 9px rgba(136, 136, 136, 0.38);
+}
+
+.hidden {
+  display: none;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }

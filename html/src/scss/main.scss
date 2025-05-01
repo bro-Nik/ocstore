@@ -9,6 +9,9 @@
 @use './bootstrap.css';
 @use './btns.scss';
 @use './header.scss';
+@use './categories.scss';
+@use './home.scss';
+@use './product.scss';
 
 // Основные стили
 :root {
@@ -45,6 +48,12 @@ body {
   background-color: #fff;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+
+body {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .btn-loading {
@@ -125,4 +134,32 @@ button, input, textarea, select {
   .dropdown-toggle {
     cursor: pointer;
   }
+}
+.skeleton-slide {
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+.shadow-box {
+  border-radius: 16px;
+  box-shadow: 0 5px 9px rgb(204 204 204 / 21%);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  border: 1px solid #eaeaea;
+}
+.shadow-box:hover {
+    box-shadow: 0 5px 9px rgb(136 136 136 / 38%);
+}
+.hidden {
+    display: none;
+}
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
 }

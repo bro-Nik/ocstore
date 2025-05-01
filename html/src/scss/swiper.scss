@@ -7,17 +7,23 @@
 }
 
 // Дополнительные кастомные стили
-
-.swiper-slide-thumb-active {
-  padding-bottom: 10px;
-  border-bottom: 3px solid var(--color-primary);
+.swiper {
+  &-container {
+    overflow-x: clip;
+  }
+  &-slide {
+    display: flex ;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    &-thumb-active {
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--color-primary);
+    }
+  }
 }
 
-.swiper-slide {
-  display: flex ;
-  justify-content: center;
-  align-items: center;
-}
+
 
 @media (min-width: 768px) {
   .swiper-button-prev,

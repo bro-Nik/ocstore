@@ -1,0 +1,29 @@
+@use 'variables' as *;
+
+.home {
+  &__section {
+    margin: 0 0 7.5rem;
+  }
+}
+
+.tab-headers {
+  & a {
+    display: block;
+    padding: 0.75rem;
+    text-align: center;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    // color: #6c757d;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 1.4rem;
+  }
+
+  & .active {
+    & a {
+      color: #0063D1;
+      cursor: default;
+    }
+  }
+
+}

@@ -3814,7 +3814,7 @@ textarea.form-control-lg {
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
-  margin-bottom: 0;
+  /* margin-bottom: 0; */
   list-style: none;
 }
 
@@ -3839,9 +3839,6 @@ textarea.form-control-lg {
   cursor: default;
 }
 
-.nav-tabs {
-  border-bottom: 1px solid #dee2e6;
-}
 .nav-tabs .nav-link {
   margin-bottom: -1px;
   background: none;

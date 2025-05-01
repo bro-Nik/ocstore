@@ -1,167 +1,20 @@
-{% if (heading_title) %} 
-<div class="rev_slider {% if (not setting['mobi_status']) %} {{ 'hidden-xs hidden-sm' }} {% endif %}">
-<div class="heading_h"><h3>{{ heading_title }}</h3></div>
-{% else %} 
-<div class="rev_slider_2 {% if (not setting['mobi_status']) %} {{ 'hidden-xs hidden-sm' }} {% endif %}">
-{% endif %} 
-	<div class="row home_catwalls">
-		{% if (setting['group_manufs'] and setting['group_manufs'] != 'wall' and setting['group_manufs'] != 'slider' and setting['categories'] != 0) %} 
-			<ul class="ul_block_home_catwalls">
-				{% for category in categories %} 
-					<li class="glavli">
-						<div class="col-sm-12">
-							{% if (setting['group_manufs_simbol']) %} 
-							<h3 id="{{ category['name'] }}">{{ category['name'] }}</h3>
-							{% endif %} 
-							<div class="clearfix">
-								{% if (category['manufacturer']) %} 
-									{% for manufacturers in category['manufacturer']|batch(4) %}
-										{% for manufacturer in manufacturers %} 
-										<h4><a href="{{ manufacturer['href'] }}">{{ manufacturer['name'] }}</a></h4>
-										{% endfor %} 
-									{% endfor %} 
-								{% endif %} 
-							</div>
-						</div>
-					</li>
-				{% endfor %} 
-				{% if (setting['group_manufs_link_href'] != '' and setting['group_manufs_link'] != '') %} 
-					<li class="glavli">
-						<h4 class="home_catwalls_all_href"><a style="text-decoration: none" href="{{ setting['group_manufs_link_href'] }}">{{ group_manufs_link }} </a></h4>
-					</li>
-				{% endif %} 
-			</ul>
-		 {% elseif (setting['group_manufs'] and setting['group_manufs'] != 'wall' and setting['group_manufs'] != 'slider' and setting['categories'] == 0) %} 
-			<ul class="ul_block_home_catwalls">
-				{% for category in categories %} 
-					<li class="glavli">
-						<div class="col-sm-12">
-							<div class="clearfix">
-								<h4 class="corencats"><a style="text-decoration: none" href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
-								{% if (category['children']) %}	
-									{% for child in category['children'] %} 
-										<div>
-											<a class="home_catwalls_podcat" href="{{ child['href'] }}">- {{ child['name'] }}</a>
-										</div>
-									{% endfor %} 
-								{% endif %} 
-							</div>
-						</div>
-					</li>
-				{% endfor %} 
-				{% if (setting['group_manufs_link_href'] != '' and setting['group_manufs_link'] != '') %} 
-					<li class="glavli">
-						<h4 class="home_catwalls_all_href corencats"><a style="text-decoration: none" href="{{ setting['group_manufs_link_href'] }}">{{ group_manufs_link }} </a></h4>
-					</li>
-				{% endif %} 
-			</ul>
-		 {% elseif (setting['group_manufs'] and setting['group_manufs'] == 'wall') %} 
-			{% for category in categories %} 
-				<div class="revcatwall col-lg-4 col-md-6 col-sm-6 col-xs-6">
-					<div class="product-thumb transition">
-						<div class="row">
-							<div class="hidden-xs col-sm-6">
-								<div class="image"><a href="{{ category['href'] }}"><img src="{{ category['image'] }}" alt="{{ category['name'] }}" title="{{ category['name'] }}" class="img-responsive" /></a></div>
-							</div>
-							<div class="col-xs-12 col-sm-6">
-								<div class="caption clearfix">
-									<h4><a href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
-								</div>
-								{% if (category['children']) %} 
-									<div class="aftercaption">
-										{% for child in category['children'] %} 
-											<div>
-												<a class="home_catwalls_podcat" href="{{ child['href'] }}">- {{ child['name'] }}</a>
-											</div>
-										{% endfor %} 
-									</div>
-								{% endif %} 
-							</div>
-						</div>
-					</div>
-				</div>
-			{% endfor %}
-		{% elseif (setting['group_manufs'] and setting['group_manufs'] == 'slider') %} 
-			<div class="home_catwall_crsl">
-				{% for category in categories %} 
-					<div class="col-lg-12 item">
-						<div class="product-thumb transition">
-							<div class="image"><a href="{{ category['href'] }}"><img src="{{ category['image'] }}" alt="{{ category['name'] }}" title="{{ category['name'] }}" class="img-responsive" /></a></div>
-							<div class="caption clearfix">
-								<h4><a href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
-							</div> 
-						</div>
-					</div>
-				{% endfor %} 
-			</div>
-		{% else %} 
-			{% for category in categories %} 
-				<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
-					<div class="product-thumb transition">
-						<div class="image"><a href="{{ category['href'] }}"><img src="{{ category['image'] }}" alt="{{ category['name'] }}" title="{{ category['name'] }}" class="img-responsive" /></a></div>
-						<div class="caption clearfix">
-							<h4><a href="{{ category['href'] }}">{{ category['name'] }}</a></h4>
-						</div> 
-					</div>
-				</div>
-			{% endfor %} 
-		{% endif %} 
-	</div>
+<div class="home__section">
+  {% if (heading_title) %}<h3>{{ heading_title }}</h3>{% endif %} 
+  <div class="row">
+    {# Основной контейнер Swiper #}
+    <div class="swiper-container swiper-carousel">
+      {# Обертка слайдов #}
+      <div class="swiper-wrapper">
+        {% for category in categories %} 
+          {# Отдельный слайд #}
+          <a class="swiper-slide shadow-box categories__item" href="{{ category.href }}">
+            <div class="categories__item-image">
+              <img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-responsive" />
+            </div>
+            <h4 class="categories__item-title">{{ category.name }}</h4>
+          </a>
+        {% endfor %} 
+      </div>
+    </div>
+  </div>
 </div>
-<script><!--
-{% if (slider) %} 
-$(".home_catwalls .home_catwall_crsl").owlCarousel({
-	responsiveBaseWidth: '.home_catwalls .home_catwall_crsl',
-	{% if (chislo_ryad) %} 
-		{% if (setting_all_settings['mobil_two']) %} 
-			itemsCustom: [[0, 1], [294, 2], [375, 2], [750, 3], [970, 4], [1170, 4]],
-		{% else %} 
-			itemsCustom: [[0, 1], [375, 1], [750, 3], [970, 4], [1170, 4]],
-		{% endif %} 
-	{% else %} 
-		{% if (setting_all_settings['mobil_two']) %} 
-			itemsCustom: [[0, 1], [294, 2], [375, 2], [750, 3], [970, 4], [980, 5]],
-		{% else %} 
-			itemsCustom: [[0, 1], [375, 1], [750, 3], [970, 4], [980, 5]],
-		{% endif %} 
-	{% endif %} 
-	mouseDrag: true,
-	touchDrag: true,
-	navigation: true,
-	navigationText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
-	{% if (not heading_title) %} 
-	pagination: false
-	{% endif %} 
-});
-{% endif %} 
-var div = '.home_catwalls .caption';
-var maxheight = 0;$(div).each(function(){$(this).removeAttr('style');if($(this).height() > maxheight) {maxheight = $(this).height();{{ '}}' }});$(div).height(maxheight);
-{% if (setting['group_manufs'] and setting['group_manufs'] != 'wall') %} 
-	!function(n){var a={columns:4,classname:"column",min:1};n.fn.autocolumnlist=function(l){var s=n.extend({},a,l);return this.each(function(){var a=n(this).data();a&&n.each(a,function(n,a){s[n]=a});var l=n(this).find("> li"),c=l.length;if(c>0){var t=Math.ceil(c/s.columns);t<s.min&&(t=s.min);var e=0,u=t;for(i=0;i<s.columns;i++)i+1==s.columns?l.slice(e,u).wrapAll('<div class="'+s.classname+' last" />'):l.slice(e,u).wrapAll('<div class="'+s.classname+'" />'),e+=t,u+=t{{ '}}' }}){{ '}}' }}(jQuery);
-	
-var product_grid_width = $('.product-layout .product-thumb').outerWidth();
-if ($(window).width() < 991) {
-	$('.ul_block_home_catwalls').autocolumnlist({
-		columns: 3,
-		min: 1
-	});
-} else {
-	$('.ul_block_home_catwalls').autocolumnlist({
-		columns: 4,
-		min: 1
-	});
-}	
-{% elseif ((setting['group_manufs'] and setting['group_manufs'] == 'wall') or (setting['group_manufs'] and setting['group_manufs'] == 'slider')) %} 
-max_height_div('.home_catwalls .revcatwall .product-thumb');
-{% endif %}
-//--></script>
-{% if (setting['group_manufs'] and not setting['group_manufs_simbol']) %} 
-<style>
-.ul_block_home_catwalls h4 {
-padding-left: 0;
-}
-.ul_block_home_catwalls h4.home_catwalls_all_href {
-padding-left: 15px;
-}
-</style>
-{% endif %}

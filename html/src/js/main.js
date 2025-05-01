@@ -1,6 +1,8 @@
 // swiper
-import { initProductSwipers } from './swiper';
+import { initProductSwipers, initHomeSwipers, initCarouselSwipers } from './swiper';
 initProductSwipers();
+initHomeSwipers();
+initCarouselSwipers();
 
 // mobile-menu
 import { initMobilMenu } from './mmenu-light';
@@ -15,7 +17,7 @@ import { productView } from './view';
 // document.addEventListener('DOMContentLoaded', () => {
 // });
 var h_top3 = $('#top3').outerHeight();
-$('.main-content').css('padding-top', h_top3+25);
+// $('.main-content').css('padding-top', h_top3+25);
 
 if (!localStorage.getItem('display')) {
 	localStorage.setItem('display', 'grid');

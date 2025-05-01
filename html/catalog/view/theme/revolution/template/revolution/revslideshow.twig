@@ -1,41 +1,37 @@
-<div id="revslideshow" class="owl-carousel banners" style="opacity: 1;">
-	{% if (home_slideshows) %} 
-		{% for home_slideshow in home_slideshows %} 
-			<div class="item">
-				{% if (home_slideshow['title']) %} 
-					<span class="home_slideshow_title" style="color:#{{ home_slideshow['title_color'] }}; font-size:{{ home_slideshow['title_fsize'] }}%; top:{{ home_slideshow['title_xpos'] }}; left:{{ home_slideshow['title_ypos'] }}">{{ home_slideshow['title'] }}</span>
-				{% endif %} 
-				{% if (home_slideshow['description']) %} 
-					<span class="home_slideshow_description" style="color:#{{ home_slideshow['description_color'] }}; font-size:{{ home_slideshow['description_fsize'] }}%; top:{{ home_slideshow['description_xpos'] }}; left:{{ home_slideshow['description_ypos'] }}">{{ home_slideshow['description'] }}</span>
-				{% endif %} 
-				{% if (home_slideshow['link']) %} 
-					<a class="home_slideshow_link{% if (home_slideshow['checkbox']) %} popup_html_content{% endif %}" href="{{ home_slideshow['link'] }}" style="color:#{{ home_slideshow['link_title_color'] }}; border: 1px solid #{{ home_slideshow['link_title_color'] }}; font-size:{{ home_slideshow['link_title_fsize'] }}%; top:{{ home_slideshow['link_title_xpos'] }}; left:{{ home_slideshow['link_title_ypos'] }}">{{ home_slideshow['link_title'] }}</a>
-				{% endif %} 
-				<img src="{{ home_slideshow['image'] }}" alt="{{ home_slideshow['title'] }}" class="img-responsive" />
-			</div>
-		{% endfor %} 
-	{% else %} 
-		{% for banner in banners %} 
-			<div class="item">
-				{% if (banner['link']) %} 
-					<a href="{{ banner['link'] }}"><img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" /></a>
-				{% else %} 
-					<img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" />
-				{% endif %} 
-			</div>
-		{% endfor %} 
-	{% endif %} 
-</div>
-<script><!--
-	$('#revslideshow').owlCarousel({
-		itemsCustom: [[0, 1], [375, 1], [750, {{ slides }}], [970, {{ slides }}], [1170, {{ slides }}]],
-		responsiveBaseWidth: '#revslideshow',
-		stopOnHover : true,
-		navigation: true,
-		navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
-		pagination: false,
-		{% if (autoscroll) %} 
-			autoPlay: {{ autoscroll }}*1000,
+<div id="revslideshow" class="swiper banners" style="opacity: 1;">
+	<!-- Скелетон-заглушка -->
+  <div class="skeleton-slide"></div>
+
+  <div class="swiper-wrapper">
+		{% if (home_slideshows) %} 
+
+			{% for slide in home_slideshows %} 
+      	<div class="swiper-slide">
+					{% if (slide['title']) %} 
+						<span class="home_slideshow_title" style="color:#{{ slide['title_color'] }}; font-size:{{ slide['title_fsize'] }}%; top:{{ slide['title_xpos'] }}; left:{{ slide['title_ypos'] }}">{{ slide['title'] }}</span>
+					{% endif %} 
+
+					{% if (slide['description']) %} 
+						<span class="home_slideshow_description" style="color:#{{ slide['description_color'] }}; font-size:{{ slide['description_fsize'] }}%; top:{{ slide['description_xpos'] }}; left:{{ slide['description_ypos'] }}">{{ slide['description'] }}</span>
+					{% endif %} 
+
+					{% if (slide['link']) %} 
+						<a class="home_slideshow_link{% if (slide['checkbox']) %} popup_html_content{% endif %}" href="{{ slide['link'] }}" style="color:#{{ slide['link_title_color'] }}; border: 1px solid #{{ slide['link_title_color'] }}; font-size:{{ slide['link_title_fsize'] }}%; top:{{ slide['link_title_xpos'] }}; left:{{ slide['link_title_ypos'] }}">{{ slide['link_title'] }}</a>
+					{% endif %} 
+
+					<img src="{{ slide['image'] }}" alt="{{ slide['title'] }}" class="img-responsive" />
+      	</div>
+    	{% endfor %}
+		{% else %} 
+			{% for banner in banners %} 
+				<div class="item">
+					{% if (banner['link']) %} 
+						<a href="{{ banner['link'] }}"><img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" /></a>
+					{% else %} 
+						<img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" />
+					{% endif %} 
+				</div>
+			{% endfor %} 
 		{% endif %} 
-	});
---></script>
+	</div>
+</div>

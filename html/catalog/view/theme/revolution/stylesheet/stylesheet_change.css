@@ -634,7 +634,6 @@ li.main {font-weight: bold;padding: 10px 0;}
 .product_buttons {display: flex;align-items: center;height: 30px !important;justify-content: space-between;}
 .product_buttons .price + .wishlist {width: 100%;text-align: right;}
 .fa-border {border: 1px solid #eee;color: #555;background: none;min-width: 30px; height: 30px;display: flex;align-items: center;justify-content: center;font-size: 17px;}
-.product-thumb:hover .fa-border.fa-shopping-basket {border-color: #FF8800;color: #FF8800;}
 .fa-border:hover {border-color: #FF8800;color: #FFF !important;background: #FF8800;}
 .product-thumb .wishlist:hover .fa {border-color: #FF8800;color: #FF8800;}
 .product-price a.quick_btn.btn.btn-default.btn-xs.pull-right {display: none;}

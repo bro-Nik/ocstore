@@ -1506,11 +1506,11 @@ class ControllerRevolutionRevslider extends Controller {
 					} else {
 						$quantity[$key] = 2;
 					}
-					if (!$zakaz_price_null) {
-						$price_number[$key] = $value['price_number'];
-					} else {
-						$price_number[$key] = 1;
-					}
+					// if (!$zakaz_price_null) {
+					// 	$price_number[$key] = $value['price_number'];
+					// } else {
+					$price_number[$key] = 1;
+					// }
 					if ($quantity[$key] < 1 || $price_number[$key] == 0) {
 						unset($result[$key]);
 					}
