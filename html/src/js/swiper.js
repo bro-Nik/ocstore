@@ -87,8 +87,6 @@ export function initCarouselSwipers() {
 
     // Индивидуальные настройки из json data-swiper-config
     const jsonConfig = JSON.parse(carouselEl.dataset.swiperConfig  || '{}');
-    console.log(jsonConfig)
-    console.log(customConfig)
     
     // Инициализация Swiper с объединенными настройками
     swipers[`swiper${index}`] = new Swiper(carouselEl, {

@@ -10,16 +10,11 @@
 	<div class="tab-content">
   	{% for i in 1..8 %}
     	{% if attribute(_context, 'slider_' ~ i ~ '_status') and attribute(_context, 'products_slider_' ~ i) %} 
-      	<div class="hometab_sliders_tab rev_slider tab-pane" id="tab_slider_{{ i }}">
-        	<div class="row">
-          	<div id="slider_slider_{{ i }}" class="swiper-container swiper-carousel">
-            	<div class="swiper-wrapper">
-              	{% include 'revolution/template/product/partials/carousel_product.twig' with {
-                	'products_slider': attribute(_context, 'products_slider_' ~ i)
-              	} %}
-            	</div>
-          	</div>
-        	</div>
+      	<div class="hometab_sliders_tab tab-pane" id="tab_slider_{{ i }}">
+          {% include 'revolution/template/product/partials/carousel_product.twig' with {
+            'products': attribute(_context, 'products_slider_' ~ i),
+            'id': 'tab_slider_' ~ i
+          } %}
       	</div>
     	{% endif %} 
   	{% endfor %}

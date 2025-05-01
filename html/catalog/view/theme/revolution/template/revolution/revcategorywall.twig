@@ -1,12 +1,9 @@
 <div class="home__section">
   {% if (heading_title) %}<h3>{{ heading_title }}</h3>{% endif %} 
   <div class="row">
-    {# Основной контейнер Swiper #}
     <div class="swiper-container swiper-carousel">
-      {# Обертка слайдов #}
       <div class="swiper-wrapper">
         {% for category in categories %} 
-          {# Отдельный слайд #}
           <a class="swiper-slide shadow-box categories__item" href="{{ category.href }}">
             <div class="categories__item-image">
               <img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-responsive" />

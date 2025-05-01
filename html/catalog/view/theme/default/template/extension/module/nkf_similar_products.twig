@@ -1,12 +1,7 @@
-<div id="product_products" class="rev_slider">
-  <div class="heading_h">
-    <h3>{{ heading_title }}</h3>
-  </div>
-  <div class="row">
-    <div class="product_related swiper-container swiper-carousel">
-      <div class="swiper-wrapper">
-        {% include 'revolution/template/product/partials/carousel_product.twig' with {'products_slider': featured_products} %}
-      </div>
-    </div>
-  </div>
-</div>
+{% if (featured_products) %} 
+  {% include 'revolution/template/product/partials/carousel_product.twig' with {
+    'products': featured_products,
+    'id': 'product_related',
+    'title': heading_title}
+  %}
+{% endif %} 
