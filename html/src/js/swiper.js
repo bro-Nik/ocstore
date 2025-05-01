@@ -32,19 +32,19 @@ export function initHomeSwipers() {
   if (skeleton) skeleton.remove();
 
   const revSwiper = new Swiper('#revslideshow', {
-    slidesPerView: 1,
+    slidesPerView: 'auto',
     spaceBetween: 10,
     loop: true,
     // autoplay: {% if (autoscroll) %}{ 
     //   delay: {{ autoscroll }}*1000,
     //   disableOnInteraction: false,
     // }{% else %}false{% endif %},
-    breakpoints: {
-      375: { slidesPerView: 1 },
-      750: { slidesPerView: 4 },
-      970: { slidesPerView: 4 },
-      1170: { slidesPerView: 4 }
-    }
+    // breakpoints: {
+    //   375: { slidesPerView: 1 },
+    //   750: { slidesPerView: 2 },
+    //   970: { slidesPerView: 4 },
+    //   1170: { slidesPerView: 4 }
+    // }
   });
 
   return { revSwiper };

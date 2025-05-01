@@ -344,7 +344,8 @@
   --swiper-navigation-color: var(--text-base);
 }
 
-.swiper-container {
+.swiper {
+  overflow: unset;
   overflow-x: clip;
 }
 .swiper-slide {

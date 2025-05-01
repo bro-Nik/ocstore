@@ -6,11 +6,9 @@
   --swiper-navigation-color: var(--text-base);
 }
 
-// Дополнительные кастомные стили
 .swiper {
-  &-container {
-    overflow-x: clip;
-  }
+  overflow: unset;
+  overflow-x: clip;
   &-slide {
     display: flex ;
     justify-content: center;
@@ -22,6 +20,7 @@
     }
   }
 }
+
 
 
 

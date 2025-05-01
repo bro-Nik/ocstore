@@ -97,7 +97,6 @@ span.incart_tov {position: absolute;font-size: 12px;top: -8px;right: 18px;width:
 }
 @media (min-width: 481px) {
 .heading_ico_image>img {margin-right: 8px; width: 45px;}
-.fa-shopping-basket:before, .fa-question:before {content: none;}
 }
 @media (max-width: 767px) {
 .heading_ico_image > img {margin-top: -4px; margin-right: 5px; width: 20px;}
