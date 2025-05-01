@@ -3,20 +3,10 @@
     <h3>{{ heading_title }}</h3>
   </div>
   <div class="row">
-    <div class="product_related">
-      {% include 'revolution/template/product/partials/carousel_product.twig' with {'products_slider': featured_products} %}
+    <div class="product_related swiper-container swiper-carousel">
+      <div class="swiper-wrapper">
+        {% include 'revolution/template/product/partials/carousel_product.twig' with {'products_slider': featured_products} %}
+      </div>
     </div>
   </div>
-  <script>
-    <!--
-
-  var product_grid_width = $('.product-layout .product-thumb').outerWidth();
-  if (product_grid_width < 240) {
-    $('.product-layout').addClass('new_line');
-  } else {
-    $('.product-layout').removeClass('new_line');
-  }
-  //--></script>
 </div>
-
-

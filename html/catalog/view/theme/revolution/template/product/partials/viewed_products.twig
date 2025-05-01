@@ -3,19 +3,12 @@
 		<div id="product_products2" class="rev_slider">
 			<div class="heading_h"><h3>{{ viewed_products_zagolovok }}</h3></div>
 			<div class="row">
-				<div class="viewed_products">
-      				{% include 'revolution/template/product/partials/carousel_product.twig' with {'products_slider': viewed_products} %}
+				<div class="viewed_products swiper-container swiper-carousel">
+      		<div class="swiper-wrapper">
+      			{% include 'revolution/template/product/partials/carousel_product.twig' with {'products_slider': viewed_products} %}
+					</div>
 				</div>
 			</div>
-			<script><!--
-			
-			var product_grid_width = $('.product-layout .product-thumb').outerWidth();
-			if (product_grid_width < 240) {
-				$('.product-layout').addClass('new_line');
-			} else {
-				$('.product-layout').removeClass('new_line');
-			}
-			//--></script>
 		</div>
 	{% endif %} 
 
