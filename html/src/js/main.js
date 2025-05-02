@@ -12,6 +12,8 @@ import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
 
+// import library from './fontawesome';
+
 import { productView } from './view';
 
 // document.addEventListener('DOMContentLoaded', () => {
@@ -79,11 +81,11 @@ function toggle_ellipses() {
 
 // Скрол вверх
 document.addEventListener('scroll', function() {
-  const scrollTopWrapper = document.querySelector('.scroll-top-wrapper');
+  const scrollTopWrapper = document.querySelector('.btn-scroll-top');
   scrollTopWrapper.classList.toggle('show', window.scrollY > 100);
 });
 
-const scrollTopButton = document.querySelector('.scroll-top-wrapper');
+const scrollTopButton = document.querySelector('.btn-scroll-top');
 if (scrollTopButton) {
   scrollTopButton.addEventListener('click', function() {
     window.scrollTo({

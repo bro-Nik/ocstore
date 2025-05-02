@@ -10,6 +10,18 @@
   padding: 15px;
   box-sizing: border-box;
 
+  & .cart a {
+    border: 1px solid #eee;
+    color: #555;
+    background: none;
+    min-width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // font-size: 17px;
+  }
+
   & .description_options {
     flex-grow: 1; /* Растягивает блок описания */
     // margin-bottom: 10px;
@@ -33,12 +45,14 @@
 
     & a * {
       font-size: 1.4rem;
+      padding-inline: 1rem;
     }
 
     & a:hover * {
       border-color: $primary-color;
       color: #FFF !important;
       background: $primary-color;
+      border-radius: 0.5rem;
     }
   }
 
@@ -72,4 +86,8 @@
       font-weight: 400;
     }
   }
+}
+
+.btns-actions {
+  display: flex;
 }

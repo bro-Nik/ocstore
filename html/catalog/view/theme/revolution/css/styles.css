@@ -10965,12 +10965,10 @@ textarea.form-control-lg {
   transition: all 0.2s;
   font-size: 1.2rem;
 }
-
 .btn-secondary:hover {
   background: #e9ecef;
   color: #495057;
 }
-
 .btn-phone {
   color: #f80;
   font-weight: bold;
@@ -10978,6 +10976,60 @@ textarea.form-control-lg {
   padding-top: 2px;
   text-align: right;
   line-height: 26px;
+}
+.btn-catalog {
+  background-color: #0063D1;
+  box-shadow: 0 9px 13px rgba(0, 85, 255, 0.43);
+  border-radius: 10px;
+  color: #FFF;
+  height: 40px;
+  line-height: 40px;
+  font-size: 17px;
+  padding: 0 10px;
+  -webkit-transition: all 100ms linear;
+  -moz-transition: all 100ms linear;
+  -ms-transition: all 100ms linear;
+  -o-transition: all 100ms linear;
+  transition: all 100ms linear;
+  z-index: 3;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+.btn-catalog .fa-chevron-down {
+  font-size: 1rem;
+  margin-left: auto;
+}
+.btn-scroll-top {
+  position: fixed;
+  opacity: 0;
+  text-align: center;
+  z-index: 9998;
+  background-color: #777;
+  color: #fefefe;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  right: 30px;
+  bottom: 30px;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.btn-scroll-top.show {
+  cursor: pointer;
+  opacity: 0.6;
+}
+.btn-scroll-top.show:hover {
+  opacity: 0.9;
 }
 
 .header {
@@ -11034,6 +11086,9 @@ textarea.form-control-lg {
   font-size: 1.3rem;
   height: 3.5rem;
   gap: 2rem;
+}
+.header .top1 a:has(> svg + :not(span):not(:empty)) svg {
+  margin-right: 0.4rem;
 }
 .header .top2 {
   padding: 10px 0;
@@ -11196,14 +11251,42 @@ textarea.form-control-lg {
 }
 
 footer {
-  background-color: #232323;
+  background-color: #454552;
   color: #fff;
 }
 footer a, footer a:active, footer a:visited {
   color: #fff;
 }
 footer a:hover {
-  color: #eee;
+  color: #ddd;
+  padding-left: 2px;
+  transition: padding 80ms linear;
+}
+footer .footer_info {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  display: flex;
+  width: 100%;
+  gap: 2rem;
+}
+@media (max-width: 1199px) {
+  footer .footer_info {
+    display: none;
+  }
+}
+
+.footer i {
+  margin-right: 10px;
+}
+
+.footer .small {
+  font-size: 12px;
+  line-height: normal;
+  color: #bbb;
+}
+
+.footer .soc_s {
+  display: none;
 }
 
 .product-thumb {
@@ -11215,6 +11298,16 @@ footer a:hover {
   height: 100%;
   padding: 15px;
   box-sizing: border-box;
+}
+.product-thumb .cart a {
+  border: 1px solid #eee;
+  color: #555;
+  background: none;
+  min-width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .product-thumb .description_options {
   flex-grow: 1; /* Растягивает блок описания */
@@ -11232,11 +11325,13 @@ footer a:hover {
 }
 .product-thumb .product_buttons a * {
   font-size: 1.4rem;
+  padding-inline: 1rem;
 }
 .product-thumb .product_buttons a:hover * {
   border-color: #0063D1;
   color: #FFF !important;
   background: #0063D1;
+  border-radius: 0.5rem;
 }
 
 .categories__item {
@@ -11262,6 +11357,10 @@ footer a:hover {
   font-size: 1.6rem;
   line-height: 2rem;
   font-weight: 400;
+}
+
+.btns-actions {
+  display: flex;
 }
 
 :root {

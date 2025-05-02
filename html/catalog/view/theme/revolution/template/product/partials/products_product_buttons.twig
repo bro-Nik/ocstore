@@ -32,6 +32,7 @@
     </div>
   {% endif %}
 </div>
+
 <div class="product_buttons">
   {% if (revpopuporder or popup_view or ((rev_srav_prod or rev_wish_prod) and setting_catalog_all['rev_wish_srav_prod'])) %}
     <div class="fapanel-price">
@@ -54,6 +55,7 @@
           </a>
         </div>
       {% endif %}
+
       {% if ((rev_srav_prod or rev_wish_prod) and setting_catalog_all['rev_wish_srav_prod']) %}
         {% if (rev_srav_prod) %}
           <div class="compare">
@@ -62,6 +64,7 @@
             </a>
           </div>
         {% endif %}
+
         {% if (rev_wish_prod) %}
           <div class="wishlist">
             <a class="{{ product['wishlist_class'] }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" title="{{ product['button_wishlist'] }}">
@@ -72,6 +75,7 @@
       {% endif %}
     </div>
   {% endif %}
+
   {% if (product['price']) %}
     {% if (product['price_number'] > 0) %}
       {% if (product['quantity'] > 0 or zakaz) %}
@@ -157,40 +161,39 @@
     {% endif %}
     <div class="clearfix"></div>
   {% endif %}
-  <div>
+  <div class="btns-actions">
 
-  {% set button_cart_class = 'prlistb' %}
-  {% if (product['quantity'] > 0 or zakaz or predzakaz_button) %}
-    {% if (product['price_number'] > 0 or zakaz_price_null) %}
-      {% if (product['quantity'] < 1 and predzakaz_button) %}
-        <div class="cart predzakaz_cart">
-          <a onclick="get_revpopup_predzakaz({{ product['product_id'] }});" data-toggle="tooltip" title="{{ text_predzakaz }}">
-            <i class="fa fa-border fa-shopping-basket predzakaz">
-              <span class="{{ button_cart_class }}">{{ text_predzakaz }}</span>
-            </i>
-          </a>
-        </div>
-      {% else %}
-        <div class="cart">
-          <a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
-            <i class="fa fa-border fa-shopping-basket">
+    {% set button_cart_class = 'prlistb' %}
+    {% if (product['quantity'] > 0 or zakaz or predzakaz_button) %}
+      {% if (product['price_number'] > 0 or zakaz_price_null) %}
+        {% if (product['quantity'] < 1 and predzakaz_button) %}
+          <div class="cart predzakaz_cart">
+            <a onclick="get_revpopup_predzakaz({{ product['product_id'] }});" data-toggle="tooltip" title="{{ text_predzakaz }}">
+              <i class="fa fa-border fa-shopping-basket predzakaz">
+                <span class="{{ button_cart_class }}">{{ text_predzakaz }}</span>
+              </i>
+            </a>
+          </div>
+        {% else %}
+          <div class="cart">
+            <a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
+              <!-- <i class="fa fa-shopping-basket"></i> -->
               <span class="{{ button_cart_class }}">{{ button_cart }}</span>
-            </i>
-          </a>
-        </div>
-        {#}
-          <a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('{{ product['product_id'] }}');">
-            <i class="fa fa-hand-pointer-o"></i>
-            {{ text_catalog_revpopup_purchase }}</a>
-        {#}
+            </a>
+          </div>
+          {#}
+            <a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('{{ product['product_id'] }}');">
+              <i class="fa fa-hand-pointer-o"></i>
+              {{ text_catalog_revpopup_purchase }}</a>
+          {#}
+        {% endif %}
       {% endif %}
     {% endif %}
-  {% endif %}
-  <div class="wishlist">
-    <a class="{{ product['wishlist_class'] }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" title="{{ product['button_wishlist'] }}">
-      <i class="fa fa-border fa-heart"></i>
-    </a>
-  </div>
+    <div class="wishlist">
+      <a class="{{ product['wishlist_class'] }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" title="{{ product['button_wishlist'] }}">
+        <i class="fa fa-border fa-heart"></i>
+      </a>
+    </div>
   </div>
 </div>
 

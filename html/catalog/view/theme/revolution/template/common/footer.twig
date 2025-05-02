@@ -46,7 +46,7 @@
 {% endif %} 
 	{{ revsubscribe }} 
 	<div class="footer">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				{% set dops_class = "not_dops_snot_dops_s" %} {% if (not revtheme_custom_footer['dops_pc_status']) %} {% set dops_class = "not_dops_s hidden-md hidden-lg" %} {% endif %} 
 				{% if (is_mobile or dops_class == 'not_dops_snot_dops_s') %} 
@@ -79,7 +79,7 @@
 				</div>
 				{% endif %} 
 				{% if (revtheme_custom_footer['status'] and is_desctope) %} 
-					<div class="footer_cfs hidden-sm">
+					<div class="footer_cfs hidden-sm footer_info">
 						{% if (revtheme_custom_footer['cf_1_status']) %} 
 							{% if (revtheme_dop_menus_cf or cf_1_description|length > 15) %} 
 								<div {{ cf_1_width }}>
@@ -292,7 +292,7 @@
 	</div>
 {% endif %} 
 {% if (in_top) %} 
-	<div class="scroll-top-wrapper ">
+	<div class="btn-scroll-top">
 		<span class="scroll-top-inner">
 			<i class="fa fa-arrow-circle-up"></i>
 		</span>

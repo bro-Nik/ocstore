@@ -431,46 +431,6 @@ left: 0;
 z-index: 2;
 box-shadow: 0 0px 10px rgba(0,0,0,0.2);
 }
-#menu2_button .box-heading {
-background-color: #2A6FBA;
-color: #FFF;
-height: 40px;
-line-height: 40px;
-font-size: 17px;
-padding: 0 10px;
--webkit-transition: all 100ms linear;
--moz-transition: all 100ms linear;
--ms-transition: all 100ms linear;
--o-transition: all 100ms linear;
-transition: all 100ms linear;
-z-index: 3;
-position: relative;
-display: block;
-}
-#menu2_button .box-heading > .fa{
-padding-right: 10px;
-font-size: 14px;
-margin-top: -4px;
-vertical-align: middle;
-}
-#menu2_button:hover .box-heading,
-#menu2_button .box-heading:hover {
--webkit-transition: all 100ms linear;
--moz-transition: all 100ms linear;
--ms-transition: all 100ms linear;
--o-transition: all 100ms linear;
-transition: all 100ms linear;
-}
-.icorightmenu {
-float: right;
-font-size: 9px;
-}
-.icorightmenu .fa {
-margin-top: 16px;
-display: block;
-font-size: 9px;
-padding-right: 0 !important;
-}
 .child-box-cell {
 padding: 5px 0px 5px 0px;
 }
@@ -1829,11 +1789,6 @@ color: #777;
 .product-thumb .caption p .fa {
 padding-right: 5px;
 }
-.product-thumb .cart {
-display: inline-block;
-border-radius: 2px;
-float: left;
-}
 .product-thumb .q_chislo {
 display: block;
 float: left;
@@ -1897,19 +1852,19 @@ top: -1px;
 right: 1px;
 font-weight: bold;
 }
-.fa-border {
-cursor: pointer;
-padding: 4px 4px;
-border-radius: 5px;
-background-color: transparent;
--webkit-transition: all 100ms linear;
--moz-transition: all 100ms linear;
--ms-transition: all 100ms linear;
--o-transition: all 100ms linear;
-transition: all 100ms linear;
-font-size: 14px;
-position: relative;
-}
+/* .fa-border { */
+/* cursor: pointer; */
+/* padding: 4px 4px; */
+/* border-radius: 5px; */
+/* background-color: transparent; */
+/* -webkit-transition: all 100ms linear; */
+/* -moz-transition: all 100ms linear; */
+/* -ms-transition: all 100ms linear; */
+/* -o-transition: all 100ms linear; */
+/* transition: all 100ms linear; */
+/* font-size: 14px; */
+/* position: relative; */
+/* } */
 .product-thumb .fapanel.rev_wish_srav_prod .fa-border {
 border: 2px solid #eeeeee;
 background-color: #eeeeee;
@@ -2413,36 +2368,6 @@ border: 2px solid rgba(102, 102, 102, 0.9);
 }
 #top4 .owl-controls .owl-page.active span {
 background: rgba(102, 102, 102, 0.9);
-}
-.scroll-top-wrapper {
-position: fixed;
-opacity: 0;
-text-align: center;
-z-index: 9998;
-background-color: #777;
-color: #fefefe;
-width: 40px;
-height: 40px;
-line-height: 40px;
-right: 30px;
-bottom: 30px;
-border-radius: 4px;
--webkit-transition: all 0.3s ease-in-out;
--moz-transition: all 0.3s ease-in-out;
--ms-transition: all 0.3s ease-in-out;
--o-transition: all 0.3s ease-in-out;
-transition: all 0.3s ease-in-out;
-}
-.scroll-top-wrapper.show:hover {
-opacity: 0.9;
-}
-.scroll-top-wrapper.show {
-cursor: pointer;
-opacity: 0.6;
-}
-.scroll-top-wrapper i.fa {
-font-size: 17px;
-line-height: inherit;
 }
 .popup-phone-wrapper {
 position: fixed;
@@ -7385,12 +7310,6 @@ min-width: 14px;
 }
 .footer .last_ul_cf {
 margin-top: 10px;
-}
-.footer .footer_cfs {
-padding-top: 10px;
-padding-bottom: 5px;
-display: flex;
-width: 100%;
 }
 .footer .not_dops_s + .footer_cfs {
 padding-top: 25px

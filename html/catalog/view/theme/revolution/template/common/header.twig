@@ -35,13 +35,11 @@
 	<link href="catalog/view/theme/revolution/stylesheet/stylesheet_min.css" rel="stylesheet">
 {% endif %} 
 
-  <!-- Font Awesome 6 -->
-  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"> -->
 {% for style in styles %} 
 <link href="{{ style['href'] }}" type="text/css" rel="{{ style['rel'] }}" media="{{ style['media'] }}" />
 {% endfor %} 
 <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
-<script src="catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.js"></script>
+<!-- <script src="catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.js"></script> -->
 {% for link in links %} 
 <link href="{{ link['href'] }}" rel="{{ link['rel'] }}" />
 {% endfor %} 

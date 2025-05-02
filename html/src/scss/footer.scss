@@ -1,6 +1,7 @@
+@use 'variables' as *;
 
 footer {
-background-color: #232323;
+background-color: #454552;
 color: #fff;
 
   & a,
@@ -10,10 +11,28 @@ color: #fff;
   }
 
   & a:hover {
-    color: #eee;
+    color: #ddd;
+    padding-left: 2px;
+    transition: padding 80ms linear;
+  }
+
+  & .footer_info {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+
+    @media (max-width: $desktop - 1) {
+      display: none;
+    }
   }
 }
 // footer .footer_links {
 // padding-top: 20px;
 // padding-bottom: 20px;
 // }
+
+.footer i {margin-right: 10px;}
+.footer .small {font-size: 12px;line-height: normal;color: #bbb;}
+.footer .soc_s {display: none;}
