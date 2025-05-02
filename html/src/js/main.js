@@ -12,12 +12,13 @@ import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
 
-// import library from './fontawesome';
-
 import { productView } from './view';
 
-// document.addEventListener('DOMContentLoaded', () => {
-// });
+document.addEventListener('DOMContentLoaded', () => {
+
+	document.documentElement.classList.remove('opacity_minus');
+	document.documentElement.classList.add('opacity_plus');
+});
 var h_top3 = $('#top3').outerHeight();
 // $('.main-content').css('padding-top', h_top3+25);
 
@@ -31,7 +32,6 @@ $('.category_description').removeClass('dnone');
 
 $('.owl-carousel.owlproduct').remove();
 
-$('html').removeClass('opacity_minus').addClass('opacity_plus');
 
 $(document).ready(function(){
 	var triggered = false;
