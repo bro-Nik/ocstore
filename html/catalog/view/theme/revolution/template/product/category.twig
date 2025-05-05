@@ -18,7 +18,7 @@
       {% if (podcategory_imgs) %}
         <div class="refine_categories clearfix">
           {% for category in categories %}
-            <a class="col-xs-6 col-sm-4 col-md-3 col-lg-2" href="{{ category['href'] }}"><img src="{{ category['thumb'] }}" title="{{ category['name'] }}" alt="{{ category['name'] }}"/><span>{{ category['name'] }}</span>
+            <a class="" href="{{ category['href'] }}"><img src="{{ category['thumb'] }}" title="{{ category['name'] }}" alt="{{ category['name'] }}"/><span>{{ category['name'] }}</span>
             </a>
           {% endfor %}
         </div>
@@ -100,7 +100,7 @@
 
       {% include 'revolution/template/product/partials/products_top_line.twig' %}
 
-      <div class="row products_category test-class">
+      <div class="products__list">
         {% for filter_gr,items in products %}
           {% if (filter_gr != '') %}
             <div class="filter_gr col-xs-12">

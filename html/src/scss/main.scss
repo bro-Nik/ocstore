@@ -163,3 +163,8 @@ button, input, textarea, select {
     max-width: 100%;
     height: auto;
 }
+.breadcrumb>li+li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "/\00a0";
+}

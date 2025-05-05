@@ -1,5 +1,32 @@
-<div class="well well-sm">
+<div class="products__topline">
   <div class="row">
+    <div class="products__topline-group">
+      <span class="products__topline-group-text">Сортировка:</span>
+      <select id="input-sort" class="" onchange="location = this.value;">
+        {% for sorts in sorts %}
+          {% if sorts.value == '%s-%s'|format(sort, order) %}
+            <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+          {% else %}
+            <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="products__topline-group">
+      <span class="products__topline-group-text">Показать:</span>
+      <select id="input-limit" class="" onchange="location = this.value;">
+        {% for limits in limits %}
+          {% if (limits['value'] == limit) %}
+            <option value="{{ limits['href'] }}" selected="selected">{{ limits['text'] }}</option>
+          {% else %}
+            <option value="{{ limits['href'] }}">{{ limits['text'] }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+
+{# сначала нужно полчинить grid
     {% if (vid_grid or vid_list or vid_price) %}
       <div class="col-lg-3 col-md-4 col-sm-3 hidden-xs">
         <div class="btn-group btn-group-justified">
@@ -21,50 +48,6 @@
         </div>
       </div>
     {% endif %}
-
-    {% if (not vid_grid and not vid_list and not vid_price) %}
-      {% set vid_class = 'col-lg-9 col-md-9 col-sm-8' %}
-    {% else %}
-      {% set vid_class = 'col-lg-6 col-md-5 col-sm-5' %}
-    {% endif %}
-
-    <div class="{{ vid_class }}">
-      <div class="input-group">
-        <span class="input-group-addon">
-          <i class="fa fa-sort-amount-asc"></i>
-          <span class="hidden-xs hidden-sm hidden-md">
-            {{ text_sort }}</span>
-        </span>
-        <select id="input-sort" class="form-control" onchange="location = this.value;">
-          {% for sorts in sorts %}
-            {% if sorts.value == '%s-%s'|format(sort, order) %}
-              <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
-            {% else %}
-              <option value="{{ sorts.href }}">{{ sorts.text }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <br class="visible-xs">
-    <div class="col-lg-3 col-md-3 col-sm-4">
-      <div class="input-group">
-        <span class="input-group-addon">
-          <i class="fa fa-eye"></i>
-          <span class="hidden-xs hidden-sm hidden-md">
-            {{ text_limit }}</span>
-        </span>
-        <select id="input-limit" class="form-control" onchange="location = this.value;">
-          {% for limits in limits %}
-            {% if (limits['value'] == limit) %}
-              <option value="{{ limits['href'] }}" selected="selected">{{ limits['text'] }}</option>
-            {% else %}
-              <option value="{{ limits['href'] }}">{{ limits['text'] }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
+{#}
   </div>
 </div>
-<br/>

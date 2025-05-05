@@ -359,6 +359,10 @@
   border-bottom: 3px solid var(--color-primary);
 }
 
+.swiper-wrapper {
+  height: unset;
+}
+
 @media (min-width: 768px) {
   .swiper-button-prev,
   .swiper-button-next {
@@ -11361,6 +11365,103 @@ footer .footer_info {
 
 .btns-actions {
   display: flex;
+  margin-left: auto;
+}
+
+.products__list {
+  margin: 2rem -1.5rem 2rem 0;
+  padding: 0;
+  list-style: none;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.products__topline {
+  background: #f7f7f7;
+  padding: 1rem;
+  font-size: 1.4rem;
+}
+.products__topline-group {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: auto;
+  gap: 0.4rem;
+}
+@media (max-width: 1199px) {
+  .products__topline-group-text {
+    display: none;
+  }
+}
+.products__topline-group select {
+  color: #0063D1;
+  cursor: pointer;
+}
+
+.stock_status {
+  font-size: 1.2rem;
+}
+
+.breadcrumb * {
+  color: #999;
+  font-size: 1.4rem;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  margin-bottom: 3rem;
+  list-style: none;
+  border-bottom: 1px solid #ededed;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.pagination > li > a, .pagination > li > span {
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+
+.pagpages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 5rem;
+}
+
+.results-pages {
+  margin-left: auto;
+  font-size: 1.3rem;
+}
+
+.pagination-links {
+  width: 100%;
+}
+
+.refine_categories {
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.refine_categories * {
+  flex: 1;
+}
+.refine_categories a {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #e2e2e2;
+  font-weight: 700;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  color: #666;
 }
 
 :root {
@@ -11503,4 +11604,10 @@ button, input, textarea, select {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+.breadcrumb > li + li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "/ ";
 }
