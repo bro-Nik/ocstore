@@ -163,7 +163,11 @@
   {% endif %}
   <div class="btns-actions">
 
+
     {% set button_cart_class = 'prlistb' %}
+
+    
+
     {% if (product['quantity'] > 0 or zakaz or predzakaz_button) %}
       {% if (product['price_number'] > 0 or zakaz_price_null) %}
         {% if (product['quantity'] < 1 and predzakaz_button) %}
@@ -176,9 +180,10 @@
           </div>
         {% else %}
           <div class="cart">
-            <a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
+            <a class="add-to-cart {% if (product['product_in_cart']) %}in-cart{% endif %}" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
               <!-- <i class="fa fa-shopping-basket"></i> -->
-              <span class="{{ button_cart_class }}">{{ button_cart }}</span>
+              <span class="{{ button_cart_class }}">{% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}</span>
+
             </a>
           </div>
           {#}

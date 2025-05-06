@@ -163,7 +163,7 @@ class Cart extends BaseModule {
     
     // Обновляем кнопки
     const updateParams = {
-      baseClass: '',
+      baseClass: 'btn-cart',
       newClass: 'in-cart',
       newTitle: 'Перейти в корзину',
       classToRemove: this.selectors.add,

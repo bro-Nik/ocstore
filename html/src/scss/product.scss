@@ -1,11 +1,15 @@
 @use 'variables' as *;
 
+.swiper .product-thumb {
+  width: 25rem;
+}
+
 .product-thumb {
   display: flex;
   flex-direction: column;
   padding: 10px;
   gap: 12px;
-  width: 25rem;
+  // width: 25rem;
   height: 100%;
   padding: 15px;
   box-sizing: border-box;
@@ -32,8 +36,8 @@
     padding: 10px 0;
   }
 
-  &:hover .cart a * {
-    border-color: $primary-color;
+  &:hover .cart a {
+    border: 1px solid $primary-color;
     color: $primary-color;
   }
 
@@ -48,7 +52,7 @@
       padding-inline: 1rem;
     }
 
-    & a:hover * {
+    & a:hover {
       border-color: $primary-color;
       color: #FFF !important;
       background: $primary-color;
@@ -69,7 +73,7 @@
     padding: 2rem;
     transition: box-shadow 0.25s;
     text-align: center;
-    width: 25rem;
+    // width: 25rem;
     margin: auto;
 
     &-image {
@@ -94,7 +98,7 @@
 }
 .products {
   &__list {
-    margin: 2rem -1.5rem 2rem 0;
+    margin: 2rem 0 2rem 0;
     padding: 0;
     list-style: none;
     display: -ms-flexbox;
@@ -129,9 +133,14 @@
     }
   }
 }
-.product-layout .stock_status {
+.product-layout {
+  padding: 10px;
+  & .stock_status {
     font-size: 1.2rem;
+  }
+
 }
+
 .breadcrumb * {
     color: #999;
     font-size: 1.4rem;
@@ -186,4 +195,49 @@
   }
 
 
+}
+
+
+.products__list {
+  container-type: inline-size;
+  container-name: products-list;
+}
+
+@container products-list (min-width: 1250px) {
+  .row-cols-xxl-5 > * {
+    flex: 0 0 auto;
+    width: 20% !important;
+  }
+}
+
+@container products-list (min-width: 1000px) and (max-width: 1249px) {
+  .row-cols-xl-4 > * {
+    flex: 0 0 auto;
+    width: 25% !important;
+  }
+}
+
+@container products-list (min-width: 768px) and (max-width: 999px) {
+  .row-cols-lg-3 > * {
+    flex: 0 0 auto;
+    width: 33.333% !important;
+  }
+}
+
+@container products-list (min-width: 460px) and (max-width: 767px) {
+  .row-cols-md-2 > * {
+    flex: 0 0 auto;
+    width: 50% !important;
+  }
+}
+
+@container products-list (max-width: 459px) {
+  .row-cols-1 > * {
+    flex: 0 0 auto;
+    width: 100% !important;
+  }
+}
+
+.in_wishlist {
+    color: $primary-color;
 }

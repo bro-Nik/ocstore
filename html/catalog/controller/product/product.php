@@ -477,6 +477,8 @@ class ControllerProductProduct extends Controller {
 				}
 			}
 
+			$data['mpn'] = $product_info['mpn'];
+
 
 			$this->response->setOutput($this->load->view('product/product', $data));
 		} else {

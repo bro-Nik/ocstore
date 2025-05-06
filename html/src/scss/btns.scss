@@ -88,7 +88,7 @@
   // .scroll-top-wrapper.show:hover {
 }
 
-#button-cart {
+.btn-cart {
   background: $primary-color;
   color: #fff;
   border: none;
@@ -116,18 +116,20 @@
     transition: all 100ms linear;
   }
 
-  &.in-cart {
-    background: #fff;
-    color: $primary-color;
-    &:hover {
-      color: #fff;
-      background: #0054b2;
-    }
+}
+
+.in-cart {
+  background: #fff !important;
+  color: $primary-color !important;
+  border: 1px solid $primary-color !important;
+  &:hover {
+    color: #fff;
+    background: #0054b2;
   }
 }
 
-#button-cart:active, .btn-danger:active, .btn-danger:active:hover {color: #ff6700;box-shadow: none;background: transparent;}
-#button-cart .fa {display:none;}
+.btn-cart:active, .btn-danger:active, .btn-danger:active:hover {color: #ff6700;box-shadow: none;background: transparent;}
+.btn-cart .fa {display:none;}
 
 .product-info .pop_ico {
   color: #555;

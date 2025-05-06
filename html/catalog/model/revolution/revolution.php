@@ -1283,7 +1283,7 @@ class ModelRevolutionRevolution extends Model {
 								if ($show_attributes_name) {
 									$attribute_text_length += strlen($attribute['name']) + 2; // 2 - ': '
 									if ($show_attributes_tags) {
-										$attribute_text = '<span class="dotted-line_left"><span class="dotted-line_title">' . $attribute['name'] . ':</span><span class="dotted-line_line"></span></span><span class="dotted-line_right">' . $attribute_text . '</span>';
+										$attribute_text = '<div class="dotted-line">' . $attribute['name'] . ':<span class="line_right">' . $attribute_text . '</span></div>';
 									} else {
 										$attribute_text = '<span class="attr_i_'.$attr_i.'"><span class="span_attr_name">'.$attribute['name'] . ':</span> ' . $attribute_text . '</span>';
 									}

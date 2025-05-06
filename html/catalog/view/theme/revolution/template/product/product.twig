@@ -25,7 +25,7 @@
         <div class="{{ class3 }} product_informationss">
           {% if (revtheme_product_all['h1_right']) %}
             <span class="pr_h1_block">
-              <h1 class="inbreadcrumb">{{ heading_title }}</h1>
+              <h1 class="inbreadcrumb">{{ mpn ?: heading_title }}</h1>
             </span>
           {% endif %}
           <meta itemprop="mpn" content="{{ model }}">
@@ -314,9 +314,9 @@
 							{% else %} 
 								<div class="pop_left">
 									{% if product_in_cart %}
-									  <button type="button" id="button-cart" class="in-cart"><i class="fa fa-shopping-basket"></i>В корзине</button>
+									  <button type="button" id="button-cart" class="btn-cart in-cart"><i class="fa fa-shopping-basket"></i>В корзине</button>
 									{% else %}
-									  <button type="button" id="button-cart" class="add-to-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+									  <button type="button" id="button-cart" class="btn-cart add-to-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
 									{% endif %}
 								</div>
 							{% endif %} 

@@ -13,7 +13,7 @@ import wishlist from './wishlist';
 import cart from './cart';
 import purchase from './purchase';
 
-import { productView } from './view';
+// import { productView } from './view';
 
 document.addEventListener('DOMContentLoaded', () => {
 

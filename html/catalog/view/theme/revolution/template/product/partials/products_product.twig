@@ -8,7 +8,7 @@
     </div>
       <h4>
         <a href="{{ product['href'] }}">
-          <span itemprop="name">{{ product['name'] }}</span>
+          <span itemprop="name">{{ product['mpn'] ?: product['name'] }}</span>
         </a>
       </h4>
       <link itemprop="url" href="{{ product['href'] }}"/>
