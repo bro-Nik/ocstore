@@ -1056,14 +1056,7 @@
 		<operation>
 			<search><![CDATA[$data['sorts'] = array();]]></search>
 			<add position="before"><![CDATA[	
-				$filter_gr = array();
-				foreach($data['products'] as $product) {
-					if($product['group_text']) {
-						$filter_gr[$product['group_text']]['products'][] = $product;
-					} else {
-						$filter_gr['']['products'][] = $product;
-					}
-				}
+				$filter_gr = $data['products'];
 				ksort($filter_gr, SORT_NATURAL);
 				$data['products'] = $filter_gr;
 			

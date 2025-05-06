@@ -173,7 +173,6 @@ class Cart extends BaseModule {
     this.updateButtons(productId, updateParams);
 
     this.updateCart(json);
-    this.markProduct(productId);
     this.popup.show();
   }
 
@@ -191,24 +190,6 @@ class Cart extends BaseModule {
         const cartItems = document.querySelector(this.selectors.cartItems);
         if (cartItems) cartItems.innerHTML = html;
       });
-  }
-
-  /**
-   * Отметка товара как добавленного
-   */
-  markProduct(productId) {
-    setTimeout(() => {
-      const existingMarkers = document.querySelectorAll(`.product-thumb.product_${productId} .image .pr_in_cart_i`);
-      existingMarkers.forEach(marker => marker.remove());
-      
-      const productImages = document.querySelectorAll(`.product-thumb.product_${productId} .image`);
-      productImages.forEach(image => {
-        const marker = document.createElement('div');
-        marker.className = 'pr_in_cart_i';
-        marker.innerHTML = '<i class="fa fa-check"></i>';
-        image.appendChild(marker);
-      });
-    }, 300);
   }
 
   /**

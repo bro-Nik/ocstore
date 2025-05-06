@@ -34,48 +34,6 @@
 </div>
 
 <div class="product_buttons">
-  {% if (revpopuporder or popup_view or ((rev_srav_prod or rev_wish_prod) and setting_catalog_all['rev_wish_srav_prod'])) %}
-    <div class="fapanel-price">
-      {% if (product['quantity'] > 0 or zakaz) %}
-        {% if (revpopuporder) %}
-          {% if (product['price_number'] > 0 or zakaz_price_null) %}
-            <div class="zakaz">
-              <a onclick="get_revpopup_purchase('{{ product['product_id'] }}');">
-                <i data-toggle="tooltip" data-placement="top" title="{{ text_catalog_revpopup_purchase }}" class='fa fa-border fa-gavel'></i>
-              </a>
-            </div>
-          {% endif %}
-        {% endif %}
-      {% endif %}
-
-      {% if (popup_view) %}
-        <div class="lupa">
-          <a onclick="get_revpopup_view('{{ product['product_id'] }}');">
-            <i data-toggle="tooltip" data-placement="top" title="{{ text_catalog_revpopup_view }}" class='fa fa-border fa-eye'></i>
-          </a>
-        </div>
-      {% endif %}
-
-      {% if ((rev_srav_prod or rev_wish_prod) and setting_catalog_all['rev_wish_srav_prod']) %}
-        {% if (rev_srav_prod) %}
-          <div class="compare">
-            <a class="{{ product['compare_class'] }}" data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}">
-              <i class="fa fa-border fa-bar-chart-o"></i>
-            </a>
-          </div>
-        {% endif %}
-
-        {% if (rev_wish_prod) %}
-          <div class="wishlist">
-            <a class="{{ product['wishlist_class'] }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" title="{{ product['button_wishlist'] }}">
-              <i class="fa fa-border fa-heart"></i>
-            </a>
-          </div>
-        {% endif %}
-      {% endif %}
-    </div>
-  {% endif %}
-
   {% if (product['price']) %}
     {% if (product['price_number'] > 0) %}
       {% if (product['quantity'] > 0 or zakaz) %}
@@ -156,7 +114,7 @@
           <meta itemprop="priceCurrency" content="{{ currency_code }}">
         </div>
       {% endif %}
-      <div class="number bordnone"></div>
+      <!-- <div class="number bordnone"></div> -->
       <input type="hidden" name="quantity" class="plus-minus" value='{{ product['minimum'] }}'>
     {% endif %}
     <div class="clearfix"></div>
@@ -174,7 +132,7 @@
           <div class="cart predzakaz_cart">
             <a onclick="get_revpopup_predzakaz({{ product['product_id'] }});" data-toggle="tooltip" title="{{ text_predzakaz }}">
               <i class="fa fa-border fa-shopping-basket predzakaz">
-                <span class="{{ button_cart_class }}">{{ text_predzakaz }}</span>
+                {{ text_predzakaz }}
               </i>
             </a>
           </div>
@@ -182,7 +140,7 @@
           <div class="cart">
             <a class="add-to-cart {% if (product['product_in_cart']) %}in-cart{% endif %}" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
               <!-- <i class="fa fa-shopping-basket"></i> -->
-              <span class="{{ button_cart_class }}">{% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}</span>
+              {% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}
 
             </a>
           </div>

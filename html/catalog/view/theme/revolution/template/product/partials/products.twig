@@ -1,0 +1,22 @@
+{% if (products) %}
+  <meta itemprop="numberOfItems" content="{{ products|length }}"/>
+
+  {% include 'revolution/template/product/partials/products_top_line.twig' %}
+
+  <div class="products__list row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-4">
+    {% for product in products %}
+      {% include 'revolution/template/product/partials/products_product.twig' %}
+    {% endfor %}
+  </div>
+
+  {% include 'revolution/template/product/partials/pagination.twig' %}
+
+  {% else %}
+    <p>{{ text_empty }}</p>
+    <div class="buttons">
+      <div class="pull-right">
+        <a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a>
+      </div>
+    </div>
+
+{% endif %}

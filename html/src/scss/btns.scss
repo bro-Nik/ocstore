@@ -1,12 +1,29 @@
 @use 'variables' as *;
 
 .btn {
+
+  &-primary {
+    display: block;
+    text-align: center;
+    background: $primary-color;
+    border-radius: 8px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 1.2rem;
+    border: none;
+    padding-inline: 2rem;
+    height: 100%;
+    &:hover {
+      background: #3684dc;
+    }
+  }
   &-secondary {
     display: block;
     padding: 0.75rem;
     text-align: center;
     background: #f8f9fa;
-    border-radius: 0.5rem;
+    border-radius: 8px;
     color: #6c757d;
     text-decoration: none;
     transition: all 0.2s;
@@ -123,8 +140,8 @@
   color: $primary-color !important;
   border: 1px solid $primary-color !important;
   &:hover {
-    color: #fff;
-    background: #0054b2;
+    // color: $primary-light-color;
+    background: $primary-light-color !important;
   }
 }
 
