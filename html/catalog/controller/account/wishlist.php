@@ -141,6 +141,7 @@ class ControllerAccountWishList extends Controller {
 						'stock'      => $stock,
 						'price'      => $price,
 						'special'    => $special,
+						'mpn'        => $product_info['mpn'],
 						'href'       => $this->url->link('product/product', 'product_id=' . $product_info['product_id']),
 						'remove'     => $this->url->link('account/wishlist', 'remove=' . $product_info['product_id']),
 						'quantity'   => $product_info['quantity']
@@ -202,6 +203,7 @@ class ControllerAccountWishList extends Controller {
 						'stock'      => $stock,
 						'price'      => $price,
 						'special'    => $special,
+						'mpn'        => $product_info['mpn'],
 						'href'       => $this->url->link('product/product', 'product_id=' . $product_info['product_id']),
 						'remove'     => $this->url->link('account/wishlist', 'remove=' . $product_info['product_id']),
 						'quantity'   => $product_info['quantity']

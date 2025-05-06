@@ -139,9 +139,7 @@
         {% else %}
           <div class="cart">
             <a class="add-to-cart {% if (product['product_in_cart']) %}in-cart{% endif %}" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
-              <!-- <i class="fa fa-shopping-basket"></i> -->
               {% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}
-
             </a>
           </div>
           {#}

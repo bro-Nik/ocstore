@@ -1,6 +1,5 @@
 {% extends 'revolution/template/product/partials/base.twig' %}
 
-{% block container_schema %}{% endblock %}
 {% block content %}
 
   {% if (success) %} 
@@ -99,7 +98,7 @@
 
 										{% include 'revolution/template/product/stickers.twig' %}
 										</div>
-										<h3><a href="{{ product['href'] }}">{{ product['name'] }}</a></h3>
+										<h3><a href="{{ product['href'] }}">{{ product['mpn'] ?: product['name'] }}</a></h3>
 									</div>
 									<ul class="cd-features-list">
 										{% if (compare_price) %} 
@@ -165,11 +164,11 @@
 										<div class="cart_wish">
 											{% if (product['quantity'] > 0) %} 
 											<div class="cart">
-												<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod"><i class="fa fa-border fa-shopping-basket"><span class="prlistb">{{ button_cart }}</span></i></a>
+												<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod"><span class="prlistb">{{ button_cart }}</span></a>
 											</div>
 											{% elseif (predzakaz_button) %} 
 												<div class="cart">
-													<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');"><i class="fa fa-border fa-shopping-basket predzakaz"><span class="prlistb">{{ text_predzakaz }}</span></i></a>
+													<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');"><span class="prlistb">{{ text_predzakaz }}</span></a>
 												</div>
 											{% endif %} 
 											{% if (rev_wish_prod) %} 
@@ -263,7 +262,7 @@
 								<a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt=""></a>
 								{% include 'revolution/template/product/partials/stickers.twig' %}
 								</div>
-								<h3><a href="{{ product['href'] }}">{{ product['name'] }}</a></h3>
+								<h3><a href="{{ product['href'] }}">{{ product['mpn'] ?: product['name'] }}</a></h3>
 							</div>
 							<ul class="cd-features-list">
 								{% if (compare_price) %} 
@@ -331,7 +330,7 @@
 								<div class="cart_wish">
 									{% if (product['quantity'] > 0) %} 
 									<div class="cart">
-										<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod"><i class="fa fa-border fa-shopping-basket"><span class="prlistb">{{ button_cart }}</span></i></a>
+										<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod">{{ button_cart }}</a>
 									</div>
 									{% elseif (predzakaz_button) %} 
 										<div class="cart predz">
