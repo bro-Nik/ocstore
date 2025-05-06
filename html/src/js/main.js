@@ -11,6 +11,7 @@ initMobilMenu();
 import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
+import purchase from './purchase';
 
 import { productView } from './view';
 
@@ -197,40 +198,6 @@ function get_revpopup_view(product_id) {
 		tLoading: '',
 		items: {
 			src: 'index.php?route=revolution/revpopupview&revproduct_id='+product_id,
-			type: 'ajax'
-		}
-	});
-}
-function get_revpopup_purchase(product_id) {
-	if (document.body.scrollHeight > document.body.offsetHeight) {
-		$('#top3.absolutpo').css('right', '8.5px');
-		if ($(window).width() < 768) {
-			$('#top #cart_mobi').css('margin-right', '17px');
-		}
-	}
-	$('.tooltip').hide();
-	$.magnificPopup.open({
-		removalDelay: 170,
-		callbacks: {
-			beforeOpen: function() {
-			   this.st.mainClass = 'mfp-zoom-in';
-			},
-			open: function() {
-				$('body').addClass('razmiv2');
-				$('#pagefader2').fadeIn(70);
-			}, 
-			close: function() {
-				$('body').removeClass('razmiv2');
-				$('#pagefader2').fadeOut(70);
-				$('#top3.absolutpo').css('right', 'initial');
-				if ($(window).width() < 768) {
-					$('#top #cart_mobi').css('margin-right', 'initial');
-				}
-			}
-		},
-		tLoading: '',
-		items: {
-			src: 'index.php?route=revolution/revpopuporder&revproduct_id='+product_id,
 			type: 'ajax'
 		}
 	});

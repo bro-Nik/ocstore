@@ -75,9 +75,12 @@
             <div class="product_list_top2">
               {% if (rev_srav_prod) %}
                 <div class="product-info">
-                  <a class="{{ compare_class }} compare pjid_{{ product_id }}" data-toggle="tooltip" onclick="compare.add('{{ product_id }}', '{{ brand }}');">
+                  <a class="{{ compare_class }} compare pjid_{{ product_id }} compare-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" data-brand="{{ brand }}">
                     <i class="fa fa-bar-chart-o"></i>
+                    {#}
                     <span>{{ button_compare }}</span>
+                    {#}
+                    <span>Сравнить</span>
                   </a>
                 </div>
               {% endif %}
@@ -310,7 +313,11 @@
 								</div>
 							{% else %} 
 								<div class="pop_left">
-									<button type="button" id="button-cart" class="add-to-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+									{% if product_in_cart %}
+									  <button type="button" id="button-cart" class="in-cart"><i class="fa fa-shopping-basket"></i>В корзине</button>
+									{% else %}
+									  <button type="button" id="button-cart" class="add-to-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+									{% endif %}
 								</div>
 							{% endif %} 
 						{% else %} 
@@ -323,10 +330,12 @@
 						{% if (rev_wish_prod or popup_purchase) %} 
 							<div class="pop_right {% if (columns_dd) %} {{ 'columns_dd' }} {% endif %}">
 							{% if (popup_purchase and (price_number > 0 or zakaz_price_null) and (zakaz or quantity > 0)) %} 
-								<a class="pop_ico" onclick="get_revpopup_purchase('{{ product_id }}');"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md">{{ text_catalog_revpopup_purchase }}</span></a>
+								<a class="pop_ico quick-order-btn" data-product-id="{{ product_id }}"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md">{{ text_catalog_revpopup_purchase }}</span></a>
 							{% endif %} 
 							{% if (rev_wish_prod) %} 
-								<a class="{{ wishlist_class }} wishlist pjid_{{ product_id }}" data-toggle="tooltip" onclick="wishlist.add('{{ product_id }}');" title="{{ button_wishlist }}"><i class="fa fa-border fa-heart"></i></a>
+								<a class="{{ wishlist_class }} wishlist pjid_{{ product_id }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" title="{{ button_wishlist }}">
+								  <i class="fa fa-border fa-heart"></i>
+								</a>
 							{% endif %} 
 							</div>
 						{% endif %} 
@@ -383,541 +392,322 @@
 {% endblock %}
 
 {% block script %}
-<script><!--
-{% if (text_blocks) %} 
-	var div_mh_text_blocks = '.p_text_blocks';
-	var maxheight = 0;$(div_mh_text_blocks).each(function(){$(this).removeAttr('style');if($(this).height() > maxheight) {maxheight = $(this).height();{{ '}}' }});$(div_mh_text_blocks).height(maxheight);
-{% endif %} 
-{% if (text_blocks_all) %} 
-	var div_mh_text_blocks_all = '.p_text_blocks_all';
-	var maxheight = 0;$(div_mh_text_blocks_all).each(function(){$(this).removeAttr('style');if($(this).height() > maxheight) {maxheight = $(this).height();{{ '}}' }});$(div_mh_text_blocks_all).height(maxheight);
-{% endif %} 
-$(document).ready(function(){
-	$('.nav.nav-tabs li:first-child a').tab('show');
+<script>
+const productId = '{{ product_id }}'
+// Функция, выполняемая после загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+  // Показываем первую вкладку
+  const firstTab = document.querySelector('.nav.nav-tabs li:first-child a');
+  if (firstTab) {
+    firstTab.click();
+  }
+
+  // Инициализация datepicker для элементов с классом .date
+  const dateElements = document.querySelectorAll('.date');
+  dateElements.forEach(el => {
+    new DateTimePicker(el, {
+      pickTime: false
+    });
+  });
+
+  // Инициализация datetimepicker для элементов с классом .datetime
+  const datetimeElements = document.querySelectorAll('.datetime');
+  datetimeElements.forEach(el => {
+    new DateTimePicker(el, {
+      pickDate: true,
+      pickTime: true
+    });
+  });
+
+  // Инициализация timepicker для элементов с классом .time
+  const timeElements = document.querySelectorAll('.time');
+  timeElements.forEach(el => {
+    new DateTimePicker(el, {
+      pickDate: false
+    });
+  });
+
+  // Загрузка отзывов при загрузке страницы
+  const reviewContainer = document.getElementById('review');
+  if (reviewContainer) {
+    loadReviews(`index.php?route=product/product/review&product_id=${productId}`);
+  }
+
+  // Обработчик пагинации отзывов
+  reviewContainer.addEventListener('click', function(e) {
+    const paginationLink = e.target.closest('.pagination a');
+    if (paginationLink) {
+      e.preventDefault();
+      fadeOutAndLoad(reviewContainer, paginationLink.href);
+    }
+  });
+
+  // Обработчик отправки отзыва
+  const reviewButton = document.getElementById('button-review');
+  if (reviewButton) {
+    reviewButton.addEventListener('click', submitReview);
+  }
+
+  // Обработчик отправки ответа на отзыв
+  const answerButton = document.getElementById('button-answers');
+  if (answerButton) {
+    answerButton.addEventListener('click', submitAnswer);
+  }
 });
 
-$('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
-	$.ajax({
-		url: 'index.php?route=product/product/getRecurringDescription',
-		type: 'post',
-		data: $('input[name=\'product_id\'], input[name=\'quantity\'], select[name=\'recurring_id\']'),
-		dataType: 'json',
-		beforeSend: function() {
-			$('#recurring-description').html('');
-		},
-		success: function(json) {
-			$('.alert, .text-danger').remove();
-
-			if (json['success']) {
-				$('#recurring-description').html(json['success']);
-			}
-		}
-	});
-});
-
-$('.date').datetimepicker({
-	pickTime: false
-});
-
-$('.datetime').datetimepicker({
-	pickDate: true,
-	pickTime: true
-});
-
-$('.time').datetimepicker({
-	pickDate: false
-});
-
-$('button[id^=\'button-upload\']').on('click', function() {
-	var node = this;
-
-	$('#form-upload').remove();
-
-	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
-
-	$('#form-upload input[name=\'file\']').trigger('click');
-
-	if (typeof timer != 'undefined') {
-    	clearInterval(timer);
-	}
-
-	timer = setInterval(function() {
-		if ($('#form-upload input[name=\'file\']').val() != '') {
-			clearInterval(timer);
-
-			$.ajax({
-				url: 'index.php?route=tool/upload',
-				type: 'post',
-				dataType: 'json',
-				data: new FormData($('#form-upload')[0]),
-				cache: false,
-				contentType: false,
-				processData: false,
-				beforeSend: function() {
-					$(node).button('loading');
-				},
-				complete: function() {
-					$(node).button('reset');
-				},
-				success: function(json) {
-					$('.text-danger').remove();
-
-					if (json['error']) {
-						$(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
-					}
-
-					if (json['success']) {
-						alert(json['success']);
-
-						$(node).parent().find('input').attr('value', json['code']);
-					}
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-				}
-			});
-		}
-	}, 500);
-});
-
-$('#review').delegate('.pagination a', 'click', function(e) {
-    e.preventDefault();
-
-    $('#review').fadeOut('slow');
-
-    $('#review').load(this.href);
-
-    $('#review').fadeIn('slow');
-});
-
-$('#review').load('index.php?route=product/product/review&product_id={{ product_id }}');
-
-$('#button-review').on('click', function() {
-	$.ajax({
-		url: 'index.php?route=product/product/write&product_id={{ product_id }}',
-		type: 'post',
-		dataType: 'json',
-		data: $(".form-review").serialize(),
-		beforeSend: function() {
-			$('#button-review').button('loading');
-		},
-		complete: function() {
-			$('#button-review').button('reset');
-		},
-		success: function(json) {
-			$('.alert-success, .alert-danger').remove();
-
-			if (json['error']) {
-				get_revpopup_notification('alert-danger', '{{ text_product_oshibka }}', json['error']);
-			}
-
-			if (json['success']) {
-				get_revpopup_notification('alert-success', '{{ text_product_spasibo_otz }}', json['success']);
-
-				$('input[name=\'name\']').val('');
-				$('textarea[name=\'text\']').val('');
-				$('input[name=\'rating\']:checked').prop('checked', false);
-				
-				$('#post-review-box').slideUp(300);
-				$('#new-review').focus();
-				$('#open-review-box').fadeIn(100);
-				$('#close-review-box').hide();
-				$('#ratings-hidden').val('');
-				$('.stars .glyphicon').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
-				
-			}
-		}
-	});
-});
-
-$('#button-answers').on('click', function() {
-	$.ajax({
-		url: 'index.php?route=revolution/revstorereview/writeanswer&product_id={{ product_id }}',
-		type: 'post',
-		dataType: 'json',
-		data: $(".form-answers").serialize(),
-		beforeSend: function() {
-			$('#button-answers').button('loading');
-		},
-		complete: function() {
-			$('#button-answers').button('reset');
-		},
-		success: function(json) {
-			$('.alert-success, .alert-danger').remove();
-			if (json['error']) {
-				get_revpopup_notification('alert-danger', '{{ text_product_oshibka }}', json['error']);
-			}
-			if (json['success']) {
-				get_revpopup_notification('alert-success', '{{ text_product_spasibo_answer }}', json['success']);
-				$('input[name=\'name_answer\']').val('');
-				$('textarea[name=\'text_answer\']').val('');
-				$('#post-answers-box').slideUp(300);
-				$('#new-answers').focus();
-				$('#open-answers-box').fadeIn(100);
-				$('#close-answers-box').hide();
-			}
-		}
-	});
-});
-
-
-
-{% if (minimum > 1 and recalc_price) %} 
-	update_quantity({{ product_id }},{{ minimum }});
-{% endif %} 
-function validate_pole(val, product_id, znak, minimumvalue, maximumvalue) {
-	val.value = val.value.replace(/[^\d,]/g, '');
-	if (val.value == '') val.value = minimumvalue;
-	maximumvalue = Number($('.product_informationss .pr_quantity').text());
-	if (maximumvalue < 1) maximumvalue = 9999;
-	input_val = $('.product-info.product_informationss .plus-minus');
-	quantity = parseInt(input_val.val());
-	{% if (q_zavisimost) %} 
-	if(znak=='+' && input_val.val() < maximumvalue) input_val.val(quantity+1);
-	else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-	else if(znak=='=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val());
-	if (quantity < 1 || quantity < minimumvalue) {
-		input_val.val(minimumvalue);
-		val.value = minimumvalue;
-	} else if (quantity > maximumvalue) {
-		input_val.val(maximumvalue);
-		val.value = maximumvalue;
-	}
-	{% else %} 
-	if(znak=='+') input_val.val(quantity+1);
-	else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-	else if(znak=='=' && input_val.val() > minimumvalue) input_val.val(input_val.val());
-	if (quantity < 1 || quantity < minimumvalue) {
-		input_val.val(minimumvalue);
-		val.value = minimumvalue;
-	}
-	{% endif %} 
-
-	update_quantity(product_id, input_val.val());
+// Функция для плавного скрытия и загрузки контента
+function fadeOutAndLoad(element, url) {
+  element.style.opacity = '0';
+  setTimeout(() => {
+    loadContent(element, url);
+    element.style.opacity = '1';
+  }, 300);
 }
-function update_quantity(product_id, quantity) {
-	var minimumvalue = {{ minimum }};
-	if (quantity == 0 || quantity < minimumvalue) {
-		quantity = $('.product-info.product_informationss .plus-minus').val(minimumvalue);
-		return;
-	} else if (quantity < 1) {
-		quantity = 1;
-		return;
-	}
-	
-	data = $('.product-info.product_informationss input[type=\'text\'], .product-info.product_informationss input[type=\'hidden\'], .product-info.product_informationss input[type=\'radio\']:checked, .product-info.product_informationss input[type=\'checkbox\']:checked, .product-info.product_informationss select, .product-info.product_informationss textarea'),
-	$.ajax({
-	  url: 'index.php?route=product/product/update_prices',
-	  type: 'post',
-	  dataType: 'json',
-	  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
-	  success: function(json) {
 
-		{% if (recalc_price) %} 
-		
-			{% if (points) %} 
-				var end_quantity = json['points'];
-				{% if (revtheme_product_all['recalc_price_animate']) %} 
-					var start_quantity = parseFloat($('.product_informationss .pr_points').html().replace(/\s*/g,''));
-					$({val:start_quantity}).animate({val:end_quantity}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .pr_points').html(number_format(val, product_id));
-						}
-					});
-				{% else %} 
-					$('.product_informationss .pr_points').html(number_format(end_quantity, product_id));
-				{% endif %} 
-			{% endif %} 
-		
-			{% if (weight_status) %} 
-				var weight = json['weight'];
-				{% if (revtheme_product_all['recalc_price_animate']) %} 
-					var start_weight = parseFloat($('.product_informationss .pr_weight').attr('data-weight'));
-					$({val:start_weight}).animate({val:weight}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .pr_weight').html(weight_format(val));
-						}
-					});
-					$('.product_informationss .pr_weight').attr('data-weight', json['weight']);
-				{% else %} 
-					$('.product_informationss .pr_weight').html(weight_format(weight));
-				{% endif %} 
-			{% endif %} 
-		  
-			{% if (price_number > 0 or zakaz_price_null) %} 
-				{% if (discounts and not special) %} 
-					var price = json['special_n'];
-				{% else %} 
-					var price = json['price_n'];
-				{% endif %} 
-				{% if (revtheme_product_all['recalc_price_animate']) %} 
-					var start_price = parseFloat($('.product_informationss .update_price').html().replace(/\s*/g,''));
-					$({val:start_price}).animate({val:price}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .update_price').html(price_format(val));
-						}
-					});
-				{% else %} 
-					$('.product_informationss .update_price').html(price_format(price));
-				{% endif %} 
-				
-				var special = json['special_n'];
-				{% if (revtheme_product_all['recalc_price_animate']) %} 
-					var start_special = parseFloat($('.product_informationss .update_special').html().replace(/\s*/g,''));
-					$({val:start_special}).animate({val:special}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .update_special').html(price_format(val));
-						}
-					});
-				{% else %} 
-					$('.product_informationss .update_special').html(price_format(special));
-				{% endif %} 
-			{% endif %} 
-		
-		{% endif %} 
-	  } 
-	});
+// Функция загрузки контента
+function loadContent(element, url) {
+  fetch(url)
+    .then(response => response.text())
+    .then(html => {
+      element.innerHTML = html;
+    })
+    .catch(error => console.error('Ошибка загрузки:', error));
 }
+
+// Функция загрузки отзывов
+function loadReviews(url) {
+  const reviewContainer = document.getElementById('review');
+  if (reviewContainer) {
+    loadContent(reviewContainer, url);
+  }
+}
+
+// Функция отправки отзыва
+function submitReview() {
+  const form = document.querySelector('.form-review');
+  const button = document.getElementById('button-review');
+  const productId = '{{ product_id }}';
+  
+  if (!form || !button) return;
+
+  button.disabled = true;
+  
+  const formData = new FormData(form);
+  formData.append('product_id', productId);
+
+  fetch(`index.php?route=product/product/write&product_id=${productId}`, {
+    method: 'POST',
+    body: new URLSearchParams(formData)
+  })
+  .then(response => response.json())
+  .then(json => {
+    // Удаляем предыдущие уведомления
+    document.querySelectorAll('.alert-success, .alert-danger').forEach(el => el.remove());
+
+    if (json.error) {
+      showNotification('alert-danger', '{{ text_product_oshibka }}', json.error);
+    }
+
+    if (json.success) {
+      showNotification('alert-success', '{{ text_product_spasibo_otz }}', json.success);
+      resetReviewForm();
+    }
+  })
+  .catch(error => console.error('Ошибка:', error))
+  .finally(() => {
+    button.disabled = false;
+  });
+}
+
+// Функция отправки ответа на отзыв
+function submitAnswer() {
+  const form = document.querySelector('.form-answers');
+  const button = document.getElementById('button-answers');
+  const productId = '{{ product_id }}';
+  
+  if (!form || !button) return;
+
+  button.disabled = true;
+  
+  const formData = new FormData(form);
+  formData.append('product_id', productId);
+
+  fetch(`index.php?route=revolution/revstorereview/writeanswer&product_id=${productId}`, {
+    method: 'POST',
+    body: new URLSearchParams(formData)
+  })
+  .then(response => response.json())
+  .then(json => {
+    document.querySelectorAll('.alert-success, .alert-danger').forEach(el => el.remove());
+
+    if (json.error) {
+      showNotification('alert-danger', '{{ text_product_oshibka }}', json.error);
+    }
+
+    if (json.success) {
+      showNotification('alert-success', '{{ text_product_spasibo_answer }}', json.success);
+      resetAnswerForm();
+    }
+  })
+  .catch(error => console.error('Ошибка:', error))
+  .finally(() => {
+    button.disabled = false;
+  });
+}
+
+// Функция показа уведомления
+function showNotification(className, title, message) {
+  const notification = document.createElement('div');
+  notification.className = `alert ${className}`;
+  notification.innerHTML = `<strong>${title}</strong> ${message}`;
+  document.body.insertBefore(notification, document.body.firstChild);
+}
+
+// Функция сброса формы отзыва
+function resetReviewForm() {
+  document.querySelector('input[name="name"]').value = '';
+  document.querySelector('textarea[name="text"]').value = '';
+  document.querySelectorAll('input[name="rating"]:checked').forEach(el => el.checked = false);
+  
+  const postReviewBox = document.getElementById('post-review-box');
+  const newReview = document.getElementById('new-review');
+  const openReviewBox = document.getElementById('open-review-box');
+  const closeReviewBox = document.getElementById('close-review-box');
+  const ratingsHidden = document.getElementById('ratings-hidden');
+  const stars = document.querySelectorAll('.stars .glyphicon');
+  
+  if (postReviewBox) postReviewBox.style.display = 'none';
+  if (newReview) newReview.focus();
+  if (openReviewBox) openReviewBox.style.display = 'block';
+  if (closeReviewBox) closeReviewBox.style.display = 'none';
+  if (ratingsHidden) ratingsHidden.value = '';
+  
+  stars.forEach(star => {
+    star.classList.remove('glyphicon-star');
+    star.classList.add('glyphicon-star-empty');
+  });
+}
+
+// Функция сброса формы ответа
+function resetAnswerForm() {
+  document.querySelector('input[name="name_answer"]').value = '';
+  document.querySelector('textarea[name="text_answer"]').value = '';
+  
+  const postAnswersBox = document.getElementById('post-answers-box');
+  const newAnswers = document.getElementById('new-answers');
+  const openAnswersBox = document.getElementById('open-answers-box');
+  const closeAnswersBox = document.getElementById('close-answers-box');
+  
+  if (postAnswersBox) postAnswersBox.style.display = 'none';
+  if (newAnswers) newAnswers.focus();
+  if (openAnswersBox) openAnswersBox.style.display = 'block';
+  if (closeAnswersBox) closeAnswersBox.style.display = 'none';
+}
+
+// Функция обновления цен продукта
 function update_prices_product(product_id, minimumvalue) {
-	input_val = $('.product-info.product_informationss .plus-minus').val();
-	if (input_val > minimumvalue) {
-		input_val = minimumvalue;
-		$('.product-info.product_informationss .plus-minus').val(minimumvalue);
-	}
-	{% if (recalc_price) %} 
-	quantity = parseInt(input_val);
-	{% else %} 
-	quantity = 1;
-	{% endif %} 
-	data = $('.product-info.product_informationss input[type=\'text\'], .product-info.product_informationss input[type=\'hidden\'], .product-info.product_informationss input[type=\'radio\']:checked, .product-info.product_informationss input[type=\'checkbox\']:checked, .product-info.product_informationss select, .product-info.product_informationss textarea');
-	$.ajax({
-	  type: 'post',
-	  url:  'index.php?route=product/product/update_prices',
-	  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
-	  dataType: 'json',
-	  success: function(json) {
+  const quantity = 1;
+  const formElements = document.querySelectorAll('.product-info.product_informationss input[type="text"], .product-info.product_informationss input[type="hidden"], .product-info.product_informationss input[type="radio"]:checked, .product-info.product_informationss input[type="checkbox"]:checked, .product-info.product_informationss select, .product-info.product_informationss textarea');
+  
+  const formData = new FormData();
+  formElements.forEach(el => {
+    if (el.name) {
+      formData.append(el.name, el.value);
+    }
+  });
+  
+  formData.append('product_id', product_id);
+  formData.append('quantity', quantity);
+  
+  fetch('index.php?route=product/product/update_prices', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(json => {
+    document.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
+      el.textContent = number_format(json.option_quantity, product_id);
+    });
+    
+    document.querySelectorAll('.product_informationss .pr_points').forEach(el => {
+      el.textContent = number_format(json.points, product_id);
+    });
+    
+    document.querySelectorAll('.product_informationss .pr_model').forEach(el => {
+      el.textContent = json.opt_model;
+    });
+    
+    document.querySelectorAll('.product_informationss .update_price, .product_informationss .update_special').forEach(el => {
+      el.textContent = price_format(json.special_n);
+    });
+  })
+  .catch(error => console.error('Ошибка:', error));
+}
 
-		$('.product_informationss .thumbnails a.main-image').attr('href', json['opt_image_2_big']);
-		$('.product_informationss .thumbnails a.main-image img').attr('src', json['opt_image_2']);
-		{% if (images_slider) %} 
-		$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('href', json['opt_image_2_big']);
-		$('.product_informationss .thumbnails .images-additional .owl-item:first-child a img').attr('src', json['opt_image_2']).css('width', {{ config_image_additional_width }}).css('height', {{ config_image_additional_height }});
-		{% else %} 
-		$('.product_informationss .thumbnails .images-additional a:first-child').attr('href', json['opt_image_2_big']);
-		$('.product_informationss .thumbnails .images-additional a:first-child img').attr('src', json['opt_image_2']).css('width', {{ config_image_additional_width }}).css('height', {{ config_image_additional_height }});
-		{% endif %} 
-		{% if (zoom) %} 
-		{% if (images_slider) %} 
-		$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('id', json['opt_image_2']);
-		{% else %} 
-		$('.product_informationss .thumbnails .images-additional a:first-child').attr('id', json['opt_image_2']);
-		{% endif %} 
-		$('.product_informationss .cloud-zoom').CloudZoom();
-		{% endif %} 
-		
-		var end_quantity = json['option_quantity'];
-		{% if (revtheme_product_all['recalc_price_animate']) %} 
-			var start_quantity = parseFloat($('.product_informationss .pr_quantity').html().replace(/\s*/g,''));
-			$({val:start_quantity}).animate({val:end_quantity}, {
-				duration: 500,
-				easing: 'swing',
-				step: function(val) {
-					$('.product_informationss .pr_quantity').html(number_format(val, product_id));
-				}
-			});
-		{% else %} 
-			$('.product_informationss .pr_quantity').html(number_format(end_quantity, product_id));
-		{% endif %} 
-		
-		{% if (points) %} 
-			var end_quantity = json['points'];
-			{% if (revtheme_product_all['recalc_price_animate']) %} 
-				var start_quantity = parseFloat($('.product_informationss .pr_points').html().replace(/\s*/g,''));
-				$({val:start_quantity}).animate({val:end_quantity}, {
-					duration: 500,
-					easing: 'swing',
-					step: function(val) {
-						$('.product_informationss .pr_points').html(number_format(val, product_id));
-					}
-				});
-			{% else %} 
-				$('.product_informationss .pr_points').html(number_format(end_quantity, product_id));
-			{% endif %} 
-		{% endif %} 
-		
-		{% if (model_status) %} 
-			$('.product_informationss .pr_model').html(json['opt_model']);
-		{% endif %} 
-			
-		{% if (weight_status) %} 
-			var weight = json['weight'];
-			{% if (revtheme_product_all['recalc_price_animate']) %} 
-				var start_weight = parseFloat($('.product_informationss .pr_weight').attr('data-weight'));
-				$({val:start_weight}).animate({val:weight}, {
-					duration: 500,
-					easing: 'swing',
-					step: function(val) {
-						$('.product_informationss .pr_weight').html(weight_format(val));
-					}
-				});
-				$('.product_informationss .pr_weight').attr('data-weight', json['weight']);
-			{% else %} 
-				$('.product_informationss .pr_weight').html(weight_format(weight));
-			{% endif %} 
-		{% endif %} 
-	  
-		{% if ((options and not revtheme_product_all['options_buy']) or not options_buy) %} 
-			{% if (price_number > 0 or zakaz_price_null) %} 
-				{% if (discounts and not special) %} 
-					var price = json['special_n'];
-				{% else %} 
-					var price = json['price_n'];
-				{% endif %} 
-				{% if (revtheme_product_all['recalc_price_animate']) %} 
-					var start_price = parseFloat($('.product_informationss .update_price').html().replace(/\s*/g,''));
-					$({val:start_price}).animate({val:price}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .update_price').html(price_format(val));
-						}
-					});
-				{% else %} 
-					$('.product_informationss .update_price').html(price_format(price));
-				{% endif %} 
-				
-				var special = json['special_n'];
-				{% if (revtheme_product_all['recalc_price_animate']) %} 
-					var start_special = parseFloat($('.product_informationss .update_special').html().replace(/\s*/g,''));
-					$({val:start_special}).animate({val:special}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .update_special').html(price_format(val));
-						}
-					});
-				{% else %} 
-					$('.product_informationss .update_special').html(price_format(special));
-				{% endif %} 
-			{% endif %} 
-		{% endif %} 
-	  }
-	});
-}
-{% if (revtheme_product_all['options_buy_click']) %} 
-	function update_options_buy(product_id, opt_id, option) {
-		$('.product-info.product_informationss .options_buy .pro_'+option+' input[name=\'option['+opt_id+']\']').val(option);
-		data = $('.product-info.product_informationss .options_buy .pro_'+option+' input[type=\'text\'], .product-info.product_informationss .options_buy .pro_'+option+' input[type=\'hidden\'], .product-info.product_informationss .options_buy .pro_'+option+' input[type=\'radio\']:checked, .product-info.product_informationss .options_buy .pro_'+option+' input[type=\'checkbox\']:checked, .product-info.product_informationss .options_buy .pro_'+option+' select, .product-info.product_informationss .options_buy .pro_'+option+' textarea');
-		$.ajax({
-		  type: 'post',
-		  url:  'index.php?route=product/product/update_prices',
-		  data: data.serialize() + '&product_id=' + product_id,
-		  dataType: 'json',
-		  success: function(json) {
-			
-			$('.product_informationss .thumbnails a.main-image').attr('href', json['opt_image_2_big']);
-			$('.product_informationss .thumbnails a.main-image img').attr('src', json['opt_image_2']);
-			{% if (images_slider) %} 
-			$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('href', json['opt_image_2_big']);
-			$('.product_informationss .thumbnails .images-additional .owl-item:first-child a img').attr('src', json['opt_image_2']).css('width', {{ config_image_additional_width }}).css('height', {{ config_image_additional_height }});
-			{% else %} 
-			$('.product_informationss .thumbnails .images-additional a:first-child').attr('href', json['opt_image_2_big']);
-			$('.product_informationss .thumbnails .images-additional a:first-child img').attr('src', json['opt_image_2']).css('width', {{ config_image_additional_width }}).css('height', {{ config_image_additional_height }});
-			{% endif %} 
-			{% if (zoom) %} 
-			{% if (images_slider) %} 
-			$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('id', json['opt_image_2']);
-			{% else %} 
-			$('.product_informationss .thumbnails .images-additional a:first-child').attr('id', json['opt_image_2']);
-			{% endif %} 
-			$('.product_informationss .cloud-zoom').CloudZoom();
-			{% endif %} 
-			  
-			var end_quantity = json['option_quantity'];
-			{% if (revtheme_product_all['recalc_price_animate']) %} 
-				var start_quantity = parseFloat($('.product_informationss .pr_quantity').html().replace(/\s*/g,''));
-				$({val:start_quantity}).animate({val:end_quantity}, {
-					duration: 500,
-					easing: 'swing',
-					step: function(val) {
-						$('.product_informationss .pr_quantity').html(number_format(val, product_id));
-					}
-				});
-			{% else %} 
-				$('.product_informationss .pr_quantity').html(number_format(end_quantity, product_id));
-			{% endif %} 
-			
-			{% if (points) %} 
-				var end_quantity = json['points'];
-				{% if (revtheme_product_all['recalc_price_animate']) %} 
-					var start_quantity = parseFloat($('.product_informationss .pr_points').html().replace(/\s*/g,''));
-					$({val:start_quantity}).animate({val:end_quantity}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .pr_points').html(number_format(val, product_id));
-						}
-					});
-				{% else %} 
-					$('.product_informationss .pr_points').html(number_format(end_quantity, product_id));
-				{% endif %} 
-			{% endif %} 
-			
-			{% if (model_status) %} 
-				$('.product_informationss .pr_model').html(json['opt_model']);
-			{% endif %} 
-			
-			{% if (weight_status) %} 
-				var weight = json['weight'];
-				{% if (revtheme_product_all['recalc_price_animate']) %} 
-					var start_weight = parseFloat($('.product_informationss .pr_weight').attr('data-weight'));
-					$({val:start_weight}).animate({val:weight}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .pr_weight').html(weight_format(val));
-						}
-					});
-					$('.product_informationss .pr_weight').attr('data-weight', json['weight']);
-				{% else %} 
-					$('.product_informationss .pr_weight').html(weight_format(weight));
-				{% endif %} 
-			{% endif %} 
-		  }
-		});
-	}
-{% endif %} 
+// Функция форматирования цены
 function price_format(n) {
-	c = {{ currency['decimals'] is empty ? "0" : currency['decimals'] }};
-    d = '{{ currency['decimal_point'] }}';
-    t = '{{ currency['thousand_point'] }}';
-    s_left = '{{ currency['symbol_left'] }}';
-    s_right = '{{ currency['symbol_right'] }}';
-    n = n * {{ currency['value'] }};
-    i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
-    j = ((j = i.length) > 3) ? j % 3 : 0; 
-    return s_left + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '') + s_right; 
+  const c = {{ currency['decimals'] is empty ? "0" : currency['decimals'] }};
+  const d = '{{ currency['decimal_point'] }}';
+  const t = '{{ currency['thousand_point'] }}';
+  const s_left = '{{ currency['symbol_left'] }}';
+  const s_right = '{{ currency['symbol_right'] }}';
+  n = n * {{ currency['value'] }};
+  
+  let i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
+  let j = (i.length > 3) ? i.length % 3 : 0; 
+  
+  return s_left + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '') + s_right; 
 }
-function weight_format(n, product_id) {
-    c = 2;
-    d = '.';
-    t = ',';
-    i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
-    j = ((j = i.length) > 3) ? j % 3 : 0; 
-    return (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
-}
+
+// Функция форматирования числа
 function number_format(n, product_id) {
-    i = parseInt(n = Math.abs(n).toFixed(0)) + ''; 
-    return i;
+  return parseInt(Math.abs(n).toFixed(0)) + ''; 
 }
---></script>
+
+// Функция для обновления опций при покупке в один клик
+{% if (revtheme_product_all['options_buy_click']) %} 
+function update_options_buy(product_id, opt_id, option) {
+  const optionInput = document.querySelector(`.product-info.product_informationss .options_buy .pro_${option} input[name="option[${opt_id}]"]`);
+  if (optionInput) {
+    optionInput.value = option;
+  }
+  
+  const formElements = document.querySelectorAll(`.product-info.product_informationss .options_buy .pro_${option} input[type="text"], .product-info.product_informationss .options_buy .pro_${option} input[type="hidden"], .product-info.product_informationss .options_buy .pro_${option} input[type="radio"]:checked, .product-info.product_informationss .options_buy .pro_${option} input[type="checkbox"]:checked, .product-info.product_informationss .options_buy .pro_${option} select, .product-info.product_informationss .options_buy .pro_${option} textarea`);
+  
+  const formData = new FormData();
+  formElements.forEach(el => {
+    if (el.name) {
+      formData.append(el.name, el.value);
+    }
+  });
+  
+  formData.append('product_id', product_id);
+  
+  fetch('index.php?route=product/product/update_prices', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(json => {
+    document.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
+      el.textContent = number_format(json.option_quantity, product_id);
+    });
+    
+    {% if (points) %} 
+    document.querySelectorAll('.product_informationss .pr_points').forEach(el => {
+      el.textContent = number_format(json.points, product_id);
+    });
+    {% endif %} 
+    
+    {% if (model_status) %} 
+    document.querySelectorAll('.product_informationss .pr_model').forEach(el => {
+      el.textContent = json.opt_model;
+    });
+    {% endif %} 
+  })
+  .catch(error => console.error('Ошибка:', error));
+}
+{% endif %} 
+</script>
 {% endblock %}
 

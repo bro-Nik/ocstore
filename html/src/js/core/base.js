@@ -72,7 +72,7 @@ export class BaseModule {
         if (classToRemove) button.classList.remove(classToRemove);
 
         // Сбрасываем и добавляем классы
-        button.className = baseClass;
+        // button.className = baseClass;
         if (newClass) button.classList.add(newClass);
 
         // Обновляем атрибуты

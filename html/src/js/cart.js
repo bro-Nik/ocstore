@@ -60,7 +60,7 @@ class Cart extends BaseModule {
       }
 
       // Обработка открытия попапа корзины
-      const popupTrigger = e.target.closest('.cart-show-popup');
+      const popupTrigger = e.target.closest('.cart-show-popup, .in-cart');
       if (popupTrigger) {
         e.preventDefault();
         this.popup.show();
@@ -168,7 +168,7 @@ class Cart extends BaseModule {
       newTitle: 'Перейти в корзину',
       classToRemove: this.selectors.add,
       newText: 'В корзине',
-      newUrl: 'index.php?route=checkout/cart'
+      // newUrl: 'index.php?route=checkout/cart'
     };
     this.updateButtons(productId, updateParams);
 

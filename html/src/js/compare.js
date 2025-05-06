@@ -16,7 +16,7 @@ const SELECTORS = {
   total: '.compare-total', // Общее количество в сравнении
   btns: [
     '.product-thumb.product_{product_id} .compare a', // Кнопки в миниатюрах товаров
-    '.product-info a.compare.pjid_{product_id}',      // Кнопки на странице товара
+    '.product-info .compare.pjid_{product_id}',      // Кнопки на странице товара
   ],
   toggle: 'compare-toggle',
   toggleClassToRemove: 'in_compare'
@@ -73,6 +73,7 @@ class Compare extends BaseModule {
    */
   handleToggleResponse(json, product_id) {
     if (!json.success) return;
+    console.log(json)
 
     // Обновляем общее количество товаров в сравнении
     this.updateTotalCount(json.total);

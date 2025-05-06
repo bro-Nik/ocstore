@@ -23,6 +23,7 @@
   },
   "description": "",
   "dependencies": {
+    "bootstrap": "^5.3.6",
     "swiper": "^11.2.6"
   }
 }

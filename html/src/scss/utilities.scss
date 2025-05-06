@@ -1,5 +1,49 @@
+@use 'variables' as *;
 
 
 .mb-5 {
   margin-bottom: 3rem !important;
+}
+
+.mt-5 {
+  margin-top: 5rem !important;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  list-style: none;
+
+  & > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    &:focus,
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
+  &-tabs {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    & > li {
+      margin-bottom: -1px;
+    }
+    & a {
+      margin-right: 2px;
+      line-height: 1.42857143;
+      border-radius: 4px 4px 0 0;
+    }
+    & li.active > a,
+    & li.active > a:focus,
+    & li.active > a:hover {
+      color: $text-dark;
+      cursor: default;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-bottom-color: transparent;
+    }
+  }
 }

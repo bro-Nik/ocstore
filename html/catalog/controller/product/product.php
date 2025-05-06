@@ -468,6 +468,16 @@ class ControllerProductProduct extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 
+			$data['product_in_cart'] = false;
+			$products_in_cart = $this->cart->getProducts();
+			foreach ($products_in_cart as $product_cart) {
+				if ($product_cart['product_id'] == $product_id) {
+					$data['product_in_cart'] = true;
+					break;
+				}
+			}
+
+
 			$this->response->setOutput($this->load->view('product/product', $data));
 		} else {
 			$url = '';
