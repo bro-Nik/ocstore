@@ -16,10 +16,23 @@ import phone from './phone';
 
 
 document.addEventListener('DOMContentLoaded', () => {
-
-	document.documentElement.classList.remove('opacity_minus');
-	document.documentElement.classList.add('opacity_plus');
+	showContent();
 });
+	
+	
+	
+function showContent() {
+  document.documentElement.classList.add('visible');
+  
+  // Удаляем стиль после анимации (опционально)
+  setTimeout(() => {
+    const styleEl = document.getElementById('preload-css');
+    if (styleEl) styleEl.remove();
+  }, 300);
+}
+// Fallback на случай проблем
+setTimeout(showContent, 3000);
+
 var h_top3 = $('#top3').outerHeight();
 // $('.main-content').css('padding-top', h_top3+25);
 
@@ -53,11 +66,6 @@ $(document).ready(function(){
 	})
 })
 
-	NProgress.start();
-	$(window).load(function() {
-		NProgress.done();
-		$('html').removeClass('opacity_plus');
-	});
 
 
 
