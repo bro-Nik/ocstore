@@ -2331,13 +2331,13 @@
 				}
 			]]></add>
 		</operation>
-		<operation>
-			<search><![CDATA[$data['images'][] = array(]]></search>
-			<add position="after"><![CDATA[
-				'thumb_big' => $this->model_tool_image->resize($result['image'], $config_image_thumb_width, $config_image_thumb_height),
-				'video' => $result['video'],
-			]]></add>
-		</operation>
+		<!-- <operation> -->
+		<!-- 	<search><![CDATA[$data['images'][] = array(]]></search> -->
+		<!-- 	<add position="after"><![CDATA[ -->
+		<!-- 		'thumb_big' => $this->model_tool_image->resize($result['image'], $config_image_thumb_width, $config_image_thumb_height), -->
+		<!-- 		'video' => $result['video'], -->
+		<!-- 	]]></add> -->
+		<!-- </operation> -->
 		<operation>
 			<search><![CDATA[$data['price'] = $this]]></search>
 			<add position="before"><![CDATA[$data['price_number'] = round($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), 2);]]></add>

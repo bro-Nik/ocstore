@@ -1,25 +1,32 @@
-
 {% if (images) %}
- <div class="swiper product_main_swiper">
+<div class="product-gallery">
+  <div class="swiper product_main_swiper">
     <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="{{ additional }}" title="{{ heading_title }}" alt="{{ heading_title|e }}" loading="eager">
+      </div>
       {% for image in images %}
         <div class="swiper-slide">
-          <img src="{{ image['thumb_big'] }}" title="{{ heading_title }}" alt="{{ heading_title }}" loading="lazy">
-          <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+          <img src="{{ image['additional'] }}" title="{{ heading_title }}" alt="{{ heading_title ~ ' ' ~ loop.index }}" loading="lazy">
+          <div class="swiper-lazy-preloader"></div>
         </div>
       {% endfor %}
     </div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next" aria-label="Следующее изображение"></div>
+    <div class="swiper-button-prev" aria-label="Предыдущее изображение"></div>
   </div>
 
-  <div thumbsSlider="" class="swiper product_thumbs_swiper">
+  <div class="swiper product_thumbs_swiper">
     <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title|e }}">
+      </div>
       {% for image in images %}
         <div class="swiper-slide">
-          <img src="{{ image['thumb'] }}" title="{{ heading_title }}" alt="{{ heading_title }}">
+          <img src="{{ image['thumb'] }}" title="{{ heading_title }}" alt="{{ heading_title ~ ' ' ~ loop.index }}">
         </div>
       {% endfor %}
     </div>
   </div>
+</div>
 {% endif %}
