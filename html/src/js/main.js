@@ -12,8 +12,8 @@ import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
 import purchase from './purchase';
+import phone from './phone';
 
-// import { productView } from './view';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -96,7 +96,6 @@ if (scrollTopButton) {
   });
 }
 
-$('.popup-phone-wrapper').on('click', get_revpopup_phone);
 
 function get_revpopup_notification(m_class, m_header, message) {
 	if (document.body.scrollHeight > document.body.offsetHeight) {
@@ -129,42 +128,6 @@ function get_revpopup_notification(m_class, m_header, message) {
 		items: {
 			src: $('<div class="popup_notification"><div class="popup_notification_heading '+m_class+'">'+m_header+'</div><div class="popup_notification_message">'+message+'</div></div>'),
 			type: 'inline'
-		}
-	});
-}
-function get_revpopup_phone() {
-	if (document.body.scrollHeight > document.body.offsetHeight) {
-		$('#top3.absolutpo').css('right', '8.5px');
-		if ($(window).width() < 768) {
-			$('#top #cart_mobi').css('margin-right', '17px');
-		}
-	}
-	$('.tooltip').hide();
-	$.magnificPopup.open({
-		removalDelay: 170,
-		callbacks: {
-			beforeOpen: function() {
-				this.st.mainClass = 'mfp-zoom-in';
-				$('.dropdown-menu.dop_contss').fadeOut(70);
-			},
-			open: function() {
-				$('body').addClass('razmiv2');
-				$('#pagefader2').fadeIn(70);
-			}, 
-			close: function() {
-				$('body').removeClass('razmiv2');
-				$('#pagefader2').fadeOut(70);
-				$('#top3.absolutpo').css('right', 'initial');
-				if ($(window).width() < 768) {
-					$('#top #cart_mobi').css('margin-right', 'initial');
-				}
-				$('.dropdown-menu.dop_contss').css('display', '');
-			}
-		},
-		tLoading: '',
-		items: {
-			src: 'index.php?route=revolution/revpopupphone',
-			type: 'ajax'
 		}
 	});
 }

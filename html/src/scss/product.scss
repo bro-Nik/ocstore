@@ -142,10 +142,6 @@
 
 }
 
-.breadcrumb * {
-    color: #999;
-    font-size: 1.4rem;
-}
 .breadcrumb {
     display: flex;
     flex-wrap: wrap;
@@ -155,6 +151,17 @@
     border-bottom: 1px solid #ededed;
     border-radius: 0;
     overflow: hidden;
+
+  & * {
+    color: $text-light;
+    font-size: 1.4rem;
+  }
+
+  & > li + li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "/\00a0";
+  }
 }
 
 .pagination > li > a, .pagination > li > span {padding: 5px 15px;border-radius: 5px;}
@@ -259,4 +266,29 @@
 }
 .search-results-title {
     margin-bottom: 3rem;
+}
+
+#product_accessories {
+  & .row {margin-right: 0;}
+  & .product-layout {padding-left: 15px;padding-right: 0;}
+
+  & .accessories {
+    &_title {-webkit-box-orient: vertical; -webkit-line-clamp: 2; display: -webkit-box; line-height: 20px; height: 40px; max-width: calc(100% - 90px); overflow: hidden; text-overflow: ellipsis; text-align: left;}
+    &_image {height: 80px; width: 80px; position: absolute; top: 7px; right: 7px;}
+    &_buttons {align-items: center;display: flex;height: 24px;margin-top: 10px;min-height: 24px;position: relative;}
+    &-price {font-weight: 700;
+      &:not(:only-child) {margin-left: 16px;}
+    }
+    &-thumb {border: 1px solid #ddd;border-radius: 5px;flex-direction: column; display: flex;padding: 7px 10px;position: relative;}
+    &_buttons .cart a {
+      padding: 4px 13px;border: solid 1px #eee;border-radius: 5px;
+
+      &:hover {
+        color: $primary-color;
+        border: solid 1px $primary-color;
+      }
+      &:active {border: solid 0.08em #ff6700;color:#ff6700;}
+    }
+
+  }
 }

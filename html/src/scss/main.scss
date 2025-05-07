@@ -110,38 +110,6 @@ button, input, textarea, select {
     font-family: inherit;
 }
 
-// Общие стили выпадающего меню
-[class*="dropdown"] {
-  position: relative;
-
-  .dropdown-menu {
-    display: block;
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    pointer-events: none;
-    z-index: 1000;
-  }
-
-  &:hover .dropdown-menu,
-  .dropdown-menu:hover {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-
-  .dropdown-toggle {
-    cursor: pointer;
-  }
-}
-.skeleton-slide {
-  width: 100%;
-  height: 300px;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
 
 @keyframes shimmer {
   to { background-position: -200% 0; }
@@ -163,8 +131,10 @@ button, input, textarea, select {
     max-width: 100%;
     height: auto;
 }
-.breadcrumb>li+li:before {
-    padding: 0 5px;
-    color: #ccc;
-    content: "/\00a0";
+#menu2 .col-1 {
+    width: 100%;
+}
+
+#menu2 .col-3 {
+    width: 33%;
 }

@@ -15,6 +15,7 @@ html/dmin/test/
 
 html/catalog/view/theme/revolution/js/*
 html/catalog/view/theme/revolution/css/*
+html/catalog/view/theme/revolution/stylesheet/*
 
 *.env
 

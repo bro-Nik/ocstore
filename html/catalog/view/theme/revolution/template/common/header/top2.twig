@@ -32,7 +32,7 @@
 										{#}
 											<li><a href="{{ contact.href }}"><span>{{ contact.number }}</span></a></li>
 										{% endfor %} 
-									<li><a onclick="get_revpopup_phone();">Обратный звонок</a></li>
+									<li><a class="phone-show-popup">Обратный звонок</a></li>
 									{% if (phone_dop_text|length > 30) %} 
 										<div class="phone_dop_text">{{ phone_dop_text }}</div>
 									{% endif %} 

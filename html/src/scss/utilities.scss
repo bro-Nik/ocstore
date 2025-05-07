@@ -12,38 +12,27 @@
 .nav {
   display: flex;
   flex-wrap: wrap;
-  padding-left: 0;
   list-style: none;
+  background: #f8f9fa;
+  padding: .5rem 1rem;
 
   & > li > a {
+    color: $text-light;
     position: relative;
     display: block;
     padding: 10px 15px;
     &:focus,
     &:hover {
-      background-color: #eee;
+      color: $text-dark;
     }
   }
 
   &-tabs {
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ddd;
-    & > li {
-      margin-bottom: -1px;
-    }
-    & a {
-      margin-right: 2px;
-      line-height: 1.42857143;
-      border-radius: 4px 4px 0 0;
-    }
     & li.active > a,
     & li.active > a:focus,
     & li.active > a:hover {
       color: $text-dark;
       cursor: default;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-bottom-color: transparent;
     }
   }
 }
@@ -81,3 +70,75 @@ label {
     align-items: center;
     gap: 0.5rem;
 }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  &-toggle {
+    cursor: pointer;
+  }
+
+  &-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    min-width: 200px;
+    background: white;
+    pointer-events: none; /* Важно для плавного перехода */
+    list-style: none;
+    box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
+    border-radius: 8px;
+    padding: 1rem 0;
+    margin: 0.5rem 0 0 0;
+    transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+    z-index: 100;
+    transition-delay: 0.2s; /* Задержка перед исчезновением */
+
+    & a {
+      position: relative;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-align: center;
+      align-items: center;
+      padding: 0.5rem 3rem 0.5rem 2rem;
+      text-decoration: none;
+      color: #343434;
+      transition: color 0.25s;
+      margin: 0;
+      list-style: none;
+      font-size: 1.5rem;
+      line-height: 2.1rem;
+      font-weight: 400;
+      padding: 0.5rem 3rem 0.5rem 2rem;
+    }
+  }
+
+  /* Главный хак - псевдоэлемент для плавного перехода */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 20px; /* Зона "плавного" перехода */
+    background: transparent;
+  }
+
+  /* Открытое состояние */
+  &:hover .dropdown-menu,
+  &:focus-within .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0.1s; /* Задержка перед появлением */
+    transition-delay: 0s;
+  }
+}
+
+
+
+

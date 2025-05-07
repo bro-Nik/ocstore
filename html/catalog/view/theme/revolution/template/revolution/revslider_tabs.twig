@@ -1,5 +1,5 @@
 <div class="home__section">
-	<ul class="tab-headers nav nav-tabs">
+	<ul class="nav nav-tabs">
   	{% for i in 1..8 %}
     	{% if attribute(_context, 'slider_' ~ i ~ '_status') and attribute(_context, 'products_slider_' ~ i) %} 
       	<li><a href="#tab_slider_{{ i }}" data-toggle="tab">{{ attribute(_context, 'heading_title_slider_' ~ i) }}</a></li>
@@ -20,7 +20,7 @@
   	{% endfor %}
 
 		<script>
-			document.querySelector('.tab-headers li:first-child').classList.add('active');
+			document.querySelector('.nav-tabs li:first-child').classList.add('active');
 			document.querySelector('.tab-content .hometab_sliders_tab:first-child').classList.add('active');
 		</script>
 	</div>

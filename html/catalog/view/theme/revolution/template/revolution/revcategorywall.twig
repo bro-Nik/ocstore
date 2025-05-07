@@ -4,9 +4,9 @@
     <div class="swiper swiper-carousel">
       <div class="swiper-wrapper">
         {% for category in categories %} 
-          <a class="swiper-slide shadow-box categories__item" href="{{ category.href }}">
+          <a class="swiper-slide shadow-box categories__item" href="{{ category.href }}" style="width: 25rem;">
             <div class="categories__item-image">
-              <img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-responsive" />
+              <img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-responsive" style="width: 15rem; height: 15rem;" />
             </div>
             <h4 class="categories__item-title">{{ category.name }}</h4>
           </a>
