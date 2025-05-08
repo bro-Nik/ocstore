@@ -445,34 +445,6 @@
 
   <file path="catalog/view/theme/*/template/product/category.twig">
     <operation error="skip">
-      <search regex="true" limit="1"><![CDATA[~(\{% if \(?products\)? %\})~]]></search>
-      <add><![CDATA[
-      <!-- OCFilter Start -->
-      {% if ocfilter_description_top %}
-      <div class="ocf-description ocf-description-top">{{ ocfilter_description_top }}</div>
-      {% endif %}
-
-      {% if ocfilter_pages.top %}
-      <nav class="ocf-page-list-top ocf-clearfix">
-        <ul class="ocf-category-page-list">
-          {% for ocfilter_page_group in ocfilter_pages.top %}
-            {% for ocfilter_page in ocfilter_page_group.pages %}
-            {% if ocfilter_page.selected %}
-            <li class="ocf-page-selected"><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
-            {% else %}
-            <li><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
-            {% endif %}
-            {% endfor %}
-          {% endfor %}
-        </ul>
-      </nav>
-      {% endif %}
-
-      $1
-      <!-- /OCFilter End -->
-      ]]></add>
-    </operation>
-    <operation error="skip">
       <search regex="true" limit="1"><![CDATA[~(\{\{\s?content_bottom\s?\}\})~]]></search>
       <add><![CDATA[
       <!-- OCFilter Start -->
@@ -503,21 +475,6 @@
   </file><!-- /catalog/view/theme/*/template/product/category.twig -->
 
 
-  <file path="catalog/view/theme/*/template/product/{category,search,manufacturer,special}.twig">
-    <operation>
-      <search regex="true" limit="1"><![CDATA[~(\{% if \(?products\)? %\})~]]></search>
-      <add><![CDATA[
-      $1
-      <!-- OCFilter Start -->
-      {% if ocfilter_mobile_button %}
-      <div class="ocf-btn-mobile-static ocf-mobile" style="display: none;">
-        <button type="button" class="ocf-btn ocf-btn-default" data-ocf="mobile"><span class="ocf-btn-name">{{ button_ocfilter_mobile }}</span> <i class="ocf-icon ocf-icon-16 ocf-brand ocf-sliders"></i></button>
-      </div>
-      {% endif %}
-      <!-- /OCFilter End -->
-      ]]></add>
-    </operation>
-  </file><!-- /catalog/view/theme/*/template/product/{category,search,manufacturer,special}.twig" -->
 
 
   <!-- ******* -->

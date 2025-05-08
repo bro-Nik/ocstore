@@ -1,32 +1,33 @@
-<!-- <div class="product-layout product-list col-xs-12 col-xl-3"> -->
-<div class="product-layout product-list">
-  <div class="product-thumb product_{{ product['product_id'] }} shadow-box" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product">
-    <div class="image">
-      {% include 'revolution/template/product/partials/img_slider.twig' %}
+<li>
+  <div class="product-layout product-list products__item">
+    <div class="product-thumb product_{{ product['product_id'] }} shadow-box" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product">
+      <div class="image">
+        {% include 'revolution/template/product/partials/img_slider.twig' %}
 
-      {% include 'revolution/template/product/partials/stickers.twig' %}
-    </div>
-      <h4>
-        <a href="{{ product['href'] }}">
-          <span itemprop="name">{{ product['mpn'] ?: product['name'] }}</span>
-        </a>
-      </h4>
-      <link itemprop="url" href="{{ product['href'] }}"/>
-      <div class="description_options">
-        <div class="description {{ product['options'] and product['options_buy'] ? 'description_options_buy_price' : '' }}">
-          {% if (description_options['short_desc'] and product['short_description']) %}
-            <div class="short_description">{{ product['short_description'] }}</div>
-          {% endif %}
-          {{ product['description'] }}
-          {% if (not description_options['zamena_description']) %}
-            <span class="hidden pr_quantity_{{ product['product_id'] }}"></span>
-          {% endif %}
-        </div>
+        {% include 'revolution/template/product/partials/stickers.twig' %}
       </div>
+        <h4>
+          <a href="{{ product['href'] }}">
+            <span itemprop="name">{{ product['mpn'] ?: product['name'] }}</span>
+          </a>
+        </h4>
+        <link itemprop="url" href="{{ product['href'] }}"/>
+        <div class="description_options">
+          <div class="description {{ product['options'] and product['options_buy'] ? 'description_options_buy_price' : '' }}">
+            {% if (description_options['short_desc'] and product['short_description']) %}
+              <div class="short_description">{{ product['short_description'] }}</div>
+            {% endif %}
+            {{ product['description'] }}
+            {% if (not description_options['zamena_description']) %}
+              <span class="hidden pr_quantity_{{ product['product_id'] }}"></span>
+            {% endif %}
+          </div>
+        </div>
 
-      {% include 'revolution/template/product/partials/products_product_buttons.twig' %}
+        {% include 'revolution/template/product/partials/products_product_buttons.twig' %}
 
-      {% include 'revolution/template/product/partials/stock_status.twig' %}
+        {% include 'revolution/template/product/partials/stock_status.twig' %}
 
+    </div>
   </div>
-</div>
+</li>
