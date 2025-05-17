@@ -1,6 +1,6 @@
-<div id="popup-order-okno" class="popphone">
-<div class="popup-heading">{{ popupphone_heading_title }}</div>
-<div class="popup-center">
+{% import "partials/base_modal.twig" as m %}
+
+{% set content %}
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
 		<div class="payment-info">
 			{% if (revtheme_header_popupphone['firstname']) %} 
@@ -36,49 +36,16 @@
 		{% endif %} 
 		<input type="hidden" value="" name="site_url" />
 	</form>
-</div>
-<div class="popup-footer">
-	<button onclick="$.magnificPopup.close();">{{ button_shopping }}</button>
-	<a id="popup-checkout-button">{{ button_checkout }}</a>
-</div>
-<script><!--
-$('input[name=\'site_url\']').val(window.location.href);
-function masked(element, status) {
-	if (status == true) {
-		$('<div/>')
-		.attr({ 'class':'masked' })
-		.prependTo(element);
-		$('<div class="masked_loading" />').insertAfter($('.masked'));
-	} else {
-		$('.masked').remove();
-		$('.masked_loading').remove();
-	}
-}
-$('#popup-checkout-button').on('click', function() {
-	masked('#popup-order-okno', true);
-	$.ajax({
-		type: 'post',
-		url:  'index.php?route=revolution/revpopupphone/make_order_phone',
-		dataType: 'json',
-		data: $('#purchase-form').serialize(),
-		success: function(json) {
-			if (json['error']) {
-				if (json['error']['field']) {
-					masked('#popup-order-okno', false);
-					$('.text-danger').remove();
-					$.each(json['error']['field'], function(i, val) {
-						$('[name="' + i + '"]').addClass('error_style').after('<div class="text-danger">' + val + '</div>');
-					});
-				}
-			} else {
-				if (json['output']) {
-					masked('#popup-order-okno', false);
-					$('#popup-checkout-button').remove();
-					$('#popup-order-okno .popup-center').html(json['output']);
-				}
-			}
-		}
-	});
-});
-//--></script>
-</div>
+{% endset %}
+
+{% set footer %}
+  <button class="continue-shopping" data-action="close">{{ button_shopping }}</button>
+	<a id="popup-checkout-button" data-action="submit">{{ button_checkout }}</a>
+{% endset %}
+
+
+{{ m.popup(popupphone_heading_title, attention, success, error_warning, content, footer) }}
+
+<script>
+document.querySelector('input[name="site_url"]').value = window.location.href;
+</script>

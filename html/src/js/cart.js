@@ -4,7 +4,7 @@
  */
 
 import { BaseModule } from './core/base';
-import { CartPopup } from './cart-popup';
+import { cartPopup } from './popups/cart';
 
 const CONFIG = {
   moduleName: 'cart',
@@ -35,7 +35,6 @@ const SELECTORS = {
 class Cart extends BaseModule {
   constructor() {
     super(CONFIG, SELECTORS);
-    this.popup = new CartPopup();
     this.init();
   }
 
@@ -57,13 +56,6 @@ class Cart extends BaseModule {
         const blockId = addButton.dataset.blockId || null;
 
         if (productId) this.add(productId, action, quantity, blockId, addButton);
-      }
-
-      // Обработка открытия попапа корзины
-      const popupTrigger = e.target.closest('.cart-show-popup, .in-cart');
-      if (popupTrigger) {
-        e.preventDefault();
-        this.popup.show();
       }
     });
   }
@@ -173,7 +165,7 @@ class Cart extends BaseModule {
     this.updateButtons(productId, updateParams);
 
     this.updateCart(json);
-    this.popup.show();
+    cartPopup.show();
   }
 
   /**

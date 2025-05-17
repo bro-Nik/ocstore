@@ -11,8 +11,9 @@ initMobilMenu();
 import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
-import purchase from './purchase';
-import phone from './phone';
+import events from './events/events';
+import { cartPopup, phonePopup, purchasePopup, predzakazPopup } from './popups/popups';
+import prductServices from './product'
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -329,38 +330,5 @@ $(document).on('click', '.tel .dropdown-menu', function (e) {
 
 
 
-function get_revpopup_predzakaz(product_id) {
-	if (document.body.scrollHeight > document.body.offsetHeight) {
-		$('#top3.absolutpo').css('right', '8.5px');
-		if ($(window).width() < 768) {
-			$('#top #cart_mobi').css('margin-right', '17px');
-		}
-	}
-	$.magnificPopup.open({
-		removalDelay: 170,
-		callbacks: {
-			beforeOpen: function() {
-			   this.st.mainClass = 'mfp-zoom-in';
-			},
-			open: function() {
-				$('body').addClass('razmiv2');
-				$('#pagefader2').fadeIn(70);
-			}, 
-			close: function() {
-				$('body').removeClass('razmiv2');
-				$('#pagefader2').fadeOut(70);
-				$('#top3.absolutpo').css('right', 'initial');
-				if ($(window).width() < 768) {
-					$('#top #cart_mobi').css('margin-right', 'initial');
-				}
-			}
-		},
-		tLoading: '',
-		items: {
-			src: 'index.php?route=revolution/revpopuppredzakaz&revproduct_id='+product_id,
-			type: 'ajax'
-		}
-	});
-}
 
 

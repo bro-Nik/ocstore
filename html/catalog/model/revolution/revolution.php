@@ -346,7 +346,9 @@ class ModelRevolutionRevolution extends Model {
 		$mail->send();
 
 		if (VERSION >= 2.2) {
-			$emails = explode(',', $this->config->get('config_alert_email'));
+			// $emails = explode(',', $this->config->get('config_alert_email'));
+			$string = $this->config->get('config_alert_email');
+			$emails = $string !== null ? explode(',', $string) : [];
 		} else {
 			$emails = explode(',', $this->config->get('config_mail_alert'));
 		}
@@ -2312,7 +2314,9 @@ class ModelRevolutionRevolution extends Model {
 		$mail->send();
 
 		if (VERSION >= 2.2) {
-			$emails = explode(',', $this->config->get('config_alert_email'));
+			// $emails = explode(',', $this->config->get('config_alert_email'));
+			$string = $this->config->get('config_alert_email');
+			$emails = $string !== null ? explode(',', $string) : [];
 		} else {
 			$emails = explode(',', $this->config->get('config_mail_alert'));
 		}

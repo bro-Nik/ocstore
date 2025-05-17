@@ -28,13 +28,6 @@
 				</td>
 				<td class="name">
 					{{ product_name }} 
-					{% if (discounts and not special) %} 
-						<div class="discounts">
-							{% for discount in discounts %} 
-								<span>{{ discount['quantity'] }}{{ text_discount }}{{ discount['price'] }}</span><br/>
-							{% endfor %} 
-						</div>
-					{% endif %} 
 				</td>
 				<td class="qt">
 					<div class="number">
@@ -49,14 +42,6 @@
 						<input name="quantity" value="{{ minimum }}"  class="all_quantity plus-minus" onkeyup="validate_pole_popuporder(this);" onchange="validate_pole_popuporder(this);" />
 					</div>
 				</td>
-				<td class="totals">
-					{% if (not special) %} 
-						<span id="main-price">{{ price }}</span>
-					{% else %} 
-						<span id="main-price" class="spec">{{ price }}</span>
-						<span id="special-price">{{ special }}</span>
-					{% endif %} 
-				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -69,13 +54,6 @@
 		</div>
 		<div class="name">
 			{{ product_name }} 
-			{% if (discounts and not special) %} 
-				<div class="discounts">
-					{% for discount in discounts %} 
-						<span>{{ discount['quantity'] }}{{ text_discount }}{{ discount['price'] }}</span><br/>
-					{% endfor %} 
-				</div>
-			{% endif %} 
 		</div>
 		<div class="qt">
 			<div class="number">
@@ -90,14 +68,6 @@
 				<input name="quantity" value="{{ minimum }}"  class="all_quantity plus-minus" onkeyup="validate_pole_popuporder(this);" onchange="validate_pole_popuporder(this);" />
 			</div>
 		</div>
-		<div class="totals">
-			{% if (not special) %} 
-				<span id="main-price" class="mobi">{{ price }}</span>
-			{% else %} 
-				<span id="main-price" class="mobi spec">{{ price }}</span>
-				<span id="special-price" class="mobi">{{ special }}</span>
-			{% endif %} 
-		</div>		
 		</div>
 	</div>
 	{% if (options) %} 

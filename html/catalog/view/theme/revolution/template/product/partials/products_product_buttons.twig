@@ -34,6 +34,9 @@
 </div>
 
 <div class="product_buttons">
+  {% if product.button_ask_price %}
+		<div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><meta itemprop="price" content="30000"></div>
+	{% endif %}
   {% if (product['price']) %}
     {% if (product['price_number'] > 0) %}
       {% if (product['quantity'] > 0 or zakaz) %}
@@ -59,7 +62,9 @@
           <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
             {% if (product['price_number'] > 0 or zakaz_price_null) %}
               {% if (not product['special']) %}
+              {#}
                 <span class="price_no_format{{ product['product_id'] }}">{{ product['price'] }}</span>
+              {#}
                 {{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
                 <meta itemprop="price" content="{{ product['price_number'] }}">
               {% else %}
@@ -103,9 +108,8 @@
           <meta itemprop="price" content="{{ product['price_number'] }}">
           <meta itemprop="priceCurrency" content="{{ currency_code }}">
         </div>
-        {% if (product['price_number'] == 0 and not zakaz_price_null) %}
-          {% elseif (product['quantity'] > 0 or zakaz) %}
-            <div class="price_na_zakaz">{{ text_catalog_price_na_zakaz }}</div>
+        {% if (product['price_number'] == 0 and not predzakaz_button) %}
+          <div class="price_na_zakaz">{{ text_catalog_price_na_zakaz }}</div>
         {% endif %}
       {% else %}
         <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -125,31 +129,27 @@
     {% set button_cart_class = 'prlistb' %}
 
     
-
-    {% if (product['quantity'] > 0 or zakaz or predzakaz_button) %}
-      {% if (product['price_number'] > 0 or zakaz_price_null) %}
-        {% if (product['quantity'] < 1 and predzakaz_button) %}
-          <div class="cart predzakaz_cart">
-            <a onclick="get_revpopup_predzakaz({{ product['product_id'] }});" data-toggle="tooltip" title="{{ text_predzakaz }}">
-              <i class="fa fa-border fa-shopping-basket predzakaz">
-                {{ text_predzakaz }}
-              </i>
-            </a>
-          </div>
-        {% else %}
-          <div class="cart">
-            <a class="add-to-cart {% if (product['product_in_cart']) %}in-cart{% endif %}" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
-              {% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}
-            </a>
-          </div>
-          {#}
-            <a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('{{ product['product_id'] }}');">
-              <i class="fa fa-hand-pointer-o"></i>
-              {{ text_catalog_revpopup_purchase }}</a>
-          {#}
-        {% endif %}
+    <div class="cart">
+      {% if (product['quantity'] > 0 and product['price_number'] > 0) %}
+        <a class="add-to-cart {% if (product['product_in_cart']) %}in-cart{% endif %}" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
+          {% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}
+        </a>
+        {#}
+          <a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('{{ product['product_id'] }}');">
+            <i class="fa fa-hand-pointer-o"></i>
+            {{ text_catalog_revpopup_purchase }}</a>
+        {#}
+      {% elseif (product['quantity'] < 1 and predzakaz_button) %}
+        <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Уведомить о наличии">
+          Уведомить
+        </a>
+      {% elseif (product['price_number'] == 0 and predzakaz_button) %}
+        <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Запросить цену">
+          Запросить цену
+        </a>
       {% endif %}
-    {% endif %}
+    </div>
+
     <div class="wishlist">
       <a class="{{ product['wishlist_class'] }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" title="{{ product['button_wishlist'] }}">
         <i class="fa fa-border fa-heart"></i>

@@ -1,0 +1,26 @@
+{% macro popup(heading='', attention = '', success = '', error='', content='', footer='') %}
+  <div class="popup-heading">
+  {{ heading }}
+  <button class="dialog-close" data-action="close" aria-label="Закрыть">×</button>
+  </div>
+  <div class="popup-center">
+
+    {% if (attention) %} 
+    <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ attention }}</div>
+    {% endif %} 
+
+    {% if (success) %} 
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}</div>
+    {% else %} 
+    <div id="success-message"></div>
+    {% endif %} 
+
+    {% if (error) %} 
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error }}</div>
+    {% endif %} 
+    
+    {{ content }}
+    
+  </div>
+  <div class="popup-footer">{{ footer }}</div>
+{% endmacro %}
