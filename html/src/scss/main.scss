@@ -119,6 +119,11 @@ input, textarea, select {
   height: 5rem;
   padding: 0 2rem;
 }
+
+input.error_style {
+    border: 1px solid red;
+}
+
 /* Стандартный фокус для клавиатурной навигации */
 :focus-visible {
   outline: 1px solid #000000;

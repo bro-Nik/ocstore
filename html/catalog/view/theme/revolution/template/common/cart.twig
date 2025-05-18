@@ -83,7 +83,7 @@
 				<a class="btn btn-default btn-sm" href="{{ cart }}">{{ text_cart }}</a>
 			{% endif %} 
 			{% if (setting_header_cart['cart_quick']) %} 
-				<a class="btn btn-default btn-sm" href="javascript:void(0)" onclick="get_revpopup_cartquick();">{{ text_rev_buy_quick }}</a>
+				<a class="btn btn-default btn-sm" data-action="quick-order">{{ text_rev_buy_quick }}</a>
 			{% endif %} 
 			<a class="btn btn-danger" href="{{ checkout }}">{{ text_checkout }}</a>
 		</div>

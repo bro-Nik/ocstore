@@ -140,6 +140,12 @@ label {
   }
 }
 
+// Костыль
+.search .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  display: none;
+}
 
 
 
