@@ -1,11 +1,11 @@
-{% import "partials/base_modal.twig" as m %}
+{% extends 'modals/base.twig' %}
 
+{% set heading = popuporder_heading_title %}
 {% if (minimum > 1) %} 
 	{% set attention = text_minimum %}
 {% endif %} 
 
-
-{% set content %}
+{% block content %}
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
 		<input name="product_id" value="{{ product_id }}" style="display: none;" type="hidden" />
 		<input class="product_max" value="{{ quantity }}" style="display: none;" type="hidden" />
@@ -284,9 +284,9 @@
 			</div>
 		{% endif %} 
 	</form>
-{% endset %}
+{% endblock %}
 
-{% set footer %}
+{% block footer %}
   <button class="continue-shopping" data-action="close">{{ button_shopping }}</button>
 		{% if (not stock_warning or zakaz) %} 
 			<a id="popup-checkout-button" data-action="submit">{{ button_checkout }}</a>
@@ -613,7 +613,6 @@
 // window.validate_pole_popuporder = validate_pole_popuporder;
 
 // Инициализация после загрузки DOM
-    console.log('DOM loaded'); // Проверка загрузки
     
     // Обработчики для кнопок количества
     document.querySelectorAll('.number button').forEach(btn => {
@@ -627,6 +626,4 @@
       });
 </script>
 {% endif %}
-
-{% endset %}
-{{ m.popup(popuporder_heading_title, attention, success, stock_warning, content, footer) }}
+{% endblock %}

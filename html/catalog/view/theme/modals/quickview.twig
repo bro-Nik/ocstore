@@ -1,0 +1,32 @@
+{% extends 'modals/base.twig' %}
+
+{% set error = stock_warning %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-5">
+		  {% include 'revolution/template/product/partials/stickers.twig' with {'main_product': 'true'} %}
+		  {% include 'revolution/template/product/partials/product_images.twig' %}
+    </div>
+
+		<div class="col-sm-7">
+    	{% include 'revolution/template/product/partials/product_info_header.twig' %}
+    	{% include 'revolution/template/product/partials/product_attributes.twig' %}
+
+      <div class="well well-sm product-info product_informationss">
+      	{% include 'revolution/template/product/partials/product_options.twig' %}
+        {% include 'revolution/template/product/partials/product_price.twig' %}
+      	{% include 'revolution/template/product/partials/product_text_blocks.twig' %}
+			  {% include 'revolution/template/product/partials/stock_status.twig' with {'main_product': 'true'} %}
+			</div>
+		  
+    </div>
+		{% include 'revolution/template/product/partials/product_tabs.twig' %}
+  </div>    
+{% endblock %}
+
+{% block footer %}
+  <button class="continue-shopping" data-action="close">{{ button_shopping }}</button>
+  <a id="popup-view-button" href="{{ view_product_link }}">{{ button_view }}</a>
+{% endblock %}
+

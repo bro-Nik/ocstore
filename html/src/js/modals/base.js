@@ -61,9 +61,16 @@ class BasePopup {
    */
   createDialog() {
     this.dialog = document.createElement('dialog');
-    this.dialog.innerHTML = `
-      <div id="${this.selectors.POPUP_ID.substring(1)}"></div>
-    `;
+    const popupContent = document.createElement('div');
+
+    if (this.selectors.POPUP_ID) {
+      popupContent.id = this.selectors.POPUP_ID.substring(1);
+    }
+    if (this.selectors.POPUP_CLASS) {
+      this.dialog.classList.add(this.selectors.POPUP_CLASS.substring(1));
+    }
+
+    this.dialog.appendChild(popupContent);
     document.body.appendChild(this.dialog);
   }
 

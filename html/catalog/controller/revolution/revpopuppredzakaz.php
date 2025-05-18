@@ -177,8 +177,7 @@ class ControllerRevolutionRevpopuppredzakaz extends Controller {
 				$data['telephone_mask'] = $settings['telephone_mask'];
 				$data['comment'] = '';
 				
-				$this->response->setOutput($this->load->view('revolution/revpopuppredzakaznotify', $data));
-				
+				$this->response->setOutput($this->load->view('modals/predzakaznotify', $data));
 			}
 
 		} else {

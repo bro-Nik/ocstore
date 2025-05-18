@@ -1,6 +1,6 @@
 /**
  * Модуль попапа телефона
- * @module PhonePopup
+ * @module CallbackPopup
  */
 
 import { BasePopup } from './base.js';
@@ -27,7 +27,7 @@ const EVENTS = {
 };
 
 
-class PhonePopup extends BasePopup {
+class CallbackPopup extends BasePopup {
   constructor() {
     super(SELECTORS, ENDPOINTS, {}, EVENTS);
     events.addHandlers(GLOBAL_EVENTS, document, this);
@@ -35,4 +35,4 @@ class PhonePopup extends BasePopup {
 
 }
 
-export const phonePopup = new PhonePopup();
+export const callbackPopup = new CallbackPopup();

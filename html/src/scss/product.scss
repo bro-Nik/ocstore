@@ -53,7 +53,7 @@
       // padding-inline: 1rem;
     }
 
-    & a:hover {
+    & a:hover, a:hover .fa {
       border-color: $primary-color;
       color: #FFF !important;
       background: $primary-color;
@@ -369,4 +369,8 @@
     }
 
   }
+}
+
+.wishlist .fa, .lupa .fa {
+  border: 1px solid #eee; border-radius: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
 }

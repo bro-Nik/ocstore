@@ -229,7 +229,7 @@ class ControllerRevolutionRevpopupcartQuick extends Controller {
 
 		$data['heading_cartpopupquick_title'] = $this->language->get('heading_cartpopupquick_title');
 
-		$this->response->setOutput($this->load->view('revolution/revpopupcartquick', $data));
+		$this->response->setOutput($this->load->view('modals/cartquick', $data));
 
 	}
 	

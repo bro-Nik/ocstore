@@ -1,8 +1,10 @@
-{% import "partials/base_modal.twig" as m %}
+{% extends 'modals/base.twig' %}
 
-{% if (products) %} 
+{% set heading = products ? heading_cartpopup_title : heading_cartpopup_title_empty %}
+{% set error = error_warning %}
 
-  {% set content %}
+{% block content %}
+  {% if (products) %} 
     <table class="display-products-cart">
       <tbody>
         {% for product in products %} 
@@ -33,17 +35,17 @@
               <input name="product_id" value="{{ product['key'] }}" style="display: none;" type="hidden" />
               <div class="frame-change-count">
                 <div class="btn-plus">
-                  <button type="button" "{{ product['quantity_pr'] }}">+</button>
+                  <button type="button" data-action="quantity+{{ product['quantity_pr'] }}">+</button>
                 </div>
                 <div class="btn-minus">
-                  <button type="button" "{{ product['quantity_pr'] }}">-</button>
+                  <button type="button" data-action="quantity-{{ product['quantity_pr'] }}">-</button>
                 </div>
               </div>
-              <input type="text" name="quantity" value="{{ product['quantity'] }}" class="plus-minus" "{{ product['key'] }}, {{ product['quantity_pr'] }}, {{ product['quantity_pr'] }}" />
+              <input type="text" name="quantity" value="{{ product['quantity'] }}" class="plus-minus"  />
             </div>
           </td>
           <td class="totals">{{ product['total'] }}</td>
-		  <td class="remove">
+		      <td class="remove">
             <button type="button"><i class="fa fa-trash-o"></i></button>
             <input name="product_key" value="{{ product['key'] }}" style="display: none;" hidden />           
           </td>
@@ -51,6 +53,7 @@
         {% endfor %} 
       </tbody>
     </table>
+
     <div class="mobile-products-cart">
     {% for product in products %} 
       <div>
@@ -80,16 +83,16 @@
               <input name="product_id" value="{{ product['key'] }}" style="display: none;" type="hidden" />
               <div class="frame-change-count">
                 <div class="btn-plus">
-                  <button type="button" "{{ product['quantity_pr'] }}">+</button>
+                  <button type="button" data-action="quantity+{{ product['quantity_pr'] }}">+</button>
                 </div>
                 <div class="btn-minus">
-                  <button type="button" "{{ product['quantity_pr'] }}">-</button>
+                  <button type="button" data-action="quantity-{{ product['quantity_pr'] }}">-</button>
                 </div>
               </div>
-              <input type="text" name="quantity" value="{{ product['quantity'] }}" class="plus-minus" "{{ product['key'] }}, {{ product['quantity_pr'] }}" />
+              <input type="text" name="quantity" value="{{ product['quantity'] }}" class="plus-minus" onchange="update_manual(this, '{{ product['key'] }}', '{{ product['quantity_pr'] }}'); return validate(this);" onkeyup="update_manual(this, '{{ product['key'] }}', '{{ product['quantity_pr'] }}'); return validate(this);" />
             </div>
 			<span class="remove">
-			  <button type="button"><i class="fa fa-trash-o"></i></button>
+			  <button type="button" onclick="update(this, 'remove'); cart.remove('{{ product['key'] }}', '{{ product['product_id'] }}')"><i class="fa fa-trash-o"></i></button>
 			  <input name="product_key" value="{{ product['key'] }}" style="display: none;" hidden />
 			</span>
         </div>
@@ -99,7 +102,6 @@
         </div>
       {% endfor %} 
     </div>
-	
     <div class="all-total">
       {% for total in totals %} 
 		<div class="clear-total">
@@ -107,52 +109,16 @@
         <div class="totals-left">{{ total['title'] }}:</div>     
         </div>
       {% endfor %} 
-    </div>
-	<form method="post" enctype="multipart/form-data" id="purchase-form">
-		<div class="payment-info" style="padding-top: 0;">
-			{% if (revtheme_catalog_popuporder['firstname']) %} 
-			<div>
-			  <label>{% if (revtheme_catalog_popuporder['firstname'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_firstname }}</label>
-			  <input name="firstname" value="{{ firstname }}" {% if (revtheme_catalog_popuporder['firstname'] == 2) %}required{% endif %}/>
-			</div>
-			{% endif %} 
-			{% if (revtheme_catalog_popuporder['telephone']) %} 
-			<div>
-			  <label>{% if (revtheme_catalog_popuporder['telephone'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_telephone }}</label>
-			  <input name="telephone" value="{{ telephone }}" {% if (telephone_mask) %} data-mask="{{ telephone_mask }}" {% endif %} {% if (revtheme_catalog_popuporder['telephone'] == 2) %} required{% endif %} />
-			</div>
-			{% endif %} 
-			{% if (revtheme_catalog_popuporder['email']) %} 
-			<div>
-			  <label>{% if (revtheme_catalog_popuporder['email'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_email }}</label>
-			  <input name="email" value="{{ email }}" {% if (revtheme_catalog_popuporder['email'] == 2) %}required{% endif %}/>
-			</div>
-			{% endif %} 
-			{% if (revtheme_catalog_popuporder['comment']) %} 
-			<div>
-			  <label>{% if (revtheme_catalog_popuporder['comment'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_comment }}</label>
-			  <textarea name="comment" {% if (revtheme_catalog_popuporder['comment'] == 2) %}required{% endif %}>{{ comment }}</textarea>
-			</div>
-			{% endif %} 
-		</div>
-		{% if (text_agree_pol_konf) %} 
-			<div class="rev_pol_konf pull-right text-right">
-				<span>{{ text_agree_pol_konf }}</span>
-				<input type="checkbox" name="agree_pol_konf" checked="checked" />
-			</div>
-		{% endif %} 
-	</form>
-	{% endset %}
+    </div>    
+  {% else %} 
+    {{ text_cartpopup_empty }}
+  {% endif %} 
+{% endblock %}
 
-  {% set footer %}
-    <button class="continue-shopping" data-action="close">{{ button_shopping }}</button>
-    {% if ((not error_warning or zakaz) or not q_zavisimost) %} 
-		<a id="popup-checkout-button" data-action="submit">{{ button_checkout }}</a>
+{% block footer %}
+  <button class="continue-shopping" data-action="close">{{ button_shopping }}</button>
+  <a href="{{ checkout_link }}">{{ button_checkout }}</a>
+	{% if (setting_header_cart['cart_quick']) %} 
+		<button class="quickorder_b btn btn-default btn-sm" data-action="quick-order">{{ text_rev_buy_quick }}</button>
 	{% endif %} 
-	{% endset %}
-
-  {{ m.popup(heading_cartpopupquick_title, attention, success, error_warning, content, footer) }}
-
-{% else %} 
-  {{ m.popup(heading_cartpopup_title_empty, attention, success, error_warning, text_cartpopup_empty, footer) }}
-{% endif %} 
+{% endblock %}

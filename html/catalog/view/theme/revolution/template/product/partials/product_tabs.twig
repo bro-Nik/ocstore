@@ -74,7 +74,7 @@
 				{% endif %}		
 				{% if (review_status) %} 
 				<div class="tab-pane" id="tab-review">
-				<div id="review"></div>
+				<div id="review" data-product-id="{{ product_id }}"></div>
 					{% if (review_guest) %} 
 					<div class="form-group required mb0 mt12">
 							<div class="well well-sm otz">
@@ -131,7 +131,7 @@
 											{{ captcha }} 
 											<div class="pull-right text-right">
 												<a class="btn btn-default" href="#" id="close-review-box" style="display:none; margin-right: 10px;">{{ text_product_otmena }}</a>
-												<button type="button" id="button-review" data-loading-text="{{ text_loading }}" class="btn btn-danger">{{ entry_rev_p_send }}</button>
+												<button type="submit" id="button-review" data-loading-text="{{ text_loading }}" class="btn btn-danger">{{ entry_rev_p_send }}</button>
 											</div>					
 										</form>
 									</div>
@@ -213,7 +213,7 @@
 											{{ captcha2 }} 
 											<div class="pull-right text-right">
 												<a class="btn btn-default" href="#" id="close-answers-box" style="display:none; margin-right: 10px;">{{ text_product_otmena }}</a>
-												<button type="button" id="button-answers" data-loading-text="{{ text_loading }}" class="btn btn-danger">{{ entry_rev_p_send }}</button>
+												<button type="submit" id="button-answers" data-loading-text="{{ text_loading }}" class="btn btn-danger">{{ entry_rev_p_send }}</button>
 											</div>					
 										</form>
 									</div>

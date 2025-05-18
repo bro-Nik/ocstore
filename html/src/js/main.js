@@ -12,11 +12,25 @@ import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
 import events from './events/events';
-import { cartPopup, phonePopup, purchasePopup, predzakazPopup } from './popups/popups';
+import modals from './modals/init';
 import prductServices from './product'
+import review from './review';
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  // Показываем первую вкладку
+  const firstTab = document.querySelector('.nav.nav-tabs li:first-child a');
+  if (firstTab) {
+    firstTab.click();
+  }
+
+	// Записываем url
+	const site_url = document.querySelector('input[name="site_url"]');
+  if (site_url) {
+		site_url.value = window.location.href;
+  }
+
 	showContent();
 });
 	
@@ -41,54 +55,6 @@ if (!localStorage.getItem('display')) {
 	localStorage.setItem('display', 'grid');
 }
 
-
-$('.footer-category').append($('.category_description'));
-$('.category_description').removeClass('dnone');
-
-$('.owl-carousel.owlproduct').remove();
-
-
-$(document).ready(function(){
-	var triggered = false;
-	$(".triggerbtn").click(function(){
-		if(triggered == false){
-			$(this).toggleClass('animbuttonsh');
-			$(this).html('<i class=\"fa fa-close\" aria-hidden=\"true\"></i>');
-			var id = 6;
-			
-
-			triggered = true;
-		} else {
-			$(this).toggleClass('animbuttonsh');
-			$(this).html('<i class=\"fa fa-comments-o fa-lg\" aria-hidden=\"true\"></i>');
-			$('.share_icon_callbtn').animate({bottom: '2em'}, 150);
-			triggered = false;
-		}
-	})
-})
-
-
-
-
-
-	
-
-	var win_shopcart = $(window).height();
-	var win_shopcart2 = $('#top').outerHeight()+$('#top2').outerHeight()+$('#top3').outerHeight();
-	//$('#cart .dropdown-menu > li').css('max-height', win_shopcart-win_shopcart2).css('overflow-y', 'auto');
-	$('#top3 #menu2 .child-box').css('max-height', win_shopcart-win_shopcart2).css('overflow-y', 'auto');
-
-
-function toggle_ellipses() {
-  var ellipses1 = $('.br_ellipses');
-  var howlong = $('.breadcrumb li:hidden').length;
-  if ($('.breadcrumb li:hidden').length > 1) {
-    ellipses1.show().css('display', 'inline');
-  } else {
-    ellipses1.hide();
-  }
-}
-
 // Скрол вверх
 document.addEventListener('scroll', function() {
   const scrollTopWrapper = document.querySelector('.btn-scroll-top');
@@ -104,6 +70,83 @@ if (scrollTopButton) {
     });
   });
 }
+
+// Функция форматирования числа
+export function numberFormat(n) {
+  return parseInt(Math.abs(n).toFixed(0)) + ''; 
+}
+
+// Функция форматирования цены
+// function price_format(n) {
+//   const c = {{ currency['decimals'] is empty ? "0" : currency['decimals'] }};
+//   const d = '{{ currency['decimal_point'] }}';
+//   const t = '{{ currency['thousand_point'] }}';
+//   const s_left = '{{ currency['symbol_left'] }}';
+//   const s_right = '{{ currency['symbol_right'] }}';
+//   n = n * {{ currency['value'] }};
+//   
+//   let i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
+//   let j = (i.length > 3) ? i.length % 3 : 0; 
+//   
+//   return s_left + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '') + s_right; 
+// }
+
+export function priceFormat(n) {
+  const c = "0";
+  const d = ' ';
+  const t = '';
+  const s = '₽';
+  
+  let i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
+  let j = (i.length > 3) ? i.length % 3 : 0; 
+  
+  return (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '') + s; 
+}
+
+
+// Перенос описания категории
+const footer = document.querySelector('.footer-category');
+const desc = document.querySelector('.category_description');
+footer?.appendChild(desc);
+
+// $('.category_description').removeClass('dnone');
+
+// $('.owl-carousel.owlproduct').remove();
+
+// $(document).ready(function(){
+// 	var triggered = false;
+// 	$(".triggerbtn").click(function(){
+// 		if(triggered == false){
+// 			$(this).toggleClass('animbuttonsh');
+// 			$(this).html('<i class=\"fa fa-close\" aria-hidden=\"true\"></i>');
+// 			var id = 6;
+// 			
+//
+// 			triggered = true;
+// 		} else {
+// 			$(this).toggleClass('animbuttonsh');
+// 			$(this).html('<i class=\"fa fa-comments-o fa-lg\" aria-hidden=\"true\"></i>');
+// 			$('.share_icon_callbtn').animate({bottom: '2em'}, 150);
+// 			triggered = false;
+// 		}
+// 	})
+// })
+
+	// var win_shopcart = $(window).height();
+	// var win_shopcart2 = $('#top').outerHeight()+$('#top2').outerHeight()+$('#top3').outerHeight();
+	// //$('#cart .dropdown-menu > li').css('max-height', win_shopcart-win_shopcart2).css('overflow-y', 'auto');
+	// $('#top3 #menu2 .child-box').css('max-height', win_shopcart-win_shopcart2).css('overflow-y', 'auto');
+
+// function toggle_ellipses() {
+//   var ellipses1 = $('.br_ellipses');
+//   var howlong = $('.breadcrumb li:hidden').length;
+//   if ($('.breadcrumb li:hidden').length > 1) {
+//     ellipses1.show().css('display', 'inline');
+//   } else {
+//     ellipses1.hide();
+//   }
+// }
+
 
 
 function get_revpopup_notification(m_class, m_header, message) {
@@ -140,40 +183,7 @@ function get_revpopup_notification(m_class, m_header, message) {
 		}
 	});
 }
-function get_revpopup_view(product_id) {
-	if (document.body.scrollHeight > document.body.offsetHeight) {
-		$('#top3.absolutpo').css('right', '8.5px');
-		if ($(window).width() < 768) {
-			$('#top #cart_mobi').css('margin-right', '17px');
-		}
-	}
-	$('.tooltip').hide();
-	$.magnificPopup.open({
-		removalDelay: 170,
-		callbacks: {
-			beforeOpen: function() {
-			   this.st.mainClass = 'mfp-zoom-in';
-			},
-			open: function() {
-				$('body').addClass('razmiv2');
-				$('#pagefader2').fadeIn(70);
-			},
-			close: function() {
-				$('body').removeClass('razmiv2');
-				$('#pagefader2').fadeOut(70);
-				$('#top3.absolutpo').css('right', 'initial');
-				if ($(window).width() < 768) {
-					$('#top #cart_mobi').css('margin-right', 'initial');
-				}
-			}
-		},
-		tLoading: '',
-		items: {
-			src: 'index.php?route=revolution/revpopupview&revproduct_id='+product_id,
-			type: 'ajax'
-		}
-	});
-}
+
 function get_revpopup_cartquick() {
 	$('#cart .dropdown-menu').css('display', 'none');
 	if (document.body.scrollHeight > document.body.offsetHeight) {

@@ -1,0 +1,47 @@
+<div class="prod_list-unstyled">
+  <ul class="list-unstyled">
+    <li class="hidden pr_quantity">{{ quantity }}</li>
+
+    {% if (not atributs) %}
+      {% if (revtheme_product_all_attribute_group) %}
+        {% for attribute_group in attribute_groups %}
+          {% if (attribute_group['attribute_group_id'] in revtheme_product_all_attribute_group) %}
+            {% if (revtheme_product_all['atributs_all_limit'] is defined and revtheme_product_all['atributs_all_limit']) %}
+              {{ attribute_group['attribute']|slice(0, revtheme_product_all['atributs_all_limit']) }}
+            {% endif %}
+            {% for attribute in attribute_group['attribute'] %}
+              {% if (attribute['text'] != '') %}
+                <li class="dotted-line">{{ attribute['name'] }}:<span>{{ attribute['text'] }}</span></li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+        {% if (atributs_ssilka_all and attribute_groups) %}
+          <li class="adotted_block">
+            {% if (revtheme_product_all['pr_tabs']) %}
+              <a class="adotted" onclick="$('a[href=\'#tab-specification\']').trigger('click'); $('html, body').animate({ scrollTop: $('a[href=\'#tab-specification\']').offset().top - 2}, 250); return false;">{{ text_product_all_attribs }}</a>
+            {% else %}
+              <a class="adotted" onclick="$('html, body').animate({ scrollTop: $('.tab-specification').offset().top - 70}, 250); return false;">{{ text_product_all_attribs }}</a>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+
+    {% if (atributs) %}
+      {% for attribute_group in attribute_groups %}
+        {% for attribute in attribute_group['attribute'] %}
+          {% if (attribute['text'] != '') %}
+            <li class="dotted-line" itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
+              <div class="dotted-line_left">
+                <span class="dotted-line_title" itemprop="name">{{ attribute['name'] }}:</span>
+                <div class="dotted-line_line"></div>
+              </div>
+              <div class="dotted-line_right" itemprop="value">{{ attribute['text'] }}</div>
+            </li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  </ul>
+</div>

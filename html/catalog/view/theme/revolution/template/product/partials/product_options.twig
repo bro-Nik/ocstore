@@ -61,7 +61,7 @@
                                   {% if (revtheme_product_all['options_buy_click']) %}
                                     <div class="radio">
                                       <label for="optb_{{ product_id }}_{{ option_value['product_option_value_id'] }}">
-                                        <input onchange="update_options_buy({{ product_id }},{{ option['product_option_id'] }},{{ option_value['product_option_value_id'] }});" type="radio" name="option_{{ product_id }}" value="{{ option_value['product_option_value_id'] }}" id="optb_{{ product_id }}_{{ option_value['product_option_value_id'] }}"/>
+                                        <input data-action="update_options_buy" data-product-id="{{ product_id }}" data-option-id="{{ option['product_option_id'] }}" data-option="{{ option_value['product_option_value_id'] }}" type="radio" name="option_{{ product_id }}" value="{{ option_value['product_option_value_id'] }}" id="optb_{{ product_id }}_{{ option_value['product_option_value_id'] }}"/>
                                         <span class="options_buy_image_title">{{ option_value['name'] }}</span>
                                       </label>
                                     </div>
@@ -158,7 +158,7 @@
     			{% if (option['type'] == 'select') %}
       	  	  	  <div class="form-group{{ option['required'] ? ' required' : '' }}">
         			<label class="control-label" for="input-option{{ option['product_option_id'] }}">{{ option['name'] }}:</label>
-        			<select onchange="update_prices_product({{ product_id }},{{ minimum }});" name="option[{{ option['product_option_id'] }}]" id="input-option{{ option['product_option_id'] }}" class="form-control">
+        			<select data-action="update_prices_product" data-product-id="{{ product_id }}" data-product-minimum="{{ minimum }}" name="option[{{ option['product_option_id'] }}]" id="input-option{{ option['product_option_id'] }}" class="form-control">
           	  	  	  <option value="">{{ text_select }}</option>
           	  	  	  {% for option_value in option['product_option_value'] %}
             			<option value="{{ option_value['product_option_value_id'] }}">{{ option_value['name'] }}
@@ -181,7 +181,7 @@
               	  	  	  {% if (option_value['model'] is defined and option_value['model'] matches '{http[s]{0,1}:}') %}
                 			<input onchange="location='{{ option_value['model'] }}';" type="radio" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
               	  	  	  {% else %}
-                			<input onchange="update_prices_product({{ product_id }},{{ minimum }});" type="radio" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
+                			<input data-action="update_prices_product" data-product-id="{{ product_id }}" data-product-minimum="{{ minimum }}" type="radio" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
               	  	  	  {% endif %}
               	  	  	  <label {% if (option['opt_image']) %} data-toggle="tooltip" title="{{ option_value['name'] }}" {% endif %} class="btn btn-default {% if (option_value['image']) %}label-in-img{% endif %}" for="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}">
                 			{% if (option_value['image']) %}
@@ -208,7 +208,7 @@
         			<div id="input-option{{ option['product_option_id'] }}">
           	  	  	  {% for option_value in option['product_option_value'] %}
             			<div class="radio checkbox{% if (option['opt_image']) %} opt_with_img{% endif %}">
-              	  	  	  <input onchange="update_prices_product({{ product_id }},{{ minimum }});" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
+              	  	  	  <input data-action="update_prices_product" data-product-id="{{ product_id }}" data-product-minimum="{{ minimum }}" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
               	  	  	  <label {% if (option['opt_image']) %} data-toggle="tooltip" {% endif %} class="btn {% if (option_value['image']) %}label-in-img{% endif %}" for="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}">
                 			<i class="fa fa-check"></i>
                 			{% if (option_value['image']) %}
@@ -234,7 +234,7 @@
         			<div id="input-option{{ option['product_option_id'] }}">
           	  	  	  {% for option_value in option['product_option_value'] %}
             			<div class="radio{% if (option['opt_image']) %} opt_with_img{% endif %}">
-              	  	  	  <input onchange="update_prices_product({{ product_id }},{{ minimum }});" type="radio" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
+              	  	  	  <input data-action="update_prices_product" data-product-id="{{ product_id }}" data-product-minimum="{{ minimum }}" type="radio" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
               	  	  	  <label {% if (option['opt_image']) %} data-toggle="tooltip" title="{{ option_value['name'] }}" {% endif %} class="btn btn-default {% if (option_value['image']) %}label-in-img{% endif %}" for="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}">
                 			{% if (option_value['image']) %}
                   	  	  	  <img src="{{ option_value['image'] }}" alt="{{ option_value['name'] ~ option_value['price'] ? ' ' ~ option_value['price_prefix'] ~ option_value['price'] : '' }}" class="img-thumbnail"/>
@@ -317,3 +317,19 @@
   	  	  	  {% endfor %}
 			</div>
 			<hr>{% endif %}{% endif %}
+
+			    {% if ((options and not revtheme_product_all['options_buy']) or not options_buy) %}
+			      {% if (recurrings) %}
+			        <hr>
+			        <h3>{{ text_payment_recurring }}</h3>
+			        <div class="form-group required">
+  	  	  	    <select name="recurring_id" class="form-control">
+    			        <option value="">{{ text_select }}</option>
+    			        {% for recurring in recurrings %}
+      	  	  	    <option value="{{ recurring['recurring_id'] }}">{{ recurring['name'] }}</option>
+    			        {% endfor %}
+  	  	  	    </select>
+  	  	  	    <div class="help-block" id="recurring-description"></div>
+			        </div>
+				    {% endif %} 
+			    {% endif %}				

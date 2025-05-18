@@ -1,0 +1,73 @@
+{% if (revtheme_product_all['h1_right']) %}
+  <span class="pr_h1_block">
+    <h1 class="inbreadcrumb">{{ mpn ?? product_name ?? heading_title }}</h1>
+  </span>
+{% endif %}
+<meta itemprop="mpn" content="{{ model }}">
+
+{% if (revtheme_product_all['short_desc'] and short_description) %}
+  <div class="short_description">{{ short_description }}</div>
+{% endif %}
+
+<ul class="product_list_top">
+  {% if (bonusbals_status) %}
+    {% if (reward) %}
+      <li>
+        <span data-toggle="tooltip" data-placement="top" title="{{ text_product_bonus_tooltip }}">+
+          {{ reward }}
+          {{ text_product_bonusov }}</span>
+      </li>
+    {% endif %}
+  {% endif %}
+  {% if (manufacturer_status) %}
+    {% if (manufacturer) %}
+      <li>{{ text_manufacturer }}<a href="{{ manufacturers }}">
+          <span itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name"/>{{ manufacturer }}</span>
+        </a>
+      </li>
+    {% endif %}
+  {% endif %}
+  {% if (model_status) %}
+    {% if (model != '') %}
+      <li>{{ text_model }}<span>{{ model }}</span></li>
+    {% endif %}
+  {% endif %}
+  {% if (sku_status) %}
+    {% if (sku != '') %}
+      <li>{{ text_product_artikul }}<span>{{ sku }}</span></li>
+    {% endif %}
+  {% endif %}
+</ul>
+
+{% if (review_status) %}
+  <div class="product_list_top2">
+    {% if (rev_srav_prod) %}
+      <div class="product-info">
+        <a class="{{ compare_class }} compare pjid_{{ product_id }} compare-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" data-brand="{{ brand }}">
+          <i class="fa fa-bar-chart-o"></i>
+          <span>Сравнить</span>
+        </a>
+      </div>
+    {% endif %}
+    <div class="rating">
+      {% set i = 1 %}
+      {% for i in i..5 %}
+        {% if (rating < i) %}
+          <span class="fa fa-stack">
+            <i class="fa fa-star-o fa-stack-1x"></i>
+          </span>
+        {% else %}
+          <span class="fa fa-stack">
+            <i class="fa fa-star fa-stack-1x"></i>
+            <i class="fa fa-star-o fa-stack-1x"></i>
+          </span>
+        {% endif %}
+      {% endfor %}
+      {% if (revtheme_product_all['pr_tabs']) %}
+        <a class="adotted" onclick="$('a[href=\'#tab-review\']').trigger('click'); $('html, body').animate({ scrollTop: $('a[href=\'#tab-review\']').offset().top - 2}, 250); return false;">{{ reviews }}</a>
+      {% else %}
+        <a class="adotted" onclick="$('html, body').animate({ scrollTop: $('.tab-review').offset().top - 70}, 250); return false;">{{ reviews }}</a>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

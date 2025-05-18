@@ -160,7 +160,7 @@ class ControllerRevolutionRevpopuporder extends Controller {
 
 			$data['recurrings'] = $this->model_catalog_product->getProfiles($product_id);
 
-			$this->response->setOutput($this->load->view('revolution/revpopuporder', $data));
+			$this->response->setOutput($this->load->view('modals/purchase', $data));
 			
 		} else {
 

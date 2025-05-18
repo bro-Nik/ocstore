@@ -307,11 +307,11 @@ class ControllerRevolutionRevpopupview extends Controller {
 
 			  if ($product_info['image']) {
 				$data['thumb'] = $this->model_tool_image->resize($product_info['image'], $config_image_thumb_width, $config_image_thumb_height);
-				$data['thumb_small'] = $this->model_tool_image->resize($product_info['image'], $config_image_additional_width, $config_image_additional_height);
+				$data['additional'] = $this->model_tool_image->resize($product_info['image'], $config_image_additional_width, $config_image_additional_height);
 				$data['div_img_width'] = $config_image_thumb_width . 'px';
 			  } else {
 				$data['thumb'] = $this->model_tool_image->resize("placeholder.png", $config_image_thumb_width, $config_image_thumb_height);
-				$data['thumb_small'] = $this->model_tool_image->resize("placeholder.png", $config_image_additional_width, $config_image_additional_height);
+				$data['additional'] = $this->model_tool_image->resize("placeholder.png", $config_image_additional_width, $config_image_additional_height);
 				$data['div_img_width'] = $config_image_thumb_width . 'px';
 			  }
 
@@ -321,8 +321,10 @@ class ControllerRevolutionRevpopupview extends Controller {
 
 			  foreach ($results as $result) {
 				$data['images'][] = array(
-				  'popup' => $this->model_tool_image->resize($result['image'], $config_image_thumb_width, $config_image_thumb_height),
-				  'thumb' => $this->model_tool_image->resize($result['image'], $config_image_additional_width, $config_image_additional_height)
+					'thumb'      => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height')),
+					'additional' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height')),
+					'popup' 		 => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')),
+					'video' => $result['video']
 				);
 			  }
 
@@ -530,7 +532,7 @@ class ControllerRevolutionRevpopupview extends Controller {
 
 			$data['text_payment_recurring'] = $this->language->get('text_payment_recurring');
 
-			$this->response->setOutput($this->load->view('revolution/revpopupview', $data));
+			$this->response->setOutput($this->load->view('modals/quickview', $data));
 		  
 		} else {
 			exit();

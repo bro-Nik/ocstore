@@ -1,6 +1,8 @@
-{% import "partials/base_modal.twig" as m %}
+{% extends 'modals/base.twig' %}
 
-{% set content %}
+{% set heading = popupphone_heading_title %}
+
+{% block content %}
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
 		<div class="payment-info">
 			{% if (revtheme_header_popupphone['firstname']) %} 
@@ -36,16 +38,9 @@
 		{% endif %} 
 		<input type="hidden" value="" name="site_url" />
 	</form>
-{% endset %}
+{% endblock %}
 
-{% set footer %}
+{% block footer %}
   <button class="continue-shopping" data-action="close">{{ button_shopping }}</button>
 	<a id="popup-checkout-button" data-action="submit">{{ button_checkout }}</a>
-{% endset %}
-
-
-{{ m.popup(popupphone_heading_title, attention, success, error_warning, content, footer) }}
-
-<script>
-document.querySelector('input[name="site_url"]').value = window.location.href;
-</script>
+{% endblock %}

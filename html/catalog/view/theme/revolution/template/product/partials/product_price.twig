@@ -1,0 +1,89 @@
+<div class="form-group pokupka">
+  {% if (zakaz_price_null or price_number > 0) %}
+    {% if (share_status) %}
+      {{ share_status_code }}
+    {% endif %}
+
+    {% if (price) %}
+      {% if (price_number > 0) %}
+        <div class="list-unstyled" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+          <meta itemprop="url" content="{{ breadcrumbs|last['href'] }}">
+          {% if (special_end) %}
+            <meta itemprop="priceValidUntil" content="{{ special_end }}">
+          {% else %}
+            <meta itemprop="priceValidUntil" content="{{ now|date_modify('+1 month')|date('Y-m-d') }}">
+          {% endif %}
+          {% if (not special) %}
+            <span class="update_price">{{ price }}</span>
+            {{ ed_izm ? '<span class="ed_izm">'~ed_izm~'</span>' : '' }}
+            <span class="update_special dnone"></span>
+            <meta itemprop="price" content="{{ price_number }}">
+          {% else %}
+            <span class="update_special price-new">{{ special }}</span>
+            {{ ed_izm ? '<span class="ed_izm">'~ed_izm~'</span>' : '' }}
+            <meta itemprop="price" content="{{ special_number }}">
+            <span class="update_price price-old">{{ price }}</span>
+          {% endif %}
+          {% if (points) %}
+            <div class="reward-product">{{ text_points }} <span class="pr_points">{{ points }}</span></div>
+          {% endif %}
+          <link itemprop="availability" href="http://schema.org/{{ quantity > 0?"InStock":"OutOfStock" }}" />
+          <meta itemprop="priceCurrency" content="{{ currency_code }}">
+        </div>
+      {% else %}
+        <div class="list-unstyled">{{ text_catalog_price_na_zakaz }}</div>
+      {% endif %}
+    {% endif %}
+
+    {% if ((price_number > 0 or zakaz_price_null) and (zakaz or quantity > 0)) %}
+      {% if (quantity < 1 and predzakaz_button) %}
+        <div class="pop_left">
+          <button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
+        </div>
+      {% else %}
+        <div class="pop_left">
+          {% if product_in_cart %}
+            <button type="button" id="button-cart" class="btn-cart in-cart"><i class="fa fa-shopping-basket"></i>В корзине</button>
+          {% else %}
+            <button type="button" id="button-cart" class="btn-cart add-to-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% else %}
+      {% if (predzakaz_button) %}
+        <div class="pop_left">
+          <button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if (rev_wish_prod or popup_purchase) %}
+      <div class="pop_right {% if (columns_dd) %} {{ 'columns_dd' }} {% endif %}">
+        {% if (popup_purchase and (price_number > 0 or zakaz_price_null) and (zakaz or quantity > 0)) %}
+          <a class="pop_ico quick-order-btn" data-product-id="{{ product_id }}"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md">{{ text_catalog_revpopup_purchase }}</span></a>
+        {% endif %}
+        {% if (rev_wish_prod) %}
+          <a class="{{ wishlist_class }} wishlist pjid_{{ product_id }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" title="{{ button_wishlist }}">
+            <i class="fa fa-border fa-heart"></i>
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% if (special_end) %}
+  <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
+		<span>{{ text_countdown }} {{ special_end|date('d.m.Y') }}</span>
+  </div>
+{% endif %}
+
+{% if (discounts and not special) %} 
+	<div class="discounts">
+		{% for discount in discounts %} 
+      <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
+			  <span>{{ discount['quantity'] }}{{ text_discount }}{{ discount['price'] }}</span><br/>
+      </div>
+		{% endfor %} 
+	</div>
+{% endif %} 

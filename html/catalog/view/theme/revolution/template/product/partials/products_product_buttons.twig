@@ -134,11 +134,6 @@
         <a class="add-to-cart {% if (product['product_in_cart']) %}in-cart{% endif %}" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
           {% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}
         </a>
-        {#}
-          <a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('{{ product['product_id'] }}');">
-            <i class="fa fa-hand-pointer-o"></i>
-            {{ text_catalog_revpopup_purchase }}</a>
-        {#}
       {% elseif (product['quantity'] < 1 and predzakaz_button) %}
         <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Уведомить о наличии">
           Уведомить
@@ -155,6 +150,12 @@
         <i class="fa fa-border fa-heart"></i>
       </a>
     </div>
+
+		<div class="lupa">
+			<a data-product-id="{{ product['product_id'] }}" data-action="quick-view">
+			  <i data-placement="top" class='fa fa-border fa-eye'></i>
+			</a>
+		</div>
   </div>
 </div>
 

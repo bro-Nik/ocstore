@@ -207,7 +207,7 @@ class ControllerRevolutionRevpopupcart extends Controller {
 
 		$data['heading_cartpopup_title'] = sprintf($this->language->get($textcart), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0));
 
-		$this->response->setOutput($this->load->view('revolution/revpopupcart', $data));
+		$this->response->setOutput($this->load->view('modals/cart', $data));
 
 	}
 

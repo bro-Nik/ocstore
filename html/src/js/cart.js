@@ -4,7 +4,8 @@
  */
 
 import { BaseModule } from './core/base';
-import { cartPopup } from './popups/cart';
+import { cartPopup } from './modals/cart';
+import { priceFormat, numberFormat } from './main';
 
 const CONFIG = {
   moduleName: 'cart',
@@ -57,6 +58,26 @@ class Cart extends BaseModule {
 
         if (productId) this.add(productId, action, quantity, blockId, addButton);
       }
+
+      // Обработка кликов для изменения цены
+      const updateButton = e.target.closest('[data-action="update_prices_product"]');
+      if (updateButton) {
+        const productId = updateButton.dataset.productId;
+        const minimum = updateButton.dataset.productMinimum || 1;
+
+        if (productId) this.updatePricesProduct(productId, minimum);
+      }
+
+      // Обработка кликов для изменения цены
+      const updateBuyButton = e.target.closest('[data-action="update_options_buy"]');
+      if (updateBuyButton) {
+        const productId = updateBuyButton.dataset.productId;
+        const optionId = updateBuyButton.dataset.optionId;
+        const option = updateBuyButton.dataset.option;
+
+        if (productId) this.updateOptionsBuy(productId, optionId, option);
+      }
+
     });
   }
 
@@ -206,6 +227,84 @@ class Cart extends BaseModule {
         }
       }
     }
+  }
+
+  updatePricesProduct(product_id, minimumvalue) {
+    const quantity = minimumvalue;
+    const formElements = document.querySelectorAll('.product-info.product_informationss input[type="text"], .product-info.product_informationss input[type="hidden"], .product-info.product_informationss input[type="radio"]:checked, .product-info.product_informationss input[type="checkbox"]:checked, .product-info.product_informationss select, .product-info.product_informationss textarea');
+    
+    const formData = new FormData();
+    formElements.forEach(el => {
+      if (el.name) {
+        formData.append(el.name, el.value);
+      }
+    });
+    
+    formData.append('product_id', product_id);
+    formData.append('quantity', quantity);
+    
+    fetch('index.php?route=product/product/update_prices', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(json => {
+      document.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
+        el.textContent = numberFormat(json.option_quantity, product_id);
+      });
+      
+      document.querySelectorAll('.product_informationss .pr_points').forEach(el => {
+        el.textContent = number_Format(json.points, product_id);
+      });
+      
+      document.querySelectorAll('.product_informationss .pr_model').forEach(el => {
+        el.textContent = json.opt_model;
+      });
+      
+      document.querySelectorAll('.product_informationss .update_price, .product_informationss .update_special').forEach(el => {
+        el.textContent = priceFormat(json.special_n);
+      });
+    })
+    .catch(error => console.error('Ошибка:', error));
+  }
+
+  // Функция для обновления опций при покупке в один клик
+  updateOptionsBuy(product_id, opt_id, option) {
+    const optionInput = document.querySelector(`.product-info.product_informationss .options_buy .pro_${option} input[name="option[${opt_id}]"]`);
+    if (optionInput) {
+      optionInput.value = option;
+    }
+    
+    const formElements = document.querySelectorAll(`.product-info.product_informationss .options_buy .pro_${option} input[type="text"], .product-info.product_informationss .options_buy .pro_${option} input[type="hidden"], .product-info.product_informationss .options_buy .pro_${option} input[type="radio"]:checked, .product-info.product_informationss .options_buy .pro_${option} input[type="checkbox"]:checked, .product-info.product_informationss .options_buy .pro_${option} select, .product-info.product_informationss .options_buy .pro_${option} textarea`);
+    
+    const formData = new FormData();
+    formElements.forEach(el => {
+      if (el.name) {
+        formData.append(el.name, el.value);
+      }
+    });
+    
+    formData.append('product_id', product_id);
+    
+    fetch('index.php?route=product/product/update_prices', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(json => {
+      document.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
+        el.textContent = number_format(json.option_quantity, product_id);
+      });
+      
+      document.querySelectorAll('.product_informationss .pr_points').forEach(el => {
+        el.textContent = number_format(json.points, product_id);
+      });
+      
+      document.querySelectorAll('.product_informationss .pr_model').forEach(el => {
+        el.textContent = json.opt_model;
+      });
+    })
+    .catch(error => console.error('Ошибка:', error));
   }
 }
 

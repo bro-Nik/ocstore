@@ -46,7 +46,7 @@ class ControllerRevolutionRevpopupphone extends Controller {
 			$data['captcha'] = '';
 		}
 
-		$this->response->setOutput($this->load->view('revolution/revpopupphone', $data));
+		$this->response->setOutput($this->load->view('modals/callback', $data));
 
 	}
 
