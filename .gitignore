@@ -5,20 +5,20 @@ html/image/
 /node_modules/
 to_ignore/
 
-/html/catalog/language/*/
-!html/catalog/language/ru/
-!html/catalog/language/ru-ru/
-!html/catalog/language/russian/
+/catalog/language/*/
+!/catalog/language/ru/
+!/catalog/language/ru-ru/
+!/catalog/language/russian/
 
 html/catalog/test/
 html/admin/test/
 
-/html/catalog/view/js/main.js
-/html/catalog/view/css/styles.css
-/html/catalog/view/theme/revolution/js/*
-/html/catalog/view/theme/revolution/css/*
-/html/catalog/view/theme/revolution/stylesheet/*
-/html/catalog/view/theme/default/stylesheet/*
+/catalog/view/js/main.js
+/catalog/view/css/styles.css
+/catalog/view/theme/revolution/js/*
+/catalog/view/theme/revolution/css/*
+/catalog/view/theme/revolution/stylesheet/*
+/catalog/view/theme/default/stylesheet/*
 
 *.env
 
