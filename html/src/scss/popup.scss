@@ -355,13 +355,8 @@ width: 30px;
 .frame-change-count {
 width: 110px;
 }
-// temp
-#popup-order-okno.mask-visible {
-  display: block;
-  opacity: 1;
-}
-
-#popup-order-okno.mask-hidden {
-  opacity: 0;
-  /* display: none будет применён после анимации через JS */
+.popup-open {
+    position: fixed;
+    left: 0;
+    top: 0;
 }

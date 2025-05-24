@@ -7,7 +7,7 @@ module.exports = {
   },
   output: {
     filename: 'js/[name].js',
-    path: path.resolve(__dirname, 'catalog/view/theme/revolution/'),
+    path: path.resolve(__dirname, 'catalog/view/'),
   },
   resolve: {
     extensions: ['.js', '.mjs'],

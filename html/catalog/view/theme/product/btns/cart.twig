@@ -1,0 +1,21 @@
+<div class="cart">
+  {% if (product['quantity'] > 0 and product['price_number'] > 0) %}
+    {% if (product['product_in_cart']) %}
+      <a class="in-cart" data-product-id="{{ product['product_id'] }}" data-action="open-popup-cart" data-default-action="catalog" data-toggle="tooltip" title="{{ button_cart }}">
+        В корзине
+      </a>
+    {% else %}
+      <a class="btn-cart" data-product-id="{{ product['product_id'] }}" data-action="cart-toggle" data-module="catalog" data-toggle="tooltip" title="{{ button_cart }}">
+        Купить
+      </a>
+    {% endif %}
+  {% elseif (product['quantity'] < 1 and predzakaz_button) %}
+    <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Уведомить о наличии">
+      Уведомить
+    </a>
+  {% elseif (product['price_number'] == 0 and predzakaz_button) %}
+    <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Запросить цену">
+      Запросить цену
+    </a>
+  {% endif %}
+</div>

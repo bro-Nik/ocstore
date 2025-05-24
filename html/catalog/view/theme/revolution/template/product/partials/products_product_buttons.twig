@@ -1,6 +1,6 @@
 <div class="compare_rating">
   <div class="compare">
-    <a class="compare {{ product['compare_class'] }} compare-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" data-brand="{{ product['brand'] }}">
+    <a class="compare {{ product['compare_class'] }}" data-action="compare-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" data-brand="{{ product['brand'] }}">
       <i class="fa fa-bar-chart-o"></i>
       <span>{{ product['button_compare'] }}</span>
     </a>
@@ -124,38 +124,9 @@
     <div class="clearfix"></div>
   {% endif %}
   <div class="btns-actions">
-
-
-    {% set button_cart_class = 'prlistb' %}
-
-    
-    <div class="cart">
-      {% if (product['quantity'] > 0 and product['price_number'] > 0) %}
-        <a class="add-to-cart {% if (product['product_in_cart']) %}in-cart{% endif %}" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" title="{{ button_cart }}" {% endif %}>
-          {% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}
-        </a>
-      {% elseif (product['quantity'] < 1 and predzakaz_button) %}
-        <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Уведомить о наличии">
-          Уведомить
-        </a>
-      {% elseif (product['price_number'] == 0 and predzakaz_button) %}
-        <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Запросить цену">
-          Запросить цену
-        </a>
-      {% endif %}
-    </div>
-
-    <div class="wishlist">
-      <a class="{{ product['wishlist_class'] }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" title="{{ product['button_wishlist'] }}">
-        <i class="fa fa-border fa-heart"></i>
-      </a>
-    </div>
-
-		<div class="lupa">
-			<a data-product-id="{{ product['product_id'] }}" data-action="quick-view">
-			  <i data-placement="top" class='fa fa-border fa-eye'></i>
-			</a>
-		</div>
+    {% include 'product/btns/cart.twig' %}
+    {% include 'product/btns/wishlist.twig' %}
+    {% include 'product/btns/lupa.twig' %}
   </div>
 </div>
 

@@ -8,13 +8,14 @@ initCarouselSwipers();
 import { initMobilMenu } from './mmenu-light';
 initMobilMenu();
 
+import { handlePhoneInput, handleNumberInput } from './services/validations';
 import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
 import events from './events/events';
 import modals from './modals/init';
-import prductServices from './product'
 import review from './review';
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -31,15 +32,23 @@ document.addEventListener('DOMContentLoaded', () => {
 		site_url.value = window.location.href;
   }
 
-	// Подсвечиваем поле ошибки
-	// document.querySelectorAll('.text-danger').forEach(errorElement => {
- //  	errorElement.closest('.form-group')?.classList.add('has-error');
-	// });
-
 	showContent();
+
+  document.addEventListener('input', (e) => {
+    // Валидация числовых полей
+    if (e.target.matches('input[data-validate="number"]')) {
+      handleNumberInput(e.target);
+    }
+    // Валидация полей телефона
+    if (e.target.matches('input[data-validate="telephone"]')) {
+      handlePhoneInput(e.target);
+    }
+  });
+
+
 });
-	
-	
+
+
 	
 function showContent() {
   document.documentElement.classList.add('visible');
@@ -83,7 +92,7 @@ export function numberFormat(n) {
 
 
 export function priceFormat(n) {
-  const t = ' '; // разделитель тысяч
+  const t = ''; // разделитель тысяч
   const s = '₽'; // символ валюты
   
   let i = parseInt(Math.abs(n)) + ''; 

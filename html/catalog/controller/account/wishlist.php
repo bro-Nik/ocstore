@@ -255,7 +255,7 @@ class ControllerAccountWishList extends Controller {
 				}
 				$this->session->data['wishlist'][$product_id] = $product_id;
 				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . (int)$this->request->post['product_id']), $product_info['name'], $this->url->link('account/wishlist'));
-				$json['class_wishlist'] = 'in_wishlist';
+				$json['class_wishlist'] = 'in-wishlist';
 				$json['button_wishlist'] = $this->language->get('button_wishlist_out');
 			} else {
 				unset($this->session->data['wishlist'][$product_id]);

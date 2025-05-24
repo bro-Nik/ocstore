@@ -208,8 +208,9 @@
         			<div id="input-option{{ option['product_option_id'] }}">
           	  	  	  {% for option_value in option['product_option_value'] %}
             			<div class="radio checkbox{% if (option['opt_image']) %} opt_with_img{% endif %}">
-              	  	  	  <input data-action="update_prices_product" data-product-id="{{ product_id }}" data-product-minimum="{{ minimum }}" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
-              	  	  	  <label {% if (option['opt_image']) %} data-toggle="tooltip" {% endif %} class="btn {% if (option_value['image']) %}label-in-img{% endif %}" for="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}">
+
+              	  	  	  <label {% if (option['opt_image']) %} data-toggle="tooltip" {% endif %} class="btn {% if (option_value['image']) %}label-in-img{% endif %}">
+              	  	  	  <input data-action="update_prices_product" data-product-id="{{ product_id }}" data-product-minimum="{{ minimum }}" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}" />
                 			<i class="fa fa-check"></i>
                 			{% if (option_value['image']) %}
                   	  	  	  <img src="{{ option_value['image'] }}" alt="{{ option_value['name'] ~ option_value['price'] ? ' ' ~ option_value['price_prefix'] ~ option_value['price'] : '' }}" class="img-thumbnail"/>
@@ -234,8 +235,8 @@
         			<div id="input-option{{ option['product_option_id'] }}">
           	  	  	  {% for option_value in option['product_option_value'] %}
             			<div class="radio{% if (option['opt_image']) %} opt_with_img{% endif %}">
-              	  	  	  <input data-action="update_prices_product" data-product-id="{{ product_id }}" data-product-minimum="{{ minimum }}" type="radio" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
               	  	  	  <label {% if (option['opt_image']) %} data-toggle="tooltip" title="{{ option_value['name'] }}" {% endif %} class="btn btn-default {% if (option_value['image']) %}label-in-img{% endif %}" for="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}">
+              	  	  	  <input data-action="update_prices_product" data-product-id="{{ product_id }}" data-product-minimum="{{ minimum }}" type="radio" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}" id="{{ option['product_option_id'] }}_{{ option_value['product_option_value_id'] }}"/>
                 			{% if (option_value['image']) %}
                   	  	  	  <img src="{{ option_value['image'] }}" alt="{{ option_value['name'] ~ option_value['price'] ? ' ' ~ option_value['price_prefix'] ~ option_value['price'] : '' }}" class="img-thumbnail"/>
                   	  	  	  {% if (not option['opt_image']) %}

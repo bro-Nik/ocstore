@@ -164,7 +164,7 @@
 										<div class="cart_wish">
 											{% if (product['quantity'] > 0) %} 
 											<div class="cart">
-												<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod"><span class="prlistb">{{ button_cart }}</span></a>
+												<a class="btn-cart" data-product-id="{{ product['product_id'] }}" data-action="cart-toggle" data-module="catalog_mod"><span class="prlistb">{{ button_cart }}</span></a>
 											</div>
 											{% elseif (predzakaz_button) %} 
 												<div class="cart">
@@ -173,7 +173,7 @@
 											{% endif %} 
 											{% if (rev_wish_prod) %} 
 												<div class="wishlist">
-													<a class="wishlist-toggle wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-product-id="{{ product['product_id'] }}" data-toggle="tooltip" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+													<a class="wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-action="wishlist-toggle" data-product-id="{{ product['product_id'] }}" data-toggle="tooltip" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
 												</div>
 											{% endif %} 
 											<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">
@@ -330,7 +330,7 @@
 								<div class="cart_wish">
 									{% if (product['quantity'] > 0) %} 
 									<div class="cart">
-										<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod">{{ button_cart }}</a>
+										<a class="btn-cart" data-product-id="{{ product['product_id'] }}" data-action="cart-toggle" data-module="catalog_mod">{{ button_cart }}</a>
 									</div>
 									{% elseif (predzakaz_button) %} 
 										<div class="cart predz">
@@ -339,7 +339,7 @@
 									{% endif %} 
 									{% if (rev_wish_prod) %} 
 										<div class="wishlist">
-											<a class="wishlist-toggle wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-product-id="{{ product['product_id'] }}" data-toggle="tooltip" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+											<a class="wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-action="wishlist-toggle" data-product-id="{{ product['product_id'] }}" data-toggle="tooltip" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
 										</div>
 									{% endif %} 
 									<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">

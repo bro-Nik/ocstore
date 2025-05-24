@@ -1,36 +1,25 @@
-import { handleDelegateEvents } from './delegator';
+import { eventManager } from './event-manager';
 
-const GLOBAL_EVENT_HANDLERS = {
-};
-
-class Events {
+class EventSystem {
   constructor() {
-    this.handlers = { ...GLOBAL_EVENT_HANDLERS };
-    this.init();
+    this.globalHandlers = {};
   }
 
-  init() {
-    if (this.initialized) return;
-    this.bindEvents();
-    this.initialized = true;
-  }
-
-  /**
-   * Добавляет новые обработчики событий
-   * @param {Object} newHandlers - { 'action-name': 'handlerMethod' }
-   */
-  addHandlers(newHandlers, element, context) {
-    this.handlers = { ...this.handlers, ...newHandlers };
-    this.bindEvents(newHandlers, element, context);
-  }
-
-  bindEvents(handlers, element, context) {
-    if (!element) return;
-    element.addEventListener('click', (e) => {
-      handleDelegateEvents(e, handlers, context);
+  addHandlers(handlers = [], element = document, context = null) {
+    Object.entries(handlers).forEach(([action, method]) => {
+      eventManager.delegate(
+        element,
+        'click',
+        `[data-action="${action}"]`,
+        (e, target) => {
+          // e.preventDefault();
+          if (context && context[method]) {
+            context[method].call(context, e, target);
+          }
+        }
+      );
     });
   }
-
 }
 
-export const events = new Events();
+export const events = new EventSystem();

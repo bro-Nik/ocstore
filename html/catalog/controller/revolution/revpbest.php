@@ -203,7 +203,7 @@ class ControllerRevolutionrevpbest extends Controller {
 			
 			if (isset($this->session->data['compare'])) {
 				if (in_array($result['product_id'], $this->session->data['compare'])) {
-					$compare_class = 'in_compare';
+					$compare_class = 'in-compare';
 					$button_compare = $this->language->get('button_compare_out');
 				} else {
 					$compare_class = '';
@@ -216,7 +216,7 @@ class ControllerRevolutionrevpbest extends Controller {
 			
 			if (isset($this->session->data['wishlist'])) {
 				if (in_array($result['product_id'], $this->session->data['wishlist'])) {
-					$wishlist_class = 'in_wishlist';
+					$wishlist_class = 'in-wishlist';
 					$button_wishlist = $this->language->get('button_wishlist_out');
 				} else {
 					$wishlist_class = '';
@@ -235,7 +235,7 @@ class ControllerRevolutionrevpbest extends Controller {
 						$wishlist_register_id[] = $result_wishlist_register_id['product_id'];
 					}
 					if (in_array($result['product_id'], $wishlist_register_id)) {
-						$wishlist_class = 'in_wishlist';
+						$wishlist_class = 'in-wishlist';
 						$button_wishlist = $this->language->get('button_wishlist_out');
 					} else {
 						$wishlist_class = '';

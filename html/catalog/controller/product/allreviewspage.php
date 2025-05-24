@@ -2,10 +2,6 @@
 class ControllerProductAllreviewspage extends Controller {
     public function index() {
         $this->document->addStyle('catalog/view/javascript/ex-reviews/extended_reviews.css');
-        $this->document->addStyle('catalog/view/javascript/ex-reviews/owl-carousel/owl.carousel.css');
-        $this->document->addScript('catalog/view/javascript/ex-reviews/owl-carousel/owl.carousel.min.js');
-        $this->document->addStyle('catalog/view/javascript/ex-reviews/magnific/magnific-popup.css');
-        $this->document->addScript('catalog/view/javascript/ex-reviews/magnific/jquery.magnific-popup.min.js');
 
         $this->load->model('catalog/product');
 

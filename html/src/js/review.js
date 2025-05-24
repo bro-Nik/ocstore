@@ -12,35 +12,28 @@ const CONFIG = {
     writeReview: 'index.php?route=product/product/write&product_id=',
     writeAnswer: 'index.php?route=revolution/revstorereview/writeanswer&product_id=',
   },
+  selectors: {
+    reviewContainer: '#review',
+    reviewForm: '.form-review',
+    answerForm: '.form-answers',
+    pagination: '.pagination a',
+    reviewButton: '#button-review',
+    answerButton: '#button-answers'
+  },
 };
 
-const SELECTORS = {
-  reviewContainer: '#review',
-  reviewForm: '.form-review',
-  answerForm: '.form-answers',
-  pagination: '.pagination a',
-  reviewButton: '#button-review',
-  answerButton: '#button-answers'
-};
 
 class Review extends BaseModule {
   constructor() {
-    super(CONFIG, SELECTORS);
+    super(CONFIG);
     this.productId = null;
     this.container = null;
-    this.initialized = false;
-    this.init();
-  }
-
-  init() {
-    if (this.initialized) return;
-    this.bindEvents();
-    this.initialized = true;
   }
 
   bindEvents() {
     document.addEventListener('DOMContentLoaded', () => this.loadReviews());
     document.addEventListener('click', this.handleClick.bind(this));
+    document.addEventListener('popup:opened', (e) => this.loadReviews());
   }
 
   handleClick(e) {
@@ -99,7 +92,7 @@ class Review extends BaseModule {
     }
   }
 
-  loadReviews() {
+  loadReviews(conteiner) {
     this.container = document.querySelector(this.selectors.reviewContainer);
     if (!this.container) return;
     

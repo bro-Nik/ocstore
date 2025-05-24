@@ -3,48 +3,65 @@
  * @class BaseModule
  */
 
-import { animateScale } from '../services/animations';
 import { postFormData } from '../services/api';
+import { LoadingManager } from '../services/loading';
+import { eventManager } from '../events/event-manager';
+import { events } from '../events/events';
+
+const BASE_CONFIG = {};
 
 export class BaseModule {
-  constructor(config, selectors) {
-    this.config = config;
-    this.selectors = selectors;
+
+  constructor(config = {}) {
+    this.config = { ...BASE_CONFIG, ...config };
+    this.selectors = this.config.selectors;
+    this.endpoints = this.config.endpoints;
+    this.events = this.config.events;
+    this.dialog = null;
+    this.content = null;
+    this.loading = null;
     this.initialized = false;
+
+    this.init();
   }
 
-  /**
-   * Показывает/скрывает состояние загрузки
-   * @param {HTMLElement} element - Элемент для изменения
-   * @param {boolean} show - Показать или скрыть
-   */
-  showLoadingState(element, show) {
-    if (!element) return;
-    element.classList.toggle('btn-loading', show);
+  init() {
+    if (this.initialized) return;
+    this.bindEvents();
+    this.initialized = true;
   }
 
-  /**
-   * Анимация элемента (масштабирование)
-   * @param {HTMLElement} element - Элемент для анимации
-   */
-  animateElement(element) {
-    animateScale(element);
-  }
-
-  /**
-   * Обновляет счетчик общего количества
-   * @param {number} total - Новое значение счетчика
-   */
-  updateTotalCount(total) {
-    const elements = document.querySelectorAll(this.selectors.total);
-    
-    if (elements) {
-      elements.forEach(element => {
-        element.textContent = total;
-        this.animateElement(element);
-      });
+  async loadHtml(url, obj) {
+    if (obj) {
+      const response = await fetch(url);
+      obj.innerHTML = await response.text();
     }
-  }
+  };
+
+  async loadJson(url) {
+    const response = await fetch(url);
+    return await response.json();
+  };
+
+  async load(url) {
+    const response = await fetch(url);
+    return await response;
+  };
+
+  bindEvents() {
+    events.addHandlers(this.config.globalEvents, document, this);
+  };
+
+
+  showLoading(btn) {
+    const loading = new LoadingManager(btn);
+    loading.show();
+  };
+
+  hideLoading(btn) {
+    const loading = new LoadingManager(btn);
+    loading.hide();
+  };
 
   /**
    * Обработка ошибок
@@ -55,49 +72,6 @@ export class BaseModule {
     this.dispatchEvent('error', { error: error.message });
   };
 
-  /**
-   * Обновляет состояние кнопок
-   * @param {string|number} productId - ID товара
-   * @param {Object} params - Параметры обновления
-   * @param {string} params.baseClass - Базовый CSS-класс
-   * @param {string} params.newClass - Новый CSS-класс
-   * @param {string} params.newTitle - Текст для title
-   * @param {string} [params.classToRemove] - Класс для удаления
-   */
-  updateButtons(productId, { baseClass, newClass, newTitle, classToRemove, newText, newUrl }) {
-    const selectors = this.getSelectors(this.selectors.btns, { product_id: productId });
-    selectors.forEach(selector => {
-      document.querySelectorAll(selector).forEach(button => {
-        // Удаляем класс (если передан)
-        if (classToRemove) button.classList.remove(classToRemove);
-
-        // Сбрасываем и добавляем классы
-        // button.className = baseClass;
-        if (newClass) button.classList.add(newClass);
-
-        // Обновляем атрибуты
-        button.setAttribute('title', newTitle);
-        button.setAttribute('data-original-title', newTitle);
-        button.setAttribute('data-toggle', 'tooltip');
-
-        // Меняем текст, если нужно
-        if (newText) {
-          button.innerHTML = newText;
-        }
-
-        // Ставим ссылку
-        if (newUrl) {
-          button.onclick = (e) => {
-            e.preventDefault();
-            window.location.href = newUrl;
-          };
-        }
-
-        // Анимация
-        this.animateElement(button);
-      });
-    });
-  }
 
   /**
    * Отправка данных формы
@@ -121,6 +95,16 @@ export class BaseModule {
       cancelable: true
     });
     document.dispatchEvent(event);
+  }
+
+  event(event, selector, handler, options = {}) {
+    eventManager.delegate(
+      document, // контекст сохраняется в классе
+      event,
+      selector,
+      handler.bind(this), // автоматический биндинг контекста
+      options
+    );
   }
 
   getSelectors(selectors, replacements = {}) {

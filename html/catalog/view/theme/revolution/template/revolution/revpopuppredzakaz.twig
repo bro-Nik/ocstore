@@ -224,39 +224,8 @@
 	</div>
 	{% endif %} 
 
-	<div class="payment-info">
-		{% if (revtheme_predzakaz['firstname']) %} 
-		<div>
-		  <label>{% if (revtheme_predzakaz['firstname'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_firstname }}</label>
-		  <input name="firstname" value="{{ firstname }}" />
-		</div>
-		{% endif %} 
-		{% if (revtheme_predzakaz['telephone']) %} 
-		<div>
-		  <label>{% if (revtheme_predzakaz['telephone'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_telephone }}</label>
-		  <input name="telephone" value="{{ telephone }}" {% if (telephone_mask) %} data-mask="{{ telephone_mask }}" {% endif %} />
-		</div>
-		{% endif %} 
-		{% if (revtheme_predzakaz['email']) %} 
-		<div>
-		  <label>{% if (revtheme_predzakaz['email'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_email }}</label>
-		  <input name="email" value="{{ email }}" />
-		</div>
-		{% endif %} 
-		{% if (revtheme_predzakaz['comment']) %} 
-		<div>
-		  <label>{% if (revtheme_predzakaz['comment'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_comment }}</label>
-		  <textarea name="comment">{{ comment }}</textarea>
-		</div>
-		{% endif %} 
-	</div>
-	{% if (text_agree_pol_konf) %} 
-		<div class="rev_pol_konf pull-right text-right">
-			<span>{{ text_agree_pol_konf }}</span>
-			<input type="checkbox" name="agree_pol_konf" checked="checked" />
-		</div>
-	{% endif %} 
-    </form>
+	{% include 'partials/form.twig' with {'form_settings': revtheme_predzakaz} %}
+  </form>
 </div>
 <div class="popup-footer">
     <button onclick="$.magnificPopup.close();">{{ button_shopping }}</button>

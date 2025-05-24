@@ -41,7 +41,7 @@
                   <button type="button" "{{ product['quantity_pr'] }}">-</button>
                 </div>
               </div>
-              <input type="text" name="quantity" value="{{ product['quantity'] }}" class="plus-minus" "{{ product['key'] }}, {{ product['quantity_pr'] }}, {{ product['quantity_pr'] }}" />
+              <input type="text" name="quantity" value="{{ product['quantity'] }}" data-validate="number" class="plus-minus" "{{ product['key'] }}, {{ product['quantity_pr'] }}, {{ product['quantity_pr'] }}" />
             </div>
           </td>
           <td class="totals">{{ product['total'] }}</td>
@@ -88,7 +88,7 @@
                   <button type="button" "{{ product['quantity_pr'] }}">-</button>
                 </div>
               </div>
-              <input type="text" name="quantity" value="{{ product['quantity'] }}" class="plus-minus" "{{ product['key'] }}, {{ product['quantity_pr'] }}" />
+              <input type="text" name="quantity" value="{{ product['quantity'] }}" data-validate="number" class="plus-minus" "{{ product['key'] }}, {{ product['quantity_pr'] }}" />
             </div>
 			<span class="remove">
 			  <button type="button"><i class="fa fa-trash-o"></i></button>
@@ -111,38 +111,7 @@
       {% endfor %} 
     </div>
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
-		<div class="payment-info" style="padding-top: 0;">
-			{% if (revtheme_catalog_popuporder['firstname']) %} 
-			<div>
-			  <label>{% if (revtheme_catalog_popuporder['firstname'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_firstname }}</label>
-			  <input name="firstname" value="{{ firstname }}" {% if (revtheme_catalog_popuporder['firstname'] == 2) %}required{% endif %}/>
-			</div>
-			{% endif %} 
-			{% if (revtheme_catalog_popuporder['telephone']) %} 
-			<div>
-			  <label>{% if (revtheme_catalog_popuporder['telephone'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_telephone }}</label>
-			  <input name="telephone" value="{{ telephone }}" {% if (telephone_mask) %} data-mask="{{ telephone_mask }}" {% endif %} {% if (revtheme_catalog_popuporder['telephone'] == 2) %} required{% endif %} />
-			</div>
-			{% endif %} 
-			{% if (revtheme_catalog_popuporder['email']) %} 
-			<div>
-			  <label>{% if (revtheme_catalog_popuporder['email'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_email }}</label>
-			  <input name="email" value="{{ email }}" {% if (revtheme_catalog_popuporder['email'] == 2) %}required{% endif %}/>
-			</div>
-			{% endif %} 
-			{% if (revtheme_catalog_popuporder['comment']) %} 
-			<div>
-			  <label>{% if (revtheme_catalog_popuporder['comment'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_comment }}</label>
-			  <textarea name="comment" {% if (revtheme_catalog_popuporder['comment'] == 2) %}required{% endif %}>{{ comment }}</textarea>
-			</div>
-			{% endif %} 
-		</div>
-		{% if (text_agree_pol_konf) %} 
-			<div class="rev_pol_konf pull-right text-right">
-				<span>{{ text_agree_pol_konf }}</span>
-				<input type="checkbox" name="agree_pol_konf" checked="checked" />
-			</div>
-		{% endif %} 
+	  {% include 'partials/form.twig' with {'form_settings': revtheme_catalog_popuporder} %}
 	</form>
 
   {% else %} 

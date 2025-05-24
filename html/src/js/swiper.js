@@ -2,8 +2,12 @@ import Swiper from 'swiper/core';
 import { Navigation, Thumbs } from 'swiper/modules';
 
 export function initProductSwipers() {
+  const swiperEl = document.querySelector('.swiper');
+  if (!swiperEl) return;
+  const slidesCount = swiperEl.querySelectorAll('.swiper-slide').length;
+
   var productThumbsSwiper = new Swiper(".product_thumbs_swiper", {
-    loop: true,
+    loop: slidesCount > 4,
     spaceBetween: 10,
     slidesPerView: 4,
     freeMode: true,
@@ -30,7 +34,6 @@ export function initHomeSwipers() {
   const revSwiper = new Swiper('#revslideshow', {
     slidesPerView: 'auto',
     spaceBetween: 10,
-    loop: true,
   });
 
   return { revSwiper };

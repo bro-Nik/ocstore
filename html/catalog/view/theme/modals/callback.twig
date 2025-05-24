@@ -4,38 +4,7 @@
 
 {% block content %}
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
-		<div class="payment-info">
-			{% if (revtheme_header_popupphone['firstname']) %} 
-				<div>
-					<label>{% if (revtheme_header_popupphone['firstname'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_firstname }}</label>
-					<input name="firstname" value="{{ firstname }}" />
-				</div>
-			{% endif %} 
-			{% if (revtheme_header_popupphone['telephone']) %} 
-				<div>
-					<label>{% if (revtheme_header_popupphone['telephone'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_telephone }}</label>
-					<input name="telephone" value="{{ telephone }}" {% if (telephone_mask) %} data-mask="{{ telephone_mask }}" {% endif %} />
-				</div>
-			{% endif %} 
-			{% if (revtheme_header_popupphone['email']) %} 
-				<div>
-					<label>{% if (revtheme_header_popupphone['email'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_email }}</label>
-					<input name="email" value="{{ email }}" />
-				</div>
-			{% endif %} 
-			{% if (revtheme_header_popupphone['comment']) %} 
-				<div>
-					<label>{% if (revtheme_header_popupphone['comment'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_comment }}</label>
-					<textarea name="comment">{{ comment }}</textarea>
-				</div>
-			{% endif %} 
-		</div>
-		{% if (text_agree_pol_konf) %} 
-			<div class="rev_pol_konf pull-right text-right">
-				<span>{{ text_agree_pol_konf }}</span>
-				<input type="checkbox" name="agree_pol_konf" checked="checked" />
-			</div>
-		{% endif %} 
+	  {% include 'partials/form.twig' with {'form_settings': revtheme_header_popupphone} %}
 		<input type="hidden" value="" name="site_url" />
 	</form>
 {% endblock %}

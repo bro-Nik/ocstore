@@ -36,6 +36,12 @@ class ControllerRevolutionRevpopuporder extends Controller {
 			$product_id = 0;
 		}
 
+		if (isset($this->request->get['quantity'])) {
+			$quantity = (int)$this->request->get['quantity'];
+		} else {
+			$quantity = 0;
+		}
+
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 
 		$data['product_id'] = $product_id;

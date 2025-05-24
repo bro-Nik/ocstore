@@ -407,7 +407,7 @@
 							</div>
 						{% else %} 
 							<div class="cart">
-								<a class="add-to-cart" data-product-id="{{ product['product_id'] }}" data-action="catalog" {% if (button_cart_class != 'prlistb active') %}data-toggle="tooltip" title="{{ button_cart }}"{% endif %}><i class="fa fa-border fa-shopping-basket"><span class="{{ button_cart_class }}">{{ button_cart }}</span></i></a>
+								<a class="btn-cart" data-product-id="{{ product['product_id'] }}" data-action="cart-toggle" data-module="catalog" {% if (button_cart_class != 'prlistb active') %}data-toggle="tooltip" title="{{ button_cart }}"{% endif %}><i class="fa fa-border fa-shopping-basket"><span class="{{ button_cart_class }}">{{ button_cart }}</span></i></a>
 							</div>
 							{% if (revpopuporder_settings['quick_btn']) %} 
 								<a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('{{ product['product_id'] }}');"><i class="fa fa-hand-pointer-o"></i>{{ text_catalog_revpopup_purchase }}</a>

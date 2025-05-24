@@ -43,9 +43,9 @@
       {% else %}
         <div class="pop_left">
           {% if product_in_cart %}
-            <button type="button" id="button-cart" class="btn-cart in-cart"><i class="fa fa-shopping-basket"></i>В корзине</button>
+            <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="open-popup-cart" data-product-id="{{ product_id }}" data-default-action="product" class="btn-cart in-cart"><i class="fa fa-shopping-basket"></i>В корзине</button>
           {% else %}
-            <button type="button" id="button-cart" class="btn-cart add-to-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+            <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="cart-toggle" class="btn-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
           {% endif %}
         </div>
       {% endif %}
@@ -60,10 +60,10 @@
     {% if (rev_wish_prod or popup_purchase) %}
       <div class="pop_right {% if (columns_dd) %} {{ 'columns_dd' }} {% endif %}">
         {% if (popup_purchase and (price_number > 0 or zakaz_price_null) and (zakaz or quantity > 0)) %}
-          <a class="pop_ico quick-order-btn" data-product-id="{{ product_id }}"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md">{{ text_catalog_revpopup_purchase }}</span></a>
+          <a class="pop_ico" data-action="purchase" data-product-id="{{ product_id }}"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md">{{ text_catalog_revpopup_purchase }}</span></a>
         {% endif %}
         {% if (rev_wish_prod) %}
-          <a class="{{ wishlist_class }} wishlist pjid_{{ product_id }} wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" title="{{ button_wishlist }}">
+          <a class="{{ wishlist_class }} wishlist pjid_{{ product_id }}" data-action="wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" title="{{ button_wishlist }}">
             <i class="fa fa-border fa-heart"></i>
           </a>
         {% endif %}

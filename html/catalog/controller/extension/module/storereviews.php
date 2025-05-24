@@ -11,10 +11,6 @@ class ControllerExtensionModuleStorereviews extends Controller {
 
         $this->load->model('catalog/ex_store_reviews');
 
-        $this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
-        $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
-        $this->document->addScript('catalog/view/javascript/ex-reviews/owl-carousel/owl.carousel.min.js');
-        $this->document->addStyle('catalog/view/javascript/ex-reviews/owl-carousel/owl.carousel.css');
         $this->document->addStyle('catalog/view/javascript/ex-reviews/storereviews.css');
 
         $data['module'] = 'reviews';

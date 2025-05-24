@@ -18,10 +18,10 @@ module.exports = merge(common, {
     }),
     new WebpackManifestPlugin({
       fileName: 'manifest.json',
-      publicPath: 'catalog/view/theme/revolution/',
+      publicPath: 'catalog/view/',
     }),
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['catalog/view/theme/revolution/js/*', 'catalog/view/theme/revolution/css/*'],
+      cleanOnceBeforeBuildPatterns: ['catalog/view/js/*', 'catalog/view/css/*'],
     }),
   ],
   optimization: {

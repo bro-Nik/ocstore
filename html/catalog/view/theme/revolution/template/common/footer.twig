@@ -298,14 +298,17 @@
 		</span>
 	</div>
 {% endif %} 
+
+<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
+<script src="catalog/view/javascript/revolution/common.js"></script>
 {% if (not setting_all_settings['minif_on']) %} 
-	<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
-	<script src="catalog/view/javascript/revolution/common.js"></script>
-	<script src="catalog/view/theme/revolution/js/main.js"></script>
-	
-{% else %} 
-	<script src="catalog/view/javascript/revolution/javascript_min.js"></script>
+	<script src="catalog/view/js/main.js"></script>
 {% endif %} 
+
+{% for script in scripts %} 
+<script src="{{ script }}" defer></script>
+{% endfor %} 
+
 <script><!--
 	{% if (not revtheme_filter['status'] or revfilter_route) %} 
 		{% if (setting_catalog_all['pagination'] != 'standart') %} 

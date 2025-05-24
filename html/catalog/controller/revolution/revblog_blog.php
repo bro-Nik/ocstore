@@ -126,8 +126,8 @@ class ControllerRevolutionRevblogBlog extends Controller {
 			$this->document->setKeywords($blog_info['meta_keyword']);
 			$this->document->addLink($this->url->link('revolution/revblog_blog', 'revblog_id=' . $revblog_id), 'canonical');
 
-			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
-			$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
+			// $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
+			// $this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
 			
 			$data['description'] = html_entity_decode($blog_info['description'], ENT_QUOTES, 'UTF-8');
 			if ($this->config->get('revtheme_geo_set')['status']) {
@@ -200,8 +200,6 @@ class ControllerRevolutionRevblogBlog extends Controller {
 			$data['images'] = array();
 			$results = $this->model_revolution_revolution->getBlogImages($revblog_id);
 			if ($results) {
-				$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
-				$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
 				foreach ($results as $result) {
 					$data['images'][] = array(
 						'original'	=> HTTP_SERVER.'image/'.$result['image'],
@@ -305,7 +303,7 @@ class ControllerRevolutionRevblogBlog extends Controller {
 					
 					if (isset($this->session->data['compare'])) {
 						if (in_array($result['product_id'], $this->session->data['compare'])) {
-							$compare_class = 'in_compare';
+							$compare_class = 'in-compare';
 							$button_compare = $this->language->get('button_compare_out');
 						} else {
 							$compare_class = '';
@@ -317,7 +315,7 @@ class ControllerRevolutionRevblogBlog extends Controller {
 					}
 					if (isset($this->session->data['wishlist'])) {
 						if (in_array($result['product_id'], $this->session->data['wishlist'])) {
-							$wishlist_class = 'in_wishlist';
+							$wishlist_class = 'in-wishlist';
 							$button_wishlist = $this->language->get('button_wishlist_out');
 						} else {
 							$wishlist_class = '';
@@ -337,7 +335,7 @@ class ControllerRevolutionRevblogBlog extends Controller {
 								$wishlist_register_id[] = $result_wishlist_register_id['product_id'];
 							}
 							if (in_array($result['product_id'], $wishlist_register_id)) {
-								$wishlist_class = 'in_wishlist';
+								$wishlist_class = 'in-wishlist';
 								$button_wishlist = $this->language->get('button_wishlist_out');
 							} else {
 								$wishlist_class = '';

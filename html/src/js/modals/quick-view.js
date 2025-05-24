@@ -8,46 +8,44 @@ import { initProductSwipers } from '../swiper';
 import Swiper from 'swiper/core';
 import { Navigation, Thumbs } from 'swiper/modules';
 
-const SELECTORS = {
-  POPUP_ID: '#popup-quick-view',
-  POPUP_CLASS: '.big-dialog'
-};
-
-const ENDPOINTS = {
-  CONTENT_DEFAULT: 'index.php?route=revolution/revpopupview&revproduct_id=',
-  CONTENT: '',
+const CONFIG = {
+  selectors: {
+    popupId: '#popup-quick-view',
+    popupClass: '.big-dialog'
+  },
+  endpoints: {
+    content: 'index.php?route=revolution/revpopupview&revproduct_id=',
+  },
+  globalEvents: {
+    'quick-view': 'show'
+  },
 };
 
 class QuickViewPopup extends BasePopup {
   constructor() {
-    super(SELECTORS, ENDPOINTS);
+    super(CONFIG);
   }
 
-  bindEvents() {
-    document.addEventListener('click', (e) => {
-      // Обработка кликов
-      const openBtn = e.target.closest(`[data-action="quick-view"]`);
-      if (openBtn) {
-        e.preventDefault();
-        const productId = openBtn.dataset.productId || '';
-        this.endpoints.CONTENT = `${this.endpoints.CONTENT_DEFAULT}${productId}`
-        this.show();
-      }
-    });
+  show(e, btn) {
+    const productId = btn.dataset.productId || '';
+    const url = `${this.endpoints.content}${productId}`
+    super.show(url);
   }
 
-  prepareBeforeShow() {
+  async updateCartItem(productId, quantity) {
+    const url = `${this.endpoints.content}&update=${productId}&quantity=${quantity}`;
+    super.updateCartItem(url);
+  }
+
+  afterShow() {
+    super.afterShow();
     // Показываем первую вкладку
     const firstTab = document.querySelector('.nav.nav-tabs li:first-child a');
-    console.log(firstTab)
     if (firstTab) {
       firstTab.click();
     }
-
     initProductSwipers();
-
   }
-
 }
 
 

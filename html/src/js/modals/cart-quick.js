@@ -4,31 +4,29 @@
 //  */
 
 import { BaseCartPopup } from './cart-base.js';
-import { validateNumberInput, validatePhoneInput, validateEmailInput } from '../services/validations';
 
-const ENDPOINTS = {
-  CONTENT: 'index.php?route=revolution/revpopupcartquick',
-  MAKE_ORDER: 'index.php?route=revolution/revpopupcartquick/make_order',
-  CART_STATUS: 'index.php?route=revolution/revpopupcartquick/status_cart',
+const CONFIG = {
+  endpoints: {
+    content: 'index.php?route=revolution/revpopupcartquick',
+    submit: 'index.php?route=revolution/revpopupcartquick/make_order',
+    cartStatus: 'index.php?route=revolution/revpopupcartquick/status_cart',
+  },
+  selectors: {
+    popupId: '#popup-cart-quick',
+  },
+  globalEvents: {
+    'quick-order': 'show'
+  },
 };
-
-const  SELECTORS = {
-  POPUP_ID: '#popup-cart-quick',
-};
-
 
 class CartQuickPopup extends BaseCartPopup {
   constructor() {
-    super(SELECTORS, ENDPOINTS);
+    super(CONFIG);
   }
 
-  bindEvents() {
-    // Валидация числовых полей
-    document.addEventListener('input', (e) => {
-      if (e.target.matches('input[type="text"][data-validate="number"]')) {
-        validateNumberInput(e.target);
-      }
-    });
+  async updateCartItem(productId, quantity) {
+    const url = `${this.endpoints.content}&update=${productId}&quantity=${quantity}`;
+    super.updateCartItem(url);
   }
 
 }

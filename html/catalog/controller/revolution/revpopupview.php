@@ -191,7 +191,7 @@ class ControllerRevolutionRevpopupview extends Controller {
 			
 			if (isset($this->session->data['compare'])) {
 				if (in_array($product_id, $this->session->data['compare'])) {
-					$data['compare_class'] = 'in_compare';
+					$data['compare_class'] = 'in-compare';
 					$data['button_compare'] = $this->language->get('button_compare_out');
 				} else {
 					$data['compare_class'] = '';
@@ -204,7 +204,7 @@ class ControllerRevolutionRevpopupview extends Controller {
 			
 			if (isset($this->session->data['wishlist'])) {
 				if (in_array($product_id, $this->session->data['wishlist'])) {
-					$data['wishlist_class'] = 'in_wishlist';
+					$data['wishlist_class'] = 'in-wishlist';
 					$data['button_wishlist'] = $this->language->get('button_wishlist_out');
 				} else {
 					$data['wishlist_class'] = '';
@@ -224,7 +224,7 @@ class ControllerRevolutionRevpopupview extends Controller {
 						$wishlist_register_id[] = $result_wishlist_register_id['product_id'];
 					}
 					if (in_array($product_id, $wishlist_register_id)) {
-						$data['wishlist_class'] = 'in_wishlist';
+						$data['wishlist_class'] = 'in-wishlist';
 						$data['button_wishlist'] = $this->language->get('button_wishlist_out');
 					} else {
 						$data['wishlist_class'] = '';

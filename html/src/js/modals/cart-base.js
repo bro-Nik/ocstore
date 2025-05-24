@@ -4,84 +4,58 @@
  */
 
 import { BasePopup } from './base';
+import { cart } from '../cart';
+import { events } from '../events/events';
+import { eventManager } from '../events/event-manager';
 
 const BASE_CART_CONFIG = {
-};
-
-const BASE_CART_ENDPOINTS = {
-    CART_INFO: 'index.php?route=common/cart/info'
-    // CART_INFO: 'index.php?route=common/cart/info ul li'
-};
-
-const  BASE_CART_SELECTORS = {
-  // Элементы корзины
-  QUANTITY_INPUT: '.plus-minus',
-  PRODUCT_ID_INPUT: 'input[name="product_id"]',
-  PRODUCT_KEY_INPUT: 'input[name="product_key"]',
-  QUANTITY_CONTROLS: {
-    PLUS: '.btn-plus button',
-    MINUS: '.btn-minus button',
-    CONTAINER: '.number'
+  endpoints: {
+    cartInfo: 'index.php?route=common/cart/info'
   },
-  REMOVE_BUTTON: '.remove button',
+  selectors: {
+    // Элементы корзины
+    quantityInput: '.plus-minus',
+    productIdInput: 'input[name="product_id"]',
+    quantityPlus: '.btn-plus button',
+    quantityMinus: '.btn-minus button',
+    quantityContainer: '.number',
+    removeButton: '.remove button',
 
-  // Кнопки действий
-  QUICK_ORDER: '.quickorder_b',
-  CART_TOTALS: ['#cart-total', '#cart-total-popup',
-                '#cart-total_mobi'],
-  CART_ITEMS: '#cart > ul',
-
-  CART_DROPDOWN: '#cart .dropdown-menu',
-  ABSOLUTE_CART: '#top3.absolutpo',
-  MOBILE_CART: '#top #cart_mobi',
-  
-  // Для формы заказа
-  SUBMIT_BTN: '#popup-checkout-button',
+    // Кнопки действий
+    cartItems: '#cart > ul',
+  },
 };
-
-const BASE_CART_EVENT_HANDLERS = {
-  'quick-order': 'handleQuickOrder',
-  'sabmit': 'handleCheckout',
-  'open-cart': 'handleOpenCart',
-};
-
 
 class BaseCartPopup extends BasePopup {
-  constructor(selectors, endpoints, config = {}, events = {}) {
-    super({ ...BASE_CART_SELECTORS, ...selectors },
-          { ...BASE_CART_ENDPOINTS, ...endpoints },
-          { ...BASE_CART_CONFIG, ...config },
-          { ...BASE_CART_EVENT_HANDLERS, ...events });
+  constructor(config = {}) {
+    super({
+      ...BASE_CART_CONFIG, ...config,
+      selectors: { ...BASE_CART_CONFIG.selectors, ...config.selectors },
+      modalEvents: { ...BASE_CART_CONFIG.modalEvents, ...config.modalEvents },
+      globalEvents: { ...BASE_CART_CONFIG.globalEvents, ...config.globalEvents },
+      endpoints: { ...BASE_CART_CONFIG.endpoints, ...config.endpoints }
+    });
   }
 
-  initPopupHandlers() {
+  bindPopupEvents() {
+    super.bindPopupEvents();
     // Обработчики кнопок +/-
-    this.dialog.querySelectorAll(this.selectors.QUANTITY_CONTROLS.PLUS).forEach(btn => {
-      btn.addEventListener('click', this.handleQuantityChange.bind(this));
-    });
-    
-    this.dialog.querySelectorAll(this.selectors.QUANTITY_CONTROLS.MINUS).forEach(btn => {
-      btn.addEventListener('click', this.handleQuantityChange.bind(this));
-    });
+    this.addEvent('click', this.selectors.quantityPlus, this.quantityChange);
+    this.addEvent('click', this.selectors.quantityMinus, this.quantityChange);
 
     // Обработчики для ручного ввода
-    this.dialog.querySelectorAll(this.selectors.QUANTITY_INPUT).forEach(input => {
-      input.addEventListener('change', this.handleManualQuantityChange.bind(this));
-      input.addEventListener('keyup', this.handleManualQuantityChange.bind(this));
-    });
+    this.addEvent('change', this.selectors.quantityInput, this.quantityChangeManual);
+    this.addEvent('keyup', this.selectors.quantityInput, this.quantityChangeManual);
 
     // Обработчики удаления
-    document.querySelectorAll(this.selectors.REMOVE_BUTTON).forEach(btn => {
-      btn.addEventListener('click', this.handleRemoveItem.bind(this));
-    });
+    this.addEvent('click', this.selectors.removeButton, this.removeItem);
   }
 
-  async handleQuantityChange(e) {
-    const btn = e.currentTarget;
-    const action = btn.closest(this.selectors.QUANTITY_CONTROLS.PLUS) ? 'increase' : 'decrease';
-    const container = btn.closest(this.selectors.QUANTITY_CONTROLS.CONTAINER);
-    const input = container.querySelector(this.selectors.QUANTITY_INPUT);
-    const productKey = container.querySelector(this.selectors.PRODUCT_ID_INPUT).value;
+  async quantityChange(e, btn) {
+    const action = btn.closest(this.selectors.quantityPlus) ? 'increase' : 'decrease';
+    const container = btn.closest(this.selectors.quantityContainer);
+    const input = container.querySelector(this.selectors.quantityInput);
+    const productId = container.querySelector(this.selectors.productIdInput).value;
     
     let quantity = parseInt(input.value);
     quantity = action === 'increase' ? quantity + 1 : quantity - 1;
@@ -89,70 +63,60 @@ class BaseCartPopup extends BasePopup {
     if (quantity < 1) quantity = 1;
     input.value = quantity;
     
-    await this.updateCartItem(productKey, quantity);
+    await this.updateCartItem(productId, quantity);
   }
 
-  async handleManualQuantityChange(e) {
-    const input = e.currentTarget;
+  async quantityChangeManual(e, input) {
     input.value = input.value.replace(/[^\d]/g, '');
     const quantity = parseInt(input.value) || 1;
     const productKey = input.closest('tr, .mobile-products-cart > div')
-                          .querySelector(this.selectors.PRODUCT_ID_INPUT).value;
+                          .querySelector(this.selectors.productIdInput).value;
     
-    await this.updateCartItem(productKey, quantity);
+    if (input.value) await this.updateCartItem(productKey, quantity);
   }
 
-  async updateCartItem(productKey, quantity) {
-    const content = this.dialog.querySelector(this.selectors.POPUP_ID);
-    this.masked(content, true);
+  async removeItem(e, btn) {
+    const productId = btn.nextElementSibling.value;
+    
+    await this.updateCartItem(productId, 0);
+    cart.updateButtons(productId);
+  }
 
+  async updateCartItem(url) {
+    this.loading.show();
     try {
-      const url = `${this.endpoints.CONTENT}&update=${productKey}&quantity=${quantity}`;
-      const response = await fetch(url);
-      const html = await response.text();
-      
-      // this.dialog.querySelector(this.selectors.DIALOG_CONTENT).innerHTML = html;
-      content.innerHTML = html;
-      this.initPopupHandlers();
-      await this.updateCartStatus();
-      
+      await this.loadHtml(url, this.content);
+      this.updateCartStatus();
     } finally {
-      this.masked(content, false);
+      this.loading.hide();
     }
   }
 
   async updateCartStatus() {
-    if (!this.selectors.CART_STATUS) return;
     try {
-      const response = await fetch(this.endpoints.CART_STATUS);
-      const json = await response.json();
-      
+      const json = await this.loadJson(this.endpoints.cartStatus);
+
       if (json.total) {
-        // Обновляем все элементы с общей суммой
-        this.selectors.CART_TOTALS.forEach(selector => {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach(el => el.textContent = json.total);
-        });
+        cart.updateTotalCount(json.total);
+
+        // Удаляем и изменяем кнопки
+        if (json.total === '0') {
+          this.removecheckoutBtn()
+          cart.updateButtons();
+        }
         
         // Обновляем список товаров в корзине
-        const cartItems = document.querySelector(this.selectors.CART_ITEMS);
-        if (cartItems) {
-          const cartResponse = await fetch(this.endpoints.CART_INFO);
-          const html = await cartResponse.text();
-          cartItems.innerHTML = html;
-        }
+        const cartItems = document.querySelector(this.selectors.cartItems);
+        await this.loadHtml(this.endpoints.cartInfo, cartItems);
       }
     } catch (error) {
       console.error('Ошибка при обновлении статуса корзины:', error);
     }
-
   }
 
-  async handleRemoveItem(e) {
-    const btn = e.currentTarget;
-    const productKey = btn.nextElementSibling.value;
-    
-    await this.updateCartItem(productKey, 0);
+  handleSuccess(output) {
+    super.handleSuccess(output);
+    this.updateCartStatus();
   }
 }
 

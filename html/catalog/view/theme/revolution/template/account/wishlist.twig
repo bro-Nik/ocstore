@@ -54,13 +54,9 @@
               </div>
               {% endif %}</td>
             <td class="text-center wwicons">
-			{% if (product['quantity'] > 0) %} 
-        <a class="add-to-cart {% if (product['product_in_cart']) %}in-cart{% endif %}" data-product-id="{{ product['product_id'] }}" data-action="catalog_mod" data-toggle="tooltip" title="{{ button_cart }}">
-          {% if (product['product_in_cart']) %}В корзине{% else %}Купить{% endif %}
-        </a>
-			{% elseif (predzakaz_button) %} 
-				<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');" data-toggle="tooltip" title="{{ text_predzakaz }}"><i class="fa fa-border fa-shopping-basket predzakaz"></i></a>
-			{% endif %} 
+              {% include 'product/btns/cart.twig' %}
+              {% include 'product/btns/wishlist.twig' %}
+              {% include 'product/btns/lupa.twig' %}
             <a href="{{ product['remove'] }}" data-toggle="tooltip" title="{{ button_remove }}"><i class="fa fa-trash-o"></i></a>
 			</td>
           </tr>
