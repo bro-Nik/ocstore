@@ -13,8 +13,8 @@ to_ignore/
 html/catalog/test/
 html/admin/test/
 
-/catalog/view/js/main.js
-/catalog/view/css/styles.css
+/catalog/view/js/main.js/
+/catalog/view/css/styles.css/
 /catalog/view/theme/revolution/js/*
 /catalog/view/theme/revolution/css/*
 /catalog/view/theme/revolution/stylesheet/*
