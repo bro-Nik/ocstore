@@ -2,69 +2,6 @@
 // *	My modifications
 
 class ControllerCommonHeader extends Controller {
-	protected function min_css() {
-		# Revolution
-		$css_files = array(
-			'view/javascript/bootstrap/css/bootstrap.min.css',
-			'view/javascript/revolution/font-awesome/css/font-awesome.min.css',
-			'view/theme/revolution/stylesheet/stylesheet.css',
-			$this->config->get('revtheme_all_settings')['n_progres'] ? 'view/javascript/revolution/nprogress.css' : false,
-			'view/javascript/revolution/jasny-bootstrap.min.css',
-			'view/javascript/revolution/magnific-popup.css',
-			'view/javascript/revolution/owl-carousel/owl.carousel.css',
-			$this->config->get('revtheme_all_settings')['mobile_header'] == '2' || $this->config->get('revtheme_all_settings')['mobile_header'] == '3' ? 'view/javascript/revolution/jquery.mmenu.css' : false,
-			'view/theme/revolution/stylesheet/stylesheet_change.css'
-		);
-		$file_min_css = DIR_APPLICATION . 'view/theme/revolution/stylesheet/stylesheet_min.css';
-		if ($css_files && !file_exists($file_min_css)) {
-			$all_css = '';
-			foreach ($css_files as $css_file) {
-				if ($css_file) {
-					$all_css .= file_get_contents(DIR_APPLICATION . $css_file);
-				}
-			}
-			$all_css = str_replace('../fonts/', 'fonts/', $all_css);
-			$all_css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $all_css);
-			$all_css = str_replace(': ', ':', $all_css);
-			$all_css = str_replace(array("\r\n", "\r", "\n", "\t"), '', $all_css);
-			$all_css = str_replace(array('  ', '    ', '    '), ' ', $all_css);
-			file_put_contents($file_min_css, $all_css);
-		}
-	}
-
-	protected function min_js() {
-		# Revolution
-		$js_files = array(
-			'view/javascript/bootstrap/js/bootstrap.min.js',
-			'view/javascript/revolution/common.js',
-			'view/javascript/revolution/js_change.js',
-			$this->config->get('revtheme_header_menu')['type'] ? 'view/javascript/revolution/aim.js' : false,
-			$this->config->get('revtheme_header_menu')['type'] ? $this->config->get('revtheme_header_menu')['on_line_cat'] ? 'view/javascript/revolution/amazoncategory_2.js' : 'view/javascript/revolution/amazoncategory.js' : false,
-			$this->config->get('revtheme_header_search')['ajax_search_status'] ? 'view/javascript/revolution/ajax_search.js' : false,
-			'view/javascript/mmenu-light.js'
-		);
-		$file_min_js = DIR_APPLICATION . 'view/javascript/revolution/javascript_min.js';
-		if ($js_files) {
-			if (!file_exists($file_min_js)) {
-				$all_js = '';
-				foreach ($js_files as $js_file) {
-					if ($js_file) {
-						$all_js .= file_get_contents(DIR_APPLICATION . $js_file);
-						$all_js .= "\r\n\r\n";
-					}
-				}
-				$all_js = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $all_js);
-				$all_js = str_replace(array("\r\n", "\r"), "\n", $all_js);
-				$all_js = preg_replace('/[^\S\n]+/', ' ', $all_js);
-				$all_js = str_replace(array(" \n", "\n "), "\n", $all_js);
-				$all_js = preg_replace('/\n+/', "\n", $all_js);
-				$all_js = str_replace(': ', ':', $all_js);
-				$all_js = preg_replace(array('(( )+{)','({( )+)'), '{', $all_js);
-				$all_js = preg_replace(array('(( )+})','(}( )+)','(;( )*})'), '}', $all_js);
-				file_put_contents($file_min_js, $all_js);
-			}
-		}
-	}
 
 	public function index() {
 		// Analytics
@@ -158,9 +95,6 @@ class ControllerCommonHeader extends Controller {
 			$is_desctope = $data['is_desctope'] = true;
 		}
 		if ($setting_all_settings['minif_on']) {
-			// $this->min_css();
-			// $this->min_js();
-
 			// Читаем manifest.json, если он существует
 			$manifest = [];
 			if (file_exists('catalog/view/manifest.json')) {
