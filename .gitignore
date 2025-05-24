@@ -13,8 +13,8 @@ html/catalog/language/*/
 html/catalog/test/
 html/dmin/test/
 
-html/catalog/view/js/*
-html/catalog/view/css/*
+html/catalog/view/js/main.js
+html/catalog/view/css/styles.css
 html/catalog/view/theme/revolution/js/*
 html/catalog/view/theme/revolution/css/*
 html/catalog/view/theme/revolution/stylesheet/*
