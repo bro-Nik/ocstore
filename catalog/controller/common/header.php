@@ -138,7 +138,7 @@ class ControllerCommonHeader extends Controller {
 		$data['rev_srav'] = $settings_header_standart_links['rev_srav'];
 		$data['rev_wish'] = $settings_header_standart_links['rev_wish'];
 		$data['rev_acc'] = $settings_header_standart_links['rev_acc'];
-		$data['in_top3'] = $settings_header_standart_links['in_top3'];
+		// $data['in_top3'] = $settings_header_standart_links['in_top3'];
 		
 		$style_tm = '';
 		$setting_tm = $this->config->get('revtheme_header_menu');
@@ -588,7 +588,7 @@ class ControllerCommonHeader extends Controller {
 		} else {
 			$data['revtheme_dop_menus_mob_menu'] = false;
 		}
-		$data['mob_menu_description'] = html_entity_decode($this->config->get('revtheme_all_settings')[$this->config->get('config_language_id')]['mob_menu_description'], ENT_QUOTES, 'UTF-8');
+		// $data['mob_menu_description'] = html_entity_decode($this->config->get('revtheme_all_settings')[$this->config->get('config_language_id')]['mob_menu_description'], ENT_QUOTES, 'UTF-8');
 		if ($this->config->get('revtheme_all_settings')['mobile_header'] == '3') {
 			$data['text_catalog_menu'] = ($image . $this->config->get('revtheme_all_settings')[$this->config->get('config_language_id')]['mob_menu_zag']);
 		}
