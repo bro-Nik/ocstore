@@ -1,24 +1,24 @@
 storage/
-db/
+/db/
 html/image/
-vendor/
-node_modules/
+/vendor/
+/node_modules/
 to_ignore/
 
-html/catalog/language/*/
+/html/catalog/language/*/
 !html/catalog/language/ru/
 !html/catalog/language/ru-ru/
 !html/catalog/language/russian/
 
 html/catalog/test/
-html/dmin/test/
+html/admin/test/
 
-html/catalog/view/js/main.js
-html/catalog/view/css/styles.css
-html/catalog/view/theme/revolution/js/*
-html/catalog/view/theme/revolution/css/*
-html/catalog/view/theme/revolution/stylesheet/*
-html/catalog/view/theme/default/stylesheet/*
+/html/catalog/view/js/main.js
+/html/catalog/view/css/styles.css
+/html/catalog/view/theme/revolution/js/*
+/html/catalog/view/theme/revolution/css/*
+/html/catalog/view/theme/revolution/stylesheet/*
+/html/catalog/view/theme/default/stylesheet/*
 
 *.env
 
