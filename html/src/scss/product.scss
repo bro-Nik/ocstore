@@ -25,6 +25,7 @@
     justify-content: center;
     // font-size: 17px;
     padding-inline: 1rem;
+    margin: 0;
   }
 
   & .description_options {
@@ -114,6 +115,7 @@
 .btns-actions {
   display: flex;
   margin-left: auto;
+  gap: 0.5rem;
 }
 .products {
   &__list {
@@ -418,8 +420,7 @@ flex-wrap: wrap;
     border: 2px solid #c3c3c3;
     background: #efefef;
     border-radius: 5px;
-    display: flex
-;}
+    display: flex;}
 .prodvar li a:hover {border: 2px solid #3881df;}
 .prodvar li span.active {    border: 3px solid #3881df;
     padding: 7px 10px;
@@ -431,3 +432,15 @@ flex-wrap: wrap;
     box-sizing: border-box;}
 
 .prodvar_title {margin-top: 20px;margin-bottom: 10px;}
+
+.inline-btns {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+.product_footer {
+  display: flex;
+  align-items: flex-end;
+}

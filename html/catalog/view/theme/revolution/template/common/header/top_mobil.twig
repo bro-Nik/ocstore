@@ -8,7 +8,7 @@
 <div class="header__logo">
 	{% if (logo) %} 
 	{% if (home == og_url) %} 
-		<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" />
+		<div><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" /></div>
 	{% else %} 
 		<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" /></a>
 	{% endif %} 
@@ -17,23 +17,24 @@
 	{% endif %} 
 </div>
 
-
-<div class="header__group">
-	<a><i class="fa fa-phone"></i></a>
-	<div class="header__call-offcanvas">
+<div class="header__callback">
+	<a data-show-target="#callback-trigger-box"><i class="fa fa-phone"></i></a>
+	<div id="callback-trigger-box" class="header__call-offcanvas">
 		<div class="header__call-offcanvas-in">
-			<ul class="header__call-menu">
-				<li>
-					<a class="header__call-link" href="tel:+775478452456">+7 (754) 784 52 456</a>
-				</li>
-				<li>
-					<button class="header__call-link js-call-trigger">Закрыть</button>
-				</li>
-			</ul>
+			{% set contacts_dop_content %}
+				<li><button class="header__call-link" data-show-target="#callback-trigger-box">Закрыть</button></li>
+			{% endset %}
+
+      {% include 'common/header/_contacts.twig' with {'ul_class': 'header__call-menu', 'link_class': 'header__call-link'} %}
 		</div>
 	</div>
+</div>
+
+<div class="header__group">
 	<a href="{{ compare }}"><i class="fa fa-bar-chart"></i><sup><span class="compare-total">{{ compare_count }}</span></sup></a>
 	<a href="{{ wishlist }}"><i class="fa fa-heart"></i><sup><span class="wishlist-total">{{ wishlist_count }}</span></sup></a>
 	<a data-action="open-popup-cart"><i class="fa fa-shopping-basket"></i><sup><span class="cart-total">{{ cart_count }}</span></sup></a>
 </div>
+
+
 

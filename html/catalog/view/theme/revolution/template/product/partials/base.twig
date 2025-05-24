@@ -1,6 +1,7 @@
 {{ header }}
 
 <div class="container-fluid" {% block container_schema %} {% endblock %}>
+  {% block microdata %}{% endblock %}
 
   {% include 'revolution/template/product/partials/breadcrumb.twig' %}
 
@@ -27,6 +28,7 @@
 
     <div id="content" class="{{ class }}">{{ content_top }}
       {% block content %}{% endblock %}
+      {{ content_bottom }}
     </div>
 
     {{ column_right }}

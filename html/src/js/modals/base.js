@@ -99,6 +99,7 @@ class BasePopup {
     // Скрываем конфликтующие элементы
     this.hideDropdowns();
     this.hideTooltips();
+    this.hideVisible();
 
     // Блокируем прокрутку
     document.body.classList.add('popup-open');
@@ -164,6 +165,12 @@ class BasePopup {
   hideDropdowns() {
     document.querySelectorAll(this.selectors.dropdowns).forEach(dropdown => {
       dropdown.style.display = 'none';
+    });
+  }
+
+  hideVisible() {
+    document.querySelectorAll('.temporarily-visible').forEach(el => {
+      el.classList.remove('temporarily-visible');
     });
   }
 

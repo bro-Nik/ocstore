@@ -27,6 +27,9 @@
     }
     a {
       font-size: 2rem;
+      @media (max-width: 500px) {
+        font-size: 1.6rem;
+      }
     }
   }
 
@@ -87,9 +90,14 @@
     display: flex;
     -ms-flex-align: center;
     align-items: center;
+    margin-left: auto;
     & img {
       max-width: 100%;
     }
+  }
+  &__callback {
+    margin-left: auto;
+    margin-right: 3rem;
   }
 
   &__search {
@@ -216,25 +224,65 @@
     }
   }
 
-  &__call-offcanvas {
-    @media (max-width: 1199px) {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 2100;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 3rem;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      -ms-flex-pack: end;
-      justify-content: flex-end;
-      transition: opacity 0.25s, visibility 0.25s;
-      opacity: 0;
-      visibility: hidden;
+  &__call {
+    &-offcanvas {
+      @media (max-width: 1199px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2100;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 3rem;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        transition: opacity 0.25s, visibility 0.25s;
+        opacity: 0;
+        visibility: hidden;
+      }
+      &-in {
+        @media (max-width: 1199px) {
+          background: #fff;
+          color: #343434;
+          border-radius: 5px;
+          overflow: hidden;
+        }
+      }
+    }
+    &-menu {
+      @media (max-width: 1199px) {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      & > li {
+        @media (max-width: 1199px) {
+          border-bottom: 1px solid #E4E7F1;
+        }
+      }
+    }
+    &-link {
+      @media (max-width: 1199px) {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        min-height: 5rem;
+        padding: 1rem 2rem;
+        color: #343434;
+        text-decoration: none;
+        font-size: 1.5rem !important;
+        line-height: 1.2;
+        font-weight: 500;
+        width: 100%;
+      }
     }
   }
 

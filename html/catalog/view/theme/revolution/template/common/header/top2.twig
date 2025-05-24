@@ -23,20 +23,8 @@
 									</button>
 								{% endif %} 
 
-								<ul class="dropdown-menu dropdown-menu-right dop_contss">
-									<li><a href="tel:{{ (header_phone_cod ~ header_phone_number)|replace({' ': '', '-': '', '(': '', ')': ''}) }}" rel="nofollow">{{ header_phone_cod ~ header_phone_number }}</a></li>
-										{% for contact in dop_contacts %} 
-										{#}
-											<li><a href="{{ contact.href }}"><span>{{ contact.icon }}<span>{{ contact.number }}</span></span></a></li>
-											<i class="fa fa-reply-all" aria-hidden="true"></i>
-										{#}
-											<li><a href="{{ contact.href }}"><span>{{ contact.number }}</span></a></li>
-										{% endfor %} 
-									<li><a class="phone-show-popup" data-action="open-popup-call">Обратный звонок</a></li>
-									{% if (phone_dop_text|length > 30) %} 
-										<div class="phone_dop_text">{{ phone_dop_text }}</div>
-									{% endif %} 
-								</ul>	</div>
+        				{% include 'common/header/_contacts.twig' with {'ul_class': 'dropdown-menu dropdown-menu-right dop_contss', 'link_class': ''} %}
+								</div>
 							</div>
 				</div>
 			{% endif %} 

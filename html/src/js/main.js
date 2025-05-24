@@ -15,6 +15,7 @@ import cart from './cart';
 import events from './events/events';
 import modals from './modals/init';
 import review from './review';
+import uiHelpers from './ui-helpers';
 
 
 

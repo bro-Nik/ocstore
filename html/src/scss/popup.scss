@@ -17,6 +17,17 @@ dialog {
     height: 90%;
     max-height: 90%;
   }
+
+  @media (max-width: 767px) {
+    & .popup-footer button {
+      width: 100%;
+    }
+
+    & .popup-footer a {
+      width: 100%;
+      margin-top: 5px;
+    }
+  }
 }
 
 dialog::backdrop {
@@ -24,8 +35,13 @@ dialog::backdrop {
 }
 
 .dialog-close {
-  margin-left: auto;
-  font-size: 2rem;
+  font-size: 3rem;
+  top: 0;
+  right: 10px;
+  color: #343434;
+  position: absolute;
+  font-weight: 200;
+  width: 3rem;
 }
 
 @keyframes fadeIn {
@@ -40,16 +56,17 @@ max-width: 530px;
 max-width: 530px;
 }
 .popup-heading {
-    background-color: #eee;
-    color: #333;
-    font-size: 1.6rem;
-    padding: 0px 2.5rem;
+    padding: 2.5rem;
     position: relative;
     min-height: 40px;
     overflow: hidden;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
+    font-size: 2rem;
+    line-height: 1.25;
+    font-weight: 500;
+    margin: 0 0 2rem;
 }
 
 #popup-cart-quick .popup-footer #popup-checkout-none {
@@ -183,51 +200,66 @@ padding-right: 20px;
 color: #dd4b39;
 padding-right: 2px;
 }
-#popup-cart-quick .payment-info > div input,
-#popup-cart-quick .payment-info > div textarea {
-border: 1px solid #eee;
-padding: 5px 10px;
-background: #fcfcfc;
-border-radius: 8px;
-outline: none;
-font-size: 14px;
-width: 75%;
-}
 #popup-cart-quick .payment-info > div input:focus,
 #popup-cart-quick .payment-info > div textarea:focus {
 border: 1px solid #ddd;
 box-shadow: none;
 }
-#popup-cart-quick .payment-info > div textarea {
-min-height: 70px;
-resize: vertical;
+
+
+#popup-cart-quick {
+  & .payment-info {
+    & > div textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+  }
+  @media (max-width: 767px) {
+    & .payment-info {
+      & > div label {
+        width: 33%;
+      }
+
+      & > div input, > div textarea {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    & .payment-info {
+      & > div label {
+        width: 33%;
+      }
+
+      & > div input, > div textarea {
+        width: 75%;
+      }
+    }
+  }
 }
 
-@media (max-width: 767px) {
-#popup-cart-quick .popup-heading {
-font-size: 14px;
-}
-#popup-cart-quick .popup-footer button {
-width: 100%;
-}
-#popup-cart-quick .popup-footer a {
-width: 100%;
-margin-top: 5px;
-}
-#popup-cart-quick .right {
-width: 100%;
-text-align: center;
-}
-#popup-cart-quick .left {
-width: 100%;
-padding-bottom: 0;
-}
-#popup-cart-quick .payment-info > div label {
-width: 33%;
-}
-#popup-cart-quick .payment-info > div input, #popup-order-okno .payment-info > div textarea {
-width: 67%;
-}
+dialog {
+  @media (max-width: 767px) {
+    & .popup-footer button {
+      width: 100%;
+    }
+
+    & .popup-footer a {
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    & .payment-info {
+      & > div label {
+        width: 33%;
+      }
+
+      & > div input, > div textarea {
+        width: 100%;
+      }
+    }
+  }
 }
 
 .popup_notification .popup-footer a,
