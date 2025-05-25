@@ -29,4 +29,10 @@
     </div>
   </div>
 </div>
+{% else %}
+<div class="product-gallery">
+  <div class="product-main-image">
+    <img src="{{ additional }}" title="{{ heading_title }}" alt="{{ heading_title|e }}" loading="eager">
+  </div>
+</div>
 {% endif %}

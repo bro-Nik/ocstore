@@ -1,6 +1,6 @@
 storage/
 /db/
-html/image/
+/image/
 /vendor/
 /node_modules/
 to_ignore/

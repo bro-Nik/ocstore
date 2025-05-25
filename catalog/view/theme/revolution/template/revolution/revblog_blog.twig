@@ -168,6 +168,7 @@
 
 {% block script %}
 <script>
+{#}
 {% if (category_blog_grid is defined and category_blog_grid) %} 
 	$(".tab_related_blogmod").owlCarousel({
 		responsiveBaseWidth: '.tab-related.rev_slider',
@@ -492,4 +493,6 @@ $(document).ready(function() {
 	}
 {% endif %} 
 </script>
+
+{#}
 {% endblock %}

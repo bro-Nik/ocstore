@@ -4,6 +4,16 @@
   width: 25rem;
 }
 
+.product_thumbs_swiper {
+  @media (max-width: $desktop - 1) {
+    display: none;
+  }
+}
+.product-main-image {
+  display: flex;
+  justify-content: center;
+}
+
 .product-thumb {
   display: flex;
   flex-direction: column;

@@ -6,15 +6,17 @@
 	
 
 <div class="header__logo">
-	{% if (logo) %} 
-	{% if (home == og_url) %} 
-		<div><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" /></div>
-	{% else %} 
-		<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" /></a>
-	{% endif %} 
-	{% else %} 
-	<a href="{{ home }}">{{ name }}</a>
-	{% endif %} 
+	<div>
+		{% if (logo) %} 
+		{% if (home == og_url) %} 
+			<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" />
+		{% else %} 
+			<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" /></a>
+		{% endif %} 
+		{% else %} 
+		<a href="{{ home }}">{{ name }}</a>
+		{% endif %} 
+	</div>
 </div>
 
 <div class="header__callback">

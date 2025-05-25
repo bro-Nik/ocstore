@@ -1,0 +1,218 @@
+.support-block {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+}
+.compact-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+}
+.compact-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    min-width: 120px;
+    justify-content: center;
+}
+.compact-contact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.phone { background: #e3f2fd; color: #2c3e50; border: 1px solid #bbdefb; }
+.telegram { background: #e3f2ff; color: #0088cc; border: 1px solid #bbdefb; }
+.email { background: #ffebee; color: #d44638; border: 1px solid #ffcdd2; }
+.form { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+
+     .modern-page {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 0;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
+        .payment-columns, .delivery-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .payment-column, .delivery-column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .payment-card, .delivery-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .card-header {
+            background: #3498db;
+            color: white;
+            padding: 20px;
+        }
+
+        .delivery-card-header {
+            background: #27ae60;
+            color: white;
+            padding: 20px;
+        }
+
+        .card-header h2, .delivery-card-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-method, .delivery-method {
+            padding: 20px;
+        }
+
+        .method-content h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .benefits-list, .docs-list, .delivery-features {
+            padding-left: 20px;
+            color: #7f8c8d;
+        }
+
+        .benefits-list li, .docs-list li {
+            margin-bottom: 5px;
+        }
+
+        .delivery-features {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .delivery-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .delivery-features li:before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .payment-cards-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .payment-cards-icons img {
+            height: 30px;
+        }
+
+        .legal-info, .additional-info {
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .contact-block {
+            margin: 15px 0;
+        }
+
+        .email-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            gap: 10px;
+        }
+
+        .payment-footer {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .work-hours {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .method-icon {
+            font-size: 1.5rem;
+            color: #3498db;
+            margin-right: 15px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .delivery-icon {
+            font-size: 1.5rem;
+            color: #27ae60;
+            margin-right: 15px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 767px) {
+    * {
+        max-width: 100% !important;
+    }
+    
+    body {
+        // position: relative;
+    }
+    
+    /* Проверьте основные контейнеры */
+    .container, .wrapper, .main-content {
+        width: 100% !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
+#blog_mod > div {
+    margin: 1rem;
+}
+#column-left {
+    margin-bottom: 3rem;
+}
