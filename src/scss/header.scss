@@ -90,7 +90,9 @@
     display: flex;
     -ms-flex-align: center;
     align-items: center;
-    margin-left: auto;
+    @media (max-width: 1199px) {
+      margin-left: auto;
+    }
     & img {
       max-width: 100%;
     }
@@ -288,28 +290,37 @@
 
 }
 
-// .podmenu2 {
-#menu2 {
-background: #fff;
-position: absolute;
-border-radius: 10px;
-margin-top: 15px;
-top: 0;
-left: 0;
-z-index: 2;
-box-shadow: 0 0px 10px rgba(0,0,0,0.2);
-}
 
-#menu2_button:hover #podmenu2 {
-display: block;
+#menu2_button:hover #menu2,
+#menu2:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; // Возвращаем взаимодействие
+  transition-delay: 0s; // Убираем задержку при открытии
 }
 
 #menu2 {
-background: #fff;
-padding: 12px 0;
+  background: #fff;
+  position: absolute;
+  border-radius: 10px;
+  margin-top: 15px;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-shadow: 0 0px 10px rgba(0,0,0,0.2);
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* Важно для плавного перехода */
+  position: absolute;
+  background: #fff;
+  padding: 12px 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition-delay: 0.2s; /* Задержка перед исчезновением */
 }
 
 #menu2 ul.lastul .show_categoryoff:hover {border-color: #3881DF;}
 #menu2 .am_category_image>img {width: 21px;}
 #menu2 li.glavli ul .fa.fa-minus {display: none;}
 #menu2 ul.lastul {margin-left: 50px; padding-top: 5px;}
+

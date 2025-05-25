@@ -8,34 +8,6 @@
 
 	<file path="catalog/controller/startup/seo_url.php">
 		<operation error="skip">
-			<search><![CDATA[if ($url[0] == 'information_id') {]]></search>
-			<add position="before"><![CDATA[
-				if ($url[0] == 'revblog_id') {
-					$this->request->get['revblog_id'] = $url[1];
-				}
-				if ($url[0] == 'revblog_category_id') {
-					if (!isset($this->request->get['revblog_category_id'])) {
-						$this->request->get['revblog_category_id'] = $url[1];
-					} else {
-						$this->request->get['revblog_category_id'] .= '_' . $url[1];
-					}
-				}
-			]]></add>
-		</operation>
-		<operation error="skip">
-			<search><![CDATA[} elseif (isset($this->request->get['information_id'])) {]]></search>
-			<add position="before"><![CDATA[
-				} elseif (isset($this->request->get['revblog_id'])) {
-					$this->request->get['route'] = 'revolution/revblog_blog';
-				} elseif (isset($this->request->get['revblog_category_id'])) {
-					$this->request->get['route'] = 'revolution/revblog_category';
-			]]></add>
-		</operation>
-		<operation error="skip">
-			<search><![CDATA[&& $url[0] != 'category_id' && $url[0] != 'product_id']]></search>
-			<add position="replace"><![CDATA[&& $url[0] != 'category_id' && $url[0] != 'product_id' && $url[0] != 'revblog_id' && $url[0] != 'revblog_category_id']]></add>
-		</operation>
-		<operation error="skip">
 			<search><![CDATA[($data['route'] == 'information/information' && $key == 'information_id')]]></search>
 			<add position="replace"><![CDATA[($data['route'] == 'revolution/revblog_blog' && $key == 'revblog_id') || ($data['route'] == 'revolution/revblog_category' && $key == 'revblog_category_id') || ($data['route'] == 'information/information' && $key == 'information_id')]]></add>
 		</operation>

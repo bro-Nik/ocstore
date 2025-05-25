@@ -57,11 +57,22 @@ class ControllerStartupSeoUrl extends Controller {
 						$this->request->get['manufacturer_id'] = $url[1];
 					}
 
+					if ($url[0] == 'revblog_id') {
+						$this->request->get['revblog_id'] = $url[1];
+					}
+					if ($url[0] == 'revblog_category_id') {
+						if (!isset($this->request->get['revblog_category_id'])) {
+							$this->request->get['revblog_category_id'] = $url[1];
+						} else {
+							$this->request->get['revblog_category_id'] .= '_' . $url[1];
+						}
+					}
+
 					if ($url[0] == 'information_id') {
 						$this->request->get['information_id'] = $url[1];
 					}
 
-					if ($query->row['query'] && $url[0] != 'information_id' && $url[0] != 'manufacturer_id' && $url[0] != 'category_id' && $url[0] != 'product_id') {
+					if ($query->row['query'] && $url[0] != 'information_id' && $url[0] != 'manufacturer_id' && $url[0] != 'category_id' && $url[0] != 'product_id' && $url[0] != 'revblog_id' && $url[0] != 'revblog_category_id') {
 						$this->request->get['route'] = $query->row['query'];
 					}
 				} else {
@@ -80,6 +91,10 @@ class ControllerStartupSeoUrl extends Controller {
 					$this->request->get['route'] = 'product/category';
 				} elseif (isset($this->request->get['manufacturer_id'])) {
 					$this->request->get['route'] = 'product/manufacturer/info';
+				} elseif (isset($this->request->get['revblog_id'])) {
+					$this->request->get['route'] = 'revolution/revblog_blog';
+				} elseif (isset($this->request->get['revblog_category_id'])) {
+					$this->request->get['route'] = 'revolution/revblog_category';
 				} elseif (isset($this->request->get['information_id'])) {
 					$this->request->get['route'] = 'information/information';
 				}
