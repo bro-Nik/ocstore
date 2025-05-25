@@ -11,7 +11,8 @@ class ControllerRevolutionRevslideshow extends Controller {
 		
 		$data['status'] = $setting['status'];
 		$data['slides'] = $setting['slides'];
-		$data['slide_video'] = $setting['video'];
+		// $data['slide_video'] = $setting['video'];
+		$data['slide_video'] = $setting['video'] ?? '';
 		if (isset($setting['video_width_img'])) {
 			$data['video_width_img'] = $setting['video_width_img'];
 		} else {

@@ -4033,7 +4033,7 @@
 					$this->load->model('revolution/revolution');
 					$this->model_revolution_revolution->revwatermark($image_old, $image_new);
 				}
-				if ($this->config->get('revtheme_all_settings')['webp_on']) {
+				if (!empty($this->config->get('revtheme_all_settings')['webp_on'])) {
 					$gd_info = gd_info();
 					if($gd_info['WebP Support']) {
 						$image_new_webp = 'cache/webp/' . utf8_substr($filename, 0, utf8_strrpos($filename, '.')) . '-' . (int)$width . 'x' . (int)$height . '.webp';
