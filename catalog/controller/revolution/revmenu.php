@@ -14,13 +14,11 @@ class ControllerRevolutionRevmenu extends Controller {
 		$setting_all_settings = $this->config->get('revtheme_all_settings');
 		$data['text_revmenu_manufs'] = $this->language->get('text_revmenu_manufs');
 		
-		if (!$this->config->get('revtheme_all_settings')['minif_on']) {
-			$this->document->addScript('catalog/view/javascript/revolution/aim.js');
-			if ($setting['on_line_cat']) {
-				$this->document->addScript('catalog/view/javascript/revolution/amazoncategory_2.js');
-			} else {
-				$this->document->addScript('catalog/view/javascript/revolution/amazoncategory.js');
-			}
+		$this->document->addScript('catalog/view/javascript/revolution/aim.js');
+		if ($setting['on_line_cat']) {
+			$this->document->addScript('catalog/view/javascript/revolution/amazoncategory_2.js');
+		} else {
+			$this->document->addScript('catalog/view/javascript/revolution/amazoncategory.js');
 		}
 		
 		if ($setting_all_settings['mobile_on']) {
