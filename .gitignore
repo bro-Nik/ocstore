@@ -1,8 +1,8 @@
 storage/
-/db/
-/image/
-/vendor/
-/node_modules/
+db/
+image/
+vendor/
+node_modules/
 to_ignore/
 
 /catalog/language/*/
@@ -10,8 +10,11 @@ to_ignore/
 !/catalog/language/ru-ru/
 !/catalog/language/russian/
 
-html/catalog/test/
-html/admin/test/
+catalog/test/
+admin/test/
+
+config.php
+admin/config.php
 
 /catalog/view/js/main.js/
 /catalog/view/css/styles.css/

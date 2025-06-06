@@ -34,6 +34,16 @@ export function initHomeSwipers() {
   const revSwiper = new Swiper('#revslideshow', {
     slidesPerView: 'auto',
     spaceBetween: 10,
+    breakpoints: {
+      400: {
+        slidesPerView: 'auto',
+        spaceBetween: 10
+      },
+      0: {
+        slidesPerView: 1,
+        spaceBetween: 0
+      }
+    }
   });
 
   return { revSwiper };
