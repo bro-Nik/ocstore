@@ -107,9 +107,9 @@ class ControllerCommonHeader extends Controller {
     	}
 
 		}
-		if ($setting_header_search['ajax_search_status']) {
+		// if ($setting_header_search['ajax_search_status']) {
 			$this->document->addScript('catalog/view/javascript/revolution/ajax_search.js');
-		}
+		// }
 		if ($setting_header_search['ch_text']) {
 			$data['header_search_doptext'] = html_entity_decode($setting_header_search[$this->config->get('config_language_id')]['doptext'], ENT_QUOTES, 'UTF-8');
 		}
