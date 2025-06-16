@@ -73,8 +73,13 @@ class Cart extends ToggleModule {
   //   });
   //
 
+    // Обработчики кнопок +/-
     eventManager.delegate(document, 'click', this.selectors.quantityPlus, this.quantityChange.bind(this));
     eventManager.delegate(document, 'click', this.selectors.quantityMinus, this.quantityChange.bind(this));
+
+    // Обработчики для ручного ввода
+    eventManager.delegate(document, 'change', this.selectors.quantityInput, this.quantityChangeManual.bind(this));
+    eventManager.delegate(document, 'keyup', this.selectors.quantityInput, this.quantityChangeManual.bind(this));
   };
   
   /**
@@ -200,6 +205,15 @@ class Cart extends ToggleModule {
 
     await this.update(productId, quantity)
     this.hideLoading(box);
+  }
+
+  async quantityChangeManual(e, input) {
+    input.value = input.value.replace(/[^\d]/g, '');
+    const quantity = parseInt(input.value) || 1;
+    const productKey = input.closest('tr, .mobile-products-cart > div')
+                          .querySelector(this.selectors.productIdInput).value;
+    
+    if (input.value) await this.update(productKey, quantity);
   }
 
 
