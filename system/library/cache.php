@@ -11,7 +11,8 @@
 * Cache class
 */
 class Cache {
-	private $adaptor;
+	// private $adaptor;
+	private $adaptor = 'redis';
 	
 	/**
 	 * Constructor
