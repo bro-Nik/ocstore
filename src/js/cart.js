@@ -6,6 +6,7 @@
 import { ToggleModule } from './core/toggle';
 import { cartPopup } from './modals/cart';
 import { priceFormat, numberFormat } from './main';
+import { eventManager } from './events/event-manager';
 
 const CONFIG = {
   moduleName: 'cart',
@@ -16,10 +17,17 @@ const CONFIG = {
   actionIn: 'open-popup-cart',
   endpoints: {
     toggle: 'index.php?route=checkout/cart/add',
+    edit: 'index.php?route=checkout/cart/edit',
     info: 'index.php?route=common/cart/info'
   },
   selectors: {
     removeButton: '.remove button',
+    quantityInput: '#revcart_upd .plus-minus',
+    productIdInput: '#revcart_upd input[name="product_id"]',
+    quantityPlus: '#revcart_upd .btn-plus button',
+    quantityMinus: '#revcart_upd .btn-minus button',
+    quantityContainer: '#revcart_upd .number',
+    cartContent: '.rev_cart',
     btns: [
       '.product-thumb.product_{product_id} .btn-cart',       // Кнопки в карточках товаров
       '.product-info .btn-cart',          // Кнопки на странице товара
@@ -36,6 +44,7 @@ const CONFIG = {
   },
   globalEvents: {
     'update_prices_product': 'updatePricesProduct'
+    // 'update_prices_product': 'updatePricesProduct'
   }
 };
 
@@ -46,8 +55,8 @@ class Cart extends ToggleModule {
   }
 
 
-  // bindEvents() {
-  //   super.bindEvents();
+  bindEvents() {
+    super.bindEvents();
   //   document.addEventListener('click', (e) => {
       // Обработка кликов для изменения цены
       // const updateBuyButton = e.target.closest('[data-action="update_options_buy"]');
@@ -62,7 +71,11 @@ class Cart extends ToggleModule {
       //
   //
   //   });
-  // };
+  //
+
+    eventManager.delegate(document, 'click', this.selectors.quantityPlus, this.quantityChange.bind(this));
+    eventManager.delegate(document, 'click', this.selectors.quantityMinus, this.quantityChange.bind(this));
+  };
   
   /**
    * Добавление товара в корзину
@@ -166,12 +179,32 @@ class Cart extends ToggleModule {
    */
   updateCart(json) {
     const cartItems = document.querySelector(this.selectors.cartItems);
-    this.loadHtml(this.config.endpoints.info, cartItems)
+    this.api.loadHtml(this.config.endpoints.info, cartItems)
+  }
+
+  async quantityChange(e, btn) {
+    const box = document.querySelector('#revcart_upd');
+    this.showLoading(box);
+
+    const action = btn.closest(this.selectors.quantityPlus) ? 'increase' : 'decrease';
+    const container = btn.closest(this.selectors.quantityContainer);
+    const input = container.querySelector(this.selectors.quantityInput);
+    const productId = container.querySelector(this.selectors.productIdInput).value;
+
+    
+    let quantity = parseInt(input.value);
+    quantity = action === 'increase' ? quantity + 1 : quantity - 1;
+    
+    if (quantity < 1) quantity = 1;
+    input.value = quantity;
+
+    await this.update(productId, quantity)
+    this.hideLoading(box);
   }
 
 
   updatePricesProduct(e, btn) {
-    const box = document.querySelector('.product-info.product_informationss');
+    const box = btn.closest('dialog') || document.querySelector('.product-info.product_informationss');
     this.showLoading(box);
 
     var productId = 0;
@@ -237,7 +270,7 @@ class Cart extends ToggleModule {
   }
 
   // Функция для обновления опций при покупке в один клик
-  updateOptionsBuy(product_id, opt_id, option) {
+  async updateOptionsBuy(product_id, opt_id, option) {
     const optionInput = document.querySelector(`.product-info.product_informationss .options_buy .pro_${option} input[name="option[${opt_id}]"]`);
     if (optionInput) {
       optionInput.value = option;
@@ -260,25 +293,60 @@ class Cart extends ToggleModule {
     
     formData.append('product_id', product_id);
     
-    fetch('index.php?route=product/product/update_prices', {
-      method: 'POST',
-      body: formData
+    const json = await this.api.postFormData('index.php?route=product/product/update_prices', formData);
+    document.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
+      el.textContent = number_format(json.option_quantity, product_id);
+    });
+    
+    document.querySelectorAll('.product_informationss .pr_points').forEach(el => {
+      el.textContent = number_format(json.points, product_id);
+    });
+    
+    document.querySelectorAll('.product_informationss .pr_model').forEach(el => {
+      el.textContent = json.opt_model;
+    });
+  }
+
+  async update(key, quantity) {
+    // Создаем FormData для отправки данных
+    const formData = new FormData();
+    formData.append(`quantity[${key}]`, quantity);
+
+    const json = await this.api.postFormData('index.php?route=revolution/revcheckout/cart_edit', formData);
+
+    // Обновляем содержимое корзины в двух местах
+    this.updateCartSection('#top3 #cart');
+    this.updateCartSection('#top2 #cart');
+        
+    // Вызываем обновление checkout
+    if (typeof update_checkout === 'function') {
+      // update_checkout();
+		  cart_update();
+    }
+  }
+
+  // Вспомогательная функция для обновления раздела корзины
+  updateCartSection(selector) {
+    const cartContainer = document.querySelector(selector);
+    if (!cartContainer) return;
+
+    fetch('index.php?route=common/cart/info')
+    .then(response => response.text())
+    .then(html => {
+        // Создаем временный элемент для парсинга HTML
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        
+        // Находим нужный элемент в полученном HTML
+        const newCartContent = tempDiv.querySelector('#cart');
+        if (newCartContent) {
+            // Обновляем только внутреннее содержимое, сохраняя сам контейнер
+            cartContainer.innerHTML = newCartContent.innerHTML;
+        }
     })
-    .then(response => response.json())
-    .then(json => {
-      document.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
-        el.textContent = number_format(json.option_quantity, product_id);
-      });
-      
-      document.querySelectorAll('.product_informationss .pr_points').forEach(el => {
-        el.textContent = number_format(json.points, product_id);
-      });
-      
-      document.querySelectorAll('.product_informationss .pr_model').forEach(el => {
-        el.textContent = json.opt_model;
-      });
-    })
-    .catch(error => console.error('Ошибка:', error));
+    .catch(error => {
+        console.error(`Error updating ${selector}:`, error);
+    });
   }
 }
 

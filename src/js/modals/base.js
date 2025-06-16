@@ -8,6 +8,7 @@ import { events } from '../events/events';
 import { LoadingManager } from '../services/loading';
 import { createError, createElement, toggleClass } from '../services/dom';
 import { eventManager } from '../events/event-manager';
+import { apiService } from '../services/api';
 
 const BASE_CONFIG = {
   selectors: {
@@ -40,6 +41,7 @@ class BasePopup {
     this.content = null;
     this.loading = null;
     this.initialized = false;
+    this.api = apiService;
 
     this.init();
   }
@@ -105,23 +107,6 @@ class BasePopup {
     document.body.classList.add('popup-open');
   }
 
-  async loadHtml(url, obj) {
-    if (obj) {
-      const response = await fetch(url);
-      obj.innerHTML = await response.text();
-    }
-  };
-
-  async loadJson(url) {
-    const response = await fetch(url);
-    return await response.json();
-  };
-
-  async load(url) {
-    const response = await fetch(url);
-    return await response;
-  };
-
   afterShow() {
     this.bindPopupEvents();
     this.loading.hide();
@@ -148,7 +133,7 @@ class BasePopup {
 
     if (typeof url !== 'string') url = this.endpoints.content;
 
-    await this.loadHtml(url, this.content);
+    await this.api.loadHtml(url, this.content);
 
     // Генерируем событие ПОСЛЕ открытия
     const openedEvent = new CustomEvent('popup:opened', {

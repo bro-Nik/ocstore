@@ -85,7 +85,7 @@ class BaseCartPopup extends BasePopup {
   async updateCartItem(url) {
     this.loading.show();
     try {
-      await this.loadHtml(url, this.content);
+      await this.api.loadHtml(url, this.content);
       this.updateCartStatus();
     } finally {
       this.loading.hide();
@@ -94,7 +94,7 @@ class BaseCartPopup extends BasePopup {
 
   async updateCartStatus() {
     try {
-      const json = await this.loadJson(this.endpoints.cartStatus);
+      const json = await this.api.loadJson(this.endpoints.cartStatus);
 
       if (json.total) {
         cart.updateTotalCount(json.total);
@@ -107,7 +107,7 @@ class BaseCartPopup extends BasePopup {
         
         // Обновляем список товаров в корзине
         const cartItems = document.querySelector(this.selectors.cartItems);
-        await this.loadHtml(this.endpoints.cartInfo, cartItems);
+        await this.api.loadHtml(this.endpoints.cartInfo, cartItems);
       }
     } catch (error) {
       console.error('Ошибка при обновлении статуса корзины:', error);

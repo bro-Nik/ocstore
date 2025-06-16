@@ -204,7 +204,11 @@ body {color: #333;}
 .breadcrumb {border-color: #ededed;}
 #revcheckout .panel-default>.panel-heading {background: #f7f7f7; border-radius: 4px;}
 #revcheckout .table > thead td {background: #f7f7f7;}
-#revcheckout .rev_cart {box-shadow: 0 0px 4px rgba(0,0,0,0.2);}
+#revcheckout .rev_cart {
+  box-shadow: 0 0px 4px rgba(0,0,0,0.2);
+  position: relative;
+}
+
 .revblog-list + .revblog-list .product-thumb, #revfilter_box .option_box, .panel-default>.panel-heading, .panel-default, .category_description, #blog_mod .col-lg-12 + .col-lg-12 .blog-list {border-color: #ededed !important;}
 .panel-default>.panel-heading {background-color: #f7f7f7;}
 #column-left #revfilter {margin-bottom: 25px;}
@@ -387,7 +391,6 @@ a.ocf-attribute-link {color: #3881DF;text-decoration: underline;}
 .mfp-arrow-right:before, .mfp-arrow-left:before {border:none !important}
 .product_informationss .stiker_panel {display: inline-block;}
 *:not(.image).stiker_panel span.stiker.stiker_user:not(:last-child) {margin-right: 5px;}
-.form-group.pokupka .list-unstyled {margin-left: 10px;margin-bottom: 15px;}
 
 @media (max-width: 506px) {
 .product-info .pokupka {width: 100%;}

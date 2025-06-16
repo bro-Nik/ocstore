@@ -1,5 +1,5 @@
 {{ header }} 
-<div class="container">
+<div class="container-fluid">
 	<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
 		{% for i,breadcrumb in breadcrumbs %} 
 		{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
@@ -78,7 +78,7 @@
 										</div>
 									{% endif %} 
 									<div class="pull-right payment clearfix">
-										<input type="button" class="btn btn-danger" id="button_checkout" data-loading-text="{{ text_revcheckout_order }}..." value="{{ text_revcheckout_order }}">
+										<input type="button" class="checkout-btn" id="button_checkout" data-loading-text="{{ text_revcheckout_order }}..." value="{{ text_revcheckout_order }}">
 									</div>
 									<div class="clearfix"></div>
 								</div>
@@ -175,7 +175,7 @@
 					$('.payment').html(json['success']);
 						if (!$('.payment h2, .payment p, .payment input[type=\'radio\'], .payment input[type=\'checkbox\'], .payment select').length) {
 							$('.payment').css('display', 'none');
-							masked('#revcart_upd', true);
+							// masked('#revcart_upd', true);
 							$('.payment #button-confirm, .payment input[type=\'button\'], .payment input[type=\'submit\'], .payment button, .payment a, .payment .btn-primary').click();
 							if($('.payment a').length) {
 								$('.payment a')[0].click();
@@ -278,11 +278,11 @@
 			data: data,
 			dataType: 'html',
 			beforeSend: function() {
-				masked('#revcart_upd', false);
+				// masked('#revcart_upd', false);
 			},
 			success: function(html) {
 				$('.user_block .panel-body').html(html);
-				masked('#revcart_upd', false);
+				// masked('#revcart_upd', false);
 				update_checkout();
 			}
 		});
@@ -295,7 +295,7 @@
 			data: data,
 			dataType: 'html',
 			beforeSend: function() {
-				masked('#revcart_upd', true);
+				// masked('#revcart_upd', true);
 				$('.error > .alert').remove();
 				$('#revcheckout .text-danger').remove();
 				$('#confirm .text-danger').remove();
@@ -350,7 +350,7 @@
 			success: function(html) {
 				$('#revcart_upd').html(html);
 				$('.total_checkout span.total_html').html($('.total_table td:last').html());
-				masked('#revcart_upd', false);
+				// masked('#revcart_upd', false);
 			}
 		});
 	}

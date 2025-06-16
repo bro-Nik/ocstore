@@ -215,3 +215,21 @@ a:hover sup {
 [data-action$="-toggle"] {
     position: relative;
 }
+
+#column-left + #content {
+  @media (min-width: $desktop) {
+    padding-left: 2rem;
+  }
+}
+
+#column-left + #content + #column-right {
+  @media (min-width: $desktop) {
+    padding-inline: 2rem;
+  }
+}
+
+.revcart_column_left:has(+ .revcart_column_right) {
+  @media (min-width: $desktop) {
+    padding-right: 2rem;
+  }
+}

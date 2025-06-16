@@ -26,8 +26,19 @@ class PurchasePopup extends BaseCartPopup {
     super(CONFIG);
   }
 
-  async updateCartItem(productId, quantity) {
-    cart.updatePricesProduct(productId, quantity, this.dialog)
+  async quantityChange(e, btn) {
+    const action = btn.closest(this.selectors.quantityPlus) ? 'increase' : 'decrease';
+    const container = btn.closest(this.selectors.quantityContainer);
+    const input = container.querySelector(this.selectors.quantityInput);
+    const productId = container.querySelector(this.selectors.productIdInput).value;
+    
+    let quantity = parseInt(input.value);
+    quantity = action === 'increase' ? quantity + 1 : quantity - 1;
+    
+    if (quantity < 1) quantity = 1;
+    input.value = quantity;
+
+    cart.updatePricesProduct(e, btn)
   }
 
   show(e, btn) {

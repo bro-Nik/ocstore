@@ -170,3 +170,15 @@ padding: 0;
 .product-info .pop_ico span {
 padding: 0 0 0 5px;
 }
+
+
+.checkout-btn {
+  border-radius: 8px;
+  background: $primary-color;
+  color: #fff;
+}
+
+.checkout-btn:hover {
+  background: $primary-light-color;
+  color: #fff;
+}

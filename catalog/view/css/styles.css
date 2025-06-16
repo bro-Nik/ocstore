@@ -847,7 +847,7 @@ label {
   visibility: hidden;
   min-width: 200px;
   background: white;
-  pointer-events: none; /* Важно для плавного перехода */
+  pointer-events: auto; /* Важно для плавного перехода */
   list-style: none;
   box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
   border-radius: 8px;
@@ -11210,6 +11210,17 @@ textarea.form-control-lg {
   padding: 0 0 0 5px;
 }
 
+.checkout-btn {
+  border-radius: 8px;
+  background: #0063D1;
+  color: #fff;
+}
+
+.checkout-btn:hover {
+  background: #1f74d2;
+  color: #fff;
+}
+
 .header {
   box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.05);
 }
@@ -11754,7 +11765,8 @@ footer .footer_info > div {
   padding: 5px;
   height: 100%;
 }
-.product-layout .stock_status {
+
+.product_footer .stock_status {
   font-size: 1.2rem;
 }
 
@@ -12158,6 +12170,14 @@ dialog.big-dialog {
   height: 90%;
   max-height: 90%;
 }
+@media (max-width: 1200px) {
+  dialog.big-dialog {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+  }
+}
 @media (max-width: 767px) {
   dialog .popup-footer button {
     width: 100%;
@@ -12417,12 +12437,9 @@ dialog::backdrop {
 .popup-footer a,
 .popup-footer a {
   float: right;
-  background: #0063D1;
-  color: #fff;
   padding: 6px 35px;
   cursor: pointer;
   display: inline-block;
-  border-radius: 8px;
   text-align: center;
   -webkit-transition: all 100ms linear;
   -moz-transition: all 100ms linear;
@@ -12434,8 +12451,6 @@ dialog::backdrop {
 .popup_notification .popup-footer a:hover,
 .popup-footer a:hover,
 .popup-footer a:hover {
-  background: #1f74d2;
-  color: #fff;
   -webkit-transition: all 100ms linear;
   -moz-transition: all 100ms linear;
   -ms-transition: all 100ms linear;
@@ -12818,6 +12833,33 @@ html, body {
   margin-bottom: 3rem;
 }
 
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .visible-xs {
+    display: block !important;
+  }
+  table.visible-xs {
+    display: table !important;
+  }
+  tr.visible-xs {
+    display: table-row !important;
+  }
+  th.visible-xs,
+  td.visible-xs {
+    display: table-cell !important;
+  }
+}
 :root {
   --color-primary: #0063D1; /* Основной брендовый цвет (акцентные элементы, кнопки) */
   --color-secondary: #6c757d; /* Второстепенный фон (карточки, разделители) */
@@ -13008,4 +13050,22 @@ a:hover, a:focus {
 
 [data-action$=-toggle] {
   position: relative;
+}
+
+@media (min-width: 1200px) {
+  #column-left + #content {
+    padding-left: 2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  #column-left + #content + #column-right {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .revcart_column_left:has(+ .revcart_column_right) {
+    padding-right: 2rem;
+  }
 }

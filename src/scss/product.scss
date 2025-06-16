@@ -169,10 +169,12 @@
 .product-layout {
   padding: 5px;
   height: 100%;
+}
+
+.product_footer {
   & .stock_status {
     font-size: 1.2rem;
   }
-
 }
 
 .breadcrumb {

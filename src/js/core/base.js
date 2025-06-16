@@ -3,10 +3,11 @@
  * @class BaseModule
  */
 
-import { postFormData } from '../services/api';
+// import { postFormData } from '../services/api';
 import { LoadingManager } from '../services/loading';
 import { eventManager } from '../events/event-manager';
 import { events } from '../events/events';
+import { apiService } from '../services/api';
 
 const BASE_CONFIG = {};
 
@@ -21,6 +22,7 @@ export class BaseModule {
     this.content = null;
     this.loading = null;
     this.initialized = false;
+    this.api = apiService;
 
     this.init();
   }
@@ -30,23 +32,6 @@ export class BaseModule {
     this.bindEvents();
     this.initialized = true;
   }
-
-  async loadHtml(url, obj) {
-    if (obj) {
-      const response = await fetch(url);
-      obj.innerHTML = await response.text();
-    }
-  };
-
-  async loadJson(url) {
-    const response = await fetch(url);
-    return await response.json();
-  };
-
-  async load(url) {
-    const response = await fetch(url);
-    return await response;
-  };
 
   bindEvents() {
     events.addHandlers(this.config.globalEvents, document, this);
@@ -80,7 +65,7 @@ export class BaseModule {
    * @returns {Promise}
    */
   sendFormData(url, formData) {
-    return postFormData(url, formData);
+    return this.api.postFormData(url, formData);
   }
 
   /**

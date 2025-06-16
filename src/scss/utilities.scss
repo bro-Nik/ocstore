@@ -88,7 +88,8 @@ label {
     visibility: hidden;
     min-width: 200px;
     background: white;
-    pointer-events: none; /* Важно для плавного перехода */
+    // pointer-events: none; /* Важно для плавного перехода */
+    pointer-events: auto; /* Важно для плавного перехода */
     list-style: none;
     box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
     border-radius: 8px;

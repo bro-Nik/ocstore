@@ -1,5 +1,5 @@
 {{ header }} 
-<div class="container">
+<div class="container-fluid">
 <div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
 {% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
 <div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
@@ -80,6 +80,10 @@
                 <td class="text-left">{% if (product['option'] and option['model']) %}{{ option['model'] }}{% else %}{{ product['model'] }}{% endif %}</td>
                 <td class="text-left">
 					<div class="number">
+      	    {% include 'product/partials/change_quantity.twig' with {'product_id': product['cart_id'],
+      	                                                            'quantity': product['minimum'],
+      	                                                            'min_quantity': product['quantity_pr']} %}
+      	    {#}
 						<div class="frame-change-count">
 							<div class="btn-plus">
 								<button type="button" onclick="cart.update('{{ product['cart_id'] }}', parseFloat($(this).parent().parent().next().val())+1);">+</button>
@@ -89,6 +93,7 @@
 							</div>
 						</div>
 						<input type="text" name="quantity[{{ product['cart_id'] }}]" value="{{ product['quantity'] }}" onchange="cart.update('{{ product['cart_id'] }}', $(this).val());" size="1" class="plus-minus" /> 
+      	    {#}
 					</div>
 				</td>
                 <td class="text-right">{{ product['price'] }}</td>

@@ -41,7 +41,7 @@ export function initHomeSwipers() {
       },
       0: {
         slidesPerView: 1,
-        spaceBetween: 0
+        // spaceBetween: 0
       }
     }
   });
