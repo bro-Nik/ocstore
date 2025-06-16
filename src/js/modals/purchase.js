@@ -41,6 +41,15 @@ class PurchasePopup extends BaseCartPopup {
     cart.updatePricesProduct(e, btn)
   }
 
+  async quantityChangeManual(e, input) {
+    input.value = input.value.replace(/[^\d]/g, '');
+    const quantity = parseInt(input.value) || 1;
+    const productKey = input.closest('tr, .mobile-products-cart > div')
+                          .querySelector(this.selectors.productIdInput).value;
+    
+    if (input.value) await cart.updatePricesProduct(e, input);
+  }
+
   show(e, btn) {
     const productId = btn.dataset.productId || '';
     const url = `${this.endpoints.content}${productId}`;

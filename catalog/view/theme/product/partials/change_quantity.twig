@@ -8,5 +8,5 @@
       <button type="button" data-action="quantity-{{ min_quantity }}">-</button>
     </div>
   </div>
-  <input type="text" name="quantity" value="{{ quantity }}" class="plus-minus" onchange="update_manual(this, '{{ product['key'] }}', '{{ product['quantity_pr'] }}'); return validate(this);" onkeyup="update_manual(this, '{{ product['key'] }}', '{{ product['quantity_pr'] }}'); return validate(this);" />
+  <input type="text" name="quantity" value="{{ quantity }}" class="plus-minus" data-temp="{{ product['key'] }}, {{ product['quantity_pr'] }}"/>
 </div>
