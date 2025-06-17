@@ -16,12 +16,17 @@ admin/test/
 config.php
 admin/config.php
 
-/catalog/view/js/main.js/
-/catalog/view/css/styles.css/
-/catalog/view/theme/revolution/js/*
-/catalog/view/theme/revolution/css/*
-/catalog/view/theme/revolution/stylesheet/*
-/catalog/view/theme/default/stylesheet/*
+catalog/view/js/main.js/
+catalog/view/css/styles.css/
+catalog/view/theme/revolution/js/*
+catalog/view/theme/revolution/css/*
+catalog/view/theme/revolution/stylesheet/*
+catalog/view/theme/default/stylesheet/*
+catalog/view/theme/default/stylesheet/ocfilter/*
+
+catalog/view/javascript/revolution/*
+catalog/view/javascript/revolution/*
+admin/view/stylesheet/*
 
 *.env
 
@@ -38,6 +43,10 @@ admin/config.php
 *sitemap
 *.DS_Store
 
+test.php
+test_scss.php
+composer.json
+composer.lock
 
 # Копии оригинальных файлов
 *.ORIG
