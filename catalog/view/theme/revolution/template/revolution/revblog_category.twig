@@ -24,39 +24,7 @@
     {% set class = 'col-sm-12' %} 
     {% endif %} 
     <div id="content" class="{{ class }}">{{ content_top }} 
-	    <div class="well well-sm">
-			<div class="row">
-				<div class="col-lg-9 col-md-9 col-sm-8 ">
-					<div class="input-group">
-						<span class="input-group-addon" ><i class="fa fa-sort-amount-asc"></i><span class="hidden-xs hidden-sm hidden-md"> {{ text_sort }}</span></span>
-						<select id="input-sort" class="form-control" onchange="location = this.value;">
-						{% for sorts in sorts %}
-						{% if sorts.value == '%s-%s'|format(sort, order) %}
-						<option value="{{ sorts['href'] }}" selected="selected">{{ sorts['text'] }}</option>
-						{% else %}
-						<option value="{{ sorts['href'] }}">{{ sorts['text'] }}</option>
-						{% endif %}
-						{% endfor %}
-					  </select>
-					</div>
-				</div>
-				<br class="visible-xs">
-				<div class="col-lg-3 col-md-3 col-sm-4 ">
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-eye"></i><span class="hidden-xs hidden-sm hidden-md"> {{ text_limit }}</span></span>
-						<select id="input-limit" class="form-control" onchange="location = this.value;">
-						{% for limits in limits %} 
-						{% if (limits['value'] == limit) %} 
-						<option value="{{ limits['href'] }}" selected="selected">{{ limits['text'] }}</option>
-						{% else %} 
-						<option value="{{ limits['href'] }}">{{ limits['text'] }}</option>
-						{% endif %} 
-						{% endfor %} 
-					  </select>
-					</div>
-				</div>
-			</div>
-        </div>
+  		{% include 'revolution/template/product/partials/sort_line.twig' %}
 		{% if (description|length > 14) %} 
 			<div class="row category_description blog">
 				{% if (thumb) %} 
@@ -101,7 +69,7 @@
 				</div>
 			{% endif %} 
             <div class="caption {% if (blog_date_status is defined and blog_date_status) %}with_bl_time{% endif %}">
-                <h4 style="height: inherit; margin-bottom: 5px;"><a href="{{ blog['href'] }}">{{ blog['title'] }}</a></h4>
+                <h4><a href="{{ blog['href'] }}">{{ blog['title'] }}</a></h4>
 				{% if (blog_date_status is defined and blog_date_status) %} 
 					<p class="bl_time">{% if (category_blog_grid is not defined or not category_blog_grid) %}<i class="fa fa-clock-o"></i>{% endif %}{{ blog['data_added'] }}</p>
 				{% endif %} 
@@ -111,12 +79,7 @@
         </div>
         {% endfor %} 
       </div>
-      <div class="row">
-		<div class="pagpages clearfix">
-			<div class="col-sm-6 text-left">{{ pagination }}</div>
-			<div class="col-sm-6 text-right">{{ results }}</div>
-		</div>
-      </div>
+  		{% include 'revolution/template/product/partials/pagination.twig' %}
       {% endif %} 
       {% if (not blogs and not categories) %} 
       <p>{{ text_empty }}</p>

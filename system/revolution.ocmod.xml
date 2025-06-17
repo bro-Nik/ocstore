@@ -103,7 +103,7 @@
 			<add position="before"><![CDATA[
 				private function getPathByRevBlogBlog($revblog_id) {
 					$revblog_id = (int)$revblog_id;
-					if ($revblog_id < 1) return false;
+					if ($revblog_id < 1) return [];
 					static $path = null;
 					if (!isset($path)) {
 						$path = $this->cache->get('revblog_blog.seopath');
@@ -119,7 +119,7 @@
 
 				private function getPathByRevBlogCategory($category_id) {
 					$category_id = (int)$category_id;
-					if ($category_id < 1) return false;
+					if ($category_id < 1) return [];
 					static $path = null;
 					if (!isset($path)) {
 						$path = $this->cache->get('revblog_category.seopath');

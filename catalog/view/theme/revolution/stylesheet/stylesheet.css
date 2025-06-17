@@ -2397,7 +2397,7 @@ margin: 10px 0px 0px 0px;
 text-align: right;
 }
 .vertical-sreview {
-border: 1px solid #dddddd;
+/* border: 1px solid #dddddd; */
 overflow: auto;
 border-radius: 2px;
 }
@@ -6726,11 +6726,11 @@ border: none;
 }
 .revblog-list .product-thumb h4 {
 height: inherit;
-margin-bottom: 5px;
+margin-bottom: 1rem;
 line-height: 18px;
 text-align: left;
 margin-top: 0;
-font-weight: normal;
+font-weight: bold;
 overflow: hidden;
 }
 .revblog-list .product-thumb .caption .bl_time {

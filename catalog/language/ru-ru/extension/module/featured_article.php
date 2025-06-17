@@ -3,7 +3,7 @@
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 // Heading
-$_['heading_title'] = 'Рекомендуем почитать';
+$_['heading_title'] = 'Блоги';
 $_['text_views'] 	= 'Просмотров:';
 $_['button_more']   = 'подробнее';
 

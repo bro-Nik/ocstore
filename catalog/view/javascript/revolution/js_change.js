@@ -50,7 +50,7 @@ if (!localStorage.getItem('display')) {
 
 
 
-	// $('#menu2_button').click(function(){$('#menu2').toggleClass('dblock');});
+	$('#menu2_button').click(function(){$('#menu2').toggleClass('dblock');});
 
 
 $(function () {

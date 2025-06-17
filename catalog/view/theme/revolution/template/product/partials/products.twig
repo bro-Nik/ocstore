@@ -31,7 +31,7 @@
 
   <meta itemprop="numberOfItems" content="{{ products|length }}"/>
 
-  {% include 'revolution/template/product/partials/products_top_line.twig' %}
+  {% include 'revolution/template/product/partials/sort_line.twig' %}
 
   <ul class="products__list">
     {% for product in products %}
@@ -41,6 +41,7 @@
 
   {% include 'revolution/template/product/partials/pagination.twig' %}
 
+{#}
   {% else %}
     <p>{{ text_empty }}</p>
     <div class="buttons">
@@ -48,5 +49,6 @@
         <a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a>
       </div>
     </div>
+{#}
 
 {% endif %}

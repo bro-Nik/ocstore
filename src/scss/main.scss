@@ -14,6 +14,7 @@
 @use './product.scss';
 @use './popup.scss';
 @use './form.scss';
+@use './article.scss';
 @use './temp.scss';
 
 // Основные стили
@@ -48,7 +49,7 @@ body {
   font-family: var(--font-sans-serif);
   font-size: 1.6rem;
   font-weight: 400;
-  line-height: 1.5;
+  // line-height: 1.5;
   color: #212529;
   background-color: #fff;
   -webkit-text-size-adjust: 100%;

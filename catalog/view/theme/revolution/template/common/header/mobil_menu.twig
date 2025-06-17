@@ -145,7 +145,7 @@
 		{% for contact in dop_contacts %} 
 			<li><a href="{{ contact.href }}">{{ contact.number }}</a></li>
 		{% endfor %} 
-		<li><a class="mob_telef" class="phone-show-popup">Обратный звонок</a></li> 
+		<li><a class="mob_telef" data-action="open-popup-call">Обратный звонок</a></li> 
 
 		{% if (phone_dop_text2|length > 30) %} 
 			<li class="wrspnormal">
