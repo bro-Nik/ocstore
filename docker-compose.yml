@@ -53,5 +53,29 @@ services:
     depends_on:
       - db
 
+  redis:
+    image: redis:7.2-alpine
+    restart: unless-stopped
+    # ports:
+    #   - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # phpredisadmin:
+  #   image: erikdubbelboer/phpredisadmin
+  #   environment:
+  #     - REDIS_HOST=redis  # Имя сервиса Redis в Docker
+  #     - REDIS_PORT=6379
+  #     # - REDIS_PASS=${REDIS_PASSWORD}  # Если используется пароль
+  #   ports:
+  #     - "8083:80"
+  #   depends_on:
+  #     - redis  # Важно указать зависимость
+  redisinsight:
+    image: redislabs/redisinsight
+    ports:
+      - "8001:8001"
+
 volumes:
   mysql_data:
+  redis_data:
