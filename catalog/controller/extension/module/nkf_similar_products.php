@@ -39,8 +39,7 @@ class ControllerExtensionModuleNkfSimilarProducts extends Controller {
             );
 
 
-            $settings_stikers = $this->config->get('revtheme_catalog_stiker');
-            
+            $settings_stikers = $this->config->get('revtheme_catalog_stiker'); 
 
             $lang = $this->config->get('config_language_id');
             $title = isset($setting['titles']['title'.$lang]) && $setting['titles']['title'.$lang] ? $setting['titles']['title'.$lang] : '';
@@ -154,6 +153,13 @@ class ControllerExtensionModuleNkfSimilarProducts extends Controller {
                         } else {
                             $stiker_mpn = false;
                         }
+
+			            if ($settings_stikers['sklad_status']) {
+				            $stiker_sklad_status = $result['stock_status'];
+			            } else {
+				            $stiker_sklad_status = false;
+			            }
+
                         $data['featured_products'][] = array(
                             'product_id'          => $result['product_id'],
                             'thumb'               => $image,
@@ -180,6 +186,7 @@ class ControllerExtensionModuleNkfSimilarProducts extends Controller {
 				            'button_compare'      => $button_compare,
 				            'button_wishlist'     => $button_wishlist,
                             'minimum'             => $result['minimum'] > 0 ? $result['minimum'] : 1,
+                            'stiker_sklad_status' => $stiker_sklad_status,
                         );
                     }
                     return $this->load->view('extension/module/nkf_similar_products', $data);
