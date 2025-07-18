@@ -3,12 +3,10 @@
 {% block container_schema %} itemtype="http://schema.org/ItemList" itemscope {% endblock %}
 {% block content %}
 
-  {% if (description and products) %}
-    <div class="row category_description {{ category_description_class }}">
-      {% if (thumb) %}
-        <div class="fl-l"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail"/></div>
-      {% endif %}
-      <div itemprop="description">{{ description }}</div>
+
+  {% if description %}
+    <div class="row page_description">
+      <div itemprop="description" class="description">{{ description }}</div>
     </div>
   {% endif %}
 
@@ -19,21 +17,36 @@
   {% if (not categories and not products) %}
     <p>{{ text_empty }}</p>
   {% endif %}
-  <div class="footer-category">
-    {% if (description and not products) %}
-      <div class="row category_description">
-        {% if (thumb) %}
-          <div class="fl-l"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail"/></div>
-        {% endif %}
-        <div itemprop="description">{{ description }}</div>
-      </div>
-    {% endif %}
-  </div>
-
 
 {% endblock %}
 
 {% block after_content %}
   {% include 'revolution/template/product/partials/viewed_products.twig' %}
+
+  <div class="footer-category"></div>
+
+  <!-- OCFilter Start -->
+  {% if ocfilter_pages.bottom %}
+  <nav class="ocf-page-list-bottom ocf-clearfix">
+    <ul class="ocf-category-page-list">
+      {% for ocfilter_page_group in ocfilter_pages.bottom %}
+        {% for ocfilter_page in ocfilter_page_group.pages %}
+          {% if ocfilter_page.selected %}
+            <li class="ocf-page-selected"><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
+          {% else %}
+            <li><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  {% if ocfilter_description_bottom %}
+    <div class="row page_description">
+      <div itemprop="description" class="description">{{ ocfilter_description_bottom }}</div>
+    </div>
+  {% endif %}
+  <!-- /OCFilter End -->
 {% endblock %}
 

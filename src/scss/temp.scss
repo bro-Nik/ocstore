@@ -236,3 +236,61 @@ html, body {
     display: table-cell !important;
   }
 }
+
+.page_description {
+    border-radius: 16px;
+    box-shadow: 0 5px 9px rgba(204, 204, 204, 0.21);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid #eaeaea;
+    margin: 3rem 0;
+}
+.page_description .description {
+  position: relative;
+  line-height: 1.5;
+  overflow: hidden;
+  max-height: 4.5em; /* 3 строки текста (1.5em × 3) */
+  transition: max-height 0.3s ease;
+    padding: 1rem;
+}
+.page_description .description.expanded {
+  max-height: none;
+}
+
+.description-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2em;
+  background: linear-gradient(to bottom, transparent, white);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.expanded .description-fade {
+  opacity: 0;
+}
+
+.toggle-btn {
+  display: inline-block;
+  margin-top: 8px;
+  color: #0066cc;
+  cursor: pointer;
+  font-size: 14px;
+text-align: center;
+width: 100%;
+padding: 0 0 2rem 0;
+}
+
+.toggle-btn:hover {
+  text-decoration: underline;
+}
+
+.toggle-btn::after {
+  content: "Развернуть";
+}
+
+.expanded + .toggle-btn::after {
+  content: "Свернуть";
+}

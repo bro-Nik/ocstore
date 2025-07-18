@@ -106,5 +106,43 @@ export function priceFormat(n) {
 
 // Перенос описания категории
 const footer = document.querySelector('.footer-category');
-const desc = document.querySelector('.category_description');
-footer?.appendChild(desc);
+const desc = document.querySelector('.page_description');
+if (desc) footer?.appendChild(desc);
+
+
+// Temp
+document.addEventListener('DOMContentLoaded', function() {
+  const descriptions = document.querySelectorAll('.page_description');
+  
+  descriptions.forEach(desc => {
+    const content = desc.querySelector('.description');
+
+    // Создаем элементы
+    const fade = document.createElement('div');
+    fade.className = 'description-fade';
+    
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'toggle-btn';
+    toggleBtn.type = 'button';
+    
+    // Добавляем элементы в DOM
+    content.appendChild(fade);
+    desc.appendChild(toggleBtn);
+    
+    // Проверяем высоту текста
+    const fullHeight = content.scrollHeight;
+    const visibleHeight = content.clientHeight;
+    
+    if (fullHeight > visibleHeight + 5) { // +5 для погрешности
+      // Добавляем обработчик
+      toggleBtn.addEventListener('click', function() {
+        content.classList.toggle('expanded');
+      });
+    } else {
+      // Если текст короткий - удаляем лишние элементы
+      fade.remove();
+      toggleBtn.remove();
+      content.style.maxHeight = 'none';
+    }
+  });
+});

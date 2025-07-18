@@ -443,36 +443,6 @@
   <!-- VIEW -->
 
 
-  <file path="catalog/view/theme/*/template/product/category.twig">
-    <operation error="skip">
-      <search regex="true" limit="1"><![CDATA[~(\{\{\s?content_bottom\s?\}\})~]]></search>
-      <add><![CDATA[
-      <!-- OCFilter Start -->
-      {% if ocfilter_pages.bottom %}
-      <nav class="ocf-page-list-bottom ocf-clearfix">
-        <ul class="ocf-category-page-list">
-          {% for ocfilter_page_group in ocfilter_pages.bottom %}
-            {% for ocfilter_page in ocfilter_page_group.pages %}
-            {% if ocfilter_page.selected %}
-            <li class="ocf-page-selected"><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
-            {% else %}
-            <li><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
-            {% endif %}
-            {% endfor %}
-          {% endfor %}
-        </ul>
-      </nav>
-      {% endif %}
-
-      {% if ocfilter_description_bottom %}
-      <div class="ocf-description ocf-description-bottom">{{ ocfilter_description_bottom }}</div>
-      {% endif %}
-      <!-- /OCFilter End -->
-
-      $1
-      ]]></add>
-    </operation>
-  </file><!-- /catalog/view/theme/*/template/product/category.twig -->
 
 
 

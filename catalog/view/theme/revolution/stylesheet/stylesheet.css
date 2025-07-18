@@ -2700,7 +2700,7 @@ opacity: 0.6;
 .category_description {
 margin: 10px 0;
 color: #666;
-border-top: 1px solid #ddd;
+/* border-top: 1px solid #ddd; */
 padding-top: 20px;
 clear: both;
 }
