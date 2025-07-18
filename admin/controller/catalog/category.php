@@ -57,6 +57,8 @@ class ControllerCatalogCategory extends Controller {
 		$this->load->model('catalog/category');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			$this->model_catalog_category->saveCategoryRecommends($this->request->get['category_id'], $this->request->post);
+
 			$this->model_catalog_category->editCategory($this->request->get['category_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -535,6 +537,11 @@ class ControllerCatalogCategory extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
+		// New
+		$data['tab_recommend'] = $this->language->get('tab_recommend');
+		$this->load->model('catalog/category');
+		$data['category_recommends'] = $this->model_catalog_category->getCategoryRecommends($this->request->get['category_id']);
+
 		$this->response->setOutput($this->load->view('catalog/category_form', $data));
 	}
 
@@ -778,5 +785,43 @@ class ControllerCatalogCategory extends Controller {
 			}
 		}
 		return $output;
-		}
+	}
+
+	public function getOcfilterPages() {
+			// Отключаем вывод предупреждений
+    	error_reporting(0);
+
+    	$json = array();
+
+    	$this->load->model('extension/module/ocfilter/page');
+    	
+    	$filter_data = array(
+        	'filter_name' => isset($this->request->get['search']) ? $this->request->get['search'] : '',
+        	'filter_category_id' => isset($this->request->get['category_id']) ? (int)$this->request->get['category_id'] : 0,
+        	'filter_status' => 1,
+        	'limit' => 20
+    	);
+
+    	error_log('category_id: ' . print_r($filter_data['category_id'], true));
+
+    	$results = $this->model_extension_module_ocfilter_page->getPages($filter_data);
+
+    	foreach ($results as $result) {
+        	$json[] = array(
+            	'page_id' => $result['page_id'],
+            	'name' => $result['name'],
+            	'category_name' => $result['category_name'] ?? ''
+        	);
+    	}
+			// Очищаем буфер вывода на случай, если есть другие сообщения
+    	if (ob_get_length()) {
+        	ob_clean();
+    	}
+
+    	// Логируем данные перед отправкой
+    	error_log('OCFilter Pages Response: ' . print_r($json, true));
+    	
+    	$this->response->addHeader('Content-Type: application/json');
+    	$this->response->setOutput(json_encode($json));
+	}
 }

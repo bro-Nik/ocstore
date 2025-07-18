@@ -15,6 +15,7 @@
 @use './popup.scss';
 @use './form.scss';
 @use './article.scss';
+@use './category.scss';
 @use './temp.scss';
 
 // Основные стили
@@ -233,4 +234,11 @@ a:hover sup {
   @media (min-width: $desktop) {
     padding-right: 2rem;
   }
+}
+
+h1.title {
+    line-height: 32px;
+    font-size: 3rem;
+    font-weight: 700;
+    padding: 0 0 16px;
 }

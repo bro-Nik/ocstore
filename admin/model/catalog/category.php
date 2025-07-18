@@ -483,4 +483,59 @@ class ModelCatalogCategory extends Model {
 		
 		return $article_related_data;
 	}
+
+public function getCategoryRecommends($category_id) {
+    $query = $this->db->query("SELECT cr.*, cd.name 
+                             FROM " . DB_PREFIX . "category_recommend cr
+                             LEFT JOIN " . DB_PREFIX . "category_description cd 
+                             ON (cr.recommend_category_id = cd.category_id AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "')
+                             WHERE cr.category_id = '" . (int)$category_id . "'");
+    
+    $recommends = array();
+    
+    foreach ($query->rows as $row) {
+        // Декодируем JSON и получаем массив ID страниц
+        $pages = json_decode($row['pages'], true) ?: array();
+        
+        // Загружаем данные страниц OCFilter
+        $pages_data = array();
+        if ($pages) {
+            $this->load->model('extension/module/ocfilter/page');
+            $pages_data = $this->model_extension_module_ocfilter_page->getPages(array(
+                'selected' => $pages,
+                'filter_status' => 1
+            ));
+        }
+        
+        $recommends[] = array(
+            'category_recommend_id' => $row['category_recommend_id'],
+            'category_id' => $row['category_id'],
+            'recommend_category_id' => $row['recommend_category_id'],
+            'name' => $row['name'],
+            'pages' => $pages, // Массив ID страниц
+            'pages_list' => $pages_data // Полные данные страниц
+        );
+    }
+    
+    return $recommends;
+}
+
+	public function saveCategoryRecommends($category_id, $data) {
+    	// Удаляем старые записи
+    	$this->db->query("DELETE FROM " . DB_PREFIX . "category_recommend WHERE category_id = '" . (int)$category_id . "'");
+    	
+    	if (isset($data['category_recommend'])) {
+        	foreach ($data['category_recommend'] as $recommend) {
+            	if (!empty($recommend['category_id'])) {
+                	// Правильно экранируем JSON данные
+                	$pages = isset($recommend['pages']) ? $this->db->escape(json_encode($recommend['pages'])) : '[]';
+                	
+                	$this->db->query("INSERT INTO " . DB_PREFIX . "category_recommend SET
+                    	category_id = '" . (int)$category_id . "',
+                    	recommend_category_id = '" . (int)$recommend['category_id'] . "',
+                    	pages = '" . $pages . "'");
+            	}
+        	}
+    	}
+	}
 }

@@ -12,6 +12,7 @@ class ControllerProductCategory extends Controller {
 
         $disallow_params = explode("\r\n", $this->config->get('config_noindex_disallow_params'));
 
+
 		if (isset($this->request->get['filter'])) {
 			$filter = $this->request->get['filter'];
 			if (!in_array('filter', $disallow_params, true) && $this->config->get('config_noindex_status')){
@@ -104,6 +105,50 @@ class ControllerProductCategory extends Controller {
 		} else {
 			$category_id = 0;
 		}
+
+		// Загрузка рекомендуемых категорий с фильтрами
+    $data['recommended_categories'] = array();
+    $this->load->model('catalog/category');
+    $this->load->model('extension/module/ocfilter');
+    
+    $recommends = $this->model_catalog_category->getCategoryRecommends($category_id);
+    
+    foreach ($recommends as $recommend) {
+        $category_info = $this->model_catalog_category->getCategory($recommend['recommend_category_id']);
+        
+        if ($category_info) {
+            // Получаем страницы фильтров
+            $pages = json_decode($recommend['pages'], true) ?: array();
+            $filter_links = array();
+            
+            foreach ($pages as $page_id) {
+                $page_info = $this->model_extension_module_ocfilter->getPage($page_id);
+                if ($page_info) {
+                    $filter_links[] = array(
+                        'name' => $page_info['name'],
+                        'href' => $this->url->link('product/category', 'path=' . $category_info['category_id'] . '&filter_ocfilter=' . $page_info['keyword'])
+                    );
+                }
+            }
+            
+            if ($filter_links) {
+                // Загрузка изображения категории
+                if ($category_info['image']) {
+                    $image = $this->model_tool_image->resize($category_info['image'], 300, 300);
+                } else {
+                    $image = $this->model_tool_image->resize('placeholder.png', 300, 300);
+                }
+                
+                $data['recommended_categories'][] = array(
+                    'category_id' => $category_info['category_id'],
+                    'name' => $category_info['name'],
+                    'image' => $image,
+                    'href' => $this->url->link('product/category', 'path=' . $category_info['category_id']),
+                    'filters' => $filter_links
+                );
+            }
+        }
+    }
 
 		$category_info = $this->model_catalog_category->getCategory($category_id);
 
