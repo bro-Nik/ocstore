@@ -1,32 +1,35 @@
 {% if recommended_categories %}
-<div class="recommended-categories-wrapper">
+  <div id="recommended-categories">
     <h3>Популярные категории</h3>
     <div class="row">
       <div id="recommended_categories" class="swiper swiper-carousel" style="margin-bottom: 30px;">
         <div class="swiper-wrapper" style="height: 100%;">
 
 
-        {% for category in recommended_categories %}
-          <div class="swiper-slide category-tile">
+          {% for category in recommended_categories %}
+            <div class="swiper-slide category-tile">
                 <div class="category-content">
-                    <div class="category-info">
-                        <h4><a href="{{ category.href }}">{{ category.name }}</a></h4>
-                        <div class="category-filters">
-                            {% for filter in category.filters %}
-                            <div class="filter-row">
-                                <a href="{{ filter.href }}" class="filter-link">{{ filter.name }}</a>
-                            </div>
-                            {% endfor %}
+                <div class="category-info">
+                    <h4><a href="{{ category.href }}">{{ category.name }}</a></h4>
+                    <div class="category-filters">
+                    {% for filter in category.filters %}
+                        <div class="filter-row">
+                        <a href="{{ filter.href }}" class="filter-link">{{ filter.name }}</a>
                         </div>
-                    </div>
-                    <div class="category-image">
-                        <a href="{{ category.href }}">
-                            <img src="{{ category.image }}" alt="{{ category.name }}" class="img-responsive" />
-                        </a>
+                    {% endfor %}
                     </div>
                 </div>
+                </div>
+
+                <div class="category-image">
+                <a href="{{ category.href }}">
+                    <img src="{{ category.image }}" alt="{{ category.name }}" class="img-responsive" />
+                </a>
+                </div>
+            </div>
+          {% endfor %}
         </div>
-        {% endfor %}
+      </div>
     </div>
-</div>
+  </div>
 {% endif %}

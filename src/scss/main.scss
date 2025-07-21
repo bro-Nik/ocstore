@@ -99,6 +99,20 @@ button .loading {
   to { transform: rotate(360deg); }
 }
 
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+h3 {
+  font-size: calc(1.3rem + 0.6vw);
+  margin-bottom: calc(1.3rem + 0.6vw);
+
+  @media (min-width: $desktop) {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+
 a {
   color: #333;
   text-decoration: none;
