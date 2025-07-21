@@ -489,7 +489,7 @@ public function getCategoryRecommends($category_id) {
                              FROM " . DB_PREFIX . "category_recommend cr
                              LEFT JOIN " . DB_PREFIX . "category_description cd 
                              ON (cr.recommend_category_id = cd.category_id AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "')
-                             WHERE cr.category_id = '" . (int)$category_id . "'");
+                             WHERE cr.category_id = '" . (int)$category_id . "' ORDER BY sort_order ASC");
     
     $recommends = array();
     
@@ -512,6 +512,7 @@ public function getCategoryRecommends($category_id) {
             'category_id' => $row['category_id'],
             'recommend_category_id' => $row['recommend_category_id'],
             'name' => $row['name'],
+						'sort_order' => $row['sort_order'],
             'pages' => $pages, // Массив ID страниц
             'pages_list' => $pages_data // Полные данные страниц
         );
@@ -533,7 +534,8 @@ public function getCategoryRecommends($category_id) {
                 	$this->db->query("INSERT INTO " . DB_PREFIX . "category_recommend SET
                     	category_id = '" . (int)$category_id . "',
                     	recommend_category_id = '" . (int)$recommend['category_id'] . "',
-                    	pages = '" . $pages . "'");
+            					pages = '" . $pages . "',
+											sort_order = '" . (isset($recommend['sort_order']) ? (int)$recommend['sort_order'] : 0) . "'");
             	}
         	}
     	}

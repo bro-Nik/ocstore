@@ -261,13 +261,14 @@
               <td width="70px"></td>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="sorting">
             {% set recommend_row = 0 %}
             {% for recommend in category_recommends %}
             <tr id="recommend-row-{{ recommend_row }}">
               <td class="text-left">
                 <input type="text" name="category_recommend[{{ recommend_row }}][name]" value="{{ recommend.name }}" placeholder="Выберите категорию" class="form-control category-autocomplete" data-row="{{ recommend_row }}" />
                 <input type="hidden" name="category_recommend[{{ recommend_row }}][category_id]" value="{{ recommend.recommend_category_id }}" class="category-id" data-row="{{ recommend_row }}" />
+                <input type="hidden" name="category_recommend[{{ recommend_row }}][sort_order]" value="{{ recommend.sort_order }}" />
               </td>
               <td class="text-left">
                 <select name="category_recommend[{{ recommend_row }}][pages][]" class="form-control ocfilter-pages-select" data-row="{{ recommend_row }}" multiple style="width: 100%;">
@@ -277,7 +278,9 @@
                 </select>
               </td>
               <td class="text-left">
-                <button type="button" onclick="$('#recommend-row-{{ recommend_row }}').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+	              <div class="input-group-btn">
+                  <button type="button" onclick="$('#recommend-row-{{ recommend_row }}').remove();" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i></button>
+	              </div>
               </td>
             </tr>
             {% set recommend_row = recommend_row + 1 %}
@@ -536,15 +539,19 @@ function addRecommendRow() {
   html += '  <td class="text-left">';
   html += '    <input type="text" name="category_recommend[' + recommend_row + '][name]" value="" placeholder="Выберите категорию" class="form-control category-autocomplete" data-row="' + recommend_row + '" />';
   html += '    <input type="hidden" name="category_recommend[' + recommend_row + '][category_id]" value="" class="category-id" data-row="' + recommend_row + '" />';
+  html += '    <input type="hidden" name="category_recommend[' + recommend_row + '][sort_order]" value="0" />';
   html += '  </td>';
   html += '  <td class="text-left">';
   html += '    <select name="category_recommend[' + recommend_row + '][pages][]" class="form-control ocfilter-pages-select" data-row="' + recommend_row + '" multiple style="width: 100%;"></select>';
   html += '  </td>';
   html += '  <td class="text-left">';
-  html += '    <button type="button" onclick="$(\'#recommend-row-' + recommend_row + '\').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
+  html += '    <div class="input-group-btn">';
+  html += '      <span data-toggle="tooltip" title="" class="btn btn-success btn-sm handle"><i class="fa fa-hand-grab-o"></i></span>';
+  html += '      <button type="button" onclick="$(\'#recommend-row-' + recommend_row + '\').remove();" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i></button>';
+  html += '    </div>';
   html += '  </td>';
   html += '</tr>';
-  
+
   $('#recommend-categories tbody').append(html);
   
   // Инициализация автодополнения для категорий
