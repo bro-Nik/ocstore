@@ -12,21 +12,7 @@ class ControllerBlogArticle extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_home'),
-			'href'      => $this->url->link('common/home'),			
-			'separator' => false
-		);
-		
-		$configblog_name = $this->config->get('configblog_name');
-		
-		if (!empty($configblog_name)) {
-			$name = $this->config->get('configblog_name');
-		} else {
-			$name = $this->language->get('text_blog');
-		}
-		
-		$data['breadcrumbs'][] = array(
-			'text' => $name,
-			'href' => $this->url->link('blog/latest')
+			'href'      => $this->url->link('common/home')
 		);
 		
 		$this->load->model('blog/category');	

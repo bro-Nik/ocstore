@@ -22,16 +22,22 @@ class ControllerExtensionModuleFeaturedProduct extends Controller {
 			$results = $this->model_catalog_cms->getProductRelatedByManufacturer($filter_data);
 				
 		} else {
-			$parts = explode('_', (string)$this->request->get['path']);
-					
-			if(!empty($parts) && is_array($parts)) {
-				$filter_data = array(
-					'category_id'  => array_pop($parts),
-					'limit' => $setting['limit']
-				);
-						
-				$results = $this->model_catalog_cms->getProductRelatedByCategory($filter_data);			
-			}
+			// Добавляем проверку на существование path
+    	if (isset($this->request->get['path'])) {
+        	$parts = explode('_', (string)$this->request->get['path']);
+                	
+        	if(!empty($parts) && is_array($parts)) {
+            	$filter_data = array(
+                	'category_id'  => array_pop($parts),
+                	'limit' => $setting['limit']
+            	);
+                    	
+            	$results = $this->model_catalog_cms->getProductRelatedByCategory($filter_data);            
+        	}
+    	} else {
+        	// Можно добавить альтернативную логику, если path отсутствует
+        	$results = array();
+    	}
 		}
 		
 		$this->load->language('extension/module/featured_product');

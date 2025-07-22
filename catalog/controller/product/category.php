@@ -162,6 +162,7 @@ class ControllerProductCategory extends Controller {
             		$data['services'][] = array(
                 		'article_id' => $article_info['article_id'],
                 		'name'        => $article_info['name'],
+										'image' 			 => $article_info['image'] ? $this->model_tool_image->resize($article_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_height')) : '',
                 		'description' => utf8_substr(strip_tags(html_entity_decode($article_info['description'], ENT_QUOTES, 'UTF-8')), 0, 100) . '..',
                 		'href'        => $this->url->link('blog/article', 'article_id=' . $article_info['article_id'])
             		);

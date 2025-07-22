@@ -43,11 +43,7 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function getArticles($data = array()) {
-		if ($this->customer->isLogged()) {
-			$customer_group_id = $this->customer->getGroupId();
-		} else {
-			$customer_group_id = $this->config->get('config_customer_group_id');
-		}	
+		$customer_group_id = $this->config->get('config_customer_group_id');
 		
 		$cache = 'article.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$customer_group_id . '.' . md5(http_build_query($data));
 		

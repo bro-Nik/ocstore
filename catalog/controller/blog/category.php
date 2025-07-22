@@ -64,16 +64,16 @@ class ControllerBlogCategory extends Controller {
 		
 		$configblog_name = $this->config->get('configblog_name');
 		
-		if (!empty($configblog_name)) {
-			$name = $this->config->get('configblog_name');
-		} else {
-			$name = $this->language->get('text_blog');
-		}
+		// if (!empty($configblog_name)) {
+		// 	$name = $this->config->get('configblog_name');
+		// } else {
+		// 	$name = $this->language->get('text_blog');
+		// }
 		
-		$data['breadcrumbs'][] = array(
-			'text' => $name,
-			'href' => $this->url->link('blog/latest')
-		);
+		// $data['breadcrumbs'][] = array(
+		// 	'text' => $name,
+		// 	'href' => $this->url->link('blog/latest')
+		// );
 
 		if (isset($this->request->get['blog_category_id'])) {
 			$url = '';
@@ -194,7 +194,8 @@ class ControllerBlogCategory extends Controller {
 				);
 
 				$data['categories'][] = array(
-					'name'  => $result['name'] . ($this->config->get('configblog_article_count') ? ' (' . $this->model_blog_article->getTotalArticles($filter_data) . ')' : ''),
+					// 'name'  => $result['name'] . ($this->config->get('configblog_article_count') ? ' (' . $this->model_blog_article->getTotalArticles($filter_data) . ')' : ''),
+					'name'  => $result['name'],
 					'href'  => $this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '_' . $result['blog_category_id'] . $url)
 				);
 			}
@@ -362,7 +363,7 @@ class ControllerBlogCategory extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
-
+			// echo '<pre>'; print_r($data['articles']); echo '</pre>'; exit;
 			$this->response->setOutput($this->load->view('blog/category', $data));
 		} else {
 			$url = '';
