@@ -234,6 +234,20 @@
                     {% endfor %}</div>
                 </div>
                </div>
+
+<div class="form-group">
+  <label class="col-sm-2 control-label" for="input-service-related">Рекомендуемые услуги:</label>
+  <div class="col-sm-10">
+    <input type="text" name="service_related_input" value="" placeholder="{{ entry_related_service }}" id="input-service-related" class="form-control" />
+    <div id="service-related" class="well well-sm" style="height: 150px; overflow: auto;">
+      {% for service_related in service_related %}
+        <div id="service-related{{ service_related.article_id }}"><i class="fa fa-minus-circle"></i> {{ service_related.name }}
+          <input type="hidden" name="service_related[]" value="{{ service_related.article_id }}" />
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 			   <div class="form-group">
            <label class="col-sm-2 control-label" for="input-article-related">{{ entry_related_article }}</label>
            <div class="col-sm-10">
@@ -599,6 +613,35 @@ $(document).ready(function() {
   initCategoryAutocomplete({{ loop.index0 }});
   initSelect2($('select.ocfilter-pages-select[data-row="{{ loop.index0 }}"]'));
   {% endfor %}
+});
+</script>
+<script type="text/javascript">
+$('input[name=\'service_related_input\']').autocomplete({
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=blog/article/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request) + '&filter_service=1',
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['name'],
+            value: item['article_id']
+          }
+        }));
+      }
+    });
+  },
+  select: function(item) {
+    $('input[name=\'service_related_input\']').val('');
+    
+    $('#service-related' + item['value']).remove();
+    
+    $('#service-related').append('<div id="service-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="service_related[]" value="' + item['value'] + '" /></div>');  
+  }
+});
+  
+$('#service-related').delegate('.fa-minus-circle', 'click', function() {
+  $(this).parent().remove();
 });
 </script>
 

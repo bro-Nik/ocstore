@@ -540,4 +540,26 @@ public function getCategoryRecommends($category_id) {
         	}
     	}
 	}
+
+	public function getServiceRelated($category_id) {
+    $service_related_data = array();
+
+    $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_service_related WHERE category_id = '" . (int)$category_id . "'");
+
+    foreach ($query->rows as $result) {
+        $service_related_data[] = $result['article_id'];
+    }
+
+    return $service_related_data;
+	}
+
+	public function saveServiceRelated($category_id, $data) {
+    $this->db->query("DELETE FROM " . DB_PREFIX . "category_service_related WHERE category_id = '" . (int)$category_id . "'");
+
+    if (isset($data['service_related'])) {
+        foreach ($data['service_related'] as $article_id) {
+            $this->db->query("INSERT INTO " . DB_PREFIX . "category_service_related SET category_id = '" . (int)$category_id . "', article_id = '" . (int)$article_id . "'");
+        }
+    }
+	}
 }

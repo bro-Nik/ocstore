@@ -124,10 +124,10 @@ class ControllerProductCategory extends Controller {
             foreach ($pages as $page_id) {
                 $page_info = $this->model_extension_module_ocfilter->getPage($page_id);
                 if ($page_info) {
-                    $filter_links[] = array(
-                        'name' => $page_info['name'],
-                        'href' => $this->url->link('product/category', 'path=' . $category_info['category_id'] . '&filter_ocfilter=' . $page_info['keyword'])
-                    );
+                  $filter_links[] = array(
+                    'name' => $page_info['name'],
+                    'href' => $this->url->link('product/category', 'path=' . $category_info['category_id'] . '&filter_ocfilter=' . $page_info['keyword'])
+                  );
                 }
             }
             
@@ -149,6 +149,25 @@ class ControllerProductCategory extends Controller {
             }
         }
     }
+		// Рекомендуемые услуги
+		$data['services'] = array();
+		$services_ids = $this->model_catalog_category->getServiceRelated($category_id);
+		if ($services_ids) {
+    		$this->load->model('blog/article');
+    		
+    		foreach ($services_ids as $article_id) {
+        		$article_info = $this->model_blog_article->getArticle($article_id);
+        		
+        		if ($article_info) {
+            		$data['services'][] = array(
+                		'article_id' => $article_info['article_id'],
+                		'name'        => $article_info['name'],
+                		'description' => utf8_substr(strip_tags(html_entity_decode($article_info['description'], ENT_QUOTES, 'UTF-8')), 0, 100) . '..',
+                		'href'        => $this->url->link('blog/article', 'article_id=' . $article_info['article_id'])
+            		);
+        		}
+    		}
+		}
 
 		$category_info = $this->model_catalog_category->getCategory($category_id);
 

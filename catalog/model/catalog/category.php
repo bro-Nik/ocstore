@@ -76,4 +76,17 @@ class ModelCatalogCategory extends Model {
     	
     	return $query->rows;
 	}
+
+	// Получение связанных услуг
+	public function getServiceRelated($category_id) {
+    $service_related_data = array();
+
+    $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_service_related WHERE category_id = '" . (int)$category_id . "'");
+
+    foreach ($query->rows as $result) {
+        $service_related_data[] = $result['article_id'];
+    }
+
+    return $service_related_data;
+	}
 }

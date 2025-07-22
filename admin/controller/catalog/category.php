@@ -58,6 +58,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_category->saveCategoryRecommends($this->request->get['category_id'], $this->request->post);
+			$this->model_catalog_category->saveServiceRelated($this->request->get['category_id'], $this->request->post);
 
 			$this->model_catalog_category->editCategory($this->request->get['category_id'], $this->request->post);
 
@@ -380,6 +381,30 @@ class ControllerCatalogCategory extends Controller {
 				);
 			}
 		}
+
+		// Добавляем загрузку связанных услуг
+    if (isset($this->request->post['service_related'])) {
+        $services = $this->request->post['service_related'];
+    } elseif (isset($category_info)) {
+        $services = $this->model_catalog_category->getServiceRelated($this->request->get['category_id']);
+    } else {
+        $services = array();
+    }
+
+    $data['service_related'] = array();
+
+    $this->load->model('blog/article');
+
+    foreach ($services as $article_id) {
+      $related_info = $this->model_blog_article->getArticle($article_id);
+
+      if ($related_info) {
+        $data['service_related'][] = array(
+          'article_id' => $related_info['article_id'],
+          'name'       => $related_info['name']
+        );
+      }
+    }
 
 		$this->load->model('setting/store');
 
