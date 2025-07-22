@@ -159,6 +159,12 @@ class ControllerBlogCategory extends Controller {
 				'href' => $this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'])
 			);
 
+			$is_blog = $data['breadcrumbs'][1]['text'] == 'Статьи';
+			if (!$is_blog) {
+				$sort = 'p.sort_order';
+				$order = 'ASC';
+			}
+
 			if ($category_info['image']) {
 				$data['thumb'] = $this->model_tool_image->resize($category_info['image'], $this->config->get('configblog_image_category_width'), $this->config->get('configblog_image_category_height'));
 			} else {
