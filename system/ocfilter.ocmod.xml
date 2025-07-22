@@ -320,20 +320,6 @@
     </operation>
   </file><!-- /catalog/controller/product/product.php -->
 
-  <!-- Journal 3 Product attribute links fix -->
-  <file path="catalog/controller/journal3/product_tabs.php">
-    <operation>
-      <search><![CDATA[getProductAttributes($this->request->get['product_id']);]]></search>
-      <add position="after"><![CDATA[
-      // OCFilter Start
-      if ($this->registry->get('ocfilter') && $this->ocfilter->startup()) {
-        $this->ocfilter->api->setProductItemControllerData($data);
-      }
-      // OCFilter End
-      ]]></add>
-    </operation>
-  </file><!-- /catalog/controller/journal3/product_tabs.php -->
-
   <file path="catalog/controller/common/{column_,content_}*.php">
     <operation error="skip">
       <search><![CDATA[$this->load->model('extension/module');]]></search>
@@ -557,37 +543,6 @@
     </operation>
   </file>
 
-  <!-- Journal 3 -->
-  <file path="catalog/model/journal3/filter.php">
-    <operation>
-      <search><![CDATA[return $sql;]]></search>
-      <add position="before"><![CDATA[
-    // OCFilter start
-    if ($this->registry->get('ocfilter') && $this->ocfilter->startup() && $this->ocfilter->api->isSelected()) {
-      $this->ocfilter->api->setProductSQL(__FUNCTION__, $sql);
-    }
-    // OCFilter end
-      ]]></add>
-    </operation>
-  </file>
-
-  <!-- UniShop module -->
-  <file path="catalog/model/extension/module/uni_search.php">
-    <operation>
-      <search><![CDATA[$query = $this->db->query($sql]]></search>
-      <add position="before"><![CDATA[
-    // OCFilter start
-    if ($this->registry->get('ocfilter') && $this->ocfilter->startup() && $this->ocfilter->api->isSelected()) {
-      $this->ocfilter->api->setProductSQL(__FUNCTION__, $sql);
-    }
-    // OCFilter end
-      ]]></add>
-    </operation>
-    <operation error="skip">
-      <search><![CDATA[if(!trim($data['filter_name']) && !trim($data['filter_tag'])) {]]></search>
-      <add position="replace"><![CDATA[if(!trim($data['filter_name']) && !trim($data['filter_tag']) && !$this->registry->get('ocfilter') && !$this->ocfilter->startup() && !$this->ocfilter->api->isSelected()) {]]></add>
-    </operation>
-  </file>
 
   <!-- Hotsearch module -->
   <file path="catalog/model/extension/module/hotsearch.php">
