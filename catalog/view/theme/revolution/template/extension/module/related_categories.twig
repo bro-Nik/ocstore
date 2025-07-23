@@ -1,4 +1,4 @@
-{% if recommended_categories %}
+{% if related_categories %}
   <div id="recommended-categories">
     <h3>Популярные категории</h3>
     <div class="row">
@@ -6,7 +6,7 @@
         <div class="swiper-wrapper" style="height: 100%;">
 
 
-          {% for category in recommended_categories %}
+          {% for category in related_categories %}
             <div class="swiper-slide category-tile">
                 <div class="category-content">
                 <div class="category-info">

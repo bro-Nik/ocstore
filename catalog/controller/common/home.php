@@ -20,6 +20,9 @@ class ControllerCommonHome extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
+		// Загрузка рекомендуемых категорий с фильтрами
+		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'homepage');
+
 		$this->response->setOutput($this->load->view('common/home', $data));
 	}
 }

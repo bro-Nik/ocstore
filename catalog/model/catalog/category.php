@@ -67,16 +67,6 @@ class ModelCatalogCategory extends Model {
 		return $query->row['total'];
 	}
 
-	public function getCategoryRecommends($category_id) {
-    	$query = $this->db->query("SELECT cr.*, cd.name 
-                             	FROM " . DB_PREFIX . "category_recommend cr
-                             	LEFT JOIN " . DB_PREFIX . "category_description cd 
-                             	ON (cr.recommend_category_id = cd.category_id AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "')
-                             	WHERE cr.category_id = '" . (int)$category_id . "' ORDER BY sort_order ASC");
-    	
-    	return $query->rows;
-	}
-
 	// Получение связанных услуг
 	public function getServiceRelated($category_id) {
     $service_related_data = array();

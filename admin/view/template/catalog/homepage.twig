@@ -1,0 +1,211 @@
+{% extends 'partials/base.twig' %}
+
+{% block content %}
+
+{% if error_warning %}
+  <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+{% endif %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+  </div>
+
+  <div class="panel-body">
+    <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-homepage" class="form-horizontal">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab-slideshow" data-toggle="tab">Слайдшоу</a></li>
+        <li><a href="#tab-related" data-toggle="tab">Рекомендуемые</a></li>
+      </ul>
+
+      <div class="tab-content">
+
+        <div class="tab-pane active" id="tab-slideshow">
+			    <div class="form-group">
+          </div>
+        </div>
+
+			  <div class="tab-pane" id="tab-related">
+			    <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-product-related">{{ entry_related_wb }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="product_related_input" value="" placeholder="{{ entry_related_wb }}" id="input-product-related" class="form-control" />
+              <div id="product-related" class="well well-sm" style="height: 150px; overflow: auto;">
+                {% for product_related in product_related %}
+                  <div id="product-related{{ product_related.product_id }}"><i class="fa fa-minus-circle"></i> {{ product_related.name }}
+                    <input type="hidden" name="product_related[]" value="{{ product_related.product_id }}" />
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-service-related">Рекомендуемые услуги:</label>
+            <div class="col-sm-10">
+              <input type="text" name="service_related_input" value="" placeholder="{{ entry_related_service }}" id="input-service-related" class="form-control" />
+              <div id="service-related" class="well well-sm" style="height: 150px; overflow: auto;">
+                {% for service_related in service_related %}
+                  <div id="service-related{{ service_related.article_id }}"><i class="fa fa-minus-circle"></i> {{ service_related.name }}
+                    <input type="hidden" name="service_related[]" value="{{ service_related.article_id }}" />
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+			    <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-article-related">{{ entry_related_article }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="article_related_input" value="" placeholder="{{ entry_related_article }}" id="input-article-related" class="form-control" />
+              <div id="article-related" class="well well-sm" style="height: 150px; overflow: auto;">
+                {% for article_related in article_related %}
+                  <div id="article-related{{ article_related.article_id }}"><i class="fa fa-minus-circle"></i> {{ article_related.name }}
+                    <input type="hidden" name="article_related[]" value="{{ article_related.article_id }}" />
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+			    <div class="form-group">
+          	{% include 'catalog/partials/related_categories.twig' %}
+        	</div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+  
+  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+  
+  <script type="text/javascript"><!--
+$('input[name=\'path\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				json.unshift({
+					category_id: 0,
+					name: '{{ text_none }}'
+				});
+
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'path\']').val(item['label']);
+		$('input[name=\'parent_id\']').val(item['value']);
+	}
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('input[name=\'filter\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/filter/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['filter_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter\']').val('');
+
+		$('#category-filter' + item['value']).remove();
+
+		$('#category-filter').append('<div id="category-filter' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="category_filter[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+$('#category-filter').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('#language a:first').tab('show');
+//--></script>
+<script type="text/javascript"><!--
+$('input[name=\'product_related_input\']').autocomplete({
+	source: function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	select: function(item) {
+		$('input[name=\'product\']').val('');
+		
+		$('#product-related' + item['value']).remove();
+		
+		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="product_related[]" value="' + item['value'] + '" /></div>');	
+	}
+});
+	
+$('#product-related').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+//--></script>
+<script type="text/javascript"><!--
+$('input[name=\'article_related_input\']').autocomplete({
+	source: function(request, response) {
+		$.ajax({
+			url: 'index.php?route=blog/article/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['article_id']
+					}
+				}));
+			}
+		});
+	},
+	select: function(item) {
+		$('input[name=\'product\']').val('');
+		
+		$('#article-related' + item['value']).remove();
+		
+		$('#article-related').append('<div id="article-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_related[]" value="' + item['value'] + '" /></div>');	
+	}
+});
+	
+$('#article-related').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+//--></script>
+{% endblock %}

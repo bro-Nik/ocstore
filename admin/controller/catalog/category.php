@@ -57,7 +57,9 @@ class ControllerCatalogCategory extends Controller {
 		$this->load->model('catalog/category');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_catalog_category->saveCategoryRecommends($this->request->get['category_id'], $this->request->post);
+			$this->load->model('extension/module/related_categories');
+			$this->model_extension_module_related_categories->saveRelatedCategories('category_id=' . $this->request->get['category_id'], $this->request->post);
+
 			$this->model_catalog_category->saveServiceRelated($this->request->get['category_id'], $this->request->post);
 
 			$this->model_catalog_category->editCategory($this->request->get['category_id'], $this->request->post);
@@ -562,10 +564,8 @@ class ControllerCatalogCategory extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		// New
-		$data['tab_recommend'] = $this->language->get('tab_recommend');
-		$this->load->model('catalog/category');
-		$data['category_recommends'] = $this->model_catalog_category->getCategoryRecommends($this->request->get['category_id']);
+		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategoriesForm', 'category_id=' . $this->request->get['category_id']);
+
 
 		$this->response->setOutput($this->load->view('catalog/category_form', $data));
 	}
@@ -827,8 +827,6 @@ class ControllerCatalogCategory extends Controller {
         	'limit' => 20
     	);
 
-    	error_log('category_id: ' . print_r($filter_data['category_id'], true));
-
     	$results = $this->model_extension_module_ocfilter_page->getPages($filter_data);
 
     	foreach ($results as $result) {
@@ -842,9 +840,6 @@ class ControllerCatalogCategory extends Controller {
     	if (ob_get_length()) {
         	ob_clean();
     	}
-
-    	// Логируем данные перед отправкой
-    	error_log('OCFilter Pages Response: ' . print_r($json, true));
     	
     	$this->response->addHeader('Content-Type: application/json');
     	$this->response->setOutput(json_encode($json));

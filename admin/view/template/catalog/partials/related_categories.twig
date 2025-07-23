@@ -1,0 +1,230 @@
+<label class="col-sm-2 control-label">Рекомендуемые категории</label>
+<div class="col-sm-10">
+  <div class="table-responsive">
+    <table id="recommend-categories" class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <td class="text-left">Категория</td>
+          <td class="text-left">Посадочные страницы (OCFilter)</td>
+          <td width="70px"></td>
+        </tr>
+      </thead>
+      <tbody class="sorting">
+        {% set recommend_row = 0 %}
+        {% for category in related_categories %}
+        <tr id="recommend-row-{{ recommend_row }}">
+          <td class="text-left">
+            <input type="text" name="related_category[{{ recommend_row }}][name]" value="{{ category.name }}" placeholder="Выберите категорию" class="form-control category-autocomplete" data-row="{{ recommend_row }}" />
+            <input type="hidden" name="related_category[{{ recommend_row }}][category_id]" value="{{ category.category_id }}" class="category-id" data-row="{{ recommend_row }}" />
+            <input type="hidden" name="related_category[{{ recommend_row }}][sort_order]" value="{{ category.sort_order }}" />
+          </td>
+          <td class="text-left">
+            <select name="related_category[{{ recommend_row }}][pages][]" class="form-control ocfilter-pages-select" data-row="{{ recommend_row }}" multiple style="width: 100%;">
+              {% for page in category.pages_list %}
+                <option value="{{ page.page_id }}" selected>{{ page.name }}</option>
+              {% endfor %}
+            </select>
+          </td>
+          <td class="text-left">
+	          <div class="input-group-btn">
+              <button type="button" onclick="$('#recommend-row-{{ recommend_row }}').remove();" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i></button>
+	          </div>
+          </td>
+        </tr>
+        {% set recommend_row = recommend_row + 1 %}
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"></td>
+          <td class="text-left">
+            <button type="button" onclick="addRecommendRow();" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Добавить</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+var recommend_row = {{ recommend_row }};
+
+// Инициализация Select2 для выбора страниц
+function initSelect2(element) {
+  var $select = $(element);
+  var row = $select.data('row');
+  
+  // Инициализируем Select2
+  $select.select2({
+    width: '100%',
+    placeholder: "Выберите посадочные страницы",
+    allowClear: true,
+    ajax: {
+      url: 'index.php?route=catalog/category/getOcfilterPages&user_token={{ user_token }}',
+      dataType: 'json',
+      delay: 250,
+      data: function(params) {
+        return {
+          search: params.term,
+          category_id: $('input.category-id[data-row="' + row + '"]').val()
+        };
+      },
+      processResults: function(data) {
+        return {
+          results: $.map(data, function(item) {
+            return {
+              text: item.name,
+              id: item.page_id
+            }
+          })
+        };
+      },
+      cache: true
+    }
+  });
+
+  // При изменении категории обновляем список страниц
+  $('input.category-id[data-row="' + row + '"]').on('change', function() {
+    $select.val(null).trigger('change');
+    
+    // Если категория выбрана - загружаем страницы
+    if ($(this).val()) {
+      $.ajax({
+        url: 'index.php?route=catalog/category/getOcfilterPages&user_token={{ user_token }}',
+        data: { category_id: $(this).val() },
+        success: function(data) {
+          // Очищаем и заполняем select
+          $select.empty();
+          $.each(data, function(i, item) {
+            var option = new Option(item.name, item.page_id, false, false);
+            $select.append(option);
+          });
+          
+          // Восстанавливаем выбранные значения
+          var selectedPages = JSON.parse($('input[name="related_category[' + row + '][pages]"]').val() || '[]');
+          $select.val(selectedPages).trigger('change');
+        }
+      });
+    }
+  });
+
+}
+
+
+// Добавление новой строки
+function addRecommendRow() {
+  html = '<tr id="recommend-row-' + recommend_row + '">';
+  html += '  <td class="text-left">';
+  html += '    <input type="text" name="related_category[' + recommend_row + '][name]" value="" placeholder="Выберите категорию" class="form-control category-autocomplete" data-row="' + recommend_row + '" />';
+  html += '    <input type="hidden" name="related_category[' + recommend_row + '][category_id]" value="" class="category-id" data-row="' + recommend_row + '" />';
+  html += '    <input type="hidden" name="related_category[' + recommend_row + '][sort_order]" value="0" />';
+  html += '  </td>';
+  html += '  <td class="text-left">';
+  html += '    <select name="related_category[' + recommend_row + '][pages][]" class="form-control ocfilter-pages-select" data-row="' + recommend_row + '" multiple style="width: 100%;"></select>';
+  html += '  </td>';
+  html += '  <td class="text-left">';
+  html += '    <div class="input-group-btn">';
+  html += '      <span data-toggle="tooltip" title="" class="btn btn-success btn-sm handle"><i class="fa fa-hand-grab-o"></i></span>';
+  html += '      <button type="button" onclick="$(\'#recommend-row-' + recommend_row + '\').remove();" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i></button>';
+  html += '    </div>';
+  html += '  </td>';
+  html += '</tr>';
+
+  $('#recommend-categories tbody').append(html);
+  
+  // Инициализация автодополнения для категорий
+  initCategoryAutocomplete(recommend_row);
+  
+  // Инициализация Select2 для страниц OCFilter
+  initSelect2($('select.ocfilter-pages-select[data-row="' + recommend_row + '"]'));
+  
+  recommend_row++;
+}
+
+// Инициализация автодополнения для категорий
+function initCategoryAutocomplete(row) {
+  $('input.category-autocomplete[data-row="' + row + '"]').autocomplete({
+    'source': function(request, response) {
+      $.ajax({
+        url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item['name'],
+              value: item['category_id']
+            }
+          }));
+        }
+      });
+    },
+    'select': function(item) {
+      var row = $(this).data('row');
+      $(this).val(item.label);
+      $('input.category-id[data-row="' + row + '"]').val(item.value);
+      
+      // Обновляем список страниц при выборе категории
+      var select = $('select.ocfilter-pages-select[data-row="' + row + '"]');
+      select.val(null).trigger('change');
+    }
+  });
+}
+
+// Инициализация при загрузке страницы
+$(document).ready(function() {
+  // Инициализация существующих строк
+  {% for category in related_categories %}
+  initCategoryAutocomplete({{ loop.index0 }});
+  initSelect2($('select.ocfilter-pages-select[data-row="{{ loop.index0 }}"]'));
+  {% endfor %}
+});
+</script>
+<script type="text/javascript">
+$('input[name=\'service_related_input\']').autocomplete({
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=blog/article/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request) + '&filter_service=1',
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['name'],
+            value: item['article_id']
+          }
+        }));
+      }
+    });
+  },
+  select: function(item) {
+    $('input[name=\'service_related_input\']').val('');
+    
+    $('#service-related' + item['value']).remove();
+    
+    $('#service-related').append('<div id="service-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="service_related[]" value="' + item['value'] + '" /></div>');  
+  }
+});
+  
+$('#service-related').delegate('.fa-minus-circle', 'click', function() {
+  $(this).parent().remove();
+});
+</script>
+
+<style>
+.select2-container--default .select2-selection--multiple {
+  min-height: 34px;
+  border: 1px solid #ddd;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  color: #fff;
+  padding: 1px 10px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  color: #fff;
+  margin-right: 5px;
+}
+</style>
