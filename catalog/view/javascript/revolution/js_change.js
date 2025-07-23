@@ -1,42 +1,4 @@
 
-	one_sch = $('.mobsearch').html(),
-	$('.mobsearch').html('');
-	$('.mobsearch_two').html(one_sch);
-	$('.mobsearch_two .search-button').on('click', function() {
-	url = $('base').attr('href') + 'index.php?route=product/search';
-	var value = $('.mobsearch_two input[name=\"search\"]').val();
-	if (value) {url += '&search=' + encodeURIComponent(value);}
-	var category_id = $('.mobsearch_two input[name=\"category_id\"]').prop('value');
-	if (category_id > 0) {url += '&category_id=' + encodeURIComponent(category_id) + '&sub_category=true';}
-	location = url;
-	});
-	$('.mobsearch_two .search input[name=\"search\"]').on('keydown', function(e) {
-	if (e.keyCode == 13) {$('.mobsearch_two .search-button').trigger('click');}
-	});
-	$(document).ready(function() {
-		$('nav#mobil_mmenu').mmenu({
-			"extensions": ["theme-dark", "pagedim-black"],
-			"counters": true,
-			"navbars": [
-				{
-				   "position": "top",
-				   "type": "tabs",
-				   "content": [
-					  "<a href='#panel-menu'><i class='fa fa-bars'></i></a>",
-					  "<a href='#panel-language'><i class='fa fa-info'></i></a>"
-				   ]
-				},
-				
-
-			],
-			"navbar": {
-				"title": ''
-			}
-		  });
-		$("nav#mobil_mmenu").removeClass('dnone');
-	});	
-
-
 
 
 if (!localStorage.getItem('display')) {
@@ -107,11 +69,6 @@ function grid_view(){
 	} else {
 		$('#content .product-list, #content .product-price').attr('class', 'product-layout product-grid col-lg-3 col-md-3 col-sm-6 col-xs-12');
 	}
-	
-
-		if ($(window).width() > 294 && $(window).width() < 975) {
-			$('#content .product-layout.product-grid').attr('class', 'product-layout product-grid col-lg-4 col-md-4 col-sm-4 col-xs-6');
-		}
 	
 
 	$('.product-grid .product-thumb .caption').css('margin-left', 'initial');
@@ -274,9 +231,6 @@ function podgon_fona() {
 
 	
 
-		$('#top3').addClass('absolutpo');
-	
-
 	
 
 		if($(window).width() < 767) {
@@ -284,11 +238,6 @@ function podgon_fona() {
 		}
 	
 
-	
-
-		if ($(window).width() > 294 && $(window).width() < 975) {
-			$('#content .product-layout.product-grid').attr('class', 'product-layout product-grid col-lg-4 col-md-4 col-sm-4 col-xs-6');
-		}
 	
 
 	

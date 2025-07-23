@@ -131,7 +131,7 @@ class ControllerCommonFooter extends Controller {
 		$data['popup_phone'] = $setting_footer_all['popup_phone'];
 		$data['f_map'] = $setting_footer_all['f_map'];
 		$setting_footer_user_set = $this->config->get('revtheme_footer_user_set');
-		$data['user_scripts'] = html_entity_decode($setting_footer_user_set['scripts'], ENT_QUOTES, 'UTF-8');
+		// $data['user_scripts'] = html_entity_decode($setting_footer_user_set['scripts'], ENT_QUOTES, 'UTF-8');
 		$settings_all_settings = $this->config->get('revtheme_all_settings');
 		$data['modal_status'] = $settings_all_settings['modal_status'];
 		$data['modal_buttons'] = $settings_all_settings['modal_buttons'];
@@ -146,13 +146,8 @@ class ControllerCommonFooter extends Controller {
 		$data['revsubscribe'] = $this->load->controller('revolution/revsubscribe');
 		$data['revtheme_filter'] = $this->config->get('revtheme_filter');
 		$data['text_contacts_mobil'] = $this->language->get('text_sitemap_contact');
-		if ($settings_all_settings['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
+		$is_mobile = $data['is_mobile'] = true;
+		$is_desctope = $data['is_desctope'] = true;
 
 		if ($settings_all_settings['minif_on']) {
 			// Читаем manifest.json, если он существует

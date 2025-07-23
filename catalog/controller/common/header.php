@@ -588,9 +588,9 @@ class ControllerCommonHeader extends Controller {
 			$data['revtheme_dop_menus_mob_menu'] = false;
 		}
 		// $data['mob_menu_description'] = html_entity_decode($this->config->get('revtheme_all_settings')[$this->config->get('config_language_id')]['mob_menu_description'], ENT_QUOTES, 'UTF-8');
-		if ($this->config->get('revtheme_all_settings')['mobile_header'] == '3') {
-			$data['text_catalog_menu'] = ($image . $this->config->get('revtheme_all_settings')[$this->config->get('config_language_id')]['mob_menu_zag']);
-		}
+		// if ($this->config->get('revtheme_all_settings')['mobile_header'] == '3') {
+		// 	$data['text_catalog_menu'] = ($image . $this->config->get('revtheme_all_settings')[$this->config->get('config_language_id')]['mob_menu_zag']);
+		// }
 		
 		if ($settings_header_standart_links['rev_acc_zagolovok'] == 'name' && $this->customer->isLogged()) {
 			$data['text_revlogged'] = sprintf('%s', $this->customer->getFirstName());

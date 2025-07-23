@@ -1,754 +1,193 @@
 <?php
 class ControllerRevolutionRevslider extends Controller {
     protected $path = array();
-	
-	public function sliderstabs() {
-		
-		$revsliders_tab = $this->config->get('revtheme_home_all')['revsliders_tab'];
-		if (!$revsliders_tab) {
-			return false;
-		}
-		
-		$this->load->language('revolution/revolution');
+    
+    // Общие настройки, которые используются во всех методах
+    protected function getCommonSettings() {
+        $this->load->language('revolution/revolution');
         $this->load->model('catalog/category');
         $this->load->model('catalog/product');
-		$this->load->model('revolution/revolution');
-   
-		$data['setting_all_settings'] = $this->config->get('revtheme_all_settings');
-		$data['revpopuporder_settings'] = $revpopuporder_settings = $this->config->get('revtheme_catalog_popuporder');
-		$data['revpopuporder'] = $revpopuporder_settings['status'];
-		$product_settings = $this->config->get('revtheme_product_all');
-		$data['zakaz'] = $product_settings['zakaz'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['recalc_price'] = $product_settings['recalc_price'];
-		$data['q_zavisimost'] = $product_settings['q_zavisimost'];
-		$data['opt_price'] = $product_settings['opt_price'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['text_catalog_stiker_netu_2'] = $this->language->get('text_catalog_stiker_netu');
-		$data['setting_catalog_all'] = $setting_catalog_all = $this->config->get('revtheme_catalog_all');
-		$data['popup_view'] = $setting_catalog_all['popup_view'];
-		$data['img_slider'] = $setting_catalog_all['img_slider'];
-		$data['rev_srav_prod'] = $setting_catalog_all['rev_srav_prod'];
-		$data['rev_wish_prod'] = $setting_catalog_all['rev_wish_prod'];
-		$data['ch_quantity'] = $setting_catalog_all['ch_quantity'];
-		$data['chislo_ryad'] = $setting_catalog_all['chislo_ryad'];
-		$data['text_catalog_stiker_last'] = $this->language->get('text_catalog_stiker_last');
-		$data['text_catalog_stiker_best'] = $this->language->get('text_catalog_stiker_best');
-		$data['text_catalog_revpopup_purchase'] = $this->language->get('text_catalog_revpopup_purchase');
-		$data['text_catalog_revpopup_view'] = $this->language->get('text_catalog_revpopup_view');
-		$data['text_catalog_price_na_zakaz'] = $this->language->get('text_catalog_price_na_zakaz');
-		$description_options = $this->config->get('revtheme_cat_attributes');
-		$data['description_options'] = $this->config->get('revtheme_cat_attributes');
-		$data['text_select'] = $this->language->get('text_select');
-		$data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
-		$data['text_option_option'] = $this->language->get('text_option_option');
-		$revpopuppredzakaz_settings = $this->config->get('revtheme_predzakaz');
-		$data['predzakaz_button'] = $revpopuppredzakaz_settings['status'];
-		$data['text_predzakaz'] = $this->config->get('revtheme_predzakaz')['notify_status'] ? $this->language->get('text_predzakaz_notify') : $this->language->get('text_predzakaz');
-		$data['button_cart'] = $this->language->get('button_cart');
+        $this->load->model('revolution/revolution');
+        
+        $data = array();
+        
+        // Общие настройки
+        $data['setting_all_settings'] = $this->config->get('revtheme_all_settings');
+        $data['revpopuporder_settings'] = $this->config->get('revtheme_catalog_popuporder');
+        $data['revpopuporder'] = $data['revpopuporder_settings']['status'];
+        
+        $product_settings = $this->config->get('revtheme_product_all');
+        $data['zakaz'] = $product_settings['zakaz'];
+        $data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
+        $data['recalc_price'] = $product_settings['recalc_price'];
+        $data['q_zavisimost'] = $product_settings['q_zavisimost'];
+        $data['opt_price'] = $product_settings['opt_price'];
+        
+        $data['setting_catalog_all'] = $this->config->get('revtheme_catalog_all');
+        $data['popup_view'] = $data['setting_catalog_all']['popup_view'];
+        $data['img_slider'] = $data['setting_catalog_all']['img_slider'];
+        $data['rev_srav_prod'] = $data['setting_catalog_all']['rev_srav_prod'];
+        $data['rev_wish_prod'] = $data['setting_catalog_all']['rev_wish_prod'];
+        $data['ch_quantity'] = $data['setting_catalog_all']['ch_quantity'];
+        $data['chislo_ryad'] = $data['setting_catalog_all']['chislo_ryad'];
+        
+        // Языковые переменные
+        $data['text_catalog_stiker_netu_2'] = $this->language->get('text_catalog_stiker_netu');
+        $data['text_catalog_stiker_last'] = $this->language->get('text_catalog_stiker_last');
+        $data['text_catalog_stiker_best'] = $this->language->get('text_catalog_stiker_best');
+        $data['text_catalog_revpopup_purchase'] = $this->language->get('text_catalog_revpopup_purchase');
+        $data['text_catalog_revpopup_view'] = $this->language->get('text_catalog_revpopup_view');
+        $data['text_catalog_price_na_zakaz'] = $this->language->get('text_catalog_price_na_zakaz');
+        $data['text_select'] = $this->language->get('text_select');
+        $data['text_option_option'] = $this->language->get('text_option_option');
+        $data['button_cart'] = $this->language->get('button_cart');
         $data['button_wishlist'] = $this->language->get('button_wishlist');
         $data['button_compare'] = $this->language->get('button_compare');
         $data['text_tax'] = $this->language->get('text_tax');
-		$data['revtheme_home_all'] = $revtheme_home_all = $this->config->get('revtheme_home_all');
-	
-		$currency = $this->session->data['currency'];
-		$data['currency_code'] = $this->session->data['currency'];
-		$var_currency = array();
-		$var_currency['value'] = $this->currency->getValue($currency);
-		$var_currency['symbol_left'] = $this->currency->getSymbolLeft($currency);
-		$var_currency['symbol_right'] = $this->currency->getSymbolRight($currency);
-		$var_currency['decimals'] = $this->currency->getDecimalPlace($currency);
-		$var_currency['decimal_point'] = $this->language->get('decimal_point');
-		$var_currency['thousand_point'] = $this->language->get('thousand_point');
-		$data['currency'] = $var_currency;
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
-		
-		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
-		if ($settings_stikers['status']) {
-			$data['stikers_status'] = true;
-
-			if ($settings_stikers['new_status']) {
-				$settings_last = $this->config->get('revtheme_catalog_last');
-				if ($settings_last['last_products'] != '') {
-					$date_added = array_flip(explode(',', $settings_last['last_products']));
-				} else {
-					if ($settings_last['filter_day']) {
-						$filter_day = date('Y-m-d H:i:s', strtotime('now - ' . $settings_last['filter_day'] . ' days'));
-					} else {
-						$filter_day = false;
-					}
-					$data_last = array(
-						'sort'  => 'p.date_added',
-						'order' => 'DESC',
-						'start' => 0,
-						'limit' => $settings_last['limit'],
-						'filter_day' => $filter_day
-						);
-					$date_added = $this->model_revolution_revolution->getLastProducts($data_last);
-				}
-			}
-
-			if ($settings_stikers['best_status']) {
-				$settings_best = $this->config->get('revtheme_catalog_best');
-				if ($settings_best['best_products'] != '') {
-					$best_seller = array_flip(explode(',', $settings_best['best_products']));
-				} else {
-					$data_best = array(
-						'sort'  => 'p.sales',
-						'order' => 'DESC',
-						'start' => 0,
-						'limit' => $settings_best['limit'],
-						'filter_buy' => $settings_best['filter_buy']
-					);
-					$best_seller = $this->model_revolution_revolution->getBestProducts($data_best);
-				}
-			}
-		} else {
-			$data['stikers_status'] = false;
-		}
-		
-		$setting_sliderstabs = $this->config->get('revtheme_home_all')['revsliders_tab'];
-		if (!$setting_sliderstabs) {
-			return false;
-		}
-
-		$setting_slider_1 = $this->config->get('revtheme_slider_1');
-		$setting_slider_2 = $this->config->get('revtheme_slider_3');
-		$setting_slider_3 = $this->config->get('revtheme_slider_4');
-		$setting_slider_4 = $this->config->get('revtheme_slider_5');
-		
-		$data['slider_1_status'] = $setting_slider_1['status'];
-		$data['slider_2_status'] = $setting_slider_2['status'];
-		$data['slider_3_status'] = $setting_slider_3['status'];
-		$data['slider_4_status'] = $setting_slider_4['status'];
-		
-		$data['slider_5_status'] = false;
-		$data['slider_6_status'] = false;
-		$data['slider_7_status'] = false;
-		$data['slider_8_status'] = false;
-		
-		$this->load->model('tool/image');
-		
-		if ($setting_slider_1['icontype']) {
-			$data['heading_title_slider_1'] = ('<i class="'.$setting_slider_1['icon'].'"></i>' . $setting_slider_1[$this->config->get('config_language_id')]['title']);
-		} else {
-			$image = $this->model_tool_image->resize($setting_slider_1['image'], 21, 21);
-			$data['heading_title_slider_1'] = ('<span class="heading_ico_image"><span class="mask"></span><img src="'.$image.'" alt=""/></span>' . $setting_slider_1[$this->config->get('config_language_id')]['title']);
-		}
-		if ($setting_slider_2['icontype']) {
-			$data['heading_title_slider_2'] = ('<i class="'.$setting_slider_2['icon'].'"></i>' . $setting_slider_2[$this->config->get('config_language_id')]['title']);
-		} else {
-			$image = $this->model_tool_image->resize($setting_slider_2['image'], 21, 21);
-			$data['heading_title_slider_2'] = ('<span class="heading_ico_image"><span class="mask"></span><img src="'.$image.'" alt=""/></span>' . $setting_slider_2[$this->config->get('config_language_id')]['title']);
-		}
-		if ($setting_slider_3['icontype']) {
-			$data['heading_title_slider_3'] = ('<i class="'.$setting_slider_3['icon'].'"></i>' . $setting_slider_3[$this->config->get('config_language_id')]['title']);
-		} else {
-			$image = $this->model_tool_image->resize($setting_slider_3['image'], 21, 21);
-			$data['heading_title_slider_3'] = ('<span class="heading_ico_image"><span class="mask"></span><img src="'.$image.'" alt=""/></span>' . $setting_slider_3[$this->config->get('config_language_id')]['title']);
-		}
-		if ($setting_slider_4['icontype']) {
-			$data['heading_title_slider_4'] = ('<i class="'.$setting_slider_4['icon'].'"></i>' . $setting_slider_4[$this->config->get('config_language_id')]['title']);
-		} else {
-			$image = $this->model_tool_image->resize($setting_slider_4['image'], 21, 21);
-			$data['heading_title_slider_4'] = ('<span class="heading_ico_image"><span class="mask"></span><img src="'.$image.'" alt=""/></span>' . $setting_slider_4[$this->config->get('config_language_id')]['title']);
-		}
-
-		if ($setting_slider_1['status']) {
-			$data['slider_1'] = $setting_slider_1['slider'];
-			if ($setting_slider_1['autoscroll'] > 0) {
-				$data['autoscroll_slider_1'] = $setting_slider_1['autoscroll'];
-			} else {
-				$data['autoscroll_slider_1'] = '0';
-			}
-			$data['products_slider_1'] = array();
-			if ($setting_slider_1['category_id'] == 'featured') {
-				$data['products_slider_1'] = $this->getFeaturedProducts($setting_slider_1);
-			} else {
-				$data['products_slider_1'] = $this->getCategoryProducts($setting_slider_1);
-			}
-		}
-		if ($setting_slider_2['status']) {
-			$data['slider_2'] = $setting_slider_2['slider'];
-			if ($setting_slider_2['autoscroll'] > 0) {
-				$data['autoscroll_slider_2'] = $setting_slider_2['autoscroll'];
-			} else {
-				$data['autoscroll_slider_2'] = '0';
-			}
-			$data['products_slider_2'] = array();
-			if ($setting_slider_2['category_id'] == 'featured') {
-				$data['products_slider_2'] = $this->getFeaturedProducts($setting_slider_2);
-			} else {
-				$data['products_slider_2'] = $this->getCategoryProducts($setting_slider_2);
-			}
-		}
-		if ($setting_slider_3['status']) {
-			$data['slider_3'] = $setting_slider_3['slider'];
-			if ($setting_slider_3['autoscroll'] > 0) {
-				$data['autoscroll_slider_3'] = $setting_slider_3['autoscroll'];
-			} else {
-				$data['autoscroll_slider_3'] = '0';
-			}
-			$data['products_slider_3'] = array();
-			if ($setting_slider_3['category_id'] == 'featured') {
-				$data['products_slider_3'] = $this->getFeaturedProducts($setting_slider_3);
-			} else {
-				$data['products_slider_3'] = $this->getCategoryProducts($setting_slider_3);
-			}
-		}
-		if ($setting_slider_4['status']) {
-			$data['slider_4'] = $setting_slider_4['slider'];
-			if ($setting_slider_4['autoscroll'] > 0) {
-				$data['autoscroll_slider_4'] = $setting_slider_4['autoscroll'];
-			} else {
-				$data['autoscroll_slider_4'] = '0';
-			}
-			$data['products_slider_4'] = array();
-			if ($setting_slider_4['category_id'] == 'featured') {
-				$data['products_slider_4'] = $this->getFeaturedProducts($setting_slider_4);
-			} else {
-				$data['products_slider_4'] = $this->getCategoryProducts($setting_slider_4);
-			}
-		}
-		
-		return $this->load->view('revolution/revslider_tabs', $data);
-
-	}
-	
-    public function slider1($setting) {
-       
-		$setting = $this->config->get('revtheme_slider_1');
-		$revsliders_tab = $this->config->get('revtheme_home_all')['revsliders_tab'];
-		
-		if (!$setting['status'] || $revsliders_tab) {
-			return false;
-		}
-
-        $this->load->language('revolution/revslider');
-		$this->load->language('revolution/revolution');
-        $this->load->model('catalog/category');
-        $this->load->model('catalog/product');
-   
-		$data['setting_all_settings'] = $this->config->get('revtheme_all_settings');
-		$data['revpopuporder_settings'] = $revpopuporder_settings = $this->config->get('revtheme_catalog_popuporder');
-		$data['revpopuporder'] = $revpopuporder_settings['status'];
-		$product_settings = $this->config->get('revtheme_product_all');
-		$data['zakaz'] = $product_settings['zakaz'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['recalc_price'] = $product_settings['recalc_price'];
-		$data['q_zavisimost'] = $product_settings['q_zavisimost'];
-		$data['opt_price'] = $product_settings['opt_price'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['text_catalog_stiker_netu_2'] = $this->language->get('text_catalog_stiker_netu');
-		$data['setting_catalog_all'] = $setting_catalog_all = $this->config->get('revtheme_catalog_all');
-		$data['popup_view'] = $setting_catalog_all['popup_view'];
-		$data['img_slider'] = $setting_catalog_all['img_slider'];
-		$data['rev_srav_prod'] = $setting_catalog_all['rev_srav_prod'];
-		$data['rev_wish_prod'] = $setting_catalog_all['rev_wish_prod'];
-		$data['ch_quantity'] = $setting_catalog_all['ch_quantity'];
-		$data['chislo_ryad'] = $setting_catalog_all['chislo_ryad'];
-		$data['text_catalog_stiker_last'] = $this->language->get('text_catalog_stiker_last');
-		$data['text_catalog_stiker_best'] = $this->language->get('text_catalog_stiker_best');
-		$data['text_catalog_revpopup_purchase'] = $this->language->get('text_catalog_revpopup_purchase');
-		$data['text_catalog_revpopup_view'] = $this->language->get('text_catalog_revpopup_view');
-		$data['text_catalog_price_na_zakaz'] = $this->language->get('text_catalog_price_na_zakaz');
-		$description_options = $this->config->get('revtheme_cat_attributes');
-		$data['description_options'] = $this->config->get('revtheme_cat_attributes');
-		$data['text_select'] = $this->language->get('text_select');
-		$data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
-		$data['text_option_option'] = $this->language->get('text_option_option');
-		$revpopuppredzakaz_settings = $this->config->get('revtheme_predzakaz');
-		$data['predzakaz_button'] = $revpopuppredzakaz_settings['status'];
-		$data['text_predzakaz'] = $this->config->get('revtheme_predzakaz')['notify_status'] ? $this->language->get('text_predzakaz_notify') : $this->language->get('text_predzakaz');
-		$data['revtheme_home_all'] = $revtheme_home_all = $this->config->get('revtheme_home_all');
-		$data['url_all'] = false;
-		if ($setting[$this->config->get('config_language_id')]['url_all'] != '') {
-			$data['url_all'] = sprintf($this->language->get('text_rev_url_all'), $setting[$this->config->get('config_language_id')]['url_all']);
-		}
-		
-		$currency = $this->session->data['currency'];
-		$data['currency_code'] = $this->session->data['currency'];
-		$var_currency = array();
-		$var_currency['value'] = $this->currency->getValue($currency);
-		$var_currency['symbol_left'] = $this->currency->getSymbolLeft($currency);
-		$var_currency['symbol_right'] = $this->currency->getSymbolRight($currency);
-		$var_currency['decimals'] = $this->currency->getDecimalPlace($currency);
-		$var_currency['decimal_point'] = $this->language->get('decimal_point');
-		$var_currency['thousand_point'] = $this->language->get('thousand_point');
-		$data['currency'] = $var_currency;
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
-		
-		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
-		if ($settings_stikers['status']) {
-			$data['stikers_status'] = true;
-		} else {
-			$data['stikers_status'] = false;
-		}
-		
-		if ($setting[$this->config->get('config_language_id')]['title']) {
-			$style = '';
-			if ($setting['icontype']) {
-				if ($setting['icon'] == 'fa none') {
-					$style = ' hidden';
-				}
-				$image = '<i class="'.$setting['icon'].$style.'"></i>';
-			} else {
-				if (!$setting['image'] || $setting['image'] == 'no_image.png') {
-					$style = ' hidden';
-				}
-				$image = '<span class="heading_ico_image'.$style.'"><img src="'.$this->model_tool_image->resize($setting['image'], 25, 25).'" alt=""/></span>';
-			}
-			$data['heading_title'] = ($image . $setting[$this->config->get('config_language_id')]['title']);
-		} else {
-			$data['heading_title'] = '';
-		}
-
-		$data['slider_id'] = '1';
-		$data['sort'] = $setting['sort'];
-		$data['icon'] = $setting['icon'];
-		$data['slider'] = $setting['slider'];
-
-		if ($setting['autoscroll'] > 0) {
-			$data['autoscroll'] = $setting['autoscroll'];
-		} else {
-			$data['autoscroll'] = '0';
-		}
-
-		$this->load->model('revolution/revolution');
-		$this->load->model('tool/image');
-
-		if (isset($this->request->get['path'])) {
-			$this->path = explode('_', $this->request->get['path']);
-			$this->category_id = end($this->path);
-		}
-
-		$url = '';
-
-		$data['products'] = array();
-
-		if ($setting['category_id'] == 'featured') {
-			$data['products'] = $this->getFeaturedProducts($setting);
-		} else {
-			$data['products'] = $this->getCategoryProducts($setting);
-		}
-
-        $sort_order = array();
-
-        $data['button_cart']        = $this->language->get('button_cart');
-        $data['button_wishlist']    = $this->language->get('button_wishlist');
-        $data['button_compare']     = $this->language->get('button_compare');
-        $data['text_tax']           = $this->language->get('text_tax');
-
-		return $this->load->view('revolution/revslider', $data);
         
+        $revpopuppredzakaz_settings = $this->config->get('revtheme_predzakaz');
+        $data['predzakaz_button'] = $revpopuppredzakaz_settings['status'];
+        $data['text_predzakaz'] = $this->config->get('revtheme_predzakaz')['notify_status'] ? 
+            $this->language->get('text_predzakaz_notify') : $this->language->get('text_predzakaz');
+        
+        $data['revtheme_home_all'] = $this->config->get('revtheme_home_all');
+        $data['description_options'] = $this->config->get('revtheme_cat_attributes');
+        $data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
+        
+        // Валюта
+        $currency = $this->session->data['currency'];
+        $data['currency_code'] = $currency;
+        $data['currency'] = array(
+            'value' => $this->currency->getValue($currency),
+            'symbol_left' => $this->currency->getSymbolLeft($currency),
+            'symbol_right' => $this->currency->getSymbolRight($currency),
+            'decimals' => $this->currency->getDecimalPlace($currency),
+            'decimal_point' => $this->language->get('decimal_point'),
+            'thousand_point' => $this->language->get('thousand_point')
+        );
+        
+        // Стикеры
+        $settings_stikers = $this->config->get('revtheme_catalog_stiker');
+        $data['stikers_status'] = $settings_stikers['status'] ?? false;
+        
+        return $data;
     }
-
-	public function slider2($setting) {
-       
-		$setting = $this->config->get('revtheme_slider_3');
-		$revsliders_tab = $this->config->get('revtheme_home_all')['revsliders_tab'];
-		
-		if (!$setting['status'] || $revsliders_tab) {
-			return false;
-		}
-		
-        $this->load->language('revolution/revslider');
-		$this->load->language('revolution/revolution');
-        $this->load->model('catalog/category');
-        $this->load->model('catalog/product');
-		
-		$data['setting_all_settings'] = $this->config->get('revtheme_all_settings');
-		$data['revpopuporder_settings'] = $revpopuporder_settings = $this->config->get('revtheme_catalog_popuporder');
-		$data['revpopuporder'] = $revpopuporder_settings['status'];
-		$product_settings = $this->config->get('revtheme_product_all');
-		$data['zakaz'] = $product_settings['zakaz'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['recalc_price'] = $product_settings['recalc_price'];
-		$data['q_zavisimost'] = $product_settings['q_zavisimost'];
-		$data['opt_price'] = $product_settings['opt_price'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['text_catalog_stiker_netu_2'] = $this->language->get('text_catalog_stiker_netu');
-		$data['setting_catalog_all'] = $setting_catalog_all = $this->config->get('revtheme_catalog_all');
-		$data['popup_view'] = $setting_catalog_all['popup_view'];
-		$data['img_slider'] = $setting_catalog_all['img_slider'];
-		$data['rev_srav_prod'] = $setting_catalog_all['rev_srav_prod'];
-		$data['rev_wish_prod'] = $setting_catalog_all['rev_wish_prod'];
-		$data['ch_quantity'] = $setting_catalog_all['ch_quantity'];
-		$data['chislo_ryad'] = $setting_catalog_all['chislo_ryad'];
-		$data['text_catalog_stiker_last'] = $this->language->get('text_catalog_stiker_last');
-		$data['text_catalog_stiker_best'] = $this->language->get('text_catalog_stiker_best');
-		$data['text_catalog_revpopup_purchase'] = $this->language->get('text_catalog_revpopup_purchase');
-		$data['text_catalog_revpopup_view'] = $this->language->get('text_catalog_revpopup_view');
-		$data['text_catalog_price_na_zakaz'] = $this->language->get('text_catalog_price_na_zakaz');
-		$description_options = $this->config->get('revtheme_cat_attributes');
-		$data['description_options'] = $this->config->get('revtheme_cat_attributes');
-		$data['text_select'] = $this->language->get('text_select');
-		$data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
-		$data['text_option_option'] = $this->language->get('text_option_option');
-		$revpopuppredzakaz_settings = $this->config->get('revtheme_predzakaz');
-		$data['predzakaz_button'] = $revpopuppredzakaz_settings['status'];
-		$data['text_predzakaz'] = $this->config->get('revtheme_predzakaz')['notify_status'] ? $this->language->get('text_predzakaz_notify') : $this->language->get('text_predzakaz');
-		$data['revtheme_home_all'] = $revtheme_home_all = $this->config->get('revtheme_home_all');
-		$data['url_all'] = false;
-		if ($setting[$this->config->get('config_language_id')]['url_all'] != '') {
-			$data['url_all'] = sprintf($this->language->get('text_rev_url_all'), $setting[$this->config->get('config_language_id')]['url_all']);
-		}
-		
-		$currency = $this->session->data['currency'];
-		$data['currency_code'] = $this->session->data['currency'];
-		$var_currency = array();
-		$var_currency['value'] = $this->currency->getValue($currency);
-		$var_currency['symbol_left'] = $this->currency->getSymbolLeft($currency);
-		$var_currency['symbol_right'] = $this->currency->getSymbolRight($currency);
-		$var_currency['decimals'] = $this->currency->getDecimalPlace($currency);
-		$var_currency['decimal_point'] = $this->language->get('decimal_point');
-		$var_currency['thousand_point'] = $this->language->get('thousand_point');
-		$data['currency'] = $var_currency;
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
-		
-		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
-		if ($settings_stikers['status']) {
-			$data['stikers_status'] = true;
-		} else {
-			$data['stikers_status'] = false;
-		}
-       
-		if ($setting[$this->config->get('config_language_id')]['title']) {
-			$style = '';
-			if ($setting['icontype']) {
-				if ($setting['icon'] == 'fa none') {
-					$style = ' hidden';
-				}
-				$image = '<i class="'.$setting['icon'].$style.'"></i>';
-			} else {
-				if (!$setting['image'] || $setting['image'] == 'no_image.png') {
-					$style = ' hidden';
-				}
-				$image = '<span class="heading_ico_image'.$style.'"><img src="'.$this->model_tool_image->resize($setting['image'], 25, 25).'" alt=""/></span>';
-			}
-			$data['heading_title'] = ($image . $setting[$this->config->get('config_language_id')]['title']);
-		} else {
-			$data['heading_title'] = '';
-		}
-
-		$data['slider_id'] = '2';
-		$data['sort'] = $setting['sort'];
-		$data['icon'] = $setting['icon'];
-		$data['slider'] = $setting['slider'];
-
-		if ($setting['autoscroll'] > 0) {
-			$data['autoscroll'] = $setting['autoscroll'];}
-			else {$data['autoscroll'] = '0';
-		}
-
-		$this->load->model('revolution/revolution');
-		$this->load->model('tool/image');
-
-		if (isset($this->request->get['path'])) {
-			$this->path = explode('_', $this->request->get['path']);
-			$this->category_id = end($this->path);
-		}
-
-		$url = '';
-
-		$data['products'] = array();
-
-		if ($setting['category_id'] == 'featured') {
-			$data['products'] = $this->getFeaturedProducts($setting);
-		} else {
-			$data['products'] = $this->getCategoryProducts($setting);
-		}
-
-        $sort_order = array();
-
-        $data['button_cart']        = $this->language->get('button_cart');
-        $data['button_wishlist']    = $this->language->get('button_wishlist');
-        $data['button_compare']     = $this->language->get('button_compare');
-        $data['text_tax']           = $this->language->get('text_tax');
-
-		return $this->load->view('revolution/revslider', $data);
+    
+    // Общий метод для создания слайдера
+    protected function createSlider($setting, $slider_id) {
+        $revsliders_tab = $this->config->get('revtheme_home_all')['revsliders_tab'];
+        
+        if (!$setting['status'] || $revsliders_tab) {
+            return false;
+        }
+        
+        $data = $this->getCommonSettings();
+        
+        // Заголовок слайдера
+        if ($setting[$this->config->get('config_language_id')]['title']) {
+            $data['heading_title'] = $setting[$this->config->get('config_language_id')]['title'];
+        } else {
+            $data['heading_title'] = '';
+        }
+        
+        // URL "Все"
+        $data['url_all'] = false;
+        if ($setting[$this->config->get('config_language_id')]['url_all'] != '') {
+            $data['url_all'] = sprintf($this->language->get('text_rev_url_all'), $setting[$this->config->get('config_language_id')]['url_all']);
+        }
+        
+        // Настройки слайдера
+        $data['slider_id'] = $slider_id;
+        $data['sort'] = $setting['sort'];
+        $data['slider'] = $setting['slider'];
+        
+        // Получение продуктов
+        if ($setting['category_id'] == 'featured') {
+            $data['products'] = $this->getFeaturedProducts($setting);
+        } else {
+            $data['products'] = $this->getCategoryProducts($setting);
+        }
+        
+        return $this->load->view('revolution/revslider', $data);
     }
-	
-	public function slider3($setting) {
-       
-		$setting = $this->config->get('revtheme_slider_4');
-		$revsliders_tab = $this->config->get('revtheme_home_all')['revsliders_tab'];
-		
-		if (!$setting['status'] || $revsliders_tab) {
-			return false;
-		}
-		
-        $this->load->language('revolution/revslider');
-		$this->load->language('revolution/revolution');
-        $this->load->model('catalog/category');
-        $this->load->model('catalog/product');
-		
-		$data['setting_all_settings'] = $this->config->get('revtheme_all_settings');
-		$data['revpopuporder_settings'] = $revpopuporder_settings = $this->config->get('revtheme_catalog_popuporder');
-		$data['revpopuporder'] = $revpopuporder_settings['status'];
-		$product_settings = $this->config->get('revtheme_product_all');
-		$data['zakaz'] = $product_settings['zakaz'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['recalc_price'] = $product_settings['recalc_price'];
-		$data['q_zavisimost'] = $product_settings['q_zavisimost'];
-		$data['opt_price'] = $product_settings['opt_price'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['text_catalog_stiker_netu_2'] = $this->language->get('text_catalog_stiker_netu');
-		$data['setting_catalog_all'] = $setting_catalog_all = $this->config->get('revtheme_catalog_all');
-		$data['popup_view'] = $setting_catalog_all['popup_view'];
-		$data['img_slider'] = $setting_catalog_all['img_slider'];
-		$data['rev_srav_prod'] = $setting_catalog_all['rev_srav_prod'];
-		$data['rev_wish_prod'] = $setting_catalog_all['rev_wish_prod'];
-		$data['ch_quantity'] = $setting_catalog_all['ch_quantity'];
-		$data['chislo_ryad'] = $setting_catalog_all['chislo_ryad'];
-		$data['text_catalog_stiker_last'] = $this->language->get('text_catalog_stiker_last');
-		$data['text_catalog_stiker_best'] = $this->language->get('text_catalog_stiker_best');
-		$data['text_catalog_revpopup_purchase'] = $this->language->get('text_catalog_revpopup_purchase');
-		$data['text_catalog_revpopup_view'] = $this->language->get('text_catalog_revpopup_view');
-		$data['text_catalog_price_na_zakaz'] = $this->language->get('text_catalog_price_na_zakaz');
-		$description_options = $this->config->get('revtheme_cat_attributes');
-		$data['description_options'] = $this->config->get('revtheme_cat_attributes');
-		$data['text_select'] = $this->language->get('text_select');
-		$data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
-		$data['text_option_option'] = $this->language->get('text_option_option');
-		$revpopuppredzakaz_settings = $this->config->get('revtheme_predzakaz');
-		$data['predzakaz_button'] = $revpopuppredzakaz_settings['status'];
-		$data['text_predzakaz'] = $this->config->get('revtheme_predzakaz')['notify_status'] ? $this->language->get('text_predzakaz_notify') : $this->language->get('text_predzakaz');
-		$data['revtheme_home_all'] = $revtheme_home_all = $this->config->get('revtheme_home_all');
-		$data['url_all'] = false;
-		if ($setting[$this->config->get('config_language_id')]['url_all'] != '') {
-			$data['url_all'] = sprintf($this->language->get('text_rev_url_all'), $setting[$this->config->get('config_language_id')]['url_all']);
-		}
-		
-		$currency = $this->session->data['currency'];
-		$data['currency_code'] = $this->session->data['currency'];
-		$var_currency = array();
-		$var_currency['value'] = $this->currency->getValue($currency);
-		$var_currency['symbol_left'] = $this->currency->getSymbolLeft($currency);
-		$var_currency['symbol_right'] = $this->currency->getSymbolRight($currency);
-		$var_currency['decimals'] = $this->currency->getDecimalPlace($currency);
-		$var_currency['decimal_point'] = $this->language->get('decimal_point');
-		$var_currency['thousand_point'] = $this->language->get('thousand_point');
-		$data['currency'] = $var_currency;
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
-		
-		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
-		if ($settings_stikers['status']) {
-			$data['stikers_status'] = true;
-		} else {
-			$data['stikers_status'] = false;
-		}
-		
-		if ($setting[$this->config->get('config_language_id')]['title']) {
-			$style = '';
-			if ($setting['icontype']) {
-				if ($setting['icon'] == 'fa none') {
-					$style = ' hidden';
-				}
-				$image = '<i class="'.$setting['icon'].$style.'"></i>';
-			} else {
-				if (!$setting['image'] || $setting['image'] == 'no_image.png') {
-					$style = ' hidden';
-				}
-				$image = '<span class="heading_ico_image'.$style.'"><img src="'.$this->model_tool_image->resize($setting['image'], 25, 25).'" alt=""/></span>';
-			}
-			$data['heading_title'] = ($image . $setting[$this->config->get('config_language_id')]['title']);
-		} else {
-			$data['heading_title'] = '';
-		}
-
-		$data['slider_id'] = '3';
-		$data['sort'] = $setting['sort'];
-		$data['slider'] = $setting['slider'];
-
-		if ($setting['autoscroll'] > 0) {
-			$data['autoscroll'] = $setting['autoscroll'];}
-			else {$data['autoscroll'] = '0';
-		}
-
-		$this->load->model('revolution/revolution');
-		$this->load->model('tool/image');
-
-		if (isset($this->request->get['path'])) {
-			$this->path = explode('_', $this->request->get['path']);
-			$this->category_id = end($this->path);
-		}
-
-		$url = '';
-
-		$data['products'] = array();
-
-		if ($setting['category_id'] == 'featured') {
-			$data['products'] = $this->getFeaturedProducts($setting);
-		} else {
-			$data['products'] = $this->getCategoryProducts($setting);
-		}
-
-        $sort_order = array();
-
-        $data['button_cart']        = $this->language->get('button_cart');
-        $data['button_wishlist']    = $this->language->get('button_wishlist');
-        $data['button_compare']     = $this->language->get('button_compare');
-        $data['text_tax']           = $this->language->get('text_tax');
-
-		return $this->load->view('revolution/revslider', $data);
+    
+    // Методы для конкретных слайдеров
+    public function slider1($setting) {
+        return $this->createSlider($this->config->get('revtheme_slider_1'), 1);
     }
-	
-	public function slider4($setting) {
-       
-		$setting = $this->config->get('revtheme_slider_5');
-		$revsliders_tab = $this->config->get('revtheme_home_all')['revsliders_tab'];
-		
-		if (!$setting['status'] || $revsliders_tab) {
-			return false;
-		}
-		
-        $this->load->language('revolution/revslider');
-		$this->load->language('revolution/revolution');
-        $this->load->model('catalog/category');
-        $this->load->model('catalog/product');
-		
-		$data['setting_all_settings'] = $this->config->get('revtheme_all_settings');
-		$data['revpopuporder_settings'] = $revpopuporder_settings = $this->config->get('revtheme_catalog_popuporder');
-		$data['revpopuporder'] = $revpopuporder_settings['status'];
-		$product_settings = $this->config->get('revtheme_product_all');
-		$data['zakaz'] = $product_settings['zakaz'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['recalc_price'] = $product_settings['recalc_price'];
-		$data['q_zavisimost'] = $product_settings['q_zavisimost'];
-		$data['opt_price'] = $product_settings['opt_price'];
-		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
-		$data['text_catalog_stiker_netu_2'] = $this->language->get('text_catalog_stiker_netu');
-		$data['setting_catalog_all'] = $setting_catalog_all = $this->config->get('revtheme_catalog_all');
-		$data['popup_view'] = $setting_catalog_all['popup_view'];
-		$data['img_slider'] = $setting_catalog_all['img_slider'];
-		$data['rev_srav_prod'] = $setting_catalog_all['rev_srav_prod'];
-		$data['rev_wish_prod'] = $setting_catalog_all['rev_wish_prod'];
-		$data['ch_quantity'] = $setting_catalog_all['ch_quantity'];
-		$data['chislo_ryad'] = $setting_catalog_all['chislo_ryad'];
-		$data['text_catalog_stiker_last'] = $this->language->get('text_catalog_stiker_last');
-		$data['text_catalog_stiker_best'] = $this->language->get('text_catalog_stiker_best');
-		$data['text_catalog_revpopup_purchase'] = $this->language->get('text_catalog_revpopup_purchase');
-		$data['text_catalog_revpopup_view'] = $this->language->get('text_catalog_revpopup_view');
-		$data['text_catalog_price_na_zakaz'] = $this->language->get('text_catalog_price_na_zakaz');
-		$description_options = $this->config->get('revtheme_cat_attributes');
-		$data['description_options'] = $this->config->get('revtheme_cat_attributes');
-		$data['text_select'] = $this->language->get('text_select');
-		$data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
-		$data['text_option_option'] = $this->language->get('text_option_option');
-		$revpopuppredzakaz_settings = $this->config->get('revtheme_predzakaz');
-		$data['predzakaz_button'] = $revpopuppredzakaz_settings['status'];
-		$data['text_predzakaz'] = $this->config->get('revtheme_predzakaz')['notify_status'] ? $this->language->get('text_predzakaz_notify') : $this->language->get('text_predzakaz');
-		$data['revtheme_home_all'] = $revtheme_home_all = $this->config->get('revtheme_home_all');
-		$data['url_all'] = false;
-		if ($setting[$this->config->get('config_language_id')]['url_all'] != '') {
-			$data['url_all'] = sprintf($this->language->get('text_rev_url_all'), $setting[$this->config->get('config_language_id')]['url_all']);
-		}
-		
-		$currency = $this->session->data['currency'];
-		$data['currency_code'] = $this->session->data['currency'];
-		$var_currency = array();
-		$var_currency['value'] = $this->currency->getValue($currency);
-		$var_currency['symbol_left'] = $this->currency->getSymbolLeft($currency);
-		$var_currency['symbol_right'] = $this->currency->getSymbolRight($currency);
-		$var_currency['decimals'] = $this->currency->getDecimalPlace($currency);
-		$var_currency['decimal_point'] = $this->language->get('decimal_point');
-		$var_currency['thousand_point'] = $this->language->get('thousand_point');
-		$data['currency'] = $var_currency;
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
-		
-		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
-		if ($settings_stikers['status']) {
-			$data['stikers_status'] = true;
-		} else {
-			$data['stikers_status'] = false;
-		}
-		
-		if ($setting[$this->config->get('config_language_id')]['title']) {
-			$style = '';
-			if ($setting['icontype']) {
-				if ($setting['icon'] == 'fa none') {
-					$style = ' hidden';
-				}
-				$image = '<i class="'.$setting['icon'].$style.'"></i>';
-			} else {
-				if (!$setting['image'] || $setting['image'] == 'no_image.png') {
-					$style = ' hidden';
-				}
-				$image = '<span class="heading_ico_image'.$style.'"><img src="'.$this->model_tool_image->resize($setting['image'], 25, 25).'" alt=""/></span>';
-			}
-			$data['heading_title'] = ($image . $setting[$this->config->get('config_language_id')]['title']);
-		} else {
-			$data['heading_title'] = '';
-		}
-
-		$data['slider_id'] = '4';
-		$data['sort'] = $setting['sort'];
-		$data['slider'] = $setting['slider'];
-
-		if ($setting['autoscroll'] > 0) {
-			$data['autoscroll'] = $setting['autoscroll'];}
-			else {$data['autoscroll'] = '0';
-		}
-
-		$this->load->model('revolution/revolution');
-		$this->load->model('tool/image');
-
-		if (isset($this->request->get['path'])) {
-			$this->path = explode('_', $this->request->get['path']);
-			$this->category_id = end($this->path);
-		}
-
-		$url = '';
-
-		$data['products'] = array();
-
-		if ($setting['category_id'] == 'featured') {
-			$data['products'] = $this->getFeaturedProducts($setting);
-		} else {
-			$data['products'] = $this->getCategoryProducts($setting);
-		}
-
-        $sort_order = array();
-
-        $data['button_cart']        = $this->language->get('button_cart');
-        $data['button_wishlist']    = $this->language->get('button_wishlist');
-        $data['button_compare']     = $this->language->get('button_compare');
-        $data['text_tax']           = $this->language->get('text_tax');
-
-		return $this->load->view('revolution/revslider', $data);
+    
+    public function slider2($setting) {
+        return $this->createSlider($this->config->get('revtheme_slider_3'), 2);
     }
-	
+    
+    public function slider3($setting) {
+        return $this->createSlider($this->config->get('revtheme_slider_4'), 3);
+    }
+    
+    public function slider4($setting) {
+        return $this->createSlider($this->config->get('revtheme_slider_5'), 4);
+    }
+    
+    // Метод для вкладок слайдеров
+    public function sliderstabs() {
+        $revsliders_tab = $this->config->get('revtheme_home_all')['revsliders_tab'];
+        if (!$revsliders_tab) {
+            return false;
+        }
+        
+        $data = $this->getCommonSettings();
+        
+        // Получаем настройки всех слайдеров
+        $setting_slider_1 = $this->config->get('revtheme_slider_1');
+        $setting_slider_2 = $this->config->get('revtheme_slider_3');
+        $setting_slider_3 = $this->config->get('revtheme_slider_4');
+        $setting_slider_4 = $this->config->get('revtheme_slider_5');
+        
+        // Статусы слайдеров
+        $data['slider_1_status'] = $setting_slider_1['status'];
+        $data['slider_2_status'] = $setting_slider_2['status'];
+        $data['slider_3_status'] = $setting_slider_3['status'];
+        $data['slider_4_status'] = $setting_slider_4['status'];
+        
+        // Заголовки слайдеров
+        $this->load->model('tool/image');
+        $data['heading_title_slider_1'] = $this->getSliderTitle($setting_slider_1);
+        $data['heading_title_slider_2'] = $this->getSliderTitle($setting_slider_2);
+        $data['heading_title_slider_3'] = $this->getSliderTitle($setting_slider_3);
+        $data['heading_title_slider_4'] = $this->getSliderTitle($setting_slider_4);
+        
+        // Продукты для каждого слайдера
+        $data['products_slider_1'] = $this->getSliderProducts($setting_slider_1);
+        $data['products_slider_2'] = $this->getSliderProducts($setting_slider_2);
+        $data['products_slider_3'] = $this->getSliderProducts($setting_slider_3);
+        $data['products_slider_4'] = $this->getSliderProducts($setting_slider_4);
+        
+        return $this->load->view('revolution/revslider_tabs', $data);
+    }
+    
+    // Вспомогательные методы
+    protected function getSliderTitle($setting) {
+        if ($setting['icontype']) {
+            return '<i class="'.$setting['icon'].'"></i>' . $setting[$this->config->get('config_language_id')]['title'];
+        } else {
+            $image = $this->model_tool_image->resize($setting['image'], 21, 21);
+            return '<span class="heading_ico_image"><span class="mask"></span><img src="'.$image.'" alt=""/></span>' . 
+                   $setting[$this->config->get('config_language_id')]['title'];
+        }
+    }
+    
+    protected function getSliderProducts($setting) {
+        if (!$setting['status']) {
+            return array();
+        }
+        
+        if ($setting['category_id'] == 'featured') {
+            return $this->getFeaturedProducts($setting);
+        } else {
+            return $this->getCategoryProducts($setting);
+        }
+    }
+    
     public function getCategoryProducts($setting) {
         $result = array();
 
@@ -765,14 +204,6 @@ class ControllerRevolutionRevslider extends Controller {
 		$currency = $this->session->data['currency'];
 		$config_product_description_length = $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length');
 
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
-		
 		$this->load->model('revolution/revolution');
 		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
 		$data['setting_catalog_all'] = $setting_catalog_all = $this->config->get('revtheme_catalog_all');
@@ -1146,14 +577,6 @@ class ControllerRevolutionRevslider extends Controller {
 
 		$currency = $this->session->data['currency'];
 		$config_product_description_length = $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length');
-		
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
 		
 		$this->load->model('revolution/revolution');
 		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
