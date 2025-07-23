@@ -25,6 +25,7 @@ class ControllerExtensionModuleRelatedCategories extends Controller {
         
       $related_categories[] = array(
         'name' => $row['name'],
+        'category_id' => $row['category_id'],
         'sort_order' => $row['sort_order'],
         'pages' => $pages,
         'pages_list' => $pages_data
