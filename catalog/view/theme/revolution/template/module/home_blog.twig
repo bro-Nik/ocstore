@@ -1,0 +1,31 @@
+<div class="">
+
+	<div class="heading_h">
+		<h3>{{ heading_title }}</h3>
+		{% if url_all != '' and url_all_text != '' %}
+			/ <a href="{{ url_all }}">{{ url_all_text }}</a>
+		{% endif %}
+	</div>
+
+	<div class="row">
+		<div class="swiper swiper-carousel">
+      <div class="swiper-wrapper" style="height: 100%;">
+			  {% for blog in blogs %} 
+          <div class="swiper-slide">
+				    <div class="blog-item">
+						  {% if (image_status) %} 
+							  <div class="image">
+								  <a href="{{ blog['href'] }}"><img class="img-responsive" src="{{ blog['image'] }}" alt="{{ blog['name'] }}" title="{{ blog['name'] }}" /></a>
+							  </div>
+						  {% endif %} 
+						  <div class="text">
+						    <h4><a href="{{ blog['href'] }}">{{ blog['name'] }}</a></h4>
+							  <p>{{ blog['date_added'] }}</p>
+						  </div>
+				    </div>
+			    </div>
+			  {% endfor %} 
+		  </div>
+		</div>
+	</div>
+</div>

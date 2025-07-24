@@ -12769,6 +12769,13 @@ input, textarea, .form-control:not(select) {
   padding: 1rem 2rem;
 }
 
+.blog-item h4 {
+  font-weight: 400;
+}
+.blog-item p {
+  color: #6c757d;
+  font-size: 1.3rem;
+}
 .blog__category-wrapper {
   display: flex;
   gap: 2rem;

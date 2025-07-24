@@ -21,19 +21,7 @@ class ControllerRevolutionRevblogmod extends Controller {
 		}
 		
 		if ($setting[$this->config->get('config_language_id')]['title']) {
-			$style = '';
-			if ($setting['icontype']) {
-				if ($setting['icon'] == 'fa none') {
-					$style = ' hidden';
-				}
-				$image = '<i class="'.$setting['icon'].$style.'"></i>';
-			} else {
-				if (!$setting['image'] || $setting['image'] == 'no_image.png') {
-					$style = ' hidden';
-				}
-				$image = '<span class="heading_ico_image'.$style.'"><img src="'.$this->model_tool_image->resize($setting['image'], 25, 25).'" alt=""/></span>';
-			}
-			$data['heading_title'] = ($image . $setting[$this->config->get('config_language_id')]['title']);
+			$data['heading_title'] = $setting[$this->config->get('config_language_id')]['title'];
 		} else {
 			$data['heading_title'] = '';
 		}

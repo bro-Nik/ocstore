@@ -1,5 +1,15 @@
-.blog {
+@use 'variables' as *;
 
+.blog {
+  &-item {
+    & h4 {
+      font-weight: 400;
+    }
+    & p {
+      color: $text-light;
+      font-size: 1.3rem;
+    }
+  }
 
   &__category-wrapper {
     display: flex;

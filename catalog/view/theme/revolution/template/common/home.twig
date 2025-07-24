@@ -82,13 +82,15 @@
 	</div>
 	</div>
 	<div id="top7" class="clearfix">
-	<div class="container">
+	<div class="container-fluid">
 	{{ blog }} 
 	</div>
 	</div>
 	<div class="container">
 	<div class="row">
 	<div class="col-sm-12">
+	{% else %}
+	not blog
 	{% endif %}
 	
 	{% if (aboutstore) %} 
