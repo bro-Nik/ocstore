@@ -10,25 +10,79 @@ class ControllerCatalogHomepage extends Controller {
         $this->load->model('setting/setting');
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+
+		    $this->load->model('tool/image');
+
+
+		    $data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+
+            // Обработка слайдшоу:
+            $slideshow_data = [
+                'status'            => $this->request->post['slideshow']['status'] ?? '',
+                'fullscreen'            => $this->request->post['slideshow']['fullscreen'] ?? '',
+                'slides_in_line'    => $this->request->post['slideshow']['slides_in_line'] ?? '',
+                'width'             => $this->request->post['slideshow']['width'] ?? '',
+                'height'            => $this->request->post['slideshow']['height'] ?? '',
+                'slides'            => array(),
+            ];
+
+            if (!empty($this->request->post['slide']) && is_array($this->request->post['slide'])) {
+                foreach ($this->request->post['slide'] as $key => $slide) {
+                    $slideshow_data['slides'][] = [
+                        'image'       => $slide['image'],
+                        'title'       => $slide['title'] ?? '',
+                        'description' => $slide['description'] ?? '',
+                        'link_title'  => $slide['link_title'] ?? '',
+                        'link'        => $slide['link'] ?? '',
+                        'sort_order'  => $slide['sort_order'] ?? 0
+                    ];
+                }
+            }
+            // Обработка рекомендаций
+            $recommendations_data = [
+                'status'            => $this->request->post['recommendations']['status'] ?? '',
+                'width'             => $this->request->post['recommendations']['width'] ?? '',
+                'height'            => $this->request->post['recommendations']['height'] ?? '',
+                'slides'            => array(),
+            ];
+
+            if (!empty($this->request->post['recommendation']) && is_array($this->request->post['recommendation'])) {
+                foreach ($this->request->post['recommendation'] as $key => $slide) {
+                    $recommendations_data['slides'][] = [
+                        'image'       => $slide['image'],
+                        'title'       => $slide['title'] ?? '',
+                        'description' => $slide['description'] ?? '',
+                        'link_title'  => $slide['link_title'] ?? '',
+                        'link'        => $slide['link'] ?? '',
+                        'sort_order'  => $slide['sort_order'] ?? 0
+                    ];
+                }
+            }
+
+
 			$this->load->model('extension/module/related_categories');
 			$this->model_extension_module_related_categories->saveRelatedCategories('homepage', $this->request->post);
 
-            // Подготовка данных блога для сохранения в JSON
+            // Обработка блога
             $blog_data = array(
-                'status' => isset($this->request->post['blog']['status']) ? (int)$this->request->post['blog']['status'] : 0,
-                'title' => isset($this->request->post['blog']['title']) ? $this->request->post['blog']['title'] : 'Новости',
-                'url_all_text' => isset($this->request->post['blog']['url_all_text']) ? $this->request->post['blog']['url_all_text'] : '',
-                'url_all' => isset($this->request->post['blog']['url_all']) ? $this->request->post['blog']['url_all'] : '',
-                'blog_category_id' => isset($this->request->post['blog']['blog_category_id']) ? (int)$this->request->post['blog']['blog_category_id'] : 0,
-                'news_limit' => isset($this->request->post['blog']['news_limit']) ? (int)$this->request->post['blog']['news_limit'] : 5,
-                'desc_limit' => isset($this->request->post['blog']['desc_limit']) ? (int)$this->request->post['blog']['desc_limit'] : 200,
-                'image_status' => isset($this->request->post['blog']['image_status']) ? (int)$this->request->post['blog']['image_status'] : 1,
-                'image_width' => isset($this->request->post['blog']['image_width']) ? (int)$this->request->post['blog']['image_width'] : 200,
-                'image_height' => isset($this->request->post['blog']['image_height']) ? (int)$this->request->post['blog']['image_height'] : 200
+                'status' => isset($this->request->post['blog']['status']) ?? 0,
+                'title' => isset($this->request->post['blog']['title']) ?? 'Новости',
+                'url_all_text' => isset($this->request->post['blog']['url_all_text']) ?? '',
+                'url_all' => isset($this->request->post['blog']['url_all']) ?? '',
+                'blog_category_id' => isset($this->request->post['blog']['blog_category_id']) ?? 0,
+                'news_limit' => isset($this->request->post['blog']['news_limit']) ?? 5,
+                'desc_limit' => isset($this->request->post['blog']['desc_limit']) ?? 200,
+                'image_status' => isset($this->request->post['blog']['image_status']) ?? 1,
+                'image_width' => isset($this->request->post['blog']['image_width']) ?? 200,
+                'image_height' => isset($this->request->post['blog']['image_height']) ?? 200
             );
 
             // Сохраняем настройки
-            $this->model_setting_setting->editSetting('home', array('home_blog' => $blog_data));
+            $this->model_setting_setting->editSetting('home', array(
+                'home_slideshow' => $slideshow_data,
+                'home_recommendations' => $recommendations_data,
+                'home_blog' => $blog_data
+            ));
 
             $this->session->data['success'] = 'Готово!';
 
@@ -74,6 +128,24 @@ class ControllerCatalogHomepage extends Controller {
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
+
+        // Слайдшоу
+		$data['slideshow'] = $settings['home_slideshow'];
+
+        if ($data['slideshow'] && $data['slideshow']['slides']) {
+            foreach ($data['slideshow']['slides'] as &$slide) {
+			    $slide['thumb'] = $this->model_tool_image->resize($slide['image'] ?? 'no_image.png', 100, 100);
+            }
+            unset($slide);
+        }
+        // Рекомендации
+		$data['recommendations'] = $settings['home_recommendations'];
+        if ($data['recommendations'] && $data['recommendations']['slides']) {
+            foreach ($data['recommendations']['slides'] as &$slide) {
+			    $slide['thumb'] = $this->model_tool_image->resize($slide['image'] ?? 'no_image.png', 100, 100);
+            }
+            unset($slide);
+        }
 
         // Рекомендуемое
 		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategoriesForm', 'homepage');

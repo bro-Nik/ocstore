@@ -20,11 +20,20 @@ class ControllerCommonHome extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
+    $this->load->model('setting/setting');
+    $settings = $this->model_setting_setting->getSetting('home');
+
+		$settings['home_slideshow']['id'] = 'home_slideshow';
+		$data['slideshow'] = $this->load->controller('extension/module/slideshow', $settings['home_slideshow'] ?? []);
+
+		$settings['home_recommendations']['id'] = 'home_recommendations';
+		$data['recommendations'] = $this->load->controller('extension/module/slideshow', $settings['home_recommendations'] ?? []);
+
 		// Загрузка рекомендуемых категорий с фильтрами
 		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'homepage');
 
 		// Revolution
-		$data['slideshow'] = $this->load->controller('revolution/revslideshow');
+		// $data['slideshow'] = $this->load->controller('revolution/revslideshow');
 		$data['revcategorywall'] = $this->load->controller('revolution/revcategorywall');
 		$data['ptabs'] = $this->load->controller('revolution/revpmod/ptabs');
 		$data['pbest'] = $this->load->controller('revolution/revpmod/pbest');

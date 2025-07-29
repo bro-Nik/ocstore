@@ -1,22 +1,30 @@
-<div id="slideshow{{ module }}" class="owl-carousel banners" style="opacity: 1;">
-  {% for banner in banners %} 
-  <div class="item">
-    {% if (banner['link']) %} 
-    <a href="{{ banner['link'] }}"><img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" /></a>
-    {% else %} 
-    <img src="{{ banner['image'] }}" alt="{{ banner['title'] }}" class="img-responsive" />
-    {% endif %} 
-  </div>
-  {% endfor %} 
-</div>
-<script><!--
-$('#slideshow{{ module }}').owlCarousel({
-	items: 6,
-    stopOnHover : true,
-	autoPlay: 9000,
-	singleItem: true,
-	navigation: true,
-	navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
-	pagination: false
-});
---></script>
+{% if (slides) %} 
+{#}
+	{% set slide_width = fullscreen ? '100%' : width . 'px' %}
+	{% set slide_width = (fullscreen is defined and fullscreen) ? '100%' : (width is defined ? width ~ 'px' : 'auto') %}
+{#}
+	<div id="{{ id }}" class="swiper swiper-carousel">
+  	<div class="swiper-wrapper">
+			{% for slide in slides %} 
+      	<div class="swiper-slide slide__tile" style="">
+					<a href="{{ slide['link'] }}" class="slide__item" style="background: url({{ slide['image'] }}) no-repeat; background-size: contain; background-position: right bottom;
+							width: {{ width }}px; height: {{ height }}px;">
+						<div class="slide__item-content">
+							{% if (slide['title']) %} 
+								<span class="slide__item-title">{{ slide['title'] }}</span>
+							{% endif %} 
+
+							{% if (slide['description']) %} 
+								<span class="slide__item-description">{{ slide['description'] }}</span>
+							{% endif %} 
+
+							{% if (slide['link'] and slide['link_title']) %} 
+								<a class="slide__item-link" href="{{ slide['link'] }}">{{ slide['link_title'] }}</a>
+							{% endif %} 
+						</div>
+					</a>
+      	</div>
+    	{% endfor %}
+		</div>
+	</div>
+{% endif %} 

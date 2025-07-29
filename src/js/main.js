@@ -1,7 +1,6 @@
 // swiper
-import { initProductSwipers, initHomeSwipers, initCarouselSwipers } from './swiper';
+import { initProductSwipers, initCarouselSwipers } from './swiper';
 initProductSwipers();
-initHomeSwipers();
 initCarouselSwipers();
 
 // mobile-menu

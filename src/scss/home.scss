@@ -6,3 +6,54 @@
   }
 }
 
+#home_recommendations .slide{
+  &__tile {
+      border-radius: 16px;
+      cursor: pointer;
+      overflow: hidden;
+  }
+  &__item {
+    &-content {
+        display: flex;
+        height: 100%;
+        padding: 24px 20px;
+        color: #333;
+        flex-direction: column;
+    }
+    &-title {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 22px;
+      margin-bottom: 8px;
+    }
+    &-description {
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+}
+
+#home_slideshow {
+  margin: 3rem 0;
+  & .slide {
+    &__item {
+      &-content {
+        flex: 0 0 50%;
+        max-width: 50%;
+        align-self: center;
+      }
+      &-title {
+        display: block;
+        font-size: 2rem;
+        line-height: 1.2;
+        font-weight: 500;
+        margin: 0 0 2rem;
+      }
+      &-description {
+        justify-content: flex-start;
+      }
+    }
+
+  }
+}
+
