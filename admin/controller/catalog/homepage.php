@@ -131,13 +131,13 @@ class ControllerCatalogHomepage extends Controller {
 
         // Слайдшоу
 		$data['slideshow'] = $settings['home_slideshow'];
-
         if ($data['slideshow'] && $data['slideshow']['slides']) {
             foreach ($data['slideshow']['slides'] as &$slide) {
 			    $slide['thumb'] = $this->model_tool_image->resize($slide['image'] ?? 'no_image.png', 100, 100);
             }
             unset($slide);
         }
+
         // Рекомендации
 		$data['recommendations'] = $settings['home_recommendations'];
         if ($data['recommendations'] && $data['recommendations']['slides']) {

@@ -1,9 +1,5 @@
 {% if (slides) %} 
-{#}
-	{% set slide_width = fullscreen ? '100%' : width . 'px' %}
-	{% set slide_width = (fullscreen is defined and fullscreen) ? '100%' : (width is defined ? width ~ 'px' : 'auto') %}
-{#}
-	<div id="{{ id }}" class="swiper swiper-carousel">
+	<div id="home_recommendations" class="swiper swiper-carousel">
   	<div class="swiper-wrapper">
 			{% for slide in slides %} 
       	<div class="swiper-slide slide__tile" style="">

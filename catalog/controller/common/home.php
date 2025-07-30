@@ -23,11 +23,8 @@ class ControllerCommonHome extends Controller {
     $this->load->model('setting/setting');
     $settings = $this->model_setting_setting->getSetting('home');
 
-		$settings['home_slideshow']['id'] = 'home_slideshow';
-		$data['slideshow'] = $this->load->controller('extension/module/slideshow', $settings['home_slideshow'] ?? []);
-
-		$settings['home_recommendations']['id'] = 'home_recommendations';
-		$data['recommendations'] = $this->load->controller('extension/module/slideshow', $settings['home_recommendations'] ?? []);
+		$data['slideshow'] = $this->load->controller('extension/module/slider_home_main');
+		$data['recommendations'] = $this->load->controller('extension/module/slider_home_recommendations');
 
 		// Загрузка рекомендуемых категорий с фильтрами
 		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'homepage');

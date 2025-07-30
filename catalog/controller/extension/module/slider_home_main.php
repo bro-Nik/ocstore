@@ -1,25 +1,24 @@
 <?php
-class ControllerExtensionModuleSlideshow extends Controller {
+class ControllerExtensionModuleSliderHomeMain extends Controller {
 
-	public function index($setting) {
+	public function index() {
+		$slider = $this->config->get('home_slideshow');
 
-		if (!$setting['status']) {
+		if (!$slider['status']) {
 			return false;
 		}
 
-		$this->load->model('design/banner');
 		$this->load->model('tool/image');
 
-		$data = $setting;
-
-		$slides = $setting['slides'];
+		$data = $slider;
+		$slides = $slider['slides'];
 		$data['slides'] = array();
 		
 		if (!empty($slides)){
 			foreach ($slides as $slide) {
 				$data['slides'][] = array(
 					'title'       		=> html_entity_decode($slide['title'], ENT_QUOTES, 'UTF-8'),
-					'image'       		=> $this->model_tool_image->resize($slide['image'], $setting['width'], $setting['height']),
+					'image'       		=> $this->model_tool_image->resizeToHeight($slide['image'], $slider['height']),
 					'description' 		=> html_entity_decode($slide['description'], ENT_QUOTES, 'UTF-8'),
 					'link'        		=> html_entity_decode($slide['link'], ENT_QUOTES, 'UTF-8'),
 					'link_title'  		=> $slide['link_title'],
@@ -36,7 +35,7 @@ class ControllerExtensionModuleSlideshow extends Controller {
 			array_multisort($sort, SORT_ASC, $data['slides']);
 		}
 
-		return $this->load->view('extension/module/slideshow', $data);
+		return $this->load->view('extension/module/slider_home_main', $data);
 		
 	}
 }
