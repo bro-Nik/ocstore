@@ -1,4 +1,5 @@
 <div class="home__section">
+	<h3>Специальные предложения</h3>
 	<ul class="nav nav-tabs">
   	{% for i in 1..8 %}
     	{% if attribute(_context, 'slider_' ~ i ~ '_status') and attribute(_context, 'products_slider_' ~ i) %} 
@@ -18,12 +19,5 @@
       	</div>
     	{% endif %} 
   	{% endfor %}
-
-{#}
-		<script>
-			document.querySelector('.nav-tabs li:first-child').classList.add('active');
-			document.querySelector('.tab-content .hometab_sliders_tab:first-child').classList.add('active');
-		</script>
-{#}
 	</div>
 </div>

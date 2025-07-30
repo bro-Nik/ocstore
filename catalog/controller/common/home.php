@@ -30,12 +30,6 @@ class ControllerCommonHome extends Controller {
 		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'homepage');
 
 		// Revolution
-		// $data['slideshow'] = $this->load->controller('revolution/revslideshow');
-		$data['revcategorywall'] = $this->load->controller('revolution/revcategorywall');
-		$data['ptabs'] = $this->load->controller('revolution/revpmod/ptabs');
-		$data['pbest'] = $this->load->controller('revolution/revpmod/pbest');
-		$data['plast'] = $this->load->controller('revolution/revpmod/plast');
-		$data['pspec'] = $this->load->controller('revolution/revpmod/pspec');
 		$data['slider_1'] = $this->load->controller('revolution/revslider/slider1');
 		$data['slider_2'] = $this->load->controller('revolution/revslider/slider2');
 		$data['slider_3'] = $this->load->controller('revolution/revslider/slider3');

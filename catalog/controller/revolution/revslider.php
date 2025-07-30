@@ -162,7 +162,7 @@ class ControllerRevolutionRevslider extends Controller {
         $data['products_slider_3'] = $this->getSliderProducts($setting_slider_3);
         $data['products_slider_4'] = $this->getSliderProducts($setting_slider_4);
         
-        return $this->load->view('revolution/revslider_tabs', $data);
+        return $this->load->view('extension/module/slider_tabs', $data);
     }
     
     // Вспомогательные методы
