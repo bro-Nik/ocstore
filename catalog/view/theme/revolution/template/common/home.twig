@@ -14,15 +14,6 @@
 
 		</div>
 	</div>
-{% if (blocks) %} 
-<div id="top6" class="clearfix">
-	<div class="container-fluid">
-		<div class="row">
-			{{ blocks }} 
-		</div>
-	</div>
-</div>	
-{% endif %} 
 </div>
 
 <div class="container-fluid">
@@ -60,22 +51,8 @@
 	{% endif %}
 	
 	{% if (aboutstore) %} 
-	{% if (socv or socfb or socok or (socvinsta and right_insta)) %}{% set aboutclass1="col-sm-12 col-md-8 col-lg-9 aboutstore" %}{% set aboutclass2="col-sm-12 col-md-4 col-lg-3" %}{% else %} {% set aboutclass1="col-sm-12 aboutstore2" %}{% set aboutclass2="" %}{% endif %} 
 	<div class="row">
-	<div class="{{ aboutclass1 }}">
 	{{ aboutstore }} 
-	{% if (not right_insta) %} 
-	{{ socvinsta }} 
-	{% endif %} 
-	</div>
-	<div class="{{ aboutclass2 }}">
-	{{ socv }} 
-	{{ socfb }} 
-	{{ socok }} 
-	{% if (right_insta) %} 
-	{{ socvinsta }} 
-	{% endif %} 
-	</div>
 	</div>
 	{% endif %} 
 	

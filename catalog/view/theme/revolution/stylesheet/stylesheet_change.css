@@ -3,13 +3,6 @@
 .image .stiker_spec {color: #FFFFFF; background-color: #E85A71;}
 .image .stiker_netu {color: #000000; background-color: #F7F7F7;}
 .image .stiker_user {color: #888888; background-color: #FFFFFF;}
-#top7 {background-color: #F7F7F7;}
-.rev_slider.rev_blog_mod .heading_h {background-color: #F7F7F7;}
-.rev_slider.rev_blog_mod .owl-pagination {background-color: #F7F7F7;}
-.rev_slider.rev_blog_mod .vertical-sreview {border: none;}
-#top7 {padding: 30px 0 15px 0; margin-bottom: 20px;}
-#top4 {background-color: #FFFFFF;}
-@media (max-width: 767px) {#top4, #top5 {display: block;margin-bottom: -10px;min-height: initial !important;}}
 ::selection {background-color: #;}
 body,#all_document,header,#top,#top2,.rev_slider .owl-pagination,.rev_slider .heading_h,#product_products .owl-pagination,#product_products h3,.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover,#top3_links,.vertical-sreview .caption {background-color: #;}
 @media (min-width: 768px) {#all_document {width: 750px;margin: 0 auto;box-shadow: 0 0 15px rgba(0,0,0,0.2);}}
