@@ -5,19 +5,6 @@
 			<h3>{{ title }}</h3>
 		</div>
 
-{#}
-		<div class="col-md-auto">
-			<div class="products-featured__filter">
-  			{% for i in 1..4 %}
-					{% set slider = attribute(_context, 'slider_' ~ i) %}
-					{% if slider is defined and slider and slider.products is defined and slider.products %}
-						<a href="#tab_slider_{{ i }}" data-toggle="tab" class="ui-btn ui-btn--45 ui-btn--white {{ i == 1 ? 'active' }}">{{ slider.title }}</a>
-    			{% endif %}
-  			{% endfor %}
-			</div>
-		</div>
-{#}
-
 		<div class="col-md-auto">
 			<ul class="nav nav-tabs slider-tabs__btns">
   			{% for i in 1..4 %}
@@ -33,21 +20,7 @@
 
 	</div>
 
-{#}
-	<ul class="nav nav-tabs">
-  	{% for i in 1..4 %}
-			{% set slider = attribute(_context, 'slider_' ~ i) %}
-			{% if slider is defined and slider and slider.products is defined and slider.products %}
-        <li>
-          <a href="#tab_slider_{{ i }}" data-toggle="tab">{{ slider.title }}</a>
-        </li>
-    	{% endif %}
-  	{% endfor %}
-	</ul>
-{#}
-
 	<div class="tab-content">
-
   	{% for i in 1..4 %}
 			{% set slider = attribute(_context, 'slider_' ~ i) %}
 			{% if slider is defined and slider and slider.products is defined and slider.products %}

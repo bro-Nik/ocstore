@@ -29,8 +29,11 @@ class ControllerCommonHome extends Controller {
 		// Загрузка рекомендуемых категорий с фильтрами
 		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'homepage');
 
+		$setting = $this->config->get('home');
+
  		// Слайдеры
-		$data['slider_tabs'] = $this->load->controller('extension/module/slider_tabs');
+		$data['slider_tabs1'] = $this->load->controller('extension/module/slider_tabs', $settings['home_sliders1']);
+		$data['slider_tabs2'] = $this->load->controller('extension/module/slider_tabs', $settings['home_sliders2']);
 
 		// Revolution
 		// $data['slider_1'] = $this->load->controller('revolution/revslider/slider1');

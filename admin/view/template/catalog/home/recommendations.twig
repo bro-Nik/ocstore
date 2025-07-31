@@ -1,0 +1,110 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label">Включить:
+	</label>
+	<div class="col-sm-3">
+		<label class="radio-inline">
+			<input type="radio" name="recommendations[status]" value="1" {% if (recommendations['status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="recommendations[status]" value="0" {% if (not recommendations['status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+		</label>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-12">
+		<table id="recommendations" class="table table-bordered">
+			<thead>
+				<tr>
+					<td class="nowrap" style="width:10%">Изображение</td>
+					<td class="nowrap">Заголовок</td>
+					<td class="nowrap">Текст</td>
+					<td class="nowrap">Текст ссылки</td>
+					<td class="nowrap">Ссылка</td>
+					<td class="nowrap" style="width:5%">Сортировка</td>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody class="sorting">
+			{% set row_recommendation = 1 %} 
+			{% for recommendation in recommendations.slides %} 
+				<tr id="item-recommendation-row{{ row_recommendation }}" class="row_recommendation">						
+					<td class="text-center">
+						<div>
+							<a href="" id="slideshow_thumb-image{{ row_recommendation }}" data-toggle="image" class="img-thumbnail"><img src="{{ recommendation['thumb'] }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+							<input type="hidden" name="recommendation[{{ row_recommendation }}][image]" value="{{ recommendation['image'] }}" id="input-slideshow-image{{ row_recommendation }}" />
+						</div>
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][title]]" value="{{recommendation['title'] is defined ? recommendation['title'] : '' }}" />
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][description]" value="{{recommendation['description'] is defined ? recommendation['description'] : '' }}" />
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][link_title]" value="{{recommendation['link_title'] is defined ? recommendation['link_title'] : '' }}" />
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][link]" value="{{recommendation['link'] is defined ? recommendation['link'] : '' }}" />
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][sort_order]" value="{{ recommendation['sort_order'] }}" />
+					</td>
+					<td class="text-right">
+	          <div class="input-group-btn">
+							<a class="btn btn-sm btn-danger" onclick="$('#item-recommendation-row{{ row_recommendation }}').remove();" data-toggle="tooltip" title="Удалить"><i class="fa fa-times"></i></a>
+						</div>
+					</td>
+				</tr>
+			{% set row_recommendation = row_recommendation + 1 %} 
+			{% endfor %} 
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6"></td>
+					<td class="text-right"><a class="btn btn-primary" onclick="addRecommendationItem();" data-toggle="tooltip" title="Добавить"><i class="fa fa-plus"></i></a></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-width">Ширина баннера:</label>
+	<div class="col-sm-3">
+		<input type="text" name="recommendations[width]" value="{{ recommendations['width'] }}" placeholder="Ширина" id="input-width" class="form-control" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-height">Высота баннера:</label>
+	<div class="col-sm-3">
+		<input type="text" name="recommendations[height]" value="{{ recommendations['height'] }}" placeholder="Высота" id="input-height" class="form-control" />
+	</div>
+</div>
+
+
+<script>
+var row_recommendation = $('.row_recommendation').length+1;
+function addRecommendationItem() {
+	html  = '<tr id="item-recommendation-row' + row_recommendation + '" class="row_slideshow">';
+	html += '<td class="text-center"><div><a href="" id="recommendation_thumb-image' + row_recommendation + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" /></a><input type="hidden" name="recommendation[' + row_recommendation + '][image]" value="" id="input-block-image' + row_recommendation + '" /></div></td>';
+	html += '<td class="text-left">';
+	html += '<input class="form-control" type="text" name="recommendation[' + row_recommendation + '][title]" value="" />';
+	html += '</td>';
+	html += '<td class="text-left">';
+	html += '<input class="form-control" type="text" name="recommendation[' + row_recommendation + '][description]" value="" />';
+	html += '</td>';
+	html += '<td class="text-left">';
+	html += '<input class="form-control" type="text" name="recommendation[' + row_recommendation + '][link_title]" value="" />';
+	html += '</td>';
+	html += '<td class="text-left">';
+	html += '<input class="form-control" type="text" name="recommendation[' + row_recommendation + '][link]" value="" />';
+	html += '</td>';
+	html += '<td class="text-left"><input class="form-control" type="text" name="recommendation[' + row_recommendation + '][sort]" size="1" value="" /></td>';
+	html += '<td class="text-right"><a class="btn btn-sm btn-danger" onclick="$(\'#item-recommendation-row' + row_recommendation  + '\').remove();" data-toggle="tooltip" title="Удалить"><i class="fa fa-times"></i></a></td>';
+	html += '</tr>'; 
+	
+	$('#recommendations tbody').append(html);
+	row_recommendation++;
+}
+</script>

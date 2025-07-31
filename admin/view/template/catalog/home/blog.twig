@@ -1,0 +1,83 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label">Включен:</label>
+	<div class="col-sm-3">
+		<label class="radio-inline">
+			<input type="radio" name="blog[status]" value="1" {% if (blog['status']) %} checked="checked" {% endif %} /><span>Да</span>
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="blog[status]" value="0" {% if (not blog['status']) %} checked="checked" {% endif %} /><span>Нет</span>
+		</label>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Заголовок:</label>
+	<div class="col-sm-3">			
+		<div class="input-group">
+			<input class="form-control" type="text" name="blog[title]" value="{{blog['title'] is defined ? blog['title'] : 'Новости' }}" />
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Ссылка "Смотреть все":</label>
+	<div class="col-sm-3">
+		<div class="input-group">
+			<input class="form-control" type="text" name="blog[url_all_text]" placeholder="Текст" value="{{blog['url_all_text'] is defined ? blog['url_all_text'] : '' }}" />
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="input-group">
+			<input class="form-control" type="text" name="blog[url_all]" placeholder="Ссылка" value="{{blog['url_all'] is defined ? blog['url_all'] : '' }}" />
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-category">Категория новостей:</label>
+	<div class="col-sm-3">
+		<select name="blog[blog_category_id]" class="form-control">
+			<option value="0" selected="selected">Все</option>
+			{% for category in blog_categories %} 
+			{% if (category['blog_category_id'] == blog['blog_category_id']) %} 
+			<option value="{{ category['blog_category_id'] }}" selected="selected">{{ category['name'] }}</option>
+			{% else %} 
+			<option value="{{ category['blog_category_id'] }}">{{ category['name'] }}</option>
+			{% endif %} 
+			{% endfor %} 
+		</select>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Лимит новостей в виджете:</label>
+	<div class="col-sm-3">
+	<input type="text" name="blog[news_limit]" value="{{ blog['news_limit'] is defined ? blog['news_limit'] : '' }}" class="form-control" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Лимит символов описания:</label>
+	<div class="col-sm-3">
+	<input type="text" name="blog[desc_limit]" value="{{ (blog['desc_limit'] is defined) ? blog['desc_limit'] : '' }}" class="form-control" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Выводить картинку:</label>
+	<div class="col-sm-3">
+		<label class="radio-inline">
+			<input type="radio" name="blog[image_status]" value="1" {% if (blog['image_status'] is not defined or (blog['image_status'] is defined and blog['image_status'])) %} checked="checked" {% endif %} /><span>Да</span>
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="blog[image_status]" value="0" {% if (blog['image_status'] is defined and not blog['image_status']) %} checked="checked" {% endif %} /><span>Нет</span>
+		</label>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Размер картинки, px:</label>
+	<div class="col-sm-9">
+		<div class="row">
+			<div class="col-sm-2">
+			<input data-toggle="tooltip" data-placement="top" title="Ширина" type="text" name="blog[image_width]" value="{{ blog['image_width'] is defined ? blog['image_width'] : '' }}" class="form-control" />
+			</div>
+			<div class="col-sm-2">
+			<input data-toggle="tooltip" data-placement="top" title="Высота" type="text" name="blog[image_height]" value="{{ (blog['image_height'] is defined) ? blog['image_height'] : '' }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>

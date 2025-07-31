@@ -1,21 +1,22 @@
 {# Макрос для генерации табов #}
-{% macro tab_nav(name, index) %}
+{% macro tab_nav(sliders_key, name, index) %}
   <li>
-    <a href="#tab_slider{{ index }}" data-toggle="tab">{{ name }}</a>
+    <a href="#tab_{{ sliders_key ~ '_' ~ index }}" data-toggle="tab">{{ name }}</a>
   </li>
 {% endmacro %}
 
 {# Макрос для генерации слайдера #}
-{% macro slider_form(slider, index, rootcats, manufacturers) %}
-  <div class="tab-pane text-style" id="tab_slider{{ index }}">
+{% macro slider_form(sliders_key, slider, index, rootcats, manufacturers) %}
+  {% set slider_key = sliders_key ~ "_slider_" ~ index %}
+  <div class="tab-pane text-style" id="tab_{{ sliders_key ~ '_' ~ index }}">
     <div class="form-group">
       <label class="col-sm-2 control-label">Включен:</label>
       <div class="col-sm-2">
         <label class="radio-inline">
-          <input type="radio" name="slider_{{ index }}[status]" value="1" {{ slider.status ? 'checked' }} /><span>Да</span>
+          <input type="radio" name="{{ slider_key }}[status]" value="1" {{ slider.status ? 'checked' }} /><span>Да</span>
         </label>
         <label class="radio-inline">
-          <input type="radio" name="slider_{{ index }}[status]" value="0" {{ not slider.status ? 'checked' }} /><span>Нет</span>
+          <input type="radio" name="{{ slider_key }}[status]" value="0" {{ not slider.status ? 'checked' }} /><span>Нет</span>
         </label>
       </div>
     </div>
@@ -23,7 +24,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Заголовок:</label>
       <div class="col-sm-3">
-        <input class="form-control" type="text" name="slider_{{ index }}[title]" value="{{ slider.title|default('') }}" />
+        <input class="form-control" type="text" name="{{ slider_key }}[title]" value="{{ slider.title|default('') }}" />
       </div>
     </div>
         
@@ -31,14 +32,14 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Ссылка "Смотреть все":</label>
       <div class="col-sm-3">
-        <input class="form-control" type="text" name="slider_{{ index }}[url_all]" placeholder="Ссылка" value="{{ slider.url_all|default('') }}" />
+        <input class="form-control" type="text" name="{{ slider_key }}[url_all]" placeholder="Ссылка" value="{{ slider.url_all|default('') }}" />
       </div>
     </div>
     
     <div class="form-group">
       <label class="col-sm-2 control-label">Лимит товаров:</label>
       <div class="col-sm-2">
-        <input class="form-control width_initial" type="text" name="slider_{{ index }}[limit]" value="{{ slider.limit|default('') }}" />
+        <input class="form-control width_initial" type="text" name="{{ slider_key }}[limit]" value="{{ slider.limit|default('') }}" />
       </div>
     </div>
         
@@ -46,7 +47,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Источник товаров:</label>
       <div class="col-sm-4">
-        <select name="slider_{{ index }}[category_id]" class="form-control slider-category" data-index="{{ index }}">
+        <select name="{{ slider_key }}[category_id]" class="form-control slider-category" data-index="{{ index }}">
           <option value="0" {{ slider.category_id == '0' ? 'selected' }}>Все товары</option>
           <option value="featured" {{ slider.category_id == 'featured' ? 'selected' }}>Выборочные товары</option>
           {% for rootcat in rootcats %}
@@ -67,7 +68,7 @@
             {% for product in slider.featured %}
               <div id="featured-product{{ index }}-{{ product.product_id }}" class="{{ cycle(['odd', 'even'], loop.index0) }}">
                 {{ product.name }} <i class="fa fa-minus-circle"></i>
-                <input type="hidden" name="slider_{{ index }}[featured][]" value="{{ product.product_id }}" />
+                <input type="hidden" name="{{ slider_key }}[featured][]" value="{{ product.product_id }}" />
               </div>
             {% endfor %}
           {% endif %}
@@ -79,7 +80,7 @@
     <div class="form-group manufacturer-block" id="manufacturer-block-{{ index }}" style="display: {{ slider.category_id != 'featured' ? 'block' : 'none' }};">
       <label class="col-sm-2 control-label">Фильтр по производителю:</label>
       <div class="col-sm-4 scrollbox">
-        <select name="slider_{{ index }}[manufacturer_id]" class="form-control">
+        <select name="{{ slider_key }}[manufacturer_id]" class="form-control">
           <option value="0" {{ slider.manufacturer_id == '0' ? 'selected' }}>Все производители</option>
           {% for manufacturer in manufacturers %}
             <option value="{{ manufacturer.manufacturer_id }}" {{ slider.manufacturer_id == manufacturer.manufacturer_id ? 'selected' }}>{{ manufacturer.name }}</option>
@@ -92,7 +93,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Сортировка:</label>
       <div class="col-sm-4">
-        <select name="slider_{{ index }}[sort]" class="form-control">
+        <select name="{{ slider_key }}[sort]" class="form-control">
           <option value="p.date_added" {{ slider.sort == 'p.date_added' ? 'selected' }}>По дате</option>
           <option value="rating" {{ slider.sort == 'rating' ? 'selected' }}>Рейтинг</option>
           <option value="p.viewed" {{ slider.sort == 'p.viewed' ? 'selected' }}>Просмотры</option>
@@ -107,7 +108,7 @@
         <span data-toggle="tooltip" title="Период через который будет срабатывать автопрокрутка.<br/>Оставьте пустым чтобы отключить.">Автопрокрутка (сек):</span>
       </label>
       <div class="col-sm-2">
-        <input type="text" name="slider_{{ index }}[autoscroll]" value="{{ slider.autoscroll|default('') }}" class="form-control" />
+        <input type="text" name="{{ slider_key }}[autoscroll]" value="{{ slider.autoscroll|default('') }}" class="form-control" />
       </div>
     </div>
   </div>
@@ -118,10 +119,10 @@
   <nav class="nav-sidebar">
     <ul class="nav tabs">
       <li class="active"><a href="#tab_sliders_all" data-toggle="tab">Общие настройки</a></li>
-      {{ _self.tab_nav('Слайдер 1', 1) }}
-      {{ _self.tab_nav('Слайдер 2', 2) }}
-      {{ _self.tab_nav('Слайдер 3', 3) }}
-      {{ _self.tab_nav('Слайдер 4', 4) }}
+      {{ _self.tab_nav(sliders_key, 'Слайдер 1', 1) }}
+      {{ _self.tab_nav(sliders_key, 'Слайдер 2', 2) }}
+      {{ _self.tab_nav(sliders_key, 'Слайдер 3', 3) }}
+      {{ _self.tab_nav(sliders_key, 'Слайдер 4', 4) }}
     </ul>
   </nav>
 </div>
@@ -149,10 +150,10 @@
   </div>
   
   {# Генерация слайдеров #}
-  {{ _self.slider_form(sliders.slider_1, 1, categories, manufacturers) }}
-  {{ _self.slider_form(sliders.slider_2, 2, categories, manufacturers) }}
-  {{ _self.slider_form(sliders.slider_3, 3, categories, manufacturers) }}
-  {{ _self.slider_form(sliders.slider_4, 4, categories, manufacturers) }}
+  {{ _self.slider_form(sliders_key, sliders.slider_1, 1, categories, manufacturers) }}
+  {{ _self.slider_form(sliders_key, sliders.slider_2, 2, categories, manufacturers) }}
+  {{ _self.slider_form(sliders_key, sliders.slider_3, 3, categories, manufacturers) }}
+  {{ _self.slider_form(sliders_key, sliders.slider_4, 4, categories, manufacturers) }}
 </div>
 
 <script>
@@ -196,7 +197,7 @@ $('.product-autocomplete').autocomplete({
         container.append(
             '<div id="featured-product' + index + '-' + productId + '" class="' + (container.children().length % 2 ? 'even' : 'odd') + '">' +
                 item.label + ' <i class="fa fa-minus-circle remove-product" data-index="' + index + '" data-id="' + productId + '"></i>' +
-                '<input type="hidden" name="slider_' + index + '[featured][]" value="' + productId + '" />' +
+                '<input type="hidden" name="' + sliders_key + '_slider_' + index + '[featured][]" value="' + productId + '" />' +
             '</div>'
         );
         

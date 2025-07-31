@@ -26,249 +26,21 @@
 
       <div class="tab-content">
 
+				{# Слайдшоу #}
         <div class="tab-pane active" id="tab-slideshow">
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Включить:
-						</label>
-						<div class="col-sm-3">
-							<label class="radio-inline">
-								<input type="radio" name="slideshow[status]" value="1" {% if (slideshow['status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="slideshow[status]" value="0" {% if (not slideshow['status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
-							</label>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-12">
-							<table id="slideshow" class="table table-bordered">
-								<thead>
-									<tr>
-										<td class="nowrap" style="width:10%">Изображение</td>
-										<td class="nowrap">Заголовок</td>
-										<td class="nowrap">Текст</td>
-										<td class="nowrap">Текст ссылки</td>
-										<td class="nowrap">Ссылка</td>
-										<td class="nowrap" style="width:5%">Сортировка</td>
-										<td></td>
-									</tr>
-								</thead>
-								<tbody class="sorting">
-								{% set row_slideshow = 1 %} 
-								{% for slide in slideshow.slides %} 
-									<tr id="item-slideshow-row-main{{ row_slideshow }}" class="row_slideshow">						
-										<td class="text-center">
-											<div>
-												<a href="" id="slideshow_thumb-image{{ row_slideshow }}" data-toggle="image" class="img-thumbnail"><img src="{{ slide['thumb'] }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
-												<input type="hidden" name="slide[{{ row_slideshow }}][image]" value="{{ slide['image'] }}" id="input-slideshow-image{{ row_slideshow }}" />
-											</div>
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="slide[{{ row_slideshow }}][title]]" value="{{slide['title'] is defined ? slide['title'] : '' }}" />
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="slide[{{ row_slideshow }}][description]" value="{{slide['description'] is defined ? slide['description'] : '' }}" />
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="slide[{{ row_slideshow }}][link_title]" value="{{slide['link_title'] is defined ? slide['link_title'] : '' }}" />
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="slide[{{ row_slideshow }}][link]" value="{{slide['link'] is defined ? slide['link'] : '' }}" />
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="slide[{{ row_slideshow }}][sort_order]" value="{{ slide['sort_order'] }}" />
-										</td>
-										<td class="text-right">
-	          					<div class="input-group-btn">
-												<a class="btn btn-sm btn-danger" onclick="$('#slideshow #item-slideshow-row-main{{ row_slideshow }}').remove();" data-toggle="tooltip" title="Удалить"><i class="fa fa-times"></i></a>
-											</div>
-										</td>
-									</tr>
-								{% set row_slideshow = row_slideshow + 1 %} 
-								{% endfor %} 
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="6"></td>
-										<td class="text-right"><a class="btn btn-primary" onclick="addSlideshowItem();" data-toggle="tooltip" title="Добавить"><i class="fa fa-plus"></i></a></td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Слайдшоу на весь экран:</label>
-						<div class="col-sm-3">
-							<label class="radio-inline">
-								<input type="radio" name="slideshow[fullscreen]" value="1"><span>Да</span>
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="slideshow[fullscreen]" value="0" checked=""><span>Нет</span>
-							</label>
-							<label class="radio-inline newmychek" style="margin-left: 20px; display: none;">
-									
-								<input type="checkbox" name="revtheme_home_slideshow[allwide_padding]" value="1">
-								<span>Без отступов</span>
-							</label>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-slides">Баннеров в одном слайде:</label>
-						<div class="col-sm-2">
-							<input type="text" name="slideshow[slides_in_line]" value="{{ slideshow['slides_in_line'] }}" placeholder="" id="input-slides" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-width">Ширина баннера:</label>
-						<div class="col-sm-3">
-							<input type="text" name="slideshow[width]" value="{{ slideshow['width'] }}" placeholder="Ширина" id="input-width" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-height">Высота баннера:</label>
-						<div class="col-sm-3">
-							<input type="text" name="slideshow[height]" value="{{ slideshow['height'] }}" placeholder="Высота" id="input-height" class="form-control" />
-						</div>
-					</div>
+          {% include 'catalog/home/slideshow.twig' %}
         </div>
 
+				{# Рекомендуемые (плитки) #}
 			  <div class="tab-pane" id="tab-recommendations">
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Включить:
-						</label>
-						<div class="col-sm-3">
-							<label class="radio-inline">
-								<input type="radio" name="recommendations[status]" value="1" {% if (recommendations['status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="recommendations[status]" value="0" {% if (not recommendations['status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
-							</label>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-12">
-							<table id="recommendations" class="table table-bordered">
-								<thead>
-									<tr>
-										<td class="nowrap" style="width:10%">Изображение</td>
-										<td class="nowrap">Заголовок</td>
-										<td class="nowrap">Текст</td>
-										<td class="nowrap">Текст ссылки</td>
-										<td class="nowrap">Ссылка</td>
-										<td class="nowrap" style="width:5%">Сортировка</td>
-										<td></td>
-									</tr>
-								</thead>
-								<tbody class="sorting">
-								{% set row_recommendation = 1 %} 
-								{% for recommendation in recommendations.slides %} 
-									<tr id="item-recommendation-row{{ row_recommendation }}" class="row_recommendation">						
-										<td class="text-center">
-											<div>
-												<a href="" id="slideshow_thumb-image{{ row_recommendation }}" data-toggle="image" class="img-thumbnail"><img src="{{ recommendation['thumb'] }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
-												<input type="hidden" name="recommendation[{{ row_recommendation }}][image]" value="{{ recommendation['image'] }}" id="input-slideshow-image{{ row_recommendation }}" />
-											</div>
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][title]]" value="{{recommendation['title'] is defined ? recommendation['title'] : '' }}" />
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][description]" value="{{recommendation['description'] is defined ? recommendation['description'] : '' }}" />
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][link_title]" value="{{recommendation['link_title'] is defined ? recommendation['link_title'] : '' }}" />
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][link]" value="{{recommendation['link'] is defined ? recommendation['link'] : '' }}" />
-										</td>
-										<td class="text-left">
-											<input class="form-control" type="text" name="recommendation[{{ row_recommendation }}][sort_order]" value="{{ recommendation['sort_order'] }}" />
-										</td>
-										<td class="text-right">
-	          					<div class="input-group-btn">
-												<a class="btn btn-sm btn-danger" onclick="$('#item-recommendation-row{{ row_recommendation }}').remove();" data-toggle="tooltip" title="Удалить"><i class="fa fa-times"></i></a>
-											</div>
-										</td>
-									</tr>
-								{% set row_recommendation = row_recommendation + 1 %} 
-								{% endfor %} 
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="6"></td>
-										<td class="text-right"><a class="btn btn-primary" onclick="addRecommendationItem();" data-toggle="tooltip" title="Добавить"><i class="fa fa-plus"></i></a></td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-width">Ширина баннера:</label>
-						<div class="col-sm-3">
-							<input type="text" name="recommendations[width]" value="{{ recommendations['width'] }}" placeholder="Ширина" id="input-width" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-height">Высота баннера:</label>
-						<div class="col-sm-3">
-							<input type="text" name="recommendations[height]" value="{{ recommendations['height'] }}" placeholder="Высота" id="input-height" class="form-control" />
-						</div>
-					</div>
+          {% include 'catalog/home/recommendations.twig' %}
 			  </div>
 
+				{# Рекомендуемые категории #}
 			  <div class="tab-pane" id="tab-related-categories">
-			    <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-product-related">{{ entry_related_wb }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="product_related_input" value="" placeholder="{{ entry_related_wb }}" id="input-product-related" class="form-control" />
-              <div id="product-related" class="well well-sm" style="height: 150px; overflow: auto;">
-                {% for product_related in product_related %}
-                  <div id="product-related{{ product_related.product_id }}"><i class="fa fa-minus-circle"></i> {{ product_related.name }}
-                    <input type="hidden" name="product_related[]" value="{{ product_related.product_id }}" />
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-service-related">Рекомендуемые услуги:</label>
-            <div class="col-sm-10">
-              <input type="text" name="service_related_input" value="" placeholder="{{ entry_related_service }}" id="input-service-related" class="form-control" />
-              <div id="service-related" class="well well-sm" style="height: 150px; overflow: auto;">
-                {% for service_related in service_related %}
-                  <div id="service-related{{ service_related.article_id }}"><i class="fa fa-minus-circle"></i> {{ service_related.name }}
-                    <input type="hidden" name="service_related[]" value="{{ service_related.article_id }}" />
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-
-			    <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-article-related">{{ entry_related_article }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="article_related_input" value="" placeholder="{{ entry_related_article }}" id="input-article-related" class="form-control" />
-              <div id="article-related" class="well well-sm" style="height: 150px; overflow: auto;">
-                {% for article_related in article_related %}
-                  <div id="article-related{{ article_related.article_id }}"><i class="fa fa-minus-circle"></i> {{ article_related.name }}
-                    <input type="hidden" name="article_related[]" value="{{ article_related.article_id }}" />
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-
 			    <div class="form-group">
           	{% include 'catalog/partials/related_categories.twig' %}
         	</div>
-
         </div>
 
 				{# Слайдеры товаров #}
@@ -280,90 +52,9 @@
           {% include 'catalog/home/tabslider.twig' with {'sliders': sliders_2, 'sliders_key': 'sliders_2'} %}
 				</div>
 
+				{# Блог #}
         <div class="tab-pane" id="tab-blog">
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Включен:</label>
-						<div class="col-sm-3">
-							<label class="radio-inline">
-								<input type="radio" name="blog[status]" value="1" {% if (blog['status']) %} checked="checked" {% endif %} /><span>Да</span>
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="blog[status]" value="0" {% if (not blog['status']) %} checked="checked" {% endif %} /><span>Нет</span>
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Заголовок:</label>
-						<div class="col-sm-3">			
-							<div class="input-group">
-								<input class="form-control" type="text" name="blog[title]" value="{{blog['title'] is defined ? blog['title'] : 'Новости' }}" />
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Ссылка "Смотреть все":</label>
-						<div class="col-sm-3">
-							<div class="input-group">
-								<input class="form-control" type="text" name="blog[url_all_text]" placeholder="Текст" value="{{blog['url_all_text'] is defined ? blog['url_all_text'] : '' }}" />
-							</div>
-						</div>
-						<div class="col-sm-3">
-							<div class="input-group">
-								<input class="form-control" type="text" name="blog[url_all]" placeholder="Ссылка" value="{{blog['url_all'] is defined ? blog['url_all'] : '' }}" />
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-category">Категория новостей:</label>
-						<div class="col-sm-3">
-							<select name="blog[blog_category_id]" class="form-control">
-								<option value="0" selected="selected">Все</option>
-								{% for category in blog_categories %} 
-								{% if (category['blog_category_id'] == blog['blog_category_id']) %} 
-								<option value="{{ category['blog_category_id'] }}" selected="selected">{{ category['name'] }}</option>
-								{% else %} 
-								<option value="{{ category['blog_category_id'] }}">{{ category['name'] }}</option>
-								{% endif %} 
-								{% endfor %} 
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Лимит новостей в виджете:</label>
-						<div class="col-sm-3">
-						<input type="text" name="blog[news_limit]" value="{{ blog['news_limit'] is defined ? blog['news_limit'] : '' }}" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Лимит символов описания:</label>
-						<div class="col-sm-3">
-						<input type="text" name="blog[desc_limit]" value="{{ (blog['desc_limit'] is defined) ? blog['desc_limit'] : '' }}" class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Выводить картинку:</label>
-						<div class="col-sm-3">
-							<label class="radio-inline">
-								<input type="radio" name="blog[image_status]" value="1" {% if (blog['image_status'] is not defined or (blog['image_status'] is defined and blog['image_status'])) %} checked="checked" {% endif %} /><span>Да</span>
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="blog[image_status]" value="0" {% if (blog['image_status'] is defined and not blog['image_status']) %} checked="checked" {% endif %} /><span>Нет</span>
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Размер картинки, px:</label>
-						<div class="col-sm-9">
-							<div class="row">
-								<div class="col-sm-2">
-								<input data-toggle="tooltip" data-placement="top" title="Ширина" type="text" name="blog[image_width]" value="{{ blog['image_width'] is defined ? blog['image_width'] : '' }}" class="form-control" />
-								</div>
-								<div class="col-sm-2">
-								<input data-toggle="tooltip" data-placement="top" title="Высота" type="text" name="blog[image_height]" value="{{ (blog['image_height'] is defined) ? blog['image_height'] : '' }}" class="form-control" />
-								</div>
-							</div>
-						</div>
-					</div>
+          {% include 'catalog/home/blog.twig' %}
         </div>
 
       </div>
@@ -371,16 +62,16 @@
   </div>
 </div>
 
-  <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
-  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
-  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
-  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
-  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
-  
-  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
-  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
-  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
-  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+  <!-- <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" /> -->
+  <!-- <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" /> -->
+  <!-- <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script>  -->
+  <!-- <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script>  -->
+  <!-- <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script>  -->
+  <!--  -->
+  <!-- <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script> -->
+  <!-- <link href="view/javascript/summernote/summernote.css" rel="stylesheet" /> -->
+  <!-- <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> -->
+  <!-- <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> -->
   
   <script type="text/javascript"><!--
 $('input[name=\'path\']').autocomplete({
@@ -437,9 +128,6 @@ $('input[name=\'filter\']').autocomplete({
 $('#category-filter').delegate('.fa-minus-circle', 'click', function() {
 	$(this).parent().remove();
 });
-//--></script>
-  <script type="text/javascript"><!--
-$('#language a:first').tab('show');
 //--></script>
 <script type="text/javascript"><!--
 $('input[name=\'product_related_input\']').autocomplete({
@@ -500,51 +188,5 @@ $('#article-related').delegate('.fa-minus-circle', 'click', function() {
 });
 
 
-var row_slideshow = $('.row_slideshow').length+1;
-function addSlideshowItem() {
-	html  = '<tr id="item-slideshow-row-main' + row_slideshow + '" class="row_slideshow">';
-	html += '<td class="text-center"><div><a href="" id="revtheme_home_slideshow_thumb-image' + row_slideshow + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" /></a><input type="hidden" name="slide[' + row_slideshow + '][image]" value="" id="input-block-image' + row_slideshow + '" /></div></td>';
-	html += '<td class="text-left">';
-	html += '<input class="form-control" type="text" name="slide[' + row_slideshow + '][title]" value="" />';
-	html += '</td>';
-	html += '<td class="text-left">';
-	html += '<input class="form-control" type="text" name="slide[' + row_slideshow + '][description]" value="" />';
-	html += '</td>';
-	html += '<td class="text-left">';
-	html += '<input class="form-control" type="text" name="slide[' + row_slideshow + '][link_title]" value="" />';
-	html += '</td>';
-	html += '<td class="text-left">';
-	html += '<input class="form-control" type="text" name="slide[' + row_slideshow + '][link]" value="" />';
-	html += '</td>';
-	html += '<td class="text-left"><input class="form-control" type="text" name="slide[' + row_slideshow + '][sort]" size="1" value="" /></td>';
-	html += '<td class="text-right"><a class="btn btn-sm btn-danger" onclick="$(\'#slideshow #item-slideshow-row-main' + row_slideshow  + '\').remove();" data-toggle="tooltip" title="Удалить"><i class="fa fa-times"></i></a></td>';
-	html += '</tr>'; 
-	
-	$('#slideshow tbody').append(html);
-	row_slideshow++;
-}
-var row_recommendation = $('.row_recommendation').length+1;
-function addRecommendationItem() {
-	html  = '<tr id="item-recommendation-row' + row_recommendation + '" class="row_slideshow">';
-	html += '<td class="text-center"><div><a href="" id="recommendation_thumb-image' + row_recommendation + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" /></a><input type="hidden" name="recommendation[' + row_recommendation + '][image]" value="" id="input-block-image' + row_recommendation + '" /></div></td>';
-	html += '<td class="text-left">';
-	html += '<input class="form-control" type="text" name="recommendation[' + row_recommendation + '][title]" value="" />';
-	html += '</td>';
-	html += '<td class="text-left">';
-	html += '<input class="form-control" type="text" name="recommendation[' + row_recommendation + '][description]" value="" />';
-	html += '</td>';
-	html += '<td class="text-left">';
-	html += '<input class="form-control" type="text" name="recommendation[' + row_recommendation + '][link_title]" value="" />';
-	html += '</td>';
-	html += '<td class="text-left">';
-	html += '<input class="form-control" type="text" name="recommendation[' + row_recommendation + '][link]" value="" />';
-	html += '</td>';
-	html += '<td class="text-left"><input class="form-control" type="text" name="recommendation[' + row_recommendation + '][sort]" size="1" value="" /></td>';
-	html += '<td class="text-right"><a class="btn btn-sm btn-danger" onclick="$(\'#item-recommendation-row' + row_recommendation  + '\').remove();" data-toggle="tooltip" title="Удалить"><i class="fa fa-times"></i></a></td>';
-	html += '</tr>'; 
-	
-	$('#recommendations tbody').append(html);
-	row_recommendation++;
-}
 //--></script>
 {% endblock %}

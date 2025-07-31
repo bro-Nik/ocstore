@@ -1,0 +1,133 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label">Включить:
+	</label>
+	<div class="col-sm-3">
+		<label class="radio-inline">
+			<input type="radio" name="slideshow[status]" value="1" {% if (slideshow['status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="slideshow[status]" value="0" {% if (not slideshow['status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+		</label>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-12">
+		<table id="slideshow" class="table table-bordered">
+			<thead>
+				<tr>
+					<td class="nowrap" style="width:10%">Изображение</td>
+					<td class="nowrap">Заголовок</td>
+					<td class="nowrap">Текст</td>
+					<td class="nowrap">Текст ссылки</td>
+					<td class="nowrap">Ссылка</td>
+					<td class="nowrap" style="width:5%">Сортировка</td>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody class="sorting">
+			{% set row_slideshow = 1 %} 
+			{% for slide in slideshow.slides %} 
+				<tr id="item-slideshow-row-main{{ row_slideshow }}" class="row_slideshow">						
+					<td class="text-center">
+						<div>
+							<a href="" id="slideshow_thumb-image{{ row_slideshow }}" data-toggle="image" class="img-thumbnail"><img src="{{ slide['thumb'] }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+							<input type="hidden" name="slide[{{ row_slideshow }}][image]" value="{{ slide['image'] }}" id="input-slideshow-image{{ row_slideshow }}" />
+						</div>
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="slide[{{ row_slideshow }}][title]]" value="{{slide['title'] is defined ? slide['title'] : '' }}" />
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="slide[{{ row_slideshow }}][description]" value="{{slide['description'] is defined ? slide['description'] : '' }}" />
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="slide[{{ row_slideshow }}][link_title]" value="{{slide['link_title'] is defined ? slide['link_title'] : '' }}" />
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="slide[{{ row_slideshow }}][link]" value="{{slide['link'] is defined ? slide['link'] : '' }}" />
+					</td>
+					<td class="text-left">
+						<input class="form-control" type="text" name="slide[{{ row_slideshow }}][sort_order]" value="{{ slide['sort_order'] }}" />
+					</td>
+					<td class="text-right">
+	          <div class="input-group-btn">
+							<a class="btn btn-sm btn-danger" onclick="$('#slideshow #item-slideshow-row-main{{ row_slideshow }}').remove();" data-toggle="tooltip" title="Удалить"><i class="fa fa-times"></i></a>
+						</div>
+					</td>
+				</tr>
+			{% set row_slideshow = row_slideshow + 1 %} 
+			{% endfor %} 
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6"></td>
+					<td class="text-right"><a class="btn btn-primary" onclick="addSlideshowItem();" data-toggle="tooltip" title="Добавить"><i class="fa fa-plus"></i></a></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Слайдшоу на весь экран:</label>
+	<div class="col-sm-3">
+		<label class="radio-inline">
+			<input type="radio" name="slideshow[fullscreen]" value="1"><span>Да</span>
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="slideshow[fullscreen]" value="0" checked=""><span>Нет</span>
+		</label>
+		<label class="radio-inline newmychek" style="margin-left: 20px; display: none;">
+				
+			<input type="checkbox" name="revtheme_home_slideshow[allwide_padding]" value="1">
+			<span>Без отступов</span>
+		</label>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-slides">Баннеров в одном слайде:</label>
+	<div class="col-sm-2">
+		<input type="text" name="slideshow[slides_in_line]" value="{{ slideshow['slides_in_line'] }}" placeholder="" id="input-slides" class="form-control" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-width">Ширина баннера:</label>
+	<div class="col-sm-3">
+		<input type="text" name="slideshow[width]" value="{{ slideshow['width'] }}" placeholder="Ширина" id="input-width" class="form-control" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-height">Высота баннера:</label>
+	<div class="col-sm-3">
+		<input type="text" name="slideshow[height]" value="{{ slideshow['height'] }}" placeholder="Высота" id="input-height" class="form-control" />
+	</div>
+</div>
+
+
+<script>
+var row_slideshow = $('.row_slideshow').length+1;
+function addSlideshowItem() {
+	html  = '<tr id="item-slideshow-row-main' + row_slideshow + '" class="row_slideshow">';
+	html += '<td class="text-center"><div><a href="" id="revtheme_home_slideshow_thumb-image' + row_slideshow + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" /></a><input type="hidden" name="slide[' + row_slideshow + '][image]" value="" id="input-block-image' + row_slideshow + '" /></div></td>';
+	html += '<td class="text-left">';
+	html += '<input class="form-control" type="text" name="slide[' + row_slideshow + '][title]" value="" />';
+	html += '</td>';
+	html += '<td class="text-left">';
+	html += '<input class="form-control" type="text" name="slide[' + row_slideshow + '][description]" value="" />';
+	html += '</td>';
+	html += '<td class="text-left">';
+	html += '<input class="form-control" type="text" name="slide[' + row_slideshow + '][link_title]" value="" />';
+	html += '</td>';
+	html += '<td class="text-left">';
+	html += '<input class="form-control" type="text" name="slide[' + row_slideshow + '][link]" value="" />';
+	html += '</td>';
+	html += '<td class="text-left"><input class="form-control" type="text" name="slide[' + row_slideshow + '][sort]" size="1" value="" /></td>';
+	html += '<td class="text-right"><a class="btn btn-sm btn-danger" onclick="$(\'#slideshow #item-slideshow-row-main' + row_slideshow  + '\').remove();" data-toggle="tooltip" title="Удалить"><i class="fa fa-times"></i></a></td>';
+	html += '</tr>'; 
+	
+	$('#slideshow tbody').append(html);
+	row_slideshow++;
+}
+</script>

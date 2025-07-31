@@ -1,15 +1,10 @@
 <?php
 class ControllerExtensionModuleSliderTabs extends Controller {
-    public function index() {
+    public function index($settings) {
         $this->load->model('setting/setting');
         $this->load->model('tool/image');
         $this->load->model('catalog/product');
         
-        // Загрузка всех настроек
-        $settings = $this->model_setting_setting->getSetting('home');
-		$settings = $settings['home_sliders1'];
-        // $settings = $settings['']
-		    // $data['sliders_1'] = $settings['home_sliders1'];
         $data = $settings;
         
         for ($i = 1; $i <= 4; $i++) {
