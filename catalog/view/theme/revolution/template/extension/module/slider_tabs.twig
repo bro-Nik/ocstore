@@ -1,19 +1,60 @@
+{# Табы слайдеров на главной #}
 <div class="home__section">
-	<h3>Специальные предложения</h3>
+	<div class="row align-items-center">
+		<div class="col-md">
+			<h3>{{ title }}</h3>
+		</div>
+
+{#}
+		<div class="col-md-auto">
+			<div class="products-featured__filter">
+  			{% for i in 1..4 %}
+					{% set slider = attribute(_context, 'slider_' ~ i) %}
+					{% if slider is defined and slider and slider.products is defined and slider.products %}
+						<a href="#tab_slider_{{ i }}" data-toggle="tab" class="ui-btn ui-btn--45 ui-btn--white {{ i == 1 ? 'active' }}">{{ slider.title }}</a>
+    			{% endif %}
+  			{% endfor %}
+			</div>
+		</div>
+{#}
+
+		<div class="col-md-auto">
+			<ul class="nav nav-tabs slider-tabs__btns">
+  			{% for i in 1..4 %}
+					{% set slider = attribute(_context, 'slider_' ~ i) %}
+					{% if slider is defined and slider and slider.products is defined and slider.products %}
+        		<li>
+          		<a href="#tab_slider_{{ i }}" data-toggle="tab" class="ui-btn ui-btn--45 ui-btn--white">{{ slider.title }}</a>
+        		</li>
+    			{% endif %}
+  			{% endfor %}
+			</ul>
+		</div>
+
+	</div>
+
+{#}
 	<ul class="nav nav-tabs">
-  	{% for i in 1..8 %}
-    	{% if attribute(_context, 'slider_' ~ i ~ '_status') and attribute(_context, 'products_slider_' ~ i) %} 
-      	<li><a href="#tab_slider_{{ i }}" data-toggle="tab">{{ attribute(_context, 'heading_title_slider_' ~ i) }}</a></li>
-    	{% endif %} 
+  	{% for i in 1..4 %}
+			{% set slider = attribute(_context, 'slider_' ~ i) %}
+			{% if slider is defined and slider and slider.products is defined and slider.products %}
+        <li>
+          <a href="#tab_slider_{{ i }}" data-toggle="tab">{{ slider.title }}</a>
+        </li>
+    	{% endif %}
   	{% endfor %}
 	</ul>
+{#}
 
 	<div class="tab-content">
-  	{% for i in 1..8 %}
-    	{% if attribute(_context, 'slider_' ~ i ~ '_status') and attribute(_context, 'products_slider_' ~ i) %} 
-      	<div class="hometab_sliders_tab tab-pane" id="tab_slider_{{ i }}">
+
+  	{% for i in 1..4 %}
+			{% set slider = attribute(_context, 'slider_' ~ i) %}
+			{% if slider is defined and slider and slider.products is defined and slider.products %}
+      	<div class="hometab_sliders_tab tab-pane {{ i == 1 ? 'active' }}" id="tab_slider_{{ i }}">
           {% include 'revolution/template/product/partials/carousel_product.twig' with {
-            'products': attribute(_context, 'products_slider_' ~ i),
+            'products': slider.products,
+            'title': '',
             'id': 'tab_slider_' ~ i
           } %}
       	</div>

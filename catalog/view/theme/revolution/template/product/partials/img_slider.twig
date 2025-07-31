@@ -1,3 +1,4 @@
+{# Картинка в маленькой карточке #}
 {% if (img_slider) %}
   <div class="image owl-carousel owlproduct">
     <div class="item text-center">
@@ -14,5 +15,7 @@
     {% endif %}
   </div>
 {% else %}
-  <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-responsive {% if ((product['quantity'] < 1 and not zakaz) or (product['price_number'] == 0 and not zakaz_price_null)) %}zatemnenie_img{% endif %}" itemprop="image"/></a>
+  <a href="{{ product['href'] }}">
+    <img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-responsive {% if (product['quantity'] < 1) %}zatemnenie_img{% endif %}" itemprop="image"/>
+  </a>
 {% endif %}

@@ -157,14 +157,14 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 				if (isset($this->session->data['compare'])) {
 					if (in_array($product_info['product_id'], $this->session->data['compare'])) {
 						$compare_class = 'in-compare';
-						$button_compare = $this->language->get('button_compare_out');
+						// $button_compare = $this->language->get('button_compare_out');
 					} else {
 						$compare_class = '';
-						$button_compare = $this->language->get('button_compare');
+						// $button_compare = $this->language->get('button_compare');
 					}
 				} else {
 					$compare_class = '';
-					$button_compare = $this->language->get('button_compare');
+					// $button_compare = $this->language->get('button_compare');
 				}
 				if (isset($this->session->data['wishlist'])) {
 					if (in_array($product_info['product_id'], $this->session->data['wishlist'])) {
@@ -414,7 +414,7 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 					'special_number' => $special_number,
 					'compare_class' => $compare_class,
 					'wishlist_class' => $wishlist_class,
-					'button_compare' => $button_compare,
+					// 'button_compare' => $button_compare,
 					'button_wishlist' => $button_wishlist,
 					'stiker_last' => $stiker_last,
 					'stiker_best' => $stiker_best,

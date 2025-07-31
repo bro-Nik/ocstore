@@ -19,6 +19,8 @@
         <li class="active"><a href="#tab-slideshow" data-toggle="tab">Слайдшоу</a></li>
         <li><a href="#tab-recommendations" data-toggle="tab">Рекомендуемые</a></li>
         <li><a href="#tab-related-categories" data-toggle="tab">Рекомендуемые категории</a></li>
+        <li><a href="#tab-slider1" data-toggle="tab">Слайдер товаров 1</a></li>
+        <li><a href="#tab-slider2" data-toggle="tab">Слайдер товаров 2</a></li>
         <li><a href="#tab-blog" data-toggle="tab">Виджет новостей</a></li>
       </ul>
 
@@ -268,6 +270,15 @@
         	</div>
 
         </div>
+
+				{# Слайдеры товаров #}
+				<div class="tab-pane" id="tab-slider1">
+          {% include 'catalog/home/tabslider.twig' with {'sliders': sliders_1, 'sliders_key': 'sliders_1'} %}
+				</div>
+
+				<div class="tab-pane" id="tab-slider2">
+          {% include 'catalog/home/tabslider.twig' with {'sliders': sliders_2, 'sliders_key': 'sliders_2'} %}
+				</div>
 
         <div class="tab-pane" id="tab-blog">
 					<div class="form-group">

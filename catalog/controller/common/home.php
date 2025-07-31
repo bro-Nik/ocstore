@@ -29,12 +29,15 @@ class ControllerCommonHome extends Controller {
 		// Загрузка рекомендуемых категорий с фильтрами
 		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'homepage');
 
+ 		// Слайдеры
+		$data['slider_tabs'] = $this->load->controller('extension/module/slider_tabs');
+
 		// Revolution
-		$data['slider_1'] = $this->load->controller('revolution/revslider/slider1');
-		$data['slider_2'] = $this->load->controller('revolution/revslider/slider2');
-		$data['slider_3'] = $this->load->controller('revolution/revslider/slider3');
-		$data['slider_4'] = $this->load->controller('revolution/revslider/slider4');
-		$data['slider_tabs'] = $this->load->controller('revolution/revslider/sliderstabs');
+		// $data['slider_1'] = $this->load->controller('revolution/revslider/slider1');
+		// $data['slider_2'] = $this->load->controller('revolution/revslider/slider2');
+		// $data['slider_3'] = $this->load->controller('revolution/revslider/slider3');
+		// $data['slider_4'] = $this->load->controller('revolution/revslider/slider4');
+		// $data['slider_tabs'] = $this->load->controller('revolution/revslider/sliderstabs');
 		// $data['blog'] = $this->load->controller('revolution/revblogmod');
 		$data['blog'] = $this->load->controller('blog/slider');
 		$data['blocks'] = $this->load->controller('revolution/revblocks');

@@ -63,6 +63,43 @@ class ControllerCatalogHomepage extends Controller {
 			$this->load->model('extension/module/related_categories');
 			$this->model_extension_module_related_categories->saveRelatedCategories('homepage', $this->request->post);
 
+            // Обработка слайдеров1
+            $sliders1_data = [
+                'status'            => $this->request->post['sliders_1']['status'] ?? '',
+                'title'             => $this->request->post['sliders_1']['title'] ?? '',
+            ];
+
+            for ($i = 1; $i <= 4; $i++) {
+                $slider_data = $this->request->post['slider_' . $i] ?? array();
+                
+                $sliders1_data['slider_' . $i] = array(
+                    'status' => $slider_data['status'] ?? 0,
+                    'title' => $slider_data['title'] ?? '',
+                    'url_all' => $slider_data['url_all'] ?? '',
+                    'limit' => $slider_data['limit'] ?? 5,
+                    'category_id' => $slider_data['category_id'] ?? 0,
+                    'manufacturer_id' => $slider_data['manufacturer_id'] ?? 0,
+                    'sort' => $slider_data['sort'] ?? 'p.date_added',
+                    'autoscroll' => $slider_data['autoscroll'] ?? 0
+                );
+                
+                // Обработка выбранных товаров для featured
+                if (isset($slider_data['featured']) && is_array($slider_data['featured'])) {
+                    $sliders1_data['slider_' . $i]['featured'] = array();
+                    
+                    $this->load->model('catalog/product');
+                    foreach ($slider_data['featured'] as $product_id) {
+                        $product_info = $this->model_catalog_product->getProduct($product_id);
+                        if ($product_info) {
+                            $sliders1_data['slider_' . $i]['featured'][] = array(
+                                'product_id' => $product_id,
+                                'name' => $product_info['name']
+                            );
+                        }
+                    }
+                }
+            }
+
             // Обработка блога
             $blog_data = array(
                 'status' => isset($this->request->post['blog']['status']) ?? 0,
@@ -81,6 +118,7 @@ class ControllerCatalogHomepage extends Controller {
             $this->model_setting_setting->editSetting('home', array(
                 'home_slideshow' => $slideshow_data,
                 'home_recommendations' => $recommendations_data,
+                'home_sliders1' => $sliders1_data,
                 'home_blog' => $blog_data
             ));
 
@@ -150,8 +188,16 @@ class ControllerCatalogHomepage extends Controller {
         // Рекомендуемое
 		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategoriesForm', 'homepage');
 
+        // Слайдеры1
+		$data['sliders_1'] = $settings['home_sliders1'];
+
         // Новости
 		$data['blog'] = $settings['home_blog'];
+
+		$this->load->model('catalog/manufacturer');
+        $data['manufacturers'] = $this->model_catalog_manufacturer->getManufacturers();
+		$this->load->model('catalog/category');
+        $data['categories'] = $this->model_catalog_category->getCategories();
 
 		$this->load->model('blog/category');
 		$categories = $this->model_blog_category->getAllCategories();

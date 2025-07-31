@@ -1,0 +1,218 @@
+{# Макрос для генерации табов #}
+{% macro tab_nav(name, index) %}
+  <li>
+    <a href="#tab_slider{{ index }}" data-toggle="tab">{{ name }}</a>
+  </li>
+{% endmacro %}
+
+{# Макрос для генерации слайдера #}
+{% macro slider_form(slider, index, rootcats, manufacturers) %}
+  <div class="tab-pane text-style" id="tab_slider{{ index }}">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Включен:</label>
+      <div class="col-sm-2">
+        <label class="radio-inline">
+          <input type="radio" name="slider_{{ index }}[status]" value="1" {{ slider.status ? 'checked' }} /><span>Да</span>
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="slider_{{ index }}[status]" value="0" {{ not slider.status ? 'checked' }} /><span>Нет</span>
+        </label>
+      </div>
+    </div>
+        
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Заголовок:</label>
+      <div class="col-sm-3">
+        <input class="form-control" type="text" name="slider_{{ index }}[title]" value="{{ slider.title|default('') }}" />
+      </div>
+    </div>
+        
+    {# Общие поля для всех слайдеров #}
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Ссылка "Смотреть все":</label>
+      <div class="col-sm-3">
+        <input class="form-control" type="text" name="slider_{{ index }}[url_all]" placeholder="Ссылка" value="{{ slider.url_all|default('') }}" />
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Лимит товаров:</label>
+      <div class="col-sm-2">
+        <input class="form-control width_initial" type="text" name="slider_{{ index }}[limit]" value="{{ slider.limit|default('') }}" />
+      </div>
+    </div>
+        
+    {# Блок выбора категории #}
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Источник товаров:</label>
+      <div class="col-sm-4">
+        <select name="slider_{{ index }}[category_id]" class="form-control slider-category" data-index="{{ index }}">
+          <option value="0" {{ slider.category_id == '0' ? 'selected' }}>Все товары</option>
+          <option value="featured" {{ slider.category_id == 'featured' ? 'selected' }}>Выборочные товары</option>
+          {% for rootcat in rootcats %}
+            <option value="{{ rootcat.category_id }}" {{ slider.category_id == rootcat.category_id ? 'selected' }}>{{ rootcat.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+        
+    {# Блок выбранных товаров (показывается только для featured) #}
+    <div class="form-group featured-products" id="featured-products-{{ index }}" style="display: {{ slider.category_id == 'featured' ? 'block' : 'none' }};">
+      <label class="col-sm-2 control-label">Товары (автозаполнение):</label>
+      <div class="col-sm-4">
+        <input type="text" name="product_{{ index }}" value="" placeholder="Товары" class="form-control product-autocomplete" data-index="{{ index }}" />
+        <br/>
+        <div class="scrollbox well well-sm featured-product-list" id="featured-product-{{ index }}" style="height: 150px; overflow: auto;">
+          {% if slider.featured is defined %}
+            {% for product in slider.featured %}
+              <div id="featured-product{{ index }}-{{ product.product_id }}" class="{{ cycle(['odd', 'even'], loop.index0) }}">
+                {{ product.name }} <i class="fa fa-minus-circle"></i>
+                <input type="hidden" name="slider_{{ index }}[featured][]" value="{{ product.product_id }}" />
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+        
+    {# Блок производителей (скрыт для featured) #}
+    <div class="form-group manufacturer-block" id="manufacturer-block-{{ index }}" style="display: {{ slider.category_id != 'featured' ? 'block' : 'none' }};">
+      <label class="col-sm-2 control-label">Фильтр по производителю:</label>
+      <div class="col-sm-4 scrollbox">
+        <select name="slider_{{ index }}[manufacturer_id]" class="form-control">
+          <option value="0" {{ slider.manufacturer_id == '0' ? 'selected' }}>Все производители</option>
+          {% for manufacturer in manufacturers %}
+            <option value="{{ manufacturer.manufacturer_id }}" {{ slider.manufacturer_id == manufacturer.manufacturer_id ? 'selected' }}>{{ manufacturer.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+        
+    {# Блок сортировки #}
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Сортировка:</label>
+      <div class="col-sm-4">
+        <select name="slider_{{ index }}[sort]" class="form-control">
+          <option value="p.date_added" {{ slider.sort == 'p.date_added' ? 'selected' }}>По дате</option>
+          <option value="rating" {{ slider.sort == 'rating' ? 'selected' }}>Рейтинг</option>
+          <option value="p.viewed" {{ slider.sort == 'p.viewed' ? 'selected' }}>Просмотры</option>
+          <option value="p.sort_order" {{ slider.sort == 'p.sort_order' ? 'selected' }}>По умолчанию</option>
+          <option value="special" {{ slider.sort == 'special' ? 'selected' }}>По спеццене</option>
+        </select>
+      </div>
+    </div>
+        
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="autoscroll">
+        <span data-toggle="tooltip" title="Период через который будет срабатывать автопрокрутка.<br/>Оставьте пустым чтобы отключить.">Автопрокрутка (сек):</span>
+      </label>
+      <div class="col-sm-2">
+        <input type="text" name="slider_{{ index }}[autoscroll]" value="{{ slider.autoscroll|default('') }}" class="form-control" />
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{# Основная структура #}
+<div class="col-sm-2">
+  <nav class="nav-sidebar">
+    <ul class="nav tabs">
+      <li class="active"><a href="#tab_sliders_all" data-toggle="tab">Общие настройки</a></li>
+      {{ _self.tab_nav('Слайдер 1', 1) }}
+      {{ _self.tab_nav('Слайдер 2', 2) }}
+      {{ _self.tab_nav('Слайдер 3', 3) }}
+      {{ _self.tab_nav('Слайдер 4', 4) }}
+    </ul>
+  </nav>
+</div>
+
+<div class="tab-content col-sm-10">
+  {# Общие настройки #}
+  <div class="tab-pane text-style active" id="tab_sliders_all">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Включен:</label>
+      <div class="col-sm-2">
+        <label class="radio-inline">
+          <input type="radio" name="{{ sliders_key }}[status]" value="1" {{ sliders.status ? 'checked' }} /><span>Да</span>
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="{{ sliders_key }}[status]" value="0" {{ not sliders.status ? 'checked' }} /><span>Нет</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Заголовок:</label>
+      <div class="col-sm-3">
+        <input class="form-control" type="text" name="{{ sliders_key }}[title]" value="{{ sliders.title|default('') }}" />
+      </div>
+    </div>
+  </div>
+  
+  {# Генерация слайдеров #}
+  {{ _self.slider_form(sliders.slider_1, 1, categories, manufacturers) }}
+  {{ _self.slider_form(sliders.slider_2, 2, categories, manufacturers) }}
+  {{ _self.slider_form(sliders.slider_3, 3, categories, manufacturers) }}
+  {{ _self.slider_form(sliders.slider_4, 4, categories, manufacturers) }}
+</div>
+
+<script>
+// Обработка изменения категории
+$('.slider-category').change(function() {
+  var index = $(this).data('index');
+  var isFeatured = $(this).val() == 'featured';
+  
+  $('#featured-products-' + index).toggle(isFeatured);
+  $('#manufacturer-block-' + index).toggle(!isFeatured);
+});
+
+// Автозаполнение товаров
+$('.product-autocomplete').autocomplete({
+    source: function(request, response) {
+        var index = $(this.element).data('index');
+        $.ajax({
+            url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+            dataType: 'json',
+            success: function(json) {
+                response($.map(json, function(item) {
+                    return {
+                        label: item.name,
+                        value: item.product_id
+                    }
+                }));
+            }
+        });
+    },
+    select: function(item) {
+        var index = $(this).data('index');
+        var productId = item.value;
+        var container = $('#featured-product-' + index);
+        
+        // Проверяем, не добавлен ли уже товар
+        if ($('#featured-product' + index + '-' + productId).length) {
+            return false;
+        }
+        
+        // Добавляем товар
+        container.append(
+            '<div id="featured-product' + index + '-' + productId + '" class="' + (container.children().length % 2 ? 'even' : 'odd') + '">' +
+                item.label + ' <i class="fa fa-minus-circle remove-product" data-index="' + index + '" data-id="' + productId + '"></i>' +
+                '<input type="hidden" name="slider_' + index + '[featured][]" value="' + productId + '" />' +
+            '</div>'
+        );
+        
+        return false;
+    }
+});
+
+// Удаление товара
+$(document).on('click', '.remove-product', function() {
+    var index = $(this).data('index');
+    var productId = $(this).data('id');
+    $('#featured-product' + index + '-' + productId).remove();
+    
+    // Обновляем чередование стилей
+    $('#featured-product-' + index + ' div').each(function(i) {
+        $(this).removeClass('odd even').addClass(i % 2 ? 'even' : 'odd');
+    });
+});
+</script>
