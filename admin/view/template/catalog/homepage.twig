@@ -22,6 +22,7 @@
         <li><a href="#tab-slider1" data-toggle="tab">Слайдер товаров 1</a></li>
         <li><a href="#tab-slider2" data-toggle="tab">Слайдер товаров 2</a></li>
         <li><a href="#tab-blog" data-toggle="tab">Виджет новостей</a></li>
+        <li><a href="#tab-aboutstore" data-toggle="tab">О магазине</a></li>
       </ul>
 
       <div class="tab-content">
@@ -55,6 +56,11 @@
 				{# Блог #}
         <div class="tab-pane" id="tab-blog">
           {% include 'catalog/home/blog.twig' %}
+        </div>
+
+				{# О магазине #}
+        <div class="tab-pane" id="tab-aboutstore">
+          {% include 'catalog/home/aboutstore.twig' %}
         </div>
 
       </div>

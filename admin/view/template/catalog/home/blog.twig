@@ -2,10 +2,10 @@
 	<label class="col-sm-2 control-label">Включен:</label>
 	<div class="col-sm-3">
 		<label class="radio-inline">
-			<input type="radio" name="blog[status]" value="1" {% if (blog['status']) %} checked="checked" {% endif %} /><span>Да</span>
+			<input type="radio" name="blog[status]" value="1" {{ blog.status ? 'checked' }} /><span>Да</span>
 		</label>
 		<label class="radio-inline">
-			<input type="radio" name="blog[status]" value="0" {% if (not blog['status']) %} checked="checked" {% endif %} /><span>Нет</span>
+			<input type="radio" name="blog[status]" value="0" {{ not blog.status ? 'checked' }} /><span>Нет</span>
 		</label>
 	</div>
 </div>

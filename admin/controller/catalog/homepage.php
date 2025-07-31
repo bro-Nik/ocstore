@@ -24,7 +24,8 @@ class ControllerCatalogHomepage extends Controller {
             'home_recommendations' => $this->processRecommendationsData(),
             'home_sliders1' => $this->processSlidersData('sliders_1'),
             'home_sliders2' => $this->processSlidersData('sliders_2'),
-            'home_blog' => $this->processBlogData()
+            'home_blog' => $this->processBlogData(),
+            'home_aboutstore' => $this->processAboutStoreData()
         ];
 
         $this->load->model('extension/module/related_categories');
@@ -139,6 +140,14 @@ class ControllerCatalogHomepage extends Controller {
         ];
     }
 
+    protected function processAboutStoreData() {
+        return [
+            'status' => $this->request->post['aboutstore']['status'] ?? 0,
+            'title' => $this->request->post['aboutstore']['title'] ?? 'О магазине',
+            'description' => $this->request->post['aboutstore']['description'] ?? ''
+        ];
+    }
+
     protected function setupTemplateData() {
         $data = [];
         $settings = $this->model_setting_setting->getSetting('home');
@@ -167,6 +176,7 @@ class ControllerCatalogHomepage extends Controller {
         $data['sliders_2'] = $settings['home_sliders2'] ?? [];
         $data['blog'] = $settings['home_blog'] ?? [];
         $data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategoriesForm', 'homepage');
+        $data['aboutstore'] = $settings['home_aboutstore'] ?? [];
         
         // Списки категорий и производителей
         $this->load->model('catalog/manufacturer');

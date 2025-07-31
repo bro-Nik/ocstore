@@ -31,20 +31,15 @@ class ControllerCommonHome extends Controller {
 
 		$setting = $this->config->get('home');
 
- 		// Слайдеры
+    // Данные модулей
 		$data['slider_tabs1'] = $this->load->controller('extension/module/slider_tabs', $settings['home_sliders1']);
 		$data['slider_tabs2'] = $this->load->controller('extension/module/slider_tabs', $settings['home_sliders2']);
+    $data['aboutstore'] = $this->prepareAboutStore($settings['home_aboutstore'] ?? []);
 
 		// Revolution
-		// $data['slider_1'] = $this->load->controller('revolution/revslider/slider1');
-		// $data['slider_2'] = $this->load->controller('revolution/revslider/slider2');
-		// $data['slider_3'] = $this->load->controller('revolution/revslider/slider3');
-		// $data['slider_4'] = $this->load->controller('revolution/revslider/slider4');
-		// $data['slider_tabs'] = $this->load->controller('revolution/revslider/sliderstabs');
 		// $data['blog'] = $this->load->controller('revolution/revblogmod');
 		$data['blog'] = $this->load->controller('blog/slider');
 		$data['blocks'] = $this->load->controller('revolution/revblocks');
-		$data['aboutstore'] = $this->load->controller('revolution/revaboutstore');
 		$data['socv'] = $this->load->controller('revolution/revsocv');
 		$data['socfb'] = $this->load->controller('revolution/revsocfb');
 		$data['socok'] = $this->load->controller('revolution/revsocok');
@@ -108,4 +103,16 @@ class ControllerCommonHome extends Controller {
 
 		$this->response->setOutput($this->load->view('common/home', $data));
 	}
+
+  protected function prepareAboutStore($aboutstore) {
+		if (!$aboutstore['status']) {
+			return;
+		}
+
+		$data['title'] = $aboutstore['title'];
+		
+		$data['html'] = html_entity_decode($aboutstore['description'], ENT_QUOTES, 'UTF-8');
+
+		return $this->load->view('common/home/aboutstore', $data);
+  }
 }

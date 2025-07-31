@@ -1465,7 +1465,6 @@
 											<li><a href="#tab_category_wall" data-toggle="tab">Список категорий или производителей</a></li>
 											<li><a href="#tab_sliders_mod" data-toggle="tab">Слайдеры: Последние, Хиты продаж, Спецпредложения</a></li>
 											<li><a href="#tab_blog" data-toggle="tab">Виджет новостей</a></li>
-											<li><a href="#tab_aboutstore" data-toggle="tab">О магазине</a></li>
 											<li><a href="#tab_socv" data-toggle="tab">Виджеты соц. сетей</a></li>
 											<li><a href="#tab_storereview" data-toggle="tab">Отзывы о магазине</a></li>
 											<li><a href="#tab_viewed_products" data-toggle="tab">Просмотренные товары</a></li>
@@ -2488,67 +2487,6 @@
 												<label class="radio-inline">
 													<input type="radio" name="revtheme_home_blog[slider_status]" value="0" {% if (revtheme_home_blog['slider_status'] is defined and not revtheme_home_blog['slider_status']) %} checked="checked" {% endif %} /><span>Нет</span>
 												</label>
-											</div>
-										</div>
-									</div>
-									<div class="tab-pane text-style" id="tab_aboutstore">
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Включить:
-											</label>
-											<div class="col-sm-3">
-												<label class="radio-inline">
-													<input type="radio" name="revtheme_aboutstore_home[status]" value="1" {% if (revtheme_aboutstore_home['status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
-												</label>
-												<label class="radio-inline">
-													<input type="radio" name="revtheme_aboutstore_home[status]" value="0" {% if (not revtheme_aboutstore_home['status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
-												</label>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Заголовок:</label>
-											<div class="col-sm-3">
-												{% for language in languages %} 
-													<div class="input-group">
-														<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
-														<input class="form-control" type="text" name="revtheme_aboutstore_home[{{ language['language_id'] }}][title]" value="{{revtheme_aboutstore_home[language['language_id']]['title'] is defined ? revtheme_aboutstore_home[language['language_id']]['title'] : 'О магазине' }}" />
-													</div>
-												{% endfor %} 
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Иконка:</label>
-											<div class="col-sm-2">
-												<label class="radio-inline">
-													<input type="radio" onchange="$(this).parent().parent().parent().find('.zavisimost_ico').show().next().hide();" name="revtheme_aboutstore_home[icontype]" value="1" {% if (revtheme_aboutstore_home['icontype']) %} {{ 'checked' }} {% endif %} /><span>Иконка</span>
-												</label>
-												<label class="radio-inline">
-													<input type="radio" onchange="$(this).parent().parent().parent().find('.zavisimost_ico').hide().next().show();" name="revtheme_aboutstore_home[icontype]" value="0" {% if (not revtheme_aboutstore_home['icontype']) %} {{ 'checked' }}{% endif %} /><span>Картинка</span>
-												</label>	
-											</div>
-											<div class="col-sm-2 zavisimost_ico" {% if (not revtheme_aboutstore_home['icontype']) %} style="display: none" {% endif %}>
-												<span class="fazavisimost fa_icon form-control width_initial" id="icon_aboutstore_home" onclick="fa_icons($(this).attr('id'))"><i class="{{ revtheme_aboutstore_home['icon'] }}"></i></span>
-												<input type="hidden" name="revtheme_aboutstore_home[icon]" value="{{ revtheme_aboutstore_home['icon'] }}" id="input-icon_aboutstore_home" />
-											</div>
-											<div class="col-sm-2" {% if (revtheme_aboutstore_home['icontype']) %} style="display: none" {% endif %}>
-												<a href="" id="thumb-image_revtheme_aboutstore_home" data-toggle="image" class="img-thumbnail width_initial"><img style="width:25px;" src="{{ revtheme_aboutstore_home_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
-												<input type="hidden" name="revtheme_aboutstore_home[image]" value="{{ revtheme_aboutstore_home['image'] }}" id="revtheme_aboutstore_home_image" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Текст:</label>
-											<div class="col-sm-10">
-												<ul class="nav nav-tabs" id="revtheme_aboutstore_home">
-													{% for language in languages %} 
-														<li><a href="#revtheme_aboutstore_home{{ language['language_id'] }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
-													{% endfor %} 
-												</ul>
-												<div class="tab-content">
-													{% for language in languages %} 
-														<div class="tab-pane" id="revtheme_aboutstore_home{{ language['language_id'] }}">
-															<textarea name="revtheme_aboutstore_home[{{ language['language_id'] }}][description]" id="input-description{{ language['language_id'] }}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ revtheme_aboutstore_home[language['language_id']]['description'] is defined ? revtheme_aboutstore_home[language['language_id']]['description'] : '' }}</textarea>
-														</div>
-													{% endfor %} 
-												</div>
 											</div>
 										</div>
 									</div>
@@ -8963,7 +8901,6 @@ function open_item(item,el) {
   open_item.slideToggle(100);
 }
 
-$('#revtheme_aboutstore_home li:first-child a').tab('show');
 $('#revtheme_all_settings li:first-child a').tab('show');
 $('#revtheme_all_settings_revcheckout li:first-child a').tab('show');
 $('#revtheme_all_settings_revregister li:first-child a').tab('show');

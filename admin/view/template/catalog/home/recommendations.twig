@@ -3,10 +3,10 @@
 	</label>
 	<div class="col-sm-3">
 		<label class="radio-inline">
-			<input type="radio" name="recommendations[status]" value="1" {% if (recommendations['status']) %} {{ 'checked' }} {% endif %} /><span>Да</span>
+			<input type="radio" name="recommendations[status]" value="1" {{ recommendations.status ? 'checked' }} /><span>Да</span>
 		</label>
 		<label class="radio-inline">
-			<input type="radio" name="recommendations[status]" value="0" {% if (not recommendations['status']) %} {{ 'checked' }}{% endif %} /><span>Нет</span>
+			<input type="radio" name="recommendations[status]" value="0" {{ not recommendations.status ? 'checked' }} /><span>Нет</span>
 		</label>
 	</div>
 </div>
