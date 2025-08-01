@@ -1,41 +1,18 @@
 <?php
 class ControllerRevolutionRevviewedproducts extends Controller {
-	public function index() {
+	public function index($settings) {
 
-		$setting = $this->config->get('revtheme_home_viewed_products');
-
-		if (!$setting['status']) {
+		if (!$settings['status']) {
 			return false;
 		}
 		
-		if ($setting[$this->config->get('config_language_id')]['zagolovok']) {
-			$style = '';
-			if ($setting['icontype']) {
-				if ($setting['icon'] == 'fa none') {
-					$style = ' hidden';
-				}
-				$image = '<i class="'.$setting['icon'].$style.'"></i>';
-			} else {
-				if (!$setting['image'] || $setting['image'] == 'no_image.png') {
-					$style = ' hidden';
-				}
-				$image = '<span class="heading_ico_image'.$style.'"><img src="'.$this->model_tool_image->resize($setting['image'], 21, 21).'" alt=""/></span>';
-			}
-			$data['heading_title'] = ($image . $setting[$this->config->get('config_language_id')]['zagolovok']);
-		} else {
-			$data['heading_title'] = '';
-		}
+		$data['title'] = $settings['title'];
 		
 		$this->load->language('revolution/revolution');
-        $this->load->model('catalog/category');
-        $this->load->model('catalog/product');
+    $this->load->model('catalog/category');
+    $this->load->model('catalog/product');
 		$this->load->model('tool/image');
 		
-		$data['button_cart']        = $this->language->get('button_cart');
-        $data['button_wishlist']    = $this->language->get('button_wishlist');
-        $data['button_compare']     = $this->language->get('button_compare');
-
-		$data['setting_all_settings'] = $this->config->get('revtheme_all_settings');
 		$data['revpopuporder_settings'] = $revpopuporder_settings = $this->config->get('revtheme_catalog_popuporder');
 		$data['revpopuporder'] = $revpopuporder_settings['status'];
 		$product_settings = $this->config->get('revtheme_product_all');
@@ -80,13 +57,6 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 		$var_currency['decimal_point'] = $this->language->get('decimal_point');
 		$var_currency['thousand_point'] = $this->language->get('thousand_point');
 		$data['currency'] = $var_currency;
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
 		
 		$this->load->model('revolution/revolution');
 		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
@@ -133,7 +103,7 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 			$data['stikers_status'] = false;
 		}
 		
-		$data['viewed_products'] = array();
+		$data['products'] = array();
 		$viewed_products = array();
 
 		if (isset($this->request->cookie['viewed'])) {
@@ -157,14 +127,11 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 				if (isset($this->session->data['compare'])) {
 					if (in_array($product_info['product_id'], $this->session->data['compare'])) {
 						$compare_class = 'in-compare';
-						// $button_compare = $this->language->get('button_compare_out');
 					} else {
 						$compare_class = '';
-						// $button_compare = $this->language->get('button_compare');
 					}
 				} else {
 					$compare_class = '';
-					// $button_compare = $this->language->get('button_compare');
 				}
 				if (isset($this->session->data['wishlist'])) {
 					if (in_array($product_info['product_id'], $this->session->data['wishlist'])) {
@@ -179,23 +146,6 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 					$button_wishlist = $this->language->get('button_wishlist');
 				}
 				
-				if ($this->customer->isLogged()) {
-					$this->load->model('account/wishlist');
-					$wishlist_register = $this->model_account_wishlist->getWishlist();
-					if ($wishlist_register) {
-						$wishlist_register2 = array();
-						foreach ($wishlist_register as $result_wishlist_register_id) {
-							$wishlist_register_id[] = $result_wishlist_register_id['product_id'];
-						}
-						if (in_array($product_info['product_id'], $wishlist_register_id)) {
-							$wishlist_class = 'in-wishlist';
-							$button_wishlist = $this->language->get('button_wishlist_out');
-						} else {
-							$wishlist_class = '';
-							$button_wishlist = $this->language->get('button_wishlist');
-						}
-					}
-				}
 				
 				if ($settings_stikers['new_status']) {
 					if (isset($date_added[$product_info['product_id']])) {
@@ -407,7 +357,7 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 					}
 				}
 
-				$data['viewed_products'][] = array(
+				$data['products'][] = array(
 					'reviews' => $this->config->get('config_review_status') ? (int)$product_info['reviews'] : false,
 					'ed_izm' => $ed_izm,
 					'price_number' => $price_number,

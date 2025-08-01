@@ -20,12 +20,15 @@ class ControllerCatalogHomepage extends Controller {
         $data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 
         $settings = [
+            'home_main' => $this->processMainData(),
             'home_slideshow' => $this->processSlideshowData(),
             'home_recommendations' => $this->processRecommendationsData(),
             'home_sliders1' => $this->processSlidersData('sliders_1'),
             'home_sliders2' => $this->processSlidersData('sliders_2'),
             'home_blog' => $this->processBlogData(),
-            'home_aboutstore' => $this->processAboutStoreData()
+            'home_aboutstore' => $this->processAboutStoreData(),
+            'home_storereview' => $this->processStoreReviewData(),
+            'home_viewed_products' => $this->processViewedProductsData()
         ];
 
         $this->load->model('extension/module/related_categories');
@@ -34,6 +37,14 @@ class ControllerCatalogHomepage extends Controller {
         $this->model_setting_setting->editSetting('home', $settings);
         $this->session->data['success'] = 'Готово!';
         $this->response->redirect($this->url->link('catalog/homepage', 'user_token=' . $this->session->data['user_token'], true));
+    }
+
+    protected function processMainData() {
+        $data = [
+            'h1' => $this->request->post['main']['h1'] ?? '',
+        ];
+
+        return $data;
     }
 
     protected function processSlideshowData() {
@@ -148,6 +159,26 @@ class ControllerCatalogHomepage extends Controller {
         ];
     }
 
+    protected function processStoreReviewData() {
+        return [
+            'status' => $this->request->post['storereview']['status'] ?? 0,
+            'title' => $this->request->post['storereview']['title'] ?? 'Отзывы наших клиентов',
+            'button_all' => $this->request->post['storereview']['button_all'] ?? 0,
+            'button_all_text' => $this->request->post['storereview']['button_all_text'] ?? 'Читать все отзывы',
+            'limit' => $this->request->post['storereview']['limit'] ?? 5,
+            'order' => $this->request->post['storereview']['order'] ?? 0,
+            'limit_text' => $this->request->post['storereview']['limit_text'] ?? 200
+        ];
+    }
+
+    protected function processViewedProductsData() {
+        return [
+            'status' => $this->request->post['viewed_products']['status'] ?? 0,
+            'title' => $this->request->post['viewed_products']['title'] ?? 'Вы смотрели',
+            'limit' => $this->request->post['viewed_products']['limit'] ?? 5
+        ];
+    }
+
     protected function setupTemplateData() {
         $data = [];
         $settings = $this->model_setting_setting->getSetting('home');
@@ -170,6 +201,7 @@ class ControllerCatalogHomepage extends Controller {
         $data['footer'] = $this->load->controller('common/footer');
         
         // Данные модулей
+        $data['main'] = $settings['home_main'] ?? [];
         $data['slideshow'] = $this->prepareSlideshowData($settings['home_slideshow'] ?? []);
         $data['recommendations'] = $this->prepareRecommendationsData($settings['home_recommendations'] ?? []);
         $data['sliders_1'] = $settings['home_sliders1'] ?? [];
@@ -177,6 +209,8 @@ class ControllerCatalogHomepage extends Controller {
         $data['blog'] = $settings['home_blog'] ?? [];
         $data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategoriesForm', 'homepage');
         $data['aboutstore'] = $settings['home_aboutstore'] ?? [];
+        $data['storereview'] = $settings['home_storereview'] ?? [];
+        $data['viewed_products'] = $settings['home_viewed_products'] ?? [];
         
         // Списки категорий и производителей
         $this->load->model('catalog/manufacturer');

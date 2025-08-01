@@ -39,30 +39,10 @@ class ControllerCommonHome extends Controller {
 		// Revolution
 		// $data['blog'] = $this->load->controller('revolution/revblogmod');
 		$data['blog'] = $this->load->controller('blog/slider');
-		$data['storereview'] = $this->load->controller('revolution/revstorereviewmod');
-		$data['viewed_products'] = $this->load->controller('revolution/revviewed_products');
-		$setting_allwide = $this->config->get('revtheme_header_menu');
-		if ($setting_allwide['inhome']) {
-			$data['allwide'] = true;
-		} else {
-			$data['allwide'] = false;
-		}
-		$setting_header_menu = $this->config->get('revtheme_header_menu');
-		// if ($setting_header_menu['type']) {
-			$data['amazon'] = true;
-		// } else {
-		// 	$data['amazon'] = false;
-		// }
-		$setting_home_all = $this->config->get('revtheme_home_all');
-		$data['h1_home'] = $setting_home_all[$this->config->get('config_language_id')]['h1_home'];
-		$data['setting_home_slideshow'] = $this->config->get('revtheme_home_slideshow');
-		if ($this->config->get('revtheme_all_settings')['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
+		$data['storereview'] = $this->load->controller('revolution/store_review_module', $settings['home_storereview']);
+		$data['viewed_products'] = $this->load->controller('revolution/revviewed_products', $settings['home_viewed_products']);
+		$main_settings = $setting['home_main'] ?? [];
+		$data['h1'] = $main_settings['h1'] ?? [];
 
 		$this->response->setOutput($this->load->view('common/home', $data));
 	}

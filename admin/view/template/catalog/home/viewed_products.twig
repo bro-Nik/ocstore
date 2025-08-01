@@ -1,0 +1,23 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label">Включить:</label>
+	<div class="col-sm-2">
+		<label class="radio-inline">
+			<input type="radio" name="viewed_products[status]" value="1" {{ viewed_products.status ? 'checked' }} /><span>Да</span>
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="viewed_products[status]" value="0" {{ not viewed_products.status ? 'checked' }} /><span>Нет</span>
+		</label>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Заголовок:</label>
+	<div class="col-sm-3">
+		<input type="text" name="viewed_products[title]" value="{{viewed_products['title'] is defined ? viewed_products['title'] : 'Вы смотрели' }}" class="form-control" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Лимит товаров:</label>
+	<div class="col-sm-3">
+		<input type="text" name="viewed_products[limit]" value="{{ viewed_products['limit'] }}" class="form-control" />
+	</div>
+</div>

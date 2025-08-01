@@ -16,19 +16,27 @@
   <div class="panel-body">
     <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-homepage" class="form-horizontal">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab-slideshow" data-toggle="tab">Слайдшоу</a></li>
+        <li class="active"><a href="#tab-main" data-toggle="tab">Общие</a></li>
+        <li><a href="#tab-slideshow" data-toggle="tab">Слайдшоу</a></li>
         <li><a href="#tab-recommendations" data-toggle="tab">Рекомендуемые</a></li>
         <li><a href="#tab-related-categories" data-toggle="tab">Рекомендуемые категории</a></li>
         <li><a href="#tab-slider1" data-toggle="tab">Слайдер товаров 1</a></li>
         <li><a href="#tab-slider2" data-toggle="tab">Слайдер товаров 2</a></li>
         <li><a href="#tab-blog" data-toggle="tab">Виджет новостей</a></li>
         <li><a href="#tab-aboutstore" data-toggle="tab">О магазине</a></li>
+        <li><a href="#tab-storereview" data-toggle="tab">Отзывы о магазине</a></li>
+				<li><a href="#tab-viewed-products" data-toggle="tab">Просмотренные товары</a></li>
       </ul>
 
       <div class="tab-content">
 
+				{# Общие #}
+        <div class="tab-pane active" id="tab-main">
+          {% include 'catalog/home/main.twig' %}
+        </div>
+
 				{# Слайдшоу #}
-        <div class="tab-pane active" id="tab-slideshow">
+        <div class="tab-pane" id="tab-slideshow">
           {% include 'catalog/home/slideshow.twig' %}
         </div>
 
@@ -61,6 +69,16 @@
 				{# О магазине #}
         <div class="tab-pane" id="tab-aboutstore">
           {% include 'catalog/home/aboutstore.twig' %}
+        </div>
+
+				{# Отзывы о магазине #}
+        <div class="tab-pane" id="tab-storereview">
+          {% include 'catalog/home/storereview.twig' %}
+        </div>
+
+				{# Просмотренные товары #}
+        <div class="tab-pane" id="tab-viewed-products">
+          {% include 'catalog/home/viewed_products.twig' %}
         </div>
 
       </div>
