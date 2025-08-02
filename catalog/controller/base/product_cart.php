@@ -1,16 +1,18 @@
 <?php
-class ControllerRevolutionRevviewedproducts extends Controller {
-	public function index($settings) {
+abstract class ControllerBaseProductCart extends Controller {
 
-		if (!$settings['status']) {
-			return false;
+    protected function prepareProductsData($products, $settings) {
+		if (!$settings['status'] or !$products) {
+			return [];
 		}
+    $data = array();
 		
 		$data['title'] = $settings['title'];
-		
+		$data['products'] = array();
+
 		$this->load->language('revolution/revolution');
-    $this->load->model('catalog/category');
-    $this->load->model('catalog/product');
+        $this->load->model('catalog/category');
+        $this->load->model('catalog/product');
 		$this->load->model('tool/image');
 		
 		$data['revpopuporder_settings'] = $revpopuporder_settings = $this->config->get('revtheme_catalog_popuporder');
@@ -102,28 +104,12 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 		} else {
 			$data['stikers_status'] = false;
 		}
-		
-		$data['products'] = array();
-		$viewed_products = array();
 
-		if (isset($this->request->cookie['viewed'])) {
-			$viewed_products = explode(',', $this->request->cookie['viewed']);
-		} else if (isset($this->session->data['viewed'])) {
-			$viewed_products = $this->session->data['viewed'];
-		}
 
-		if (empty($setting['limit'])) {
-			$setting['limit'] = 8;
-		}
-
-		$viewed_products = array_slice($viewed_products, 0, (int)$setting['limit']);
-		
-		foreach ($viewed_products as $product_id) {
-			$product_info = $this->model_catalog_product->getProduct($product_id);
+		foreach ($products as $product_info) {
+			// $product_info = $this->model_catalog_product->getProduct($product_id);
 			
-			$product_id2 = isset($this->request->get['product_id']) ? $this->request->get['product_id'] : 0;
-			
-			if ($product_info and $product_id != $product_id2) {
+			if ($product_info) {
 				if (isset($this->session->data['compare'])) {
 					if (in_array($product_info['product_id'], $this->session->data['compare'])) {
 						$compare_class = 'in-compare';
@@ -398,8 +384,7 @@ class ControllerRevolutionRevviewedproducts extends Controller {
 				);
 			}
 		}
-
-		return $this->load->view('revolution/revviewed_products', $data);
-
-	}
+        
+        return $data;
+    }
 }

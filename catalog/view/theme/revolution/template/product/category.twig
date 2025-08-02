@@ -22,7 +22,11 @@
 {% endblock %}
 
 {% block after_content %}
-  {% include 'revolution/template/product/partials/viewed_products.twig' %}
+  {% include 'revolution/template/product/carousel_product.twig' with {
+    'products': viewed_products,
+    'id': 'viewed_products',
+    'title': viewed_products_zagolovok}
+  %}
 
   <div class="footer-category"></div>
 

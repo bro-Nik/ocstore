@@ -39,7 +39,11 @@
 
   </div>  
       
-	{% include 'revolution/template/product/partials/viewed_products.twig' %}
+  {% include 'revolution/template/product/carousel_product.twig' with {
+    'products': viewed_products,
+    'id': 'viewed_products',
+    'title': viewed_products_zagolovok}
+  %}
 
 	{% if tags %}
 		<p>{{ text_tags }}

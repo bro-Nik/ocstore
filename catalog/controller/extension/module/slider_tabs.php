@@ -1,8 +1,8 @@
 <?php
-class ControllerExtensionModuleSliderTabs extends Controller {
+require_once('catalog/controller/base/product_cart.php');
+
+class ControllerExtensionModuleSliderTabs extends ControllerBaseProductCart {
     public function index($settings) {
-        $this->load->model('setting/setting');
-        $this->load->model('tool/image');
         $this->load->model('catalog/product');
         
         $data = $settings;
@@ -43,58 +43,7 @@ class ControllerExtensionModuleSliderTabs extends Controller {
                     $results = $this->model_catalog_product->getProducts($filter_data);
                 }
                 
-                // Формируем данные товаров
-                foreach ($results as $result) {
-                    if (is_file(DIR_IMAGE . $result['image'])) {
-                        $image = $this->model_tool_image->resize($result['image'], 300, 300);
-                    } else {
-                        $image = $this->model_tool_image->resize('placeholder.png', 300, 300);
-                    }
-
-		            $this->load->model('revolution/revolution');
-					$description = $this->model_revolution_revolution->getAttrText($result['product_id']);
-				
-				    $product_in_cart = false;
-					$products_in_cart = $this->cart->getProducts();
-					foreach ($products_in_cart as $product_cart) {
-						if ($product_cart['product_id'] == $result['product_id']) {
-							$product_in_cart = true;
-						}
-					}
-					$compare_class = '';
-				    if (isset($this->session->data['compare'])) {
-					    if (in_array($result['product_id'], $this->session->data['compare'])) {
-						    $compare_class = 'in-compare';
-					    }
-				    }
-
-				    $wishlist_class = '';
-				    if (isset($this->session->data['wishlist'])) {
-					    if (in_array($result['product_id'], $this->session->data['wishlist'])) {
-						    $wishlist_class = 'in-wishlist';
-					    }
-				    }
-                    
-                    // ToDo переделать по нормальному статус склада
-                    $data[$slider_key]['products'][] = array(
-                        'product_id' => $result['product_id'],
-                        'thumb' => $image,
-                        'name' => $result['name'],
-                        'rating' => $result['rating'],
-                        'price' => $this->currency->format($result['price'], $this->session->data['currency']),
-                        'price_number' => $result['price'],
-                        'stiker_ean' => $result['ean'],
-                        'stiker_jan' => $result['jan'],
-                        'stiker_isbn' => $result['isbn'],
-				        'stiker_sklad_status' => $result['stock_status'],
-                        'quantity' => $result['quantity'],
-                        'product_in_cart' => $product_in_cart,
-                        'compare_class' => $compare_class,
-                        'wishlist_class' => $wishlist_class,
-                        'description' => $description,
-                        'href' => $this->url->link('product/product', 'product_id=' . $result['product_id'])
-                    );
-                }
+                $data[$slider_key] = $this->prepareProductsData($results, $slider_settings);
             }
         }
         

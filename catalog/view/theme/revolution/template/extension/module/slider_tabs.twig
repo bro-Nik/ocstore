@@ -25,7 +25,7 @@
 			{% set slider = attribute(_context, 'slider_' ~ i) %}
 			{% if slider is defined and slider and slider.products is defined and slider.products %}
       	<div class="hometab_sliders_tab tab-pane {{ i == 1 ? 'active' }}" id="tab_slider_{{ i }}">
-          {% include 'revolution/template/product/partials/carousel_product.twig' with {
+          {% include 'revolution/template/product/carousel_product.twig' with {
             'products': slider.products,
             'title': '',
             'id': 'tab_slider_' ~ i

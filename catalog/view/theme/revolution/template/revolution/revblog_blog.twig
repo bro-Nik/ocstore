@@ -45,7 +45,7 @@
 		</div>
 	{% endif %} 
 
-  {% include 'partials/product_slider.twig' with {'id': 'blog_products', 'title': heading_products_title} %}
+  {% include 'revolution/template/product/carousel_product.twig' with {'id': 'blog_products', 'title': heading_products_title} %}
 
 {% if (review_status) %} 
 	<div class="tab-review rev_slider">
