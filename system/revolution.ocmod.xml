@@ -445,7 +445,7 @@
 			]]></add>
 		</operation>
 	</file>
-	<file path="catalog/controller/product/{special,manufacturer,category,search}.php">
+	<file path="catalog/controller/productOFF/{special,manufacturer,category,search}.php">
 		<operation error="skip">
 			<search><![CDATA[(int)$result['rating'];]]></search>
 			<add position="replace"><![CDATA[number_format($result['rating'], 1);]]></add>
@@ -944,7 +944,7 @@
 			]]></add>
 		</operation>
 	</file>
-	<file path="catalog/controller/product/category.php">
+	<file path="catalog/controller/productOFF/category.php">
 		<operation>
 			<search><![CDATA[$data['breadcrumbs'] = array();]]></search>
 			<add position="before"><![CDATA[

@@ -14,6 +14,9 @@
   {{ related_categories }}
   {% include 'revolution/template/product/partials/products.twig' %}
   {% include 'category/recommended_services.twig' %}
+  {{ recommended_products }}
+  {{ popular_products }}
+  {{ new_products }}
 
   {% if (not categories and not products) %}
     <p>{{ text_empty }}</p>

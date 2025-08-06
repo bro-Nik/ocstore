@@ -236,7 +236,7 @@
     </operation>
   </file>
 
-  <file path="catalog/controller/product/{category,special,search,manufacturer}.php">
+  <file path="catalog/controller/product/{special,search}.php">
     <operation>
       <search><![CDATA[$data['sorts'] = array]]></search>
       <add position="before"><![CDATA[
@@ -292,7 +292,7 @@
       // OCFilter End
       ]]></add>
     </operation>
-  </file><!-- /catalog/controller/product/{category,special,search,manufacturer}.php -->
+  </file><!-- /catalog/controller/product/{special,search}.php -->
 
   <file path="catalog/controller/product/category.php">
     <operation>

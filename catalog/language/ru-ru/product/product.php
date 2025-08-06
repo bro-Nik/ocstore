@@ -3,7 +3,7 @@
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 // Text
-$_['text_search']              = 'Поиск';
+$_['text_search']              = 'Товары, соответствующие критериям поиска';
 $_['text_brand']               = 'Производитель';
 $_['text_manufacturer']        = 'Производитель:';
 $_['text_model']               = 'Код Товара:';

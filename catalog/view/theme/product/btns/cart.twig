@@ -9,11 +9,11 @@
         Купить
       </a>
     {% endif %}
-  {% elseif (product['quantity'] < 1 and predzakaz_button) %}
+  {% elseif (product['quantity'] < 1) %}
     <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Уведомить о наличии">
       Уведомить
     </a>
-  {% elseif (product['price_number'] == 0 and predzakaz_button) %}
+  {% elseif (product['price_number'] == 0) %}
     <a data-product-id="{{ product['product_id'] }}" data-action="predzakaz" data-toggle="tooltip" title="Запросить цену">
       Запросить цену
     </a>

@@ -1,13 +1,15 @@
 <?php
 abstract class ControllerBaseProductCart extends Controller {
 
-    protected function prepareProductsData($products, $settings) {
-		if (!$settings['status'] or !$products) {
-			return [];
+    protected function prepareProductsData($products, $settings=[]) {
+		if ($settings) {
+			if (!$settings['status'] or !$products) {
+				return [];
+			}
+			$data['title'] = $settings['title'] ?? '';
 		}
     $data = array();
 		
-		$data['title'] = $settings['title'];
 		$data['products'] = array();
 
 		$this->load->language('revolution/revolution');
@@ -43,7 +45,6 @@ abstract class ControllerBaseProductCart extends Controller {
 		$data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
 		$data['text_option_option'] = $this->language->get('text_option_option');
 		$revpopuppredzakaz_settings = $this->config->get('revtheme_predzakaz');
-		$data['predzakaz_button'] = $revpopuppredzakaz_settings['status'];
 		$data['text_predzakaz'] = $this->config->get('revtheme_predzakaz')['notify_status'] ? $this->language->get('text_predzakaz_notify') : $this->language->get('text_predzakaz');
 		$data['revtheme_home_all'] = $revtheme_home_all = $this->config->get('revtheme_home_all');
 		$currency = $this->session->data['currency'];

@@ -1,5 +1,5 @@
 <?php
-class ControllerRevolutionStoreReviewModule extends Controller
+class ControllerRevolutionCarouselReview extends Controller
 {
     public function index($settings) {
 		
@@ -26,7 +26,7 @@ class ControllerRevolutionStoreReviewModule extends Controller
                 );
             }
 
-	    return $this->load->view('revolution/store_review_module', $data);
+	    return $this->load->view('revolution/carousel_review', $data);
                 
             }
         }

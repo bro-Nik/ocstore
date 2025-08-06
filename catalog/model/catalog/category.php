@@ -79,4 +79,32 @@ class ModelCatalogCategory extends Model {
 
     return $service_related_data;
 	}
+
+	public function getPopularProducts($limit, $category_id) {
+		// $product_data = $this->cache->get('product.popular.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit);
+	
+		print_r($category_id);
+		// if (!$product_data) {
+			$product_data = array();
+			
+		$query = $this->db->query(
+			"SELECT p.product_id FROM " . DB_PREFIX . "product p 
+      LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) AND (p2c.category_id = '" . (int)$category_id . "')
+      LEFT JOIN " . DB_PREFIX . "category c ON (p2c.category_id = c.category_id) AND (c.category_id = '" . (int)$category_id . "')
+			LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)
+				WHERE p.status = '1'
+				AND p.date_available <= NOW()
+				AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' 
+        AND p.quantity != 0 
+				ORDER BY p.viewed DESC, p.date_added DESC LIMIT " . (int)$limit);
+	
+			foreach ($query->rows as $result) {
+				$product_data[$result['product_id']] = $this->model_catalog_product->getProduct($result['product_id']);
+			}
+			
+			$this->cache->set('product.popular.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit, $product_data);
+		// }
+		
+		return $product_data;
+	}
 }

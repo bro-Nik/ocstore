@@ -1,5 +1,6 @@
 @use 'swiper/scss' as swiper;
 @use 'swiper/scss/navigation';
+@use 'variables' as *;
 
 :root {
   --swiper-navigation-size: 22px;
@@ -54,5 +55,91 @@
       background: #efefef99;
       color: #343434;
     }
+  }
+}
+
+// review slider
+.review {
+  &__thumb {
+    width: 30rem;
+    height: 100%;
+    border: 1px solid #eaeaea;
+    border-radius: 1.5rem;
+    flex-direction: column;
+    display: flex;
+    padding: 1.5rem;
+    position: relative;
+    box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
+    gap: 0.5rem;
+    &:hover {
+      color: unset;
+      & .review__product-name {
+        color: $primary-color;
+      }
+    }
+  }
+  &__text {
+    align-self: stretch;
+    color: $text-light;
+    display: -webkit-box;
+    flex-shrink: 0;
+    max-height: 100px;
+    min-height: 100px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  &__author {
+    display: flex;
+    align-items: center;
+
+    &-name {
+      font-size: 1.4rem;
+    }
+
+    &-avatar {
+    width: 40px;
+    height: 40px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    line-height: 40px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+      & .fa-user-circle {
+        font-size: 24px;
+        color: #666;
+      } font-size: 1.4rem;
+    }
+  }
+  &__product {
+    &-image {
+      display: flex;
+      justify-content: center;
+
+    }
+    &-name {
+      font-weight: 600;
+      display: -webkit-box;
+      font-style: normal;
+      line-height: 130%;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      height: 42px;
+      max-height: 42px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+  &__date_added {
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: flex-end;
   }
 }

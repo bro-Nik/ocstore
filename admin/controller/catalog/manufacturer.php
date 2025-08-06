@@ -511,6 +511,7 @@ class ControllerCatalogManufacturer extends Controller {
 			foreach ($this->request->post['manufacturer_seo_url'] as $store_id => $language) {
 				foreach ($language as $language_id => $keyword) {
 					if (!empty($keyword)) {
+						// Проверка на уникальность keyword в рамках текущего магазина и языка
 						if (count(array_keys($language, $keyword)) > 1) {
 							$this->error['keyword'][$store_id][$language_id] = $this->language->get('error_unique');
 						}
@@ -518,9 +519,18 @@ class ControllerCatalogManufacturer extends Controller {
 						$seo_urls = $this->model_design_seo_url->getSeoUrlsByKeyword($keyword);
 
 						foreach ($seo_urls as $seo_url) {
-							if (($seo_url['store_id'] == $store_id) && (!isset($this->request->get['manufacturer_id']) || (($seo_url['query'] != 'manufacturer_id=' . $this->request->get['manufacturer_id'])))) {
-								$this->error['keyword'][$store_id][$language_id] = $this->language->get('error_keyword');
-							}
+							// if (($seo_url['store_id'] == $store_id) && (!isset($this->request->get['manufacturer_id']) || (($seo_url['query'] != 'manufacturer_id=' . $this->request->get['manufacturer_id'])))) {
+							// 	$this->error['keyword'][$store_id][$language_id] = $this->language->get('error_keyword');
+							// }
+
+							// Проверяем только SEO URL с manufacturer_id
+							if (strpos($seo_url['query'], 'manufacturer_id=') === 0) {
+                if (($seo_url['store_id'] == $store_id) && 
+                  (!isset($this->request->get['manufacturer_id']) || 
+                  ($seo_url['query'] != 'manufacturer_id=' . $this->request->get['manufacturer_id']))) {
+                  $this->error['keyword'][$store_id][$language_id] = $this->language->get('error_keyword');
+                }
+              }
 						}
 					}
 				}

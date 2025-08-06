@@ -244,6 +244,9 @@ html, body {
     border: 1px solid #eaeaea;
     margin: 3rem 0;
 }
+.title + .page_description {
+    margin: 0 0 3rem 0;
+}
 .page_description .description {
   position: relative;
   line-height: 1.5;

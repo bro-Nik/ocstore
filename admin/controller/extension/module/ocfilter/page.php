@@ -1126,32 +1126,33 @@ class ControllerExtensionModuleOCFilterPage extends Controller {
           return $this->language->get('error_mask');
         } else {
           $url_alias_info = $this->model_extension_module_ocfilter_page->getSeoUrl($keyword, $data['category_id'], $store_id, $language_id);
+          print_r($url_alias_info);
 
-          if ($url_alias_info && (!isset($this->request->get['page_id']) || (isset($this->request->get['page_id']) && $url_alias_info['query'] != 'page_id=' . $this->request->get['page_id']))) {
-            $text = $this->language->get('error_keyword_exist');
-
-            list($entity, $id) = explode('=', $url_alias_info['query']);
-
-            if (!empty($id) && $this->language->get('error_keyword_exist_' . $entity) != 'error_keyword_exist_' . $entity) {
-              if ($entity == 'page_id') {
-                $link = $this->url->link('extension/module/ocfilter/page/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
-              } else if ($entity == 'category_id') {
-                $link = $this->url->link('catalog/category/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
-              } else if ($entity == 'product_id') {
-                $link = $this->url->link('catalog/product/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
-              } else if ($entity == 'manufacturer_id') {
-                $link = $this->url->link('catalog/manufacturer/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
-              } else if ($entity == 'information_id') {
-                $link = $this->url->link('catalog/information/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
-              } else {
-                $link = '';
-              }
-
-              $text .= ' ' . sprintf($this->language->get('error_keyword_exist_' . $entity), $link);
-            }
-
-            return $text;
-          }
+          // if ($url_alias_info && (!isset($this->request->get['page_id']) || (isset($this->request->get['page_id']) && $url_alias_info['query'] != 'page_id=' . $this->request->get['page_id']))) {
+          //   $text = $this->language->get('error_keyword_exist');
+          //
+          //   list($entity, $id) = explode('=', $url_alias_info['query']);
+          //
+          //   if (!empty($id) && $this->language->get('error_keyword_exist_' . $entity) != 'error_keyword_exist_' . $entity) {
+          //     if ($entity == 'page_id') {
+          //       $link = $this->url->link('extension/module/ocfilter/page/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
+          //     } else if ($entity == 'category_id') {
+          //       $link = $this->url->link('catalog/category/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
+          //     } else if ($entity == 'product_id') {
+          //       $link = $this->url->link('catalog/product/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
+          //     } else if ($entity == 'manufacturer_id') {
+          //       $link = $this->url->link('catalog/manufacturer/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
+          //     } else if ($entity == 'information_id') {
+          //       $link = $this->url->link('catalog/information/edit', $url_alias_info['query'] . '&' . $this->ocfilter->admin->getToken(true), 'SSL');
+          //     } else {
+          //       $link = '';
+          //     }
+          //
+          //     $text .= ' ' . sprintf($this->language->get('error_keyword_exist_' . $entity), $link);
+          //   }
+          //
+          //   return $text;
+          // }
         }
 
         return '';

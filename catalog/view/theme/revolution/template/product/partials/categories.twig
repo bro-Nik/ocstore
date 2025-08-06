@@ -3,9 +3,11 @@
     {% for category in categories %}
       <li>
         <a class="products__categories__item" href="{{ category['href'] }}">
-          <div class="products__categories__item-image">
-            <img src="{{ category['thumb'] }}" title="{{ category['name'] }}" alt="{{ category['name'] }}"/>
-          </div>
+          {% if category['thumb'] %}
+            <div class="products__categories__item-image">
+              <img src="{{ category['thumb'] }}" title="{{ category['name'] }}" alt="{{ category['name'] }}"/>
+            </div>
+          {% endif %}
           <span class="products__categories__item-title">{{ category['name'] }}</span>
         </a>
       </li>

@@ -84,6 +84,7 @@ class ModelCatalogProduct extends Model {
 			$sql .= " FROM " . DB_PREFIX . "product p";
 		}
 
+
 		$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
 
 		if (!empty($data['filter_category_id'])) {
@@ -158,6 +159,14 @@ class ModelCatalogProduct extends Model {
 			$sql .= ")";
 		}
 
+		if (!empty($data['filter_date_added'])) {
+        $sql .= " AND p.date_added >= '" . $this->db->escape($data['filter_date_added']) . "'";
+    }
+
+		if (!empty($data['filter_quantity'])) {
+        $sql .= " AND p.quantity > 0";
+    }
+
 		if (!empty($data['filter_manufacturer_id'])) {
 			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
 		}
@@ -182,6 +191,8 @@ class ModelCatalogProduct extends Model {
 			} else {
 				$sql .= " ORDER BY " . $data['sort'];
 			}
+		} elseif (isset($data['sort']) && $data['sort'] == 'p.viewed') {
+      $sql .= " ORDER BY p.viewed";
 		} else {
 			$sql .= " ORDER BY p.sort_order";
 		}

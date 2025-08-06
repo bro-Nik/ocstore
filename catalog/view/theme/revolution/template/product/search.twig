@@ -1,90 +1,53 @@
 {% extends 'revolution/template/product/partials/base.twig' %}
 
+{% macro category_option(category, selected_id, level) %}
+  <option value="{{ category.category_id }}" {% if category.category_id == selected_id %}selected{% endif %}>
+    {% for i in 1..level %}&nbsp;&nbsp;{% endfor %}{{ category.name }}
+  </option>
+    
+  {% if category.children %}
+    {% for child in category.children %}
+      {{ _self.category_option(child, selected_id, level + 1) }}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
 {% block container_schema %}{% endblock %}
 
 {% block content %}
   <div class="search-container">
-    
-    <div class="search-form-container">
-    	<div class="search-form">
-      	<div class="row">
-        	<div class="col-sm-12">
-          	<div class="row search-row">
-            	<div class="col-sm-5 xs-margin-top">
-            	{#}
-    						<label class="control-label" for="input-search">{{ entry_search }}:</label>
-            	{#}
-              	<input type="text" 
-                     	name="search" 
-                     	value="{{ search }}" 
-                     	placeholder="{{ text_keyword }}" 
-                     	id="input-search" 
-                     	class="form-control" />
-            	</div>
-            	
-            	<div class="col-sm-5 xs-margin-top">
-              	<select name="category_id" class="form-control">
-                	<option value="0">{{ text_category }}</option>
-                	{% for category_1 in categories %}
-                  	<option value="{{ category_1.category_id }}" 
-                          	{{ category_1.category_id == category_id ? 'selected' }}>
-                    	{{ category_1.name }}
-                  	</option>
-                  	
-                  	{% for category_2 in category_1.children %}
-                    	<option value="{{ category_2.category_id }}" 
-                            	{{ category_2.category_id == category_id ? 'selected' }}>
-                      	&nbsp;&nbsp;{{ category_2.name }}
-                    	</option>
-                    	
-                    	{% for category_3 in category_2.children %}
-                      	<option value="{{ category_3.category_id }}" 
-                              	{{ category_3.category_id == category_id ? 'selected' }}>
-                        	&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3.name }}
-                      	</option>
-                    	{% endfor %}
-                  	{% endfor %}
-                	{% endfor %}
-              	</select>
-            	</div>
-            	
-            	<div class="col-sm-2 xs-margin-top">
-              	<button type="button" id="button-search" class="btn btn-primary">
-                	{{ button_search }}
-              	</button>
-            	</div>
-          	</div>
-        	</div>
-        	
-        	<div class="col-sm-12">
-          	<div class="row options-row">
-            	<div class="col-sm-5">
-              	{% if not ajax_search_description %}
-                	<label class="checkbox-inline option-checkbox">
-                  	<input type="checkbox" 
-                         	name="description" 
-                         	value="1" 
-                         	id="description" 
-                         	{{ description ? 'checked' }} />
-                  	{{ entry_description }}
-                	</label>
-              	{% endif %}
-            	</div>
-            	
-            	<div class="col-sm-5">
-              	<label class="checkbox-inline option-checkbox">
-                	<input type="checkbox" 
-                       	name="sub_category" 
-                       	value="1" 
-                       	{{ sub_category ? 'checked' }} />
-                	{{ text_sub_category }}
-              	</label>
-            	</div>
-          	</div>
-        	</div>
-      	</div>
-    	</div>
-    </div>
+    <form class="search-form">
+      <div class="search-fields">
+        <div class="form-group">
+          <input type="text" name="search" id="input-search" class="form-control" placeholder="{{ text_keyword }}" value="{{ search }}">
+        </div>
+        
+        <div class="form-group">
+          <select name="category_id" id="category-select" class="form-control">
+            <option value="0">{{ text_category }}</option>
+            {% for category in categories %}
+              {{ _self.category_option(category, category_id, 0) }}
+            {% endfor %}
+          </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">{{ button_search }}</button>
+      </div>
+      
+      <div class="search-options">
+        {% if not ajax_search_description %}
+        <div class="form-check form-check-inline">
+          <input type="checkbox" name="description" id="description" class="form-check-input" value="1" {{ description ? 'checked' }}>
+          <label for="description" class="form-check-label">{{ entry_description }}</label>
+        </div>
+        {% endif %}
+        
+        <div class="form-check form-check-inline">
+          <input type="checkbox" name="sub_category" id="sub-category" class="form-check-input" value="1" {{ sub_category ? 'checked' }}>
+          <label for="sub-category" class="form-check-label">{{ text_sub_category }}</label>
+        </div>
+      </div>
+    </form>
     
     <h2 class="search-results-title">{{ text_search }}</h2>
     

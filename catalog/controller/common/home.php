@@ -39,7 +39,7 @@ class ControllerCommonHome extends Controller {
 		// Revolution
 		// $data['blog'] = $this->load->controller('revolution/revblogmod');
 		$data['blog'] = $this->load->controller('blog/slider');
-		$data['storereview'] = $this->load->controller('revolution/store_review_module', $settings['home_storereview']);
+		$data['storereview'] = $this->load->controller('revolution/carousel_review', $settings['home_storereview']);
 		$data['viewed_products'] = $this->load->controller('revolution/viewed_products', $settings['home_viewed_products']);
 		$main_settings = $setting['home_main'] ?? [];
 		$data['h1'] = $main_settings['h1'] ?? [];

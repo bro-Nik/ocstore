@@ -5,8 +5,8 @@
     <div class="swiper swiper-carousel">
       <div class="swiper-wrapper" style="height: 100%;">
 			{% for review in reviews %} 
-        <div class="swiper-slide">
-					<div class="product-layout col-lg-12">
+        <div class="swiper-slide col-3">
+					<div class="review-layout">
 						<div class="review-list vertical-sreview transition">
 							<div class="caption review-caption">
 								<div class="author">{{ review['author'] }}<span> / {{ review['date_added'] }}</span></div>

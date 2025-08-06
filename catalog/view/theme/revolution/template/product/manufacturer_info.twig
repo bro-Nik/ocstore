@@ -1,20 +1,35 @@
 {% extends 'revolution/template/product/partials/base.twig' %}
 
 {% block container_schema %} itemtype="http://schema.org/ItemList" itemscope {% endblock %}
-{% block content %}
 
-  {% if (setting_catalog_all['manuf_desc'] and description) %}
-    <div class="manuf_description">
-      {% if (thumb) %}
-        <div class="fl-l"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail"/></div>
-      {% endif %}
-      <div itemprop="description">{{ description }}</div>
+{% block title %}
+  {% if thumb %}
+    <div class="d-flex justify-content-center">
+      <img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-responsive" rel="nofollow"/>
     </div>
   {% endif %}
+{% endblock %}
 
+{% block content %}
+
+  {% include 'revolution/template/product/partials/categories.twig' %}
   {% include 'revolution/template/product/partials/products.twig' %}
+  {{ popular_products }}
+  {{ new_products }}
+  {{ reviews }}
 
-  <div class="footer-category"></div>
+  {% if (not categories and not products) %}
+    <p>{{ text_empty }}</p>
+  {% endif %}
+
+  <div class="footer-category">
+    <h1 class="title">{{ heading_title }}</h1>
+    {% if description %}
+      <div class="row page_description">
+        <div itemprop="description" class="description">{{ description }}</div>
+      </div>
+    {% endif %}
+  </div>
 
 	{{ content_bottom }} 
 {% endblock %}

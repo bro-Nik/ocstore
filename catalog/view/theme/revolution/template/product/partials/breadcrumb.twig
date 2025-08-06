@@ -18,10 +18,15 @@
         <a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a>
       </li>
       {% else %}
+        <li>
+          <span class="inbreadcrumb" itemprop="name">{{ breadcrumb['text'] }}</span>
+        </li>
     {% endif %}
   {% endfor %}
+  {#}
   <li>
     <span class="inbreadcrumb" itemprop="name">{{ heading_title }}</span>
   </li>
+  {#}
   {#<li><h1 class="inbreadcrumb" itemprop="name">{{ heading_title }}</h1></li>#}
 </ul>
