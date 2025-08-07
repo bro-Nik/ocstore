@@ -9,6 +9,7 @@ class ControllerRevolutionCarouselReview extends Controller
 		
 		$data['title'] = $settings['title'];
 		$data['button_all'] = (int)$settings['button_all'];
+		$data['button_all'] = 1;
         $data['button_all_text'] = html_entity_decode($settings['button_all_text'], ENT_QUOTES, 'UTF-8');
         $data['keyword'] = $this->url->link('revolution/revstorereview');
         $this->load->model('revolution/revolution');

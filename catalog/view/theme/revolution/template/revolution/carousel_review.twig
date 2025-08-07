@@ -5,24 +5,36 @@
     <div class="swiper swiper-carousel">
       <div class="swiper-wrapper" style="height: 100%;">
 			{% for review in reviews %} 
-        <div class="swiper-slide col-3">
-					<div class="review-layout">
-						<div class="review-list vertical-sreview transition">
-							<div class="caption review-caption">
-								<div class="author">{{ review['author'] }}<span> / {{ review['date_added'] }}</span></div>
-								<div class="rating">
-									{% set i = 1 %}{% for i in i..5 %} 
-										{% if (review['rating'] < i) %} 
-											<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-										{% else %} 
-											<span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-										{% endif %} 
-									{% endfor %} 
-								</div>
-								<div class="text2">{{ review['text'] }}</div>
-							</div>
+        <div class="swiper-slide">
+					<a class="review__thumb" href="{{ review['product_href'] }}">
+
+					  <div class="review__text">
+					    {{ review['text'] }}
 						</div>
-					</div>
+						<div class="review__author">
+              <div class="review__author-avatar">
+                <i class="fa fa-user-circle"></i>
+              </div>
+						  <div class="review__author-box">
+						    <div class="review__author-name">
+					  	    {{ review['author'] }}
+						    </div>
+						    <div class="rating">
+							    {% set i = 1 %}{% for i in i..5 %} 
+								    {% if (review['rating'] < i) %} 
+									    <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+								    {% else %} 
+									    <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
+								    {% endif %} 
+							    {% endfor %} 
+						    </div>
+              </div>
+						</div>
+
+						<div class="review__date_added">
+							{{ review['date_added'] }}
+						</div>
+					</a>
 
         </div>
         {% endfor %} 
