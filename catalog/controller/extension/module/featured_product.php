@@ -8,9 +8,20 @@ class ControllerExtensionModuleFeaturedProduct extends ControllerBaseProductCart
     $setting['limit'] = $setting['limit'] ?? 20;
     $setting['status'] = $setting['status'] ?? 1;
 
-		$results = array();
+		$results = $this->getProducts($setting);
 		
+    $data = $this->prepareProductsData($results, $setting);
+		if ($data) {
+			$data['id'] = 'slider_related_products';
+			$data['title'] = $setting['name'];
+			
+			return $this->load->view('product/carousel_product', $data);
+		}
+	}
+
+	public function getProducts($setting=[]) {
 		$this->load->model('catalog/cms');
+		$results = array();
 		
 		if (isset($this->request->get['manufacturer_id'])) {
 			$filter_data = array(
@@ -33,13 +44,6 @@ class ControllerExtensionModuleFeaturedProduct extends ControllerBaseProductCart
 				$results = $this->model_catalog_cms->getProductRelatedByCategory($filter_data);			
 			}
 		}
-
-    $data = $this->prepareProductsData($results, $setting);
-		if ($data) {
-			$data['id'] = 'slider_related_products';
-			$data['title'] = $setting['name'];
-			
-			return $this->load->view('product/carousel_product', $data);
-		}
+		return $results;
 	}
 }

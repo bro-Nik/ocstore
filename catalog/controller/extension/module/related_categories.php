@@ -4,7 +4,7 @@ class ControllerExtensionModuleRelatedCategories extends Controller {
 
 	public function getRelatedCategories($query) {
 
-    $data['related_categories'] = array();
+    $data['categories'] = array();
     // $this->load->model('catalog/category');
     $this->load->model('extension/module/ocfilter');
     $this->load->model('extension/module/related_categories');
@@ -37,7 +37,7 @@ class ControllerExtensionModuleRelatedCategories extends Controller {
                     $image = $this->model_tool_image->resize('placeholder.png', 300, 300);
                 }
                 
-                $data['related_categories'][] = array(
+                $data['categories'][] = array(
                     'category_id' => $category_info['category_id'],
                     'name' => $category_info['name'],
                     'image' => $image,
@@ -47,10 +47,6 @@ class ControllerExtensionModuleRelatedCategories extends Controller {
             }
         }
     }
-
-
-
-
     return $this->load->view('extension/module/related_categories', $data);
   }
 }

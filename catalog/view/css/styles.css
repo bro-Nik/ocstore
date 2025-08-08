@@ -12908,7 +12908,6 @@ input, textarea, .form-control:not(select) {
   border-radius: 3px;
   text-decoration: none;
   transition: all 0.2s;
-  width: 100%;
 }
 
 .filter-link:hover {

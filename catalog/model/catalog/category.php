@@ -80,31 +80,42 @@ class ModelCatalogCategory extends Model {
     return $service_related_data;
 	}
 
-	public function getPopularProducts($limit, $category_id) {
-		// $product_data = $this->cache->get('product.popular.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit);
-	
-		print_r($category_id);
-		// if (!$product_data) {
-			$product_data = array();
-			
-		$query = $this->db->query(
-			"SELECT p.product_id FROM " . DB_PREFIX . "product p 
-      LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) AND (p2c.category_id = '" . (int)$category_id . "')
-      LEFT JOIN " . DB_PREFIX . "category c ON (p2c.category_id = c.category_id) AND (c.category_id = '" . (int)$category_id . "')
-			LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)
-				WHERE p.status = '1'
-				AND p.date_available <= NOW()
-				AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' 
-        AND p.quantity != 0 
-				ORDER BY p.viewed DESC, p.date_added DESC LIMIT " . (int)$limit);
-	
-			foreach ($query->rows as $result) {
-				$product_data[$result['product_id']] = $this->model_catalog_product->getProduct($result['product_id']);
-			}
-			
-			$this->cache->set('product.popular.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit, $product_data);
-		// }
-		
-		return $product_data;
+	public function incrementCategoryView($category_id) {
+    // Уменьшаем старые просмотры на 10% и добавляем новый
+    // новые просмотры имеют больший вес
+    $this->db->query("UPDATE " . DB_PREFIX . "category SET view = view * 0.9 + 1 
+                    	WHERE category_id = '" . (int)$category_id . "'");
+	}
+
+	public function getPopularSubcategories($category_id, $limit = 5) {
+    $query = $this->db->query("SELECT c.category_id, cd.name, c.parent_id, c.view, 
+                             	(SELECT COUNT(*) FROM " . DB_PREFIX . "product_to_category p2c 
+                              	WHERE p2c.category_id = c.category_id) as product_count
+                             	FROM " . DB_PREFIX . "category c
+                             	LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id)
+                             	WHERE c.parent_id = '" . (int)$category_id . "' 
+                             	AND c.status = '1'
+                             	AND c.view != '0'
+                             	AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'
+                             	ORDER BY c.view DESC, product_count DESC, c.sort_order
+                             	LIMIT " . (int)$limit);
+    
+    return $query->rows;
+	}
+	public function getPopularFilters($category_id, $limit = 5) {
+    $query = $this->db->query("SELECT op.page_id, opd.name, op.view, 
+                              (SELECT GROUP_CONCAT(DISTINCT cp.path_id ORDER BY cp.`level` SEPARATOR '_') 
+                               FROM " . DB_PREFIX . "category_path cp 
+                               WHERE cp.category_id = op.category_id) AS path
+                              FROM " . DB_PREFIX . "ocfilter_page op
+                              LEFT JOIN " . DB_PREFIX . "ocfilter_page_description opd 
+                                ON (op.page_id = opd.page_id)
+                              WHERE op.category_id = '" . (int)$category_id . "' 
+                              AND op.status = '1'
+                              AND op.view != '0'
+                              ORDER BY op.view DESC
+                              LIMIT " . (int)$limit);
+    
+    return $query->rows;
 	}
 }

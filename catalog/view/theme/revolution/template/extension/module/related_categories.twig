@@ -1,4 +1,4 @@
-{% if related_categories %}
+{% if categories %}
   <div id="recommended-categories">
     <h3>Популярные категории</h3>
     <div class="row">
@@ -6,25 +6,25 @@
         <div class="swiper-wrapper" style="height: 100%;">
 
 
-          {% for category in related_categories %}
+          {% for category in categories %}
             <div class="swiper-slide category-tile">
                 <div class="category-content">
-                <div class="category-info">
+                  <div class="category-info">
                     <h4><a href="{{ category.href }}">{{ category.name }}</a></h4>
                     <div class="category-filters">
-                    {% for filter in category.filters %}
+                      {% for filter in category.filters %}
                         <div class="filter-row">
                         <a href="{{ filter.href }}" class="filter-link">{{ filter.name }}</a>
                         </div>
-                    {% endfor %}
+                      {% endfor %}
                     </div>
-                </div>
+                  </div>
                 </div>
 
                 <div class="category-image">
-                <a href="{{ category.href }}">
+                  <a href="{{ category.href }}">
                     <img src="{{ category.image }}" alt="{{ category.name }}" class="img-responsive" />
-                </a>
+                  </a>
                 </div>
             </div>
           {% endfor %}

@@ -7,13 +7,18 @@
 
 		<div class="col-md-auto">
 			<ul class="nav nav-tabs slider-tabs__btns">
+				{% set active_sliders_list = [] %}
   			{% for i in 1..4 %}
 					{% set slider = attribute(_context, 'slider_' ~ i) %}
-					{% if slider is defined and slider and slider.products is defined and slider.products %}
-        		<li>
-          		<a href="#tab_slider_{{ i }}" data-toggle="tab" class="ui-btn ui-btn--45 ui-btn--white">{{ slider.title }}</a>
-        		</li>
+					{% if slider|default and slider.products|default %}
+        		{% set active_sliders_list = active_sliders_list|merge([slider]) %}
     			{% endif %}
+  			{% endfor %}
+
+  			{% for slider in active_sliders_list %}
+        	<li>
+          	<a href="#tab_slider_{{ loop.index }}" data-toggle="tab" class="ui-btn ui-btn--45 ui-btn--white">{{ slider.title }}</a>
+        	</li>
   			{% endfor %}
 			</ul>
 		</div>
@@ -21,17 +26,14 @@
 	</div>
 
 	<div class="tab-content">
-  	{% for i in 1..4 %}
-			{% set slider = attribute(_context, 'slider_' ~ i) %}
-			{% if slider is defined and slider and slider.products is defined and slider.products %}
-      	<div class="hometab_sliders_tab tab-pane {{ i == 1 ? 'active' }}" id="tab_slider_{{ i }}">
-          {% include 'revolution/template/product/carousel_product.twig' with {
-            'products': slider.products,
-            'title': '',
-            'id': 'tab_slider_' ~ i
-          } %}
-      	</div>
-    	{% endif %} 
+  	{% for slider in active_sliders_list %}
+      <div class="hometab_sliders_tab tab-pane {{ loop.index == 1 ? 'active' }}" id="tab_slider_{{ loop.index }}">
+        {% include 'revolution/template/product/carousel_product.twig' with {
+          'products': slider.products,
+          'title': '',
+          'id': 'tab_slider_' ~ loop.index
+        } %}
+      </div>
   	{% endfor %}
 	</div>
 </div>

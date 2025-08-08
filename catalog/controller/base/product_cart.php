@@ -2,13 +2,14 @@
 abstract class ControllerBaseProductCart extends Controller {
 
     protected function prepareProductsData($products, $settings=[]) {
+
+    $data = array();
 		if ($settings) {
 			if (!$settings['status'] or !$products) {
 				return [];
 			}
 			$data['title'] = $settings['title'] ?? '';
 		}
-    $data = array();
 		
 		$data['products'] = array();
 
@@ -386,6 +387,6 @@ abstract class ControllerBaseProductCart extends Controller {
 			}
 		}
         
-        return $data;
-    }
+    return $data;
+  }
 }

@@ -17,9 +17,14 @@ class ControllerProductCategory extends ControllerBaseProductsList {
 			$parts = explode('_', (string)$this->request->get['path']);
 			$category_id = (int)array_pop($parts);
 		}
+    // Фиксируем просмотр
+    $this->model_catalog_category->incrementCategoryView($category_id);
 
     // Рекомендуемые категории
-    $data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'category_id=' . $category_id);
+    // $data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'category_id=' . $category_id);
+    
+    // Популярные категории
+    $data['popular_subcategories'] = $this->getPopularSubcategories($category_id);
     
     // Рекомендуемые услуги
 		$data['services'] = $this->getRelatedServices($category_id);
@@ -55,12 +60,7 @@ class ControllerProductCategory extends ControllerBaseProductsList {
 
         // Рекомендуемые товары
         $data['recommended_products'] = $this->load->controller('extension/module/featured_product');
-        if (!$data['recommended_products']) {
-          // Популярные товары
-				  $data['popular_products'] = $this->getPopularProducts(['filter_category_id' => $category_id]);
-        }
-
-        // Популярные товары
+				$data['popular_products'] = $this->getPopularProducts(['filter_category_id' => $category_id]);
 				$data['new_products'] = $this->getNewProducts(['filter_category_id' => $category_id]);
 			}
 			// Если нет категорий - показываем стандартный список товаров
@@ -124,7 +124,8 @@ class ControllerProductCategory extends ControllerBaseProductsList {
         'thumb' => $this->model_tool_image->resize($result['image'], 
                   $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_width'), 
                   $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_height')),
-        'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '_' . $result['category_id'])
+        'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '_' . $result['category_id']),
+        'filters'=> $this->getPopularFilters($result['category_id'])
       ];
     }
     
@@ -185,4 +186,53 @@ class ControllerProductCategory extends ControllerBaseProductsList {
     }
 		return $services;
 	}
+
+	public function getPopularFilters($category_id, $limit = 4) {
+    $results = $this->model_catalog_category->getPopularFilters($category_id, $limit);
+
+    $pages = array();
+    foreach ($results as $result) {
+      $pages[] = array(
+        'name' => $result['name'],
+        'href' => $this->url->link('product/category', 'path=' . $category_id . '&filter_ocfilter=' . $result['keyword'])
+      );
+    }
+    return $pages;
+	}
+
+	public function getPopularSubcategories($category_id) {
+
+    $data['categories'] = array();
+    $this->load->model('catalog/category');
+    $this->load->model('extension/module/ocfilter');
+    // $this->load->model('extension/module/related_categories');
+
+    $categories = $this->model_catalog_category->getPopularSubcategories($category_id, 5);
+    
+    foreach ($categories as $category) {
+      $category_info = $this->model_catalog_category->getCategory($category['category_id']);
+      
+      if ($category_info) {
+            
+        // Загрузка изображения категории
+        if ($category_info['image']) {
+            $image = $this->model_tool_image->resize($category_info['image'], 300, 300);
+        } else {
+            $image = $this->model_tool_image->resize('placeholder.png', 300, 300);
+        }
+        
+        $filters = $this->getPopularFilters($category['category_id']);
+        if ($filters) {
+          $data['categories'][] = array(
+              'category_id' => $category_info['category_id'],
+              'name' => $category_info['name'],
+              'image' => $image,
+              'href' => $this->url->link('product/category', 'path=' . $category_info['category_id']),
+              'filters'=> $filters
+          );
+        }
+      }
+    }
+    return $this->load->view('extension/module/related_categories', $data);
+  }
 }
