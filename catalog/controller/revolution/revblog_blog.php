@@ -214,11 +214,7 @@ class ControllerRevolutionRevblogBlog extends ControllerBaseProductCart {
 			$data['continue'] = $this->url->link('common/home');
 			
 			$products_results = $this->model_revolution_revolution->getBlogProducts($revblog_id);
-    	$data_products = $this->prepareProductsData($products_results, $setting2);
-			$data['products'] = array();
-			if ($data_products) {
-				$data['products'] = data_products['products'];
-			}
+    	$data['products'] = $this->prepareProducts($products_results);
 				
 			$data['category_blog_grid'] = isset($setting2['category_blog_grid']) && $setting2['category_blog_grid'] ? $setting2['category_blog_grid'] : false;
 			$data['blog_date_status'] = isset($setting2['blog_date_status']) && $setting2['blog_date_status'] ? $setting2['blog_date_status'] : false;

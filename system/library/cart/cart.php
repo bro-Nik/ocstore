@@ -367,7 +367,8 @@ class Cart {
 		$products = $this->getProducts();
 
 		foreach ($products as $product) {
-			$product_total += $product['quantity'];
+			// $product_total += $product['quantity'];
+			$product_total += 1;
 		}
 
 		return $product_total;

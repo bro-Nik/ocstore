@@ -20,10 +20,7 @@ class ControllerProductSpecial extends ControllerBaseProductsList {
     $filter_data = $this->prepareFilterData($params);
     $product_total = $this->model_catalog_product->getTotalProductSpecials();
     $results = $this->model_catalog_product->getProductSpecials($filter_data);
-
-		// Подготавливаем данные товаров
-    $products_data = $this->prepareProductsData($results);
-    $data['products'] = $products_data['products'];
+    $data['products'] = $this->prepareProducts($results);
 
 		// Сортировка и лимиты
     $url = $this->buildUrl(['page']);

@@ -72,8 +72,7 @@ class ControllerProductCategory extends ControllerBaseProductsList {
 				]);
       	$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
       	$results = $this->model_catalog_product->getProducts($filter_data);
-      	$products_data = $this->prepareProductsData($results, []);
-      	$data['products'] = $products_data['products'];
+      	$data['products'] = $this->prepareProducts($results, []);
 
 				$this->initOCFilter($data, $product_total);
 
