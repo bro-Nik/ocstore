@@ -56,12 +56,12 @@
 				{% endif %} 
 				{% if (rev_wish_prod) %} 
 					<div class="wishlist">
-						<a class="{{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+						<a data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
 					</div>
 				{% endif %} 
 				{% if (rev_srav_prod) %} 
 					<div class="compare">
-						<a class="{{ product['compare_class'] }}" data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
+						<a data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
 					</div>
 				{% endif %} 
 			</div>

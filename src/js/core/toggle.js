@@ -14,10 +14,119 @@ const TOGGLE_CONFIG = {
 //   },
 };
 
+const SESSION_CACHE_KEY = 'products_lists_session_cache';
+const CACHE_EXPIRATION = 5 * 60 * 1000; // 5 минут в миллисекундах
+
 export class ToggleModule extends BaseModule {
 
   constructor(config = {}) {
     super({ ...TOGGLE_CONFIG, ...config });
+  }
+
+  async init() {
+    if (this.initialized) return;
+    
+    // Загружаем данные сессии при инициализации
+    await this.loadSessionData();
+    super.init();
+  }
+
+  async loadSessionData() {
+    try {
+      const sessionData = await this.getSessionData();
+      if (!sessionData) return;
+
+      // Обрабатываем данные для текущего модуля
+      switch (this.config.moduleName) {
+        case 'wishlist':
+          this.markProducts(sessionData.wishlist || []);
+          break;
+        case 'compare':
+          this.markProducts(sessionData.compare || []);
+          break;
+        case 'cart':
+          this.markProducts(sessionData.cart || []);
+          break;
+      }
+    } catch (error) {
+      console.error(`Error loading ${this.config.moduleName} session data:`, error);
+    }
+  }
+
+  async getSessionData() {
+    // Проверяем кэш
+    const cached = localStorage.getItem(SESSION_CACHE_KEY);
+    if (cached) {
+      const { data, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp < CACHE_EXPIRATION) {
+        return data;
+      }
+    }
+    
+    try {
+      const response = await fetch('index.php?route=api/session&nocache=' + Date.now());
+      if (!response.ok) throw new Error('Network response was not ok');
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Invalid content type');
+      }
+      
+      const data = await response.json();
+      if (data.success) {
+        const cacheData = {
+          data: data.data,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(SESSION_CACHE_KEY, JSON.stringify(cacheData));
+        return data.data;
+      }
+      throw new Error(data.error || 'Unknown error');
+    } catch (error) {
+      console.error('Error fetching session data:', error);
+      return null;
+    }
+  }
+
+  async updateSessionData(moduleName, productId) {
+    // Проверяем кэш
+    const cached = localStorage.getItem(SESSION_CACHE_KEY);
+    if (!cached) return;
+
+    const { data, timestamp } = JSON.parse(cached);
+
+    // Проверяем срок действия кэша
+    if (Date.now() - timestamp > CACHE_EXPIRATION) return;
+
+    const moduleData = data[moduleName] || [];
+    const index = moduleData.indexOf(productId);
+    if (index >= 0) {
+      // Удаляем productId из массива
+      moduleData.splice(index, 1);
+    } else {
+      // Добавляем productId в массив
+      moduleData.push(productId);
+    }
+    data[moduleName] = moduleData;
+
+    // Меняем кэш
+    const cacheData = { data: data, timestamp: timestamp };
+    localStorage.setItem(SESSION_CACHE_KEY, JSON.stringify(cacheData));
+  }
+
+  markProducts(productIds) {
+    productIds.forEach(productId => {
+      const selectors = this.getSelectors(this.selectors.btns, { product_id: productId });
+      if (selectors) {
+        selectors.forEach(selector => {
+          document.querySelectorAll(selector).forEach(button => {
+            if (!button.classList.contains(`in-${this.config.moduleName}`)) {
+              this.updateButton(button);
+            }
+          });
+        });
+      }
+    });
   }
 
   bindEvents() {
@@ -63,6 +172,9 @@ export class ToggleModule extends BaseModule {
 
     // Генерируем событие
     this.dispatchEvent('toggle', { productId: productId, data: json });
+
+    // Обновляем кэш
+    this.updateSessionData(this.config.moduleName, productId);
   }
 
   /**
@@ -87,39 +199,51 @@ export class ToggleModule extends BaseModule {
     });
   }
 
-  updateButton(button) {
+  updateButton(button, forceState = false) {
     const inListSelector = `in-${this.config.moduleName}`
-    const inList = button.classList.contains(inListSelector)
+    const inList = !button.classList.contains(inListSelector)
+    // const inList = forceState ? !button.classList.contains(inListSelector) : button.classList.contains(inListSelector);
 
+    // if (inList) {
+    //   // Удаляем класс принадлежности к списку
+    //   button.classList.remove(inListSelector);
+    //
+    //   // Обновляем атрибуты
+    //   button.setAttribute('title', this.config.titleIn || '');
+    //   button.setAttribute('data-original-title', this.config.titleIn || '');
+    //   button.setAttribute('data-toggle', 'tooltip');
+    //
+    //   // Меняем action
+    //   button.setAttribute('data-action', `${this.config.moduleName}-toggle`);
+    //
+    //   // Меняем текст
+    //   if (this.config.textIn) button.innerHTML = this.config.textIn;
+    //
+    // } else {
+    //   // Сбрасываем и добавляем классы
+    //   button.classList.add(inListSelector);
+    //
+    //   // Обновляем атрибуты
+    //   button.setAttribute('title', this.config.titleOut || '');
+    //   button.setAttribute('data-original-title', this.config.titleOut || '');
+    //   button.setAttribute('data-toggle', 'tooltip');
+    //
+    //   // Меняем action
+    //   button.setAttribute('data-action', this.config.actionIn || `${this.config.moduleName}-toggle`);
+    //
+    //   // Меняем текст
+    //   if (this.config.textOut) button.innerHTML = this.config.textOut;
+    // }
     if (inList) {
-      // Удаляем класс принадлежности к списку
-      button.classList.remove(inListSelector);
-
-      // Обновляем атрибуты
-      button.setAttribute('title', this.config.titleIn || '');
-      button.setAttribute('data-original-title', this.config.titleIn || '');
-      button.setAttribute('data-toggle', 'tooltip');
-
-      // Меняем action
-      button.setAttribute('data-action', `${this.config.moduleName}-toggle`);
-
-      // Меняем текст
-      if (this.config.textIn) button.innerHTML = this.config.textIn;
-
-    } else {
-      // Сбрасываем и добавляем классы
       button.classList.add(inListSelector);
-
-      // Обновляем атрибуты
-      button.setAttribute('title', this.config.titleOut || '');
-      button.setAttribute('data-original-title', this.config.titleOut || '');
-      button.setAttribute('data-toggle', 'tooltip');
-
-      // Меняем action
-      button.setAttribute('data-action', this.config.actionIn || `${this.config.moduleName}-toggle`);
-
-      // Меняем текст
+      if (this.config.titleOut) button.setAttribute('title', this.config.titleOut);
       if (this.config.textOut) button.innerHTML = this.config.textOut;
+      if (this.config.actionIn) button.setAttribute('data-action', this.config.actionIn);
+    } else {
+      button.classList.remove(inListSelector);
+      if (this.config.titleIn) button.setAttribute('title', this.config.titleIn);
+      if (this.config.textIn) button.innerHTML = this.config.textIn;
+      button.setAttribute('data-action', `${this.config.moduleName}-toggle`);
     }
   }
 

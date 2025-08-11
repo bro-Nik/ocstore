@@ -9,12 +9,8 @@
 				<li><a href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a></li>
 				{% endif %} 
 				{% endif %} 
-				{% if (review_status) %} 
 				<li><a href="#tab-review" data-toggle="tab">{{ tab_review }}</a></li>
-				{% endif %} 
-				{% if (revanswers) %} 
 				<li><a href="#tab-answers" data-toggle="tab">{{ tab_answers }}</a></li>
-				{% endif %} 
 				{% for info in tab_info %} 
 				<li><a href="#tab-extratab{{ info['tab_id'] }}" data-toggle="tab">{{ info['title'] }}</a></li>
 				{% endfor %} 
@@ -72,10 +68,8 @@
 				</div>
 				{% endif %} 
 				{% endif %}		
-				{% if (review_status) %} 
 				<div class="tab-pane" id="tab-review">
 				<div id="review" data-product-id="{{ product_id }}"></div>
-					{% if (review_guest) %} 
 					<div class="form-group required mb0 mt12">
 							<div class="well well-sm otz">
 								<div class="text-right">
@@ -157,16 +151,12 @@
 							});
 							//--></script>
 					</div>              
-					{% else %} 
-					{{ text_login }} 
-					{% endif %} 
 				</div>
-				{% endif %} 
-				{% if (revanswers) %} 
+
 					<div class="tab-pane" id="tab-answers">
 						<div id="answers">
-							{% if (answers) %} 
-								{% for review in answers %} 
+							{% if (answers.answers) %} 
+								{% for review in answers.answers %} 
 								<div class="review-list">
 								  <div class="author">{{ review['author'] }}<span> <span class="rdate">/ {{ review['date_added'] }}</span></span></div>
 								  <div class="text">{{ review['text'] }}</div>
@@ -181,8 +171,8 @@
 									{% if (results_answers > 10) %} 
 									  <div class="row">
 										<div class="pagpages clearfix">
-											<div class="col-sm-6 text-left">{{ pagination_answers }}</div>
-											<div class="col-sm-6 text-right">{{ results_answers }}</div>
+											<div class="col-sm-6 text-left">{{ answers.pagination }}</div>
+											<div class="col-sm-6 text-right">{{ answers.results }}</div>
 										</div>
 									  </div>
 									{% endif %} 
@@ -240,7 +230,6 @@
 							//--></script>
 						</div>
 					</div>
-				{% endif %} 
 				{% if (revblogs and blogs) %} 
 					<div class="tab-pane" id="tab-blogs">
 						{% for blog in blogs %} 

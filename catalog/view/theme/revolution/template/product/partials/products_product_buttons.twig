@@ -1,128 +1,50 @@
 <div class="compare_rating">
   <div class="compare">
-    <a class="compare {{ product['compare_class'] }}" data-action="compare-toggle" data-toggle="tooltip" data-product-id="{{ product['product_id'] }}" data-brand="{{ product['brand'] }}">
+    <a class="compare" data-action="compare-toggle" data-toggle="tooltip" data-product-id="{{ product.product_id }}" data-brand="{{ product.brand }}">
       <i class="fa fa-bar-chart-o"></i>
       <span>В сравнение</span>
     </a>
   </div>
 
-  {% if (product['rating']) %}
-    <div class="rating">
-      <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+  <div class="rating">
+    <span{% if product.rating %} itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"{% endif %}>
+      {% if product.rating %}
         <meta itemprop="worstRating" content="1">
         <meta itemprop="bestRating" content="5">
-        <meta itemprop="ratingValue" content="{{ product['rating'] }}">
-        <meta itemprop="reviewCount" content="{{ product['reviews'] }}">
-        <span class="fa fa-stack">
-          <i class="fa fa-star fa-stack-2x"></i>
-          <i class="fa fa-star-o fa-stack-2x"></i>
-        </span>
-        <sup>({{ product['rating'] }})</sup>
+        <meta itemprop="ratingValue" content="{{ product.rating }}">
+        <meta itemprop="reviewCount" content="{{ product.reviews }}">
+      {% endif %}
+      <span class="fa fa-stack">
+        <i class="fa fa-star fa-stack-2x"></i>
+        <i class="fa fa-star-o fa-stack-2x"></i>
       </span>
-    </div>
-  {% else %}
-    <div class="rating">
-      <span class="not_reviews">
-        <span class="fa fa-stack">
-          <i class="fa fa-star fa-stack-2x"></i>
-          <i class="fa fa-star-o fa-stack-2x"></i>
-        </span>
-        <sup>(0)</sup>
-      </span>
-    </div>
-  {% endif %}
+      <sup>({{ product.rating|default(0) }})</sup>
+    </span>
+  </div>
 </div>
 
 <div class="product_buttons">
-  {% if product.button_ask_price %}
-		<div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><meta itemprop="price" content="30000"></div>
-	{% endif %}
-  {% if (product['price']) %}
-    {% if (product['price_number'] > 0) %}
-      {% if (product['quantity'] > 0 or zakaz) %}
-        <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-          {% if (product['price_number'] > 0 or zakaz_price_null) %}
-            {% if (not product['special']) %}
-              <span class="price_no_format{{ product['product_id'] }}">{{ product['price'] }}</span>
-              {{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
-              <meta itemprop="price" content="{{ product['price_number'] }}">
-            {% else %}
-              <span class="price-old">{{ product['price'] }}</span>
-              <span class="price-new">
-                <span class="price_no_format{{ product['product_id'] }}">{{ product['special'] }}</span>
-              </span>
-              {{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
-              <meta itemprop="price" content="{{ product['special_number'] }}">
-            {% endif %}
-            <meta itemprop="priceCurrency" content="{{ currency_code }}">
-          {% endif %}
-        </div>
-      {% else %}
-        {% if (predzakaz_button) %}
-          <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-            {% if (product['price_number'] > 0 or zakaz_price_null) %}
-              {% if (not product['special']) %}
-              {#}
-                <span class="price_no_format{{ product['product_id'] }}">{{ product['price'] }}</span>
-              {#}
-                {{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
-                <meta itemprop="price" content="{{ product['price_number'] }}">
-              {% else %}
-                <span class="price-new">
-                  <span class="price_no_format{{ product['product_id'] }}">{{ product['special'] }}</span>
-                </span>
-                {{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
-                <meta itemprop="price" content="{{ product['special_number'] }}">
-              {% endif %}
-              <meta itemprop="priceCurrency" content="{{ currency_code }}">
-            {% endif %}
-          </div>
+  {% if product.price %}
+    <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+      {% if product.price > 0 and product.quantity > 0 %}
+        {% if not product.special_price %}
+          <span class="price_no_format{{ product.product_id }}">{{ product.price }} ₽</span>
+          <meta itemprop="price" content="{{ product.price }}">
         {% else %}
-          <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-            <span class="hidden price_no_format{{ product['product_id'] }}"></span>
-            <meta itemprop="price" content="{{ product['price_number'] }}">
-            <meta itemprop="priceCurrency" content="{{ currency_code }}">
-          </div>
-        {% endif %}
-      {% endif %}
-      {% if (ch_quantity and (product['price_number'] > 0 or zakaz_price_null) and (product['quantity'] > 0 or zakaz)) %}
-        <div class="number">
-          <div class="frame-change-count">
-            <div class="btn-plus">
-              <button type="button" onclick="validate_pole(this,{{ product['product_id'] }},'+',{{ product['minimum'] }},{{ product['quantity'] }});">+</button>
-            </div>
-            <div class="btn-minus">
-              <button type="button" onclick="validate_pole(this,{{ product['product_id'] }},'-',{{ product['minimum'] }},{{ product['quantity'] }});">-</button>
-            </div>
-          </div>
-          <input type="text" name="quantity" class="plus-minus" value='{{ product['minimum'] }}' onchange="validate_pole(this);" onkeyup="validate_pole(this,{{ product['product_id'] }},'=',{{ product['minimum'] }},{{ product['quantity'] }});">
-        </div>
-      {% else %}
-        <div class="number bordnone"></div>
-        <input type="hidden" name="quantity" class="plus-minus" value='{{ product['minimum'] }}'>
-      {% endif %}
-    {% else %}
-      {% if (zakaz or zakaz_price_null) %}
-        <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-          <span class="hidden price_no_format{{ product['product_id'] }}"></span>
-          <meta itemprop="price" content="{{ product['price_number'] }}">
-          <meta itemprop="priceCurrency" content="{{ currency_code }}">
-        </div>
-        {% if (product['price_number'] == 0 and not predzakaz_button) %}
-          <div class="price_na_zakaz">{{ text_catalog_price_na_zakaz }}</div>
+          <span class="price-old">{{ product.price }} ₽</span>
+          <span class="price-new">
+            <span class="price_no_format{{ product.product_id }}">{{ product.special_price }} ₽</span>
+          </span>
+          <meta itemprop="price" content="{{ product.special_price }}">
         {% endif %}
       {% else %}
-        <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-          <span class="hidden price_no_format{{ product['product_id'] }}"></span>
-          <meta itemprop="price" content="{{ product['price_number'] }}">
-          <meta itemprop="priceCurrency" content="{{ currency_code }}">
-        </div>
+        <span class="hidden price_no_format{{ product.product_id }}"></span>
+        <meta itemprop="price" content="{{ product.price }}">
       {% endif %}
-      <!-- <div class="number bordnone"></div> -->
-      <input type="hidden" name="quantity" class="plus-minus" value='{{ product['minimum'] }}'>
-    {% endif %}
-    <div class="clearfix"></div>
+      <meta itemprop="priceCurrency" content="RUB">
+    </div>
   {% endif %}
+  
   {% include 'product/btns/cart.twig' %}
 </div>
 

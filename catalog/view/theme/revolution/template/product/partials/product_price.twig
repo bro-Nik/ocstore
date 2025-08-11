@@ -1,11 +1,11 @@
 <div class="form-group pokupka">
-  {% if (zakaz_price_null or price_number > 0) %}
+  {% if (zakaz_price_null or price > 0) %}
     {% if (share_status) %}
       {{ share_status_code }}
     {% endif %}
 
     {% if (price) %}
-      {% if (price_number > 0) %}
+      {% if (price > 0) %}
         <div class="list-unstyled" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
           <meta itemprop="url" content="{{ breadcrumbs|last['href'] }}">
           {% if (special_end) %}
@@ -13,62 +13,40 @@
           {% else %}
             <meta itemprop="priceValidUntil" content="{{ now|date_modify('+1 month')|date('Y-m-d') }}">
           {% endif %}
-          {% if (not special) %}
-            <span class="update_price">{{ price }}</span>
-            {{ ed_izm ? '<span class="ed_izm">'~ed_izm~'</span>' : '' }}
+          {% if (not special_price) %}
+            <span class="update_price">{{ price }} ₽</span>
             <span class="update_special dnone"></span>
-            <meta itemprop="price" content="{{ price_number }}">
+            <meta itemprop="price" content="{{ price }}">
           {% else %}
-            <span class="update_special price-new">{{ special }}</span>
-            {{ ed_izm ? '<span class="ed_izm">'~ed_izm~'</span>' : '' }}
-            <meta itemprop="price" content="{{ special_number }}">
-            <span class="update_price price-old">{{ price }}</span>
-          {% endif %}
-          {% if (points) %}
-            <div class="reward-product">{{ text_points }} <span class="pr_points">{{ points }}</span></div>
+            <span class="update_special price-new">{{ special_price }} ₽</span>
+            <meta itemprop="price" content="{{ special_price }}">
+            <span class="update_price price-old">{{ price }} ₽</span>
           {% endif %}
           <link itemprop="availability" href="http://schema.org/{{ quantity > 0?"InStock":"OutOfStock" }}" />
-          <meta itemprop="priceCurrency" content="{{ currency_code }}">
+          <meta itemprop="priceCurrency" content="RUB">
         </div>
       {% else %}
         <div class="list-unstyled">{{ text_catalog_price_na_zakaz }}</div>
       {% endif %}
     {% endif %}
 
-    {% if ((price_number > 0 or zakaz_price_null) and (zakaz or quantity > 0)) %}
-      {% if (quantity < 1 and predzakaz_button) %}
-        <div class="pop_left">
-          <button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
-        </div>
-      {% else %}
-        <div class="pop_left">
-          {% if product_in_cart %}
-            <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="open-popup-cart" data-product-id="{{ product_id }}" data-default-action="product" class="btn-cart in-cart"><i class="fa fa-shopping-basket"></i>В корзине</button>
-          {% else %}
-            <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="cart-toggle" class="btn-cart" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
-          {% endif %}
-        </div>
-      {% endif %}
+    {% if (price > 0 and quantity > 0) %}
+      <div class="pop_left">
+        <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="cart-toggle" class="btn-cart product_{{ product_id }}" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+      </div>
     {% else %}
-      {% if (predzakaz_button) %}
-        <div class="pop_left">
-          <button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
-        </div>
-      {% endif %}
-    {% endif %}
-
-    {% if (rev_wish_prod or popup_purchase) %}
-      <div class="pop_right {% if (columns_dd) %} {{ 'columns_dd' }} {% endif %}">
-        {% if (popup_purchase and (price_number > 0 or zakaz_price_null) and (zakaz or quantity > 0)) %}
-          <a class="pop_ico" data-action="purchase" data-product-id="{{ product_id }}"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md">{{ text_catalog_revpopup_purchase }}</span></a>
-        {% endif %}
-        {% if (rev_wish_prod) %}
-          <a class="{{ wishlist_class }} wishlist pjid_{{ product_id }}" data-action="wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" title="{{ button_wishlist }}">
-            <i class="fa fa-border fa-heart"></i>
-          </a>
-        {% endif %}
+      <div class="pop_left">
+        <button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
       </div>
     {% endif %}
+
+    <div class="pop_right">
+      <a class="pop_ico" data-action="purchase" data-product-id="{{ product_id }}"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md">Купить в 1 клик</span></a>
+
+      <a class="wishlist pjid_{{ product_id }}" data-action="wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" title="{{ button_wishlist }}">
+        <i class="fa fa-border fa-heart"></i>
+      </a>
+    </div>
   {% endif %}
 </div>
 

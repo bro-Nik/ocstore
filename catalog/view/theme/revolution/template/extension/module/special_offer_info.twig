@@ -149,9 +149,6 @@
 				<div class="product-layout product-list col-xs-12">
 					<div class="product-thumb product_{{ product['product_id'] }}" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product">
 						<div class="image">
-							{% if (product['product_in_cart']) %} 
-								<div class="pr_in_cart_i"><i class="fa fa-check"></i></div>
-							{% endif %} 
 
 								<a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-responsive {% if ((product['quantity'] < 1 and not zakaz) or (product['price_number'] == 0 and not zakaz_price_null)) %}zatemnenie_img{% endif %}" itemprop="image" /></a>
 
@@ -213,12 +210,12 @@
 									{% if ((rev_srav_prod or rev_wish_prod) and setting_catalog_all['rev_wish_srav_prod']) %} 
 										{% if (rev_wish_prod) %} 
 											<div class="wishlist">
-												<a class="{{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+												<a data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
 											</div>
 										{% endif %} 
 										{% if (rev_srav_prod) %} 
 											<div class="compare">
-												<a class="{{ product['compare_class'] }}" data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
+												<a data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
 											</div>
 										{% endif %} 
 									{% endif %} 
@@ -478,12 +475,12 @@
 										{% if ((rev_srav_prod or rev_wish_prod) and setting_catalog_all['rev_wish_srav_prod']) %} 
 										{% if (rev_srav_prod) %} 
 											<div class="compare">
-												<a class="{{ product['compare_class'] }}" data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
+												<a data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
 											</div>
 										{% endif %} 
 										{% if (rev_wish_prod) %} 
 											<div class="wishlist">
-												<a class="{{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+												<a data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
 											</div>
 										{% endif %} 
 									{% endif %} 
@@ -556,12 +553,12 @@
 								{% if ((rev_srav_prod or rev_wish_prod) and not setting_catalog_all['rev_wish_srav_prod']) %} 
 									{% if (rev_srav_prod) %} 
 										<div class="compare">
-											<a class="{{ product['compare_class'] }}" data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
+											<a data-toggle="tooltip" onclick="compare.add('{{ product['product_id'] }}', '{{ product['brand'] }}');" title="{{ product['button_compare'] }}"><i class="fa fa-border fa-bar-chart-o"></i></a>
 										</div>
 									{% endif %} 
 									{% if (rev_wish_prod) %} 
 										<div class="wishlist">
-											<a class="{{ product['wishlist_class'] }}" data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
+											<a  data-toggle="tooltip" onclick="wishlist.add('{{ product['product_id'] }}');" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
 										</div>
 									{% endif %} 
 								{% set button_cart_class = 'prlistb' %} {% else %} {% set button_cart_class = 'prlistb active' %} {% endif %}

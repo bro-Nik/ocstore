@@ -29,6 +29,7 @@ class ControllerRevolutionViewedProducts extends ControllerBaseProductCart {
 		
     $data = $this->prepareProductsData($products, $settings);
 		$data['id'] = 'slider_viewed_products';
+		$data['title'] = 'Вы недавно смотрели';
 
 		return $this->load->view('product/carousel_product', $data);
 

@@ -30,7 +30,7 @@ const CONFIG = {
     cartContent: '.rev_cart',
     btns: [
       '.product-thumb.product_{product_id} .btn-cart',       // Кнопки в карточках товаров
-      '.product-info .btn-cart',          // Кнопки на странице товара
+      '.btn-cart.product_{product_id}',       // Кнопки странице товара
       '.quickview .btn-cart.pjid_{product_id}'              // Кнопки в быстром просмотре
     ],
     forms: {

@@ -35,15 +35,7 @@
     </div>
 		
 		{% include 'revolution/template/product/partials/product_tabs.twig' %}
-		  
-
   </div>  
-      
-  {% include 'revolution/template/product/carousel_product.twig' with {
-    'products': viewed_products,
-    'id': 'viewed_products',
-    'title': viewed_products_zagolovok}
-  %}
 
 	{% if tags %}
 		<p>{{ text_tags }}
@@ -53,4 +45,8 @@
 		  {% endif %}
 	  {% endfor %} </p>
 	{% endif %}
+{% endblock %}
+
+{% block after_content %}
+  {{ viewed_products }}
 {% endblock %}

@@ -3199,10 +3199,6 @@ display: inline-block;
 opacity: 0.8;
 font-size: 13px;
 }
-.review-list .rating {
-float: right;
-width: auto;
-}
 .review-list .text {
 margin-top: 10px;
 padding: 10px;

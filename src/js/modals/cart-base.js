@@ -80,6 +80,7 @@ class BaseCartPopup extends BasePopup {
     
     await this.updateCartItem(productId, 0);
     cart.updateButtons(productId);
+    cart.updateSessionData(cart.config.moduleName, btn.dataset.productId);
   }
 
   async updateCartItem(url) {

@@ -490,15 +490,6 @@ class ControllerRevolutionRevslider extends Controller {
 					}
 				}
 			}
-			$product_in_cart = false;
-			if ($setting_catalog_all['product_in_cart']) {
-				$products_in_cart = $this->cart->getProducts();
-				foreach ($products_in_cart as $product_cart) {
-					if ($product_cart['product_id'] == $product['product_id']) {
-						$product_in_cart = true;
-					}
-				}
-			}
 			
             $result[] = array(
 				'reviews' => $this->config->get('config_review_status') ? (int)$product['reviews'] : false,
@@ -527,7 +518,6 @@ class ControllerRevolutionRevslider extends Controller {
 				'options_buy' => $product['options_buy'],
 				'model' => $product['model'],
 				'short_description' => html_entity_decode($product['short_description'], ENT_QUOTES, 'UTF-8'),
-				'product_in_cart' => $product_in_cart,
                 'product_id' => $product['product_id'],
                 'thumb' => $image,
                 'name' => $product['name'],
@@ -867,15 +857,6 @@ class ControllerRevolutionRevslider extends Controller {
 						}
 					}
 				}
-				$product_in_cart = false;
-				if ($setting_catalog_all['product_in_cart']) {
-					$products_in_cart = $this->cart->getProducts();
-					foreach ($products_in_cart as $product_cart) {
-						if ($product_cart['product_id'] == $product_info['product_id']) {
-							$product_in_cart = true;
-						}
-					}
-				}
 				
                 $result[] = array(
 					'ed_izm' => $ed_izm,
@@ -903,7 +884,6 @@ class ControllerRevolutionRevslider extends Controller {
 					'options_buy' => $product_info['options_buy'],
 					'model' => $product_info['model'],
 					'short_description' => html_entity_decode($product_info['short_description'], ENT_QUOTES, 'UTF-8'),
-					'product_in_cart' => $product_in_cart,
                     'product_id' => $product_info['product_id'],
                     'thumb' => $image,
                     'name' => $product_info['name'],
