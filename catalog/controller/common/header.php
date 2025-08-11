@@ -631,11 +631,6 @@ class ControllerCommonHeader extends Controller {
 		}
 		
 		$data['og_image'] = $this->document->getOgImage();
-		
-		$data['wishlist_count'] = count($this->session->data['wishlist'] ?? []);
-		$data['compare_count'] = count($this->session->data['compare'] ?? []);
-		$data['cart_count'] = $this->cart->countProducts();
-		
 		$data['home'] = $this->url->link('common/home');
 		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
 		$data['compare'] = $this->url->link('product/compare');

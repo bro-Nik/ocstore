@@ -40,12 +40,15 @@ export class ToggleModule extends BaseModule {
       switch (this.config.moduleName) {
         case 'wishlist':
           this.markProducts(sessionData.wishlist || []);
+          this.updateTotalCount(sessionData.wishlist.length || 0);
           break;
         case 'compare':
           this.markProducts(sessionData.compare || []);
+          this.updateTotalCount(sessionData.compare.length || 0);
           break;
         case 'cart':
           this.markProducts(sessionData.cart || []);
+          this.updateTotalCount(sessionData.cart.length || 0);
           break;
       }
     } catch (error) {

@@ -10,7 +10,6 @@
 									<div class="dropdown">
 										<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" class="dropdown-toggle" data-toggle="dropdown">
 											{{ revtheme_dop_menu['name'~config_language_id] }}
-											<!-- <i class="fa fa-chevron-down"></i> -->
 										</a>
 										<ul class="dropdown-menu dropdown-menu-right">
 											{% for child in revtheme_dop_menu['children'] %}
@@ -26,8 +25,8 @@
 				</div>
 
 			<div class="header__group header__action">
-						<a href="{{ compare }}"><i class="fa fa-bar-chart"></i>Сравнение<sup><span class="compare-total">{{ compare_count }}</span></sup></a>
-						<a href="{{ wishlist }}"><i class="fa fa-heart"></i>Избранное<sup><span class="wishlist-total">{{ wishlist_count }}</span></sup></a>
-						<a data-action="open-popup-cart"><i class="fa fa-shopping-basket"></i>Корзина<sup><span class="cart-total">{{ cart_count }}</span></sup></a>
+				<a href="{{ compare }}"><i class="fa fa-bar-chart"></i>Сравнение<sup class="compare-total"></sup></a>
+				<a href="{{ wishlist }}"><i class="fa fa-heart"></i>Избранное<sup class="wishlist-total"></sup></a>
+				<a data-action="open-popup-cart"><i class="fa fa-shopping-basket"></i>Корзина<sup class="cart-total"></sup></a>
 			</div>
 	</div>
