@@ -12,8 +12,10 @@ input, textarea, select {
   padding: 0 2rem;
 }
 
-input.error_style {
-    border: 1px solid red !important;
+input, select, textarea {
+    &.error_style {
+        border: 1px solid red !important;
+    }
 }
 
 input, textarea, .form-control:not(select) {
@@ -31,7 +33,7 @@ input, textarea, .form-control:not(select) {
     transition: 0.25s;
     box-shadow: none;
     border-radius: 1rem;
-    margin: 0 0 2rem;
+    // margin: 0 0 2rem;
     height: 5rem;
     transition: box-shadow 0.25s;
 }
@@ -73,4 +75,12 @@ input, textarea, .form-control:not(select) {
 }
 .form-group {
   flex: 1;
+}
+.form-horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.succes_style {
+    border: 1px solid green !important;
 }

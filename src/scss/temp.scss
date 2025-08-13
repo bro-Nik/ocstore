@@ -414,3 +414,36 @@ padding: 0 0 2rem 0;
         flex-direction: row;
     }
 
+
+// toasts
+#toast-container {
+    --bs-toast-zindex: 1090;
+    z-index: 1090;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    max-width: 100%;
+    pointer-events: none;
+    padding: 1rem;
+    right: 0;
+    top: 0;
+    position: fixed;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.toast-icon {
+position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem 0 0 1rem;
+}
+.toast-close {
+    margin-left: auto;
+    margin-right: 1rem;
+}

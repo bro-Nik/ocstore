@@ -253,7 +253,6 @@ $_['entry_rev_p_answer_wrt'] = 'Задать вопрос';
 $_['entry_rev_p_answer'] = 'Вопрос';
 $_['text_product_spasibo_answer'] = 'Спасибо за вопрос';
 $_['tab_answers'] = 'Вопрос - Ответ <sup>%s</sup>';
-$_['answers_no_reviews'] = 'Пока не было вопросов.';
 $_['text_rev_items'] = '<span class="hidden-xs">Корзина<span class="hidden-md"> покупок</span></span>: %s';
 $_['text_rev_items_small'] = '<span class="hidden-xs hidden-md">Корзина</span>: %s';
 $_['text_rev_items_mini'] = '<sup>%s</sup>';

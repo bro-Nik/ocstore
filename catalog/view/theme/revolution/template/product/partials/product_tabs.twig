@@ -9,8 +9,8 @@
 				<li><a href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a></li>
 				{% endif %} 
 				{% endif %} 
-				<li><a href="#tab-review" data-toggle="tab">{{ tab_review }}</a></li>
-				<li><a href="#tab-answers" data-toggle="tab">{{ tab_answers }}</a></li>
+				<li><a id="load_reviews" href="#tab-review" data-toggle="tab" data-count="{{ review_count }}">Отзывы <sup>{{ review_count }}</sup></a></li>
+				<li><a id="load_answers" href="#tab-answers" data-toggle="tab" data-count="{{ answer_count }}">Вопрос - Ответ <sup>{{ answer_count }}</sup></a></li>
 				{% for info in tab_info %} 
 				<li><a href="#tab-extratab{{ info['tab_id'] }}" data-toggle="tab">{{ info['title'] }}</a></li>
 				{% endfor %} 
@@ -68,26 +68,30 @@
 				</div>
 				{% endif %} 
 				{% endif %}		
-				<div class="tab-pane" id="tab-review">
-				<div id="review" data-product-id="{{ product_id }}"></div>
+				<div class="tab-pane reviews_container" id="tab-review">
+				<div id="reviews" data-product-id="{{ product_id }}">
+					{% if review_count < 1 %}
+						<p>{{ text_no_reviews }}</p>
+					{% endif %}
+				</div>
 					<div class="form-group required mb0 mt12">
 							<div class="well well-sm otz">
 								<div class="text-right">
-									<a class="btn btn-primary" id="open-review-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ text_product_wr_review }}</a>
+									<a class="btn btn-primary open-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ text_product_wr_review }}</a>
 								</div>						
-								<div class="row" id="post-review-box" style="display:none;">
+								<div class="row content-box">
 									<div class="col-md-12">
 										<form class="form-review form-horizontal">
 											<div class="form-group required">
 												<label class="col-sm-2 control-label" for="input-name">{{ entry_rev_p_name }}</label>
 												<div class="col-sm-10">
-													<input type="text" name="name" value="" id="input-name" class="form-control" />
+													<input type="text" name="name" value="" id="input-name" />
 												</div>
 											</div>
 											<div class="form-group required">
 												<label class="col-sm-2 control-label" for="input-review">{{ entry_rev_p_review }}</label>
 												<div class="col-sm-10">
-													<textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
+													<textarea name="text" rows="5" id="input-review"></textarea>
 												</div>
 											</div>
 											<div class="form-group required">
@@ -123,111 +127,52 @@
 												</div>
 											</div>
 											{{ captcha }} 
-											<div class="pull-right text-right">
-												<a class="btn btn-default" href="#" id="close-review-box" style="display:none; margin-right: 10px;">{{ text_product_otmena }}</a>
-												<button type="submit" id="button-review" data-loading-text="{{ text_loading }}" class="btn btn-danger">{{ entry_rev_p_send }}</button>
+											<div class="d-flex justify-content-end">
+												<a class="btn btn-default close-box" href="#">{{ text_product_otmena }}</a>
+												<button type="submit" class="btn btn-primary">{{ entry_rev_p_send }}</button>
 											</div>					
 										</form>
 									</div>
 								</div>
 							</div>
-							<script><!--
-							$('#open-review-box').click(function(e) {
-							$('#post-review-box').slideDown(400, function() {
-							$('#new-review').trigger('autosize.resize');
-							$('#new-review').focus();
-							});
-							$('#open-review-box').fadeOut(100);
-							$('#close-review-box').show();
-							});
-
-							$('#close-review-box').click(function(e) {
-							e.preventDefault();
-							$('#post-review-box').slideUp(300, function() {
-							$('#new-review').focus();
-							$('#open-review-box').fadeIn(100);
-							});
-							$('#close-review-box').hide();
-							});
-							//--></script>
 					</div>              
 				</div>
 
-					<div class="tab-pane" id="tab-answers">
-						<div id="answers">
-							{% if (answers.answers) %} 
-								{% for review in answers.answers %} 
-								<div class="review-list">
-								  <div class="author">{{ review['author'] }}<span> <span class="rdate">/ {{ review['date_added'] }}</span></span></div>
-								  <div class="text">{{ review['text'] }}</div>
-								  {% if (review['answer']) %} 
-									<div class="name_admin">{{ review['answer_from'] }}</div>
-									<div class="answer_admin">
-										<div>{{ review['answer'] }}</div>
-									</div>
-								  {% endif %} 
-								</div>
-								{% endfor %} 
-									{% if (results_answers > 10) %} 
-									  <div class="row">
-										<div class="pagpages clearfix">
-											<div class="col-sm-6 text-left">{{ answers.pagination }}</div>
-											<div class="col-sm-6 text-right">{{ answers.results }}</div>
-										</div>
-									  </div>
-									{% endif %} 
-							{% else %} 
-							<p>{{ answers_no_reviews }}</p>
-							{% endif %} 
+					<div class="tab-pane answers_container" id="tab-answers">
+						<div id="answers" data-product-id="{{ product_id }}">
+							{% if answer_count < 1 %}
+								<p>Пока не было вопросов</p>
+							{% endif %}
 						</div>
 						<div class="form-group required mb0 mt12">
 							<div class="well well-sm otz">
 								<div class="text-right">
-									<a class="btn btn-primary" id="open-answers-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ entry_rev_p_answer_wrt }}</a>
+									<a class="btn btn-primary open-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ entry_rev_p_answer_wrt }}</a>
 								</div>						
-								<div class="row" id="post-answers-box" style="display:none;">
+								<div class="row content-box">
 									<div class="col-md-12">
-										<form class="form-answers form-horizontal">
+										<form class="form-answer form-horizontal">
 											<div class="form-group required">
 												<label class="col-sm-2 control-label" for="input-name-2">{{ entry_rev_p_name }}</label>
 												<div class="col-sm-10">
-													<input type="text" name="name_answer" value="" id="input-name-2" class="form-control" />
+													<input type="text" name="name" value="" id="input-name-2" />
 												</div>
 											</div>
 											<div class="form-group required">
 												<label class="col-sm-2 control-label" for="input-answer">{{ entry_rev_p_answer }}</label>
 												<div class="col-sm-10">
-													<textarea name="text_answer" rows="5" id="input-answer" class="form-control"></textarea>
+													<textarea name="text" rows="5" id="input-answer"></textarea>
 												</div>
 											</div>
 											{{ captcha2 }} 
-											<div class="pull-right text-right">
-												<a class="btn btn-default" href="#" id="close-answers-box" style="display:none; margin-right: 10px;">{{ text_product_otmena }}</a>
-												<button type="submit" id="button-answers" data-loading-text="{{ text_loading }}" class="btn btn-danger">{{ entry_rev_p_send }}</button>
+											<div class="d-flex justify-content-end">
+												<a class="btn btn-default close-box" href="#">{{ text_product_otmena }}</a>
+												<button type="submit" class="btn btn-primary">{{ entry_rev_p_send }}</button>
 											</div>					
 										</form>
 									</div>
 								</div>
 							</div>
-							<script><!--
-							$('#open-answers-box').click(function(e) {
-							$('#post-answers-box').slideDown(400, function() {
-							$('#new-answers').trigger('autosize.resize');
-							$('#new-answers').focus();
-							});
-							$('#open-answers-box').fadeOut(100);
-							$('#close-answers-box').show();
-							});
-
-							$('#close-answers-box').click(function(e) {
-							e.preventDefault();
-							$('#post-answers-box').slideUp(300, function() {
-							$('#new-answers').focus();
-							$('#open-answers-box').fadeIn(100);
-							});
-							$('#close-answers-box').hide();
-							});
-							//--></script>
 						</div>
 					</div>
 				{% if (revblogs and blogs) %} 

@@ -387,85 +387,6 @@
   color: #343434;
 }
 
-.review__thumb {
-  width: 30rem;
-  height: 100%;
-  border: 1px solid #eaeaea;
-  border-radius: 1.5rem;
-  flex-direction: column;
-  display: flex;
-  padding: 1.5rem;
-  position: relative;
-  box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
-  gap: 0.5rem;
-}
-.review__thumb:hover {
-  color: unset;
-}
-.review__thumb:hover .review__product-name {
-  color: #0063D1;
-}
-.review__text {
-  align-self: stretch;
-  color: #6c757d;
-  display: -webkit-box;
-  flex-shrink: 0;
-  max-height: 100px;
-  min-height: 100px;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.review__author {
-  display: flex;
-  align-items: center;
-}
-.review__author-name {
-  font-size: 1.4rem;
-}
-.review__author-avatar {
-  width: 40px;
-  height: 40px;
-  background: #f0f0f0;
-  border-radius: 50%;
-  line-height: 40px;
-  margin-right: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.4rem;
-}
-.review__author-avatar .fa-user-circle {
-  font-size: 24px;
-  color: #666;
-}
-.review__product-image {
-  display: flex;
-  justify-content: center;
-}
-.review__product-name {
-  font-weight: 600;
-  display: -webkit-box;
-  font-style: normal;
-  line-height: 130%;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  height: 42px;
-  max-height: 42px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.review__date_added {
-  font-size: 1.2rem;
-  display: flex;
-  justify-content: flex-end;
-}
-
 /*!
  * Mmenu Light
  * mmenujs.com/mmenu-light
@@ -6208,21 +6129,18 @@ textarea.form-control-lg {
 .toast {
   width: 350px;
   max-width: 100%;
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   pointer-events: auto;
-  background-color: rgba(255, 255, 255, 0.85);
+  /* background-color: rgba(255, 255, 255, 0.85); */
+  background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
-}
-
-.toast:not(.showing):not(.show) {
-  opacity: 0;
-}
-
-.toast.hide {
-  display: none;
+  /* border-radius: 0.25rem; */
+  align-items: center;
+  display: flex;
+  border-radius: 1rem;
+  position: relative;
 }
 
 .toast-container {
@@ -6255,8 +6173,11 @@ textarea.form-control-lg {
 }
 
 .toast-body {
-  padding: 0.75rem;
+  /* padding: 1.2rem; */
+  /* word-wrap: break-word; */
   word-wrap: break-word;
+  padding: 1rem 1rem 1rem 60px;
+  flex: 1;
 }
 
 .modal {
@@ -12280,6 +12201,102 @@ footer .footer_info > div {
   align-items: flex-end;
 }
 
+#reviews, #answers {
+  min-height: 100px;
+  position: relative;
+}
+#reviews .review-list, #answers .review-list {
+  margin-bottom: 30px;
+}
+
+.well input, .well textarea {
+  background: #fff;
+}
+.well form {
+  padding: 2rem;
+}
+
+.review__thumb {
+  width: 30rem;
+  height: 100%;
+  border: 1px solid #eaeaea;
+  border-radius: 1.5rem;
+  flex-direction: column;
+  display: flex;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
+  gap: 0.5rem;
+}
+.review__thumb:hover {
+  color: unset;
+}
+.review__thumb:hover .review__product-name {
+  color: #0063D1;
+}
+.review__text {
+  align-self: stretch;
+  color: #6c757d;
+  display: -webkit-box;
+  flex-shrink: 0;
+  max-height: 100px;
+  min-height: 100px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.review__author {
+  display: flex;
+  align-items: center;
+}
+.review__author-name {
+  font-size: 1.4rem;
+}
+.review__author-avatar {
+  width: 40px;
+  height: 40px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  line-height: 40px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+}
+.review__author-avatar .fa-user-circle {
+  font-size: 24px;
+  color: #666;
+}
+.review__product-image {
+  display: flex;
+  justify-content: center;
+}
+.review__product-name {
+  font-weight: 600;
+  display: -webkit-box;
+  font-style: normal;
+  line-height: 130%;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 42px;
+  max-height: 42px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.review__date_added {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  margin-top: auto;
+}
+
 dialog {
   width: 90%;
   max-width: 800px;
@@ -12704,7 +12721,7 @@ input, textarea, select {
   padding: 0 2rem;
 }
 
-input.error_style {
+input.error_style, select.error_style, textarea.error_style {
   border: 1px solid red !important;
 }
 
@@ -12722,7 +12739,6 @@ input, textarea, .form-control:not(select) {
   transition: 0.25s;
   box-shadow: none;
   border-radius: 1rem;
-  margin: 0 0 2rem;
   height: 5rem;
   transition: box-shadow 0.25s;
 }
@@ -12763,6 +12779,16 @@ input, textarea, .form-control:not(select) {
 
 .form-group {
   flex: 1;
+}
+
+.form-horizontal {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.succes_style {
+  border: 1px solid green !important;
 }
 
 /* Сетка статей */
@@ -13457,6 +13483,40 @@ html, body {
   text-align: left;
   -ms-flex-direction: row;
   flex-direction: row;
+}
+
+#toast-container {
+  --bs-toast-zindex: 1090;
+  z-index: 1090;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 100%;
+  pointer-events: none;
+  padding: 1rem;
+  right: 0;
+  top: 0;
+  position: fixed;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.toast-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem 0 0 1rem;
+}
+
+.toast-close {
+  margin-left: auto;
+  margin-right: 1rem;
 }
 
 :root {

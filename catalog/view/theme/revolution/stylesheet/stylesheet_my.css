@@ -179,7 +179,9 @@ body {color: #333;}
 #popup-view-wrapper .popup-footer a, .cd-products-comparison-table .filter_otlich_span.active {background: rgb(63 162 12 / 45%); color: #fff;}
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {border-color: #0063d1; background: #0063d1; color: #fff;}
 .popup_notification .popup-footer button, #popup-order-okno .popup-footer button, #popup-okno .popup-footer button, .popup_notification .popup-footer a, #popup-order-okno .popup-footer a, #popup-okno .popup-footer a, .product-info input[type='radio'] + label, .product-info input[type='checkbox'] + label, .product-info .radio .img-thumbnail, #revfilter_box label.without_count_products img, .btn, .well-sm, #cart button.cart, #cart_mobi button.cart, #menu .nav > li > a, #menu .nav > li > .without_a, .options_buy .fa-border, .vertical-sreview, .panel {border-radius: 4px;}
-.well {background: #f7f7f7;}
+.well {background: #f7f7f7;
+  border-radius: 1rem;
+}
 .img_sub {bottom: 10px; right: 10px; width: 25%; opacity: 0.1;}
 #menu ul.nav {border-radius: 10px; box-shadow: 0 5px 9px rgb(204 204 204 / 21%);}
 #menu .nav.dblock_zadergka > li:hover .dropdown-menu.dblockdr {border-radius: 0 4px 4px 4px;}
@@ -234,7 +236,6 @@ body {color: #333;}
 .review-list .text {background: transparent; border-color: #ededed; border-radius: 4px;}
 .review-list .text:after {border-bottom-color: #fff;}
 .review-list .text:before {border-bottom-color: #ededed;}
-.well-sm.otz {border: 0;}
 .well select.form-control, .well input.form-control, .well textarea.form-control {border-color: #ededed;}
 #popup-order-okno .pull-right {font-size: 12px;}
 .footer .zag_dm_cf {color: #bbb; border-bottom: 1px solid #999;}

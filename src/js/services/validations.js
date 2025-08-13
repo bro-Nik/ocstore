@@ -113,22 +113,79 @@ export function validateForm(form) {
 }
 
 
+const ERROR_ELEMENT_CLASS = 'error_style';
+const ERROR_TEXT_CLASS = 'text-danger';
+const SUCCES_ELEMENT_CLASS = 'succes_style';
+const SUCCES_TEXT_CLASS = 'text-succes';
+const TEXT_CLASS_ID = 'validation-text';
+const ELEMENT_CLASS_ID = 'validation-element';
 
 /**
   * Показать ошибку для конкретного поля
   * @param {HTMLElement} field - Поле ввода
   * @param {string} message - Текст ошибки
   */
-function showFieldError(field, message) {
+export function showFieldError(field, message, scroll = true) {
+  if (!field) return;
+  if (window.getComputedStyle(field).display === 'none') {
+    field = field.parentNode;
+  }
+
   // Удаляем предыдущую ошибку
   const existingError = field.nextElementSibling;
-  if (existingError && existingError.classList.contains('text-danger')) {
+  if (existingError && existingError.classList.contains(ERROR_TEXT_CLASS)) {
     existingError.remove();
   }
   
-  field.classList.add('error_style');
+  field.classList.add(ERROR_ELEMENT_CLASS, ELEMENT_CLASS_ID);
   field.after(createError(message));
   
   // Прокручиваем к полю с ошибкой
-  field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (scroll) {
+    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    field.focus();
+  }
+}
+
+export function showFieldsValidation(data, form) {
+  for (const text of form.querySelectorAll(`.${TEXT_CLASS_ID}`)) {
+    text.remove();
+  }
+  for (const e of form.querySelectorAll(`.${ELEMENT_CLASS_ID}`)) {
+    e.classList.remove(ERROR_ELEMENT_CLASS, SUCCES_ELEMENT_CLASS, ELEMENT_CLASS_ID);
+  }
+
+  let firstError = false;
+  for (const field of data) {
+    if (field.name) {
+      var el = form.querySelector(`[name=${field.name}]`);
+      if (el) {
+        if (field.error) {
+          if (!firstError) {
+            firstError = true;
+            showFieldError(el, field.text, true);
+          } else {
+            showFieldError(el, field.text, false);
+          }
+        } else {
+          showFieldSucces(el, field.text);
+        }
+      }
+    }
+  }
+}
+
+export function showFieldSucces(field, message) {
+  if (!field) return;
+  if (window.getComputedStyle(field).display === 'none') {
+    field = field.parentNode;
+  }
+
+  // Удаляем предыдущую ошибку
+  const existingError = field.nextElementSibling;
+  if (existingError && existingError.classList.contains(ERROR_TEXT_CLASS)) {
+    existingError.remove();
+  }
+  
+  field.classList.add(SUCCES_ELEMENT_CLASS, ELEMENT_CLASS_ID);
 }

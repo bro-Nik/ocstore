@@ -5,6 +5,7 @@
 
 // import { postFormData } from '../services/api';
 import { LoadingManager } from '../services/loading';
+import { NotificationManager } from '../services/notifications';
 import { eventManager } from '../events/event-manager';
 import { events } from '../events/events';
 import { apiService } from '../services/api';
@@ -23,6 +24,7 @@ export class BaseModule {
     this.loading = null;
     this.initialized = false;
     this.api = apiService;
+    this.notifications = new NotificationManager(this.config.moduleName);
 
     this.init();
   }

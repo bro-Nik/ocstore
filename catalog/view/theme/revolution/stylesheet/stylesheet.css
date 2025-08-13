@@ -2792,10 +2792,6 @@ position: absolute;
 bottom: -30px;
 right: 10px;
 }
-.well-sm.otz {
-border: 1px solid #eee;
-margin-bottom: 20px;
-}
 .well-sm.otz .btn .fa {
 padding-right: 10px;
 font-size: 14px;
@@ -3328,11 +3324,6 @@ color: #777;
 #blog_mod .blog-list .description {
 display: block;
 margin-top: 5px;
-}
-#review .review-list,
-#answers .review-list {
-margin-bottom: 30px;
-overflow: hidden;
 }
 .table-revolution thead tr {
 background-color: #eee;

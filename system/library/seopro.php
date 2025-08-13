@@ -230,7 +230,8 @@ class SeoPro {
 				}
 				
 				break;
-			case 'product/product/review':
+			case 'product/product/getReviews':
+			case 'product/product/getAnswers':
 			case 'blog/article/review':
 			case 'information/information/agree':
 				return [$url, $data, $postfix];

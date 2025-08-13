@@ -1,49 +1,45 @@
-{% if (reviews) %} 
-	{% for review in reviews %} 
-		<div class="review-list" itemprop="review" itemscope itemtype="http://schema.org/Review">
+{% for review in reviews %} 
+	<div class="review-list" itemprop="review" itemscope itemtype="http://schema.org/Review">
 
-			<div class="review__thumb" style="width: unset;">
+		<div class="review__thumb" style="width: unset;">
 
-				<div class="review__text" style="max-height: unset; min-height: unset;">
-					{{ review['text'] }}
-				</div>
-				<div class="review__author">
-      		<div class="review__author-avatar">
-        		<i class="fa fa-user-circle"></i>
-      		</div>
-					<div class="review__author-box">
-						<div class="review__author-name" itemprop="author">
-							{{ review['author'] }}
-						</div>
-						<div class="rating" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
-							<meta itemprop="worstRating" content = "1">
-							<meta itemprop="bestRating" content = "5">
-							<meta itemprop="ratingValue" content = "{{ review['rating'] }}">
-							{% set i = 1 %}{% for i in i..5 %} 
-								{% if (review['rating'] < i) %} 
-									<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-								{% else %} 
-									<span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-								{% endif %} 
-							{% endfor %} 
-						</div>
-      		</div>
-				</div>
-
+			<div class="review__text" style="max-height: unset; min-height: unset;">
+				{{ review.text }}
+			</div>
+			<div class="review__author">
+      	<div class="review__author-avatar">
+        	<i class="fa fa-user-circle"></i>
+      	</div>
+				<div class="review__author-box">
+					<div class="review__author-name" itemprop="author">
+						{{ review.author }}
+					</div>
+					<div class="rating" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+						<meta itemprop="worstRating" content = "1">
+						<meta itemprop="bestRating" content = "5">
+						<meta itemprop="ratingValue" content = "{{ review.rating }}">
+						{% set i = 1 %}{% for i in i..5 %} 
+							{% if (review.rating < i) %} 
+								<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+							{% else %} 
+								<span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
+							{% endif %} 
+						{% endfor %} 
+					</div>
+      	</div>
 				<div class="review__date_added" itemprop="datePublished">
-					{{ review['date_added'] }}
+					{{ review.date_added }}
 				</div>
 			</div>
 
-			{% if (review['answer']) %} 
-				<div class="name_admin">{{ review['answer_from'] }}</div>
-				<div class="answer_admin">
-					<div>{{ review['answer'] }}</div>
-				</div>
-			{% endif %} 
 		</div>
-	{% endfor %} 
-	<div class="text-right">{{ pagination }}</div>
-{% else %} 
-	<p>{{ text_no_reviews }}</p>
-{% endif %}
+
+		{% if (review.answer) %} 
+			<div class="name_admin">{{ review.answer_from }}</div>
+			<div class="answer_admin">
+				<div>{{ review.answer }}</div>
+			</div>
+		{% endif %} 
+	</div>
+{% endfor %} 
+<div class="text-right">{{ pagination }}</div>

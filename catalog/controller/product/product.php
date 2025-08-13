@@ -15,18 +15,7 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 			$product_id = 0;
 		}
 
-		$data['answers_no_reviews'] = $this->language->get('answers_no_reviews');
-		$data['entry_answer'] = $this->language->get('entry_answer');
-		if (isset($this->request->get['page_answers'])) {
-			$page_answers = $this->request->get['page_answers'];
-		} else {
-			$page_answers = 1;
-		}
-
     $this->load->model('revolution/revolution');
-    $review_total_answers = $this->model_revolution_revolution->gettotalanswers($product_id);
-		$data['answers'] = $this->prepareAnswers($product_id, $review_total_answers, $page = 1);
-		$data['tab_answers'] = sprintf($this->language->get('tab_answers'), (int)$review_total_answers);
 
 		$this->load->model('catalog/product');
 
@@ -42,7 +31,8 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 
 			$this->load->model('catalog/review');
 
-			$data['tab_review'] = sprintf($this->language->get('tab_review'), (int)$product_info['reviews']);
+			$data['review_count'] = (int)$product_info['reviews'];
+			$data['answer_count'] = (int)$this->model_revolution_revolution->gettotalanswers($product_id);
 
 			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
 			$data['product_id'] = (int)$this->request->get['product_id'];
@@ -137,34 +127,6 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 				);
 			}
 
-			$data['answers_no_reviews'] = $this->language->get('answers_no_reviews');
-			$data['entry_answer'] = $this->language->get('entry_answer');
-			if (isset($this->request->get['page_answers'])) {
-				$page_answers = $this->request->get['page_answers'];
-			} else {
-				$page_answers = 1;
-			}
-			$data['answers'] = array();
-			$this->load->model('revolution/revolution');
-			$review_total_answers = $this->model_revolution_revolution->gettotalanswers((int)$this->request->get['product_id']);
-			$results_answers = $this->model_revolution_revolution->getanswers((int)$this->request->get['product_id'], ($page_answers - 1) * 10, 10);
-			$data['tab_answers'] = sprintf($this->language->get('tab_answers'), (int)$review_total_answers);
-			foreach ($results_answers as $result_answer) {
-				$data['answers'][] = array(
-					'author'     	=> $result_answer['author'],
-					'text'       	=> nl2br($result_answer['text']),
-					'answer'     	=> html_entity_decode($result_answer['answer'], ENT_QUOTES, 'UTF-8'),
-					'answer_from'   => $result_answer['answer_from'],
-					'date_added' 	=> date($this->language->get('date_format_short'), strtotime($result_answer['date_added']))
-				);
-			}
-			$pagination_answers = new Pagination();
-			$pagination_answers->total = $review_total_answers;
-			$pagination_answers->page = $page_answers;
-			$pagination_answers->limit = 10;
-			$pagination_answers->url = $this->url->link('revolution/revstorereview', '&page_answers={page}');
-			$data['pagination_answers'] = $pagination_answers->render();
-
 			$data['tags'] = array();
 
 			if ($product_info['tag']) {
@@ -189,89 +151,6 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		} else {
 			$this->ErrorPage();
 		}
-	}
-
-	public function review() {
-		$this->load->language('product/product');
-
-		$this->load->model('catalog/review');
-
-		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
-		} else {
-			$page = 1;
-		}
-
-		$this->load->language('revolution/revolution');
-		$data['entry_answer'] = $this->language->get('entry_answer');
-		$data['reviews'] = array();
-
-		$review_total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
-
-		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
-
-		foreach ($results as $result) {
-			$data['reviews'][] = array(
-				'answer' => nl2br($result['answer']),
-				'answer_from' => $result['answer_from'],
-				'author'     => $result['author'],
-				'text'       => nl2br($result['text']),
-				'rating'     => (int)$result['rating'],
-				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
-			);
-		}
-
-		$pagination = new Pagination();
-		$pagination->total = $review_total;
-		$pagination->page = $page;
-		$pagination->limit = 5;
-		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $this->request->get['product_id'] . '&page={page}');
-
-		$data['pagination'] = $pagination->render();
-
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($review_total) ? (($page - 1) * 5) + 1 : 0, ((($page - 1) * 5) > ($review_total - 5)) ? $review_total : ((($page - 1) * 5) + 5), $review_total, ceil($review_total / 5));
-
-		$this->response->setOutput($this->load->view('product/review', $data));
-	}
-
-	public function write() {
-		$this->load->language('product/product');
-
-		$json = array();
-
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 25)) {
-				$json['error'] = $this->language->get('error_name');
-			}
-
-			if ((utf8_strlen($this->request->post['text']) < 25) || (utf8_strlen($this->request->post['text']) > 1000)) {
-				$json['error'] = $this->language->get('error_text');
-			}
-
-			if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
-				$json['error'] = $this->language->get('error_rating');
-			}
-
-			// Captcha
-			if ($this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page'))) {
-				$captcha = $this->load->controller('extension/captcha/' . $this->config->get('config_captcha') . '/validate');
-
-				if ($captcha) {
-					$json['error'] = $captcha;
-				}
-			}
-
-			if (!isset($json['error'])) {
-				$this->load->model('catalog/review');
-
-				$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
-
-				$json['success'] = $this->language->get('text_success');
-			}
-		}
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
 	}
 
 	public function getRecurringDescription() {
@@ -709,42 +588,170 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		return $options;
 	}
 
-	protected function prepareAnswers($product_id, $review_total_answers, $page = 1) {
+	public function getReviews() {
+		$this->load->language('product/product');
+		$this->load->language('revolution/revolution');
+		$this->load->model('catalog/review');
+
+		$page = isset($this->request->get['page']) ? (int)$this->request->get['page'] : 1;
+
+		$data['entry_answer'] = $this->language->get('entry_answer');
+		$data['reviews'] = array();
+
+		$total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
+		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
+
+		foreach ($results as $result) {
+			$data['reviews'][] = array(
+				'answer' => nl2br($result['answer']),
+				'answer_from' => $result['answer_from'],
+				'author'     => $result['author'],
+				'text'       => nl2br($result['text']),
+				'rating'     => (int)$result['rating'],
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+			);
+		}
+
+		$pagination = new Pagination();
+		$pagination->total = $total;
+		$pagination->page = $page;
+		$pagination->limit = 10;
+		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $this->request->get['product_id'] . '&page={page}');
+
+		$data['pagination'] = $pagination->render();
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($total) ? (($page - 1) * 5) + 1 : 0, ((($page - 1) * 5) > ($total - 5)) ? $total : ((($page - 1) * 5) + 5), $total, ceil($total / 5));
+
+		$this->response->setOutput($this->load->view('product/review', $data));
+	}
+
+	public function getAnswers() {
+		$this->load->language('revolution/revolution');
     $this->load->model('revolution/revolution');
+		$product_id = $this->request->get['product_id'];
+
+		$page = isset($this->request->get['page_answers']) ? $this->request->get['page_answers'] : 1;
     
-    $data = [
-      'answers' => [],
-      'pagination' => '',
-      'results' => '',
-    ];
+		$data['entry_answer'] = $this->language->get('entry_answer');
+		$data['answers'] = array();
     
-    // $review_total_answers = $this->model_revolution_revolution->gettotalanswers($product_id);
-    $results_answers = $this->model_revolution_revolution->getanswers($product_id, ($page - 1) * 10, 10);
+    $total = $this->model_revolution_revolution->gettotalanswers($product_id);
+    $answers = $this->model_revolution_revolution->getanswers($product_id, ($page - 1) * 10, 10);
     
-    foreach ($results_answers as $result_answer) {
+    foreach ($answers as $answer) {
       $data['answers'][] = [
-        'author' => $result_answer['author'],
-        'text' => nl2br($result_answer['text']),
-				'answer'     	=> html_entity_decode($result_answer['answer'], ENT_QUOTES, 'UTF-8'),
-				'answer_from'   => $result_answer['answer_from'],
-				'date_added' 	=> date($this->language->get('date_format_short'), strtotime($result_answer['date_added']))
+        'author' => $answer['author'],
+        'text' => nl2br($answer['text']),
+				'answer'     	=> html_entity_decode($answer['answer'], ENT_QUOTES, 'UTF-8'),
+				'answer_from'   => $answer['answer_from'],
+				'date_added' 	=> date($this->language->get('date_format_short'), strtotime($answer['date_added']))
       ];
     }
     
     $pagination = new Pagination();
-    $pagination->total = $review_total_answers;
+    $pagination->total = $total;
     $pagination->page = $page;
     $pagination->limit = 10;
-    $pagination->url = $this->url->link('revolution/revstorereview', '&page_answers={page}');
+    $pagination->url = $this->url->link('product/product/answers', 'product_id='.$product_id.'&page_answers={page}');
     
-		$data['tab'] = sprintf($this->language->get('tab_answers'), (int)$review_total_answers);
     $data['pagination'] = $pagination->render();
-    $data['results'] = sprintf($this->language->get('text_pagination'), 
-        ($review_total_answers) ? (($page - 1) * 10) + 1 : 0, 
-        ((($page - 1) * 10) > ($review_total_answers - 10)) ? $review_total_answers : ((($page - 1) * 10) + 10), 
-        $review_total_answers, 
-        ceil($review_total_answers / 10));
+    $data['results'] = sprintf($this->language->get('text_pagination'), ($total) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > ($total - 10)) ? $total : ((($page - 1) * 10) + 10), $total, ceil($total / 10));
     
-    return $data;
+		$this->response->setOutput($this->load->view('product/answer', $data));
+	}
+
+	protected function validateName($name) {
+		$error = (utf8_strlen($name) < 3) || (utf8_strlen($name) > 25);
+		return array(
+			'name' => 'name',
+			'text' => $error ? $this->language->get('error_name') : '',
+			'error' => $error
+		);
+	}
+
+	protected function validateText($text) {
+		$error = (utf8_strlen($text) < 15) || (utf8_strlen($text) > 3000);
+		return array(
+			'name' => 'text',
+			'text' => $error ? $this->language->get('error_text') : '',
+			'error' => $error
+		);
+	}
+
+	protected function validateRating($rating) {
+		$error = empty($rating) || $rating < 0 || $rating > 5;
+		return array(
+			'name' => 'rating',
+			'text' => $error ? $this->language->get('error_rating') : '',
+			'error' => $error
+		);
+	}
+
+	protected function validateCaptcha($module) {
+		$error = $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array($module, (array)$this->config->get('config_captcha_page'));
+		return array(
+			'name' => 'captcha',
+			'text' => $error ? $this->load->controller('extension/captcha/' . $this->config->get('config_captcha') . '/validate') : '',
+			'error' => $error
+		);
+	}
+
+	protected function hasError($errors) {
+		foreach($errors as $field){
+			if ($field['error'] == true) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function writeReview() {
+		$this->load->language('product/product');
+
+		$json = array();
+
+		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+			$errors = array();
+			$errors[] = $this->validateName($this->request->post['name']);
+			$errors[] = $this->validateText($this->request->post['text']);
+			$errors[] = $this->validateRating($this->request->post['rating']);
+			$errors[] = $this->validateCaptcha('review');
+
+			$hasError = $this->hasError($errors);
+			if ($hasError) {
+				$json['validated_fields'] = $errors;
+			} else {
+				$this->load->model('catalog/review');
+				$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
+				$json['success'] = $this->language->get('text_success_review');
+			}
+		}
+		ob_clean();
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function writeAnswer() {
+		$this->load->language('product/product');
+
+		$json = array();
+
+		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+			$errors = array();
+			$errors[] = $this->validateName($this->request->post['name']);
+			$errors[] = $this->validateText($this->request->post['text']);
+			$errors[] = $this->validateCaptcha('answer');
+
+			$hasError = $this->hasError($errors);
+			if ($hasError) {
+				$json['validated_fields'] = $errors;
+			} else {
+    		$this->load->model('revolution/revolution');
+				$this->model_revolution_revolution->addanswer($this->request->get['product_id'], $this->request->post);
+				$json['success'] = $this->language->get('text_success_answer');
+			}
+		}
+		ob_clean();
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 }

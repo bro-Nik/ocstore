@@ -5106,19 +5106,18 @@ textarea.form-control-lg {
 .toast {
   width: 350px;
   max-width: 100%;
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   pointer-events: auto;
-  background-color: rgba(255, 255, 255, 0.85);
+  /* background-color: rgba(255, 255, 255, 0.85); */
+  background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
-}
-.toast:not(.showing):not(.show) {
-  opacity: 0;
-}
-.toast.hide {
-  display: none;
+  /* border-radius: 0.25rem; */
+  align-items: center;
+  display: flex;
+  border-radius: 1rem;
+  position: relative;
 }
 
 .toast-container {
@@ -5149,8 +5148,11 @@ textarea.form-control-lg {
 }
 
 .toast-body {
-  padding: 0.75rem;
+  /* padding: 1.2rem; */
+  /* word-wrap: break-word; */
   word-wrap: break-word;
+  padding: 1rem 1rem 1rem 60px;
+  flex: 1;
 }
 
 .modal {

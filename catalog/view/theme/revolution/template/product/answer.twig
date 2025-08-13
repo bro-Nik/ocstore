@@ -1,0 +1,31 @@
+{% for answer in answers %} 
+	<div class="review-list" itemprop="review" itemscope itemtype="http://schema.org/Review">
+
+		<div class="review__thumb" style="width: unset;">
+
+			<div class="review__text" style="max-height: unset; min-height: unset;">
+				{{ answer.text }}
+			</div>
+			<div class="review__author">
+      	<div class="review__author-avatar">
+        	<i class="fa fa-user-circle"></i>
+      	</div>
+				<div class="review__author-name" itemprop="author">
+					{{ answer.author }}
+				</div>
+				<div class="review__date_added" itemprop="datePublished">
+					{{ answer.date_added }}
+				</div>
+			</div>
+
+		</div>
+
+		{% if (answer.answer) %} 
+			<div class="name_admin">{{ answer.answer_from }}</div>
+			<div class="answer_admin">
+				<div>{{ answer.answer }}</div>
+			</div>
+		{% endif %} 
+	</div>
+{% endfor %} 
+<div class="text-right">{{ pagination }}</div>

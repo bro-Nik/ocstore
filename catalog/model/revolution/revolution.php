@@ -2167,6 +2167,7 @@ class ModelRevolutionRevolution extends Model {
 				$send_mail = true;
 			}
 		}
+		$send_mail = false;
 		
         if ($send_mail) {
 			$this->load->model('catalog/product');
