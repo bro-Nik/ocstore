@@ -6,7 +6,7 @@
 import { BaseModule } from '../core/base';
 import { LoadingManager } from '../services/loading';
 import { ToggleBoxManager } from '../services/animations';
-import { showFieldsValidation } from '../services/validations';
+import { validator } from '../services/validations';
 
 export class FeedbackBase extends BaseModule {
   constructor(config) {
@@ -88,6 +88,10 @@ export class FeedbackBase extends BaseModule {
     try {
       formLoading.show();
       this.submitButton.disabled = true;
+
+      if (!validator.validateForm(this.form)) return;
+      validator.clearNotifications(this.form);
+
       const formData = new FormData(this.form);
       formData.append('product_id', this.productId);
 
@@ -101,8 +105,8 @@ export class FeedbackBase extends BaseModule {
       this.notifications.clear();
       const json = await response.json();
 
-      if (json.validated_fields) {
-        showFieldsValidation(json.validated_fields, this.form);
+      if (json.error) {
+        this.notifications.show(json.error, 'error');
       }
 
       if (json.success) {

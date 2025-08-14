@@ -12721,8 +12721,16 @@ input, textarea, select {
   padding: 0 2rem;
 }
 
-input.error_style, select.error_style, textarea.error_style {
+.validation-error-element {
   border: 1px solid red !important;
+  border-radius: 1rem;
+}
+.validation-error-text {
+  color: #dc3545 !important;
+}
+.validation-succes-element {
+  border: 1px solid green !important;
+  border-radius: 1rem;
 }
 
 input, textarea, .form-control:not(select) {
@@ -12785,10 +12793,6 @@ input, textarea, .form-control:not(select) {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-}
-
-.succes_style {
-  border: 1px solid green !important;
 }
 
 /* Сетка статей */

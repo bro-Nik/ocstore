@@ -85,25 +85,26 @@
 											<div class="form-group required">
 												<label class="col-sm-2 control-label" for="input-name">{{ entry_rev_p_name }}</label>
 												<div class="col-sm-10">
-													<input type="text" name="name" value="" id="input-name" />
+													<input type="text" name="name" value="" id="input-name" required/>
 												</div>
 											</div>
 											<div class="form-group required">
 												<label class="col-sm-2 control-label" for="input-review">{{ entry_rev_p_review }}</label>
 												<div class="col-sm-10">
-													<textarea name="text" rows="5" id="input-review"></textarea>
+													<textarea name="text" rows="5" id="input-review" required></textarea>
 												</div>
 											</div>
 											<div class="form-group required">
 												<label class="col-sm-2 control-label">{{ entry_rating }}</label>
 												<div class="col-sm-10">
 													<div class="prod-rating">
-														<input id="rat1" type="radio" name="rating" value="1" /><label class="rat-star" for="rat1"><i class="fa fa-star"></i></label>
-														<input id="rat2" type="radio" name="rating" value="2" /><label class="rat-star" for="rat2"><i class="fa fa-star"></i></label>
-														<input id="rat3" type="radio" name="rating" value="3" /><label class="rat-star" for="rat3"><i class="fa fa-star"></i></label>
-														<input id="rat4" type="radio" name="rating" value="4" /><label class="rat-star" for="rat4"><i class="fa fa-star"></i></label>
-														<input id="rat5" type="radio" name="rating" value="5" /><label class="rat-star" for="rat5"><i class="fa fa-star"></i></label>
+														<input id="rat1" type="radio" name="rating" value="1" required /><label class="rat-star" for="rat1"><i class="fa fa-star"></i></label>
+														<input id="rat2" type="radio" name="rating" value="2" required /><label class="rat-star" for="rat2"><i class="fa fa-star"></i></label>
+														<input id="rat3" type="radio" name="rating" value="3" required /><label class="rat-star" for="rat3"><i class="fa fa-star"></i></label>
+														<input id="rat4" type="radio" name="rating" value="4" required /><label class="rat-star" for="rat4"><i class="fa fa-star"></i></label>
+														<input id="rat5" type="radio" name="rating" value="5" required /><label class="rat-star" for="rat5"><i class="fa fa-star"></i></label>
 													</div>
+													{#}
 													<script><!--
 														$('.rat-star').hover(function () {
 															$(this).prevAll('.rat-star').addClass('active');
@@ -124,6 +125,7 @@
 														});
 														
 													//--></script>
+													{#}
 												</div>
 											</div>
 											{{ captcha }} 
@@ -155,13 +157,13 @@
 											<div class="form-group required">
 												<label class="col-sm-2 control-label" for="input-name-2">{{ entry_rev_p_name }}</label>
 												<div class="col-sm-10">
-													<input type="text" name="name" value="" id="input-name-2" />
+													<input type="text" name="name" value="" id="input-name-2" required />
 												</div>
 											</div>
 											<div class="form-group required">
 												<label class="col-sm-2 control-label" for="input-answer">{{ entry_rev_p_answer }}</label>
 												<div class="col-sm-10">
-													<textarea name="text" rows="5" id="input-answer"></textarea>
+													<textarea name="text" rows="5" id="input-answer" required></textarea>
 												</div>
 											</div>
 											{{ captcha2 }} 

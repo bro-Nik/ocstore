@@ -12,11 +12,20 @@ input, textarea, select {
   padding: 0 2rem;
 }
 
-input, select, textarea {
-    &.error_style {
+.validation {
+    &-error-element {
         border: 1px solid red !important;
+        border-radius: 1rem;
+    }
+    &-error-text {
+        color: #dc3545 !important;
+    }
+    &-succes-element {
+        border: 1px solid green !important;
+        border-radius: 1rem;
     }
 }
+
 
 input, textarea, .form-control:not(select) {
     display: block;
@@ -80,7 +89,4 @@ input, textarea, .form-control:not(select) {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-}
-.succes_style {
-    border: 1px solid green !important;
 }

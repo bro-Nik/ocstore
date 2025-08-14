@@ -1,7 +1,9 @@
 <?php
 require_once('catalog/controller/base/products_list.php');
+require_once('catalog/controller/extension/module/validator.php');
 
 class ControllerProductProduct extends ControllerBaseProductsList {
+	use \ValidatorTrait;
 	private $error = array();
 
 	public function index() {
@@ -659,70 +661,18 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$this->response->setOutput($this->load->view('product/answer', $data));
 	}
 
-	protected function validateName($name) {
-		$error = (utf8_strlen($name) < 3) || (utf8_strlen($name) > 25);
-		return array(
-			'name' => 'name',
-			'text' => $error ? $this->language->get('error_name') : '',
-			'error' => $error
-		);
-	}
-
-	protected function validateText($text) {
-		$error = (utf8_strlen($text) < 15) || (utf8_strlen($text) > 3000);
-		return array(
-			'name' => 'text',
-			'text' => $error ? $this->language->get('error_text') : '',
-			'error' => $error
-		);
-	}
-
-	protected function validateRating($rating) {
-		$error = empty($rating) || $rating < 0 || $rating > 5;
-		return array(
-			'name' => 'rating',
-			'text' => $error ? $this->language->get('error_rating') : '',
-			'error' => $error
-		);
-	}
-
-	protected function validateCaptcha($module) {
-		$error = $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array($module, (array)$this->config->get('config_captcha_page'));
-		return array(
-			'name' => 'captcha',
-			'text' => $error ? $this->load->controller('extension/captcha/' . $this->config->get('config_captcha') . '/validate') : '',
-			'error' => $error
-		);
-	}
-
-	protected function hasError($errors) {
-		foreach($errors as $field){
-			if ($field['error'] == true) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public function writeReview() {
-		$this->load->language('product/product');
-
 		$json = array();
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			$errors = array();
-			$errors[] = $this->validateName($this->request->post['name']);
-			$errors[] = $this->validateText($this->request->post['text']);
-			$errors[] = $this->validateRating($this->request->post['rating']);
-			$errors[] = $this->validateCaptcha('review');
-
-			$hasError = $this->hasError($errors);
-			if ($hasError) {
-				$json['validated_fields'] = $errors;
-			} else {
+			$validForm = $this->validateForm($this->request->post, ['name', 'text', 'rating']);
+			$validCaptcha = $this->validateCaptcha('review');
+			if ($validForm && $validCaptcha) {
 				$this->load->model('catalog/review');
 				$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
-				$json['success'] = $this->language->get('text_success_review');
+				$json['success'] = 'Спасибо за ваш отзыв. Он появится после проверки на спам';
+			} else {
+				$json['error'] = 'Отправленные данные не корректны';
 			}
 		}
 		ob_clean();
@@ -731,23 +681,18 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 	}
 
 	public function writeAnswer() {
-		$this->load->language('product/product');
-
 		$json = array();
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			$errors = array();
-			$errors[] = $this->validateName($this->request->post['name']);
-			$errors[] = $this->validateText($this->request->post['text']);
-			$errors[] = $this->validateCaptcha('answer');
+			$validForm = $this->validateForm($this->request->post, ['name', 'text']);
+			$validCaptcha = $this->validateCaptcha('answer');
 
-			$hasError = $this->hasError($errors);
-			if ($hasError) {
-				$json['validated_fields'] = $errors;
-			} else {
+			if ($validForm && $validCaptcha) {
     		$this->load->model('revolution/revolution');
 				$this->model_revolution_revolution->addanswer($this->request->get['product_id'], $this->request->post);
-				$json['success'] = $this->language->get('text_success_answer');
+				$json['success'] = 'Спасибо за ваш вопрос. Он появится после проверки на спам';
+			} else {
+				$json['error'] = 'Отправленные данные не корректны';
 			}
 		}
 		ob_clean();

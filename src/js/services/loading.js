@@ -1,4 +1,4 @@
-import { createError, createElement, toggleClass } from '../services/dom';
+import { createElement } from '../services/dom';
 
 /**
   * Показывает/скрывает состояние загрузки

@@ -1,4 +1,4 @@
-import { createError } from './dom';
+import { createError, createElement } from './dom';
 
 
 /**
@@ -77,39 +77,28 @@ export function validatePhoneInput(input) {
   }
 }
 
-
-// export function initFormValidation() {
-//   document.addEventListener('click', function(e) {
-//     const submitButton = e.target.closest('[data-action="submit"]');
-//     if (!submitButton) return;
-//
-//     const form = submitButton.closest('form');
-//     if (!form) return;
-//     
-//     // Если валидация не прошла, останавливаем дальнейшее выполнение
-//     return validateForm(form)
-//   }, true); // Используем capture phase для раннего перехвата события
-// };
-
 export function validateForm(form) {
-  let isValid = true;
+  let validList = Arrya();
 
   // Валидация телефона
-  const phoneInput = form.querySelector('input[name="telephone"]');
-  const phoneError = validatePhoneInput(phoneInput);
-  if (phoneError) {
-    showFieldError(phoneInput, phoneError);
-    isValid = false;
-  }
+  validList.push(validateFiels(form, 'input[name="telephone"]', validatePhoneInput));
   
   // Валидация email, если поле присутствует
-  const emailInput = form.querySelector('input[name="email"]');
-  const emailError = validateEmailInput(emailInput);
-  if (emailError) {
-    showFieldError(emailInput, emailError);
-    isValid = false;
+  validList.push(validateFiels(form, 'input[name="email"]', validateEmailInput));
+
+  return !validList.includes(false);
+}
+
+export function validateFiels(form, selector, validator) {
+  const input = form.querySelector(selector);
+  if (!input) return true;
+
+  const error = validator(input);
+  if (error) {
+    showFieldError(input, error);
+    return false;
   }
-  return isValid;
+  return true;
 }
 
 
@@ -147,45 +136,127 @@ export function showFieldError(field, message, scroll = true) {
   }
 }
 
-export function showFieldsValidation(data, form) {
-  for (const text of form.querySelectorAll(`.${TEXT_CLASS_ID}`)) {
-    text.remove();
-  }
-  for (const e of form.querySelectorAll(`.${ELEMENT_CLASS_ID}`)) {
-    e.classList.remove(ERROR_ELEMENT_CLASS, SUCCES_ELEMENT_CLASS, ELEMENT_CLASS_ID);
-  }
-
-  let firstError = false;
-  for (const field of data) {
-    if (field.name) {
-      var el = form.querySelector(`[name=${field.name}]`);
-      if (el) {
-        if (field.error) {
-          if (!firstError) {
-            firstError = true;
-            showFieldError(el, field.text, true);
-          } else {
-            showFieldError(el, field.text, false);
-          }
-        } else {
-          showFieldSucces(el, field.text);
-        }
-      }
-    }
-  }
-}
 
 export function showFieldSucces(field, message) {
   if (!field) return;
   if (window.getComputedStyle(field).display === 'none') {
     field = field.parentNode;
   }
-
-  // Удаляем предыдущую ошибку
-  const existingError = field.nextElementSibling;
-  if (existingError && existingError.classList.contains(ERROR_TEXT_CLASS)) {
-    existingError.remove();
-  }
   
   field.classList.add(SUCCES_ELEMENT_CLASS, ELEMENT_CLASS_ID);
 }
+
+
+class Validator {
+  constructor() {
+    this.rules = {
+      name: { min: 3, max: 25 },
+      text: { min: 15, max: 3000 },
+      rating: { min: 1, max: 5 },
+      email: { min: 5, max: 96, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
+      phone: { min: 5, max: 32, pattern: /^\+?[\d\s\-\(\)]+$/ }
+    };
+    
+    this.messages = {
+      required: 'Поле обязательно для заполнения',
+      len: 'Допустимая длина от {min} до {max} символов',
+      pattern: 'Некорректный формат'
+    };
+
+    this.fields = [ 'telephone', 'email', 'name', 'text', 'rating', ];
+
+    this.errorTextClass = 'validation-error-text';
+    this.errorElementClass = 'validation-error-element';
+    this.succesElementClass = 'validation-succes-element';
+  }
+
+  clearNotifications(form) {
+    // Очистка сообщений
+    form.querySelectorAll(`.${this.errorTextClass}`).forEach(e => e.remove());
+    form.querySelectorAll(`.${this.errorElementClass}, .${this.succesElementClass}`).forEach(e => {
+      e.classList.remove(this.errorElementClass, this.succesElementClass);
+    });
+  }
+
+  validateForm(form) {
+    this.clearNotifications(form);
+
+    var valid = true;
+    this.fields.forEach(name => {
+      const element = form.querySelector(`[name="${name}"]`);
+      if (element) {
+        const error = this.validateField(name, element);
+        if (error) {
+          this.showError(element, error)
+          valid = false;
+        } else {
+          this.showSucces(element)
+        }
+      }
+    });
+    return valid;
+  }
+
+  showError(element, error) {
+    element = this.getAvailableElement(element);
+    element.classList.add(this.errorElementClass);
+    element.after(this.createError(error));
+  }
+  showSucces(element) {
+    element = this.getAvailableElement(element);
+    element.classList.add(this.succesElementClass);
+  }
+
+  getAvailableElement(element) {
+    if (window.getComputedStyle(element).display === 'none') {
+      element = this.getAvailableElement(element.parentNode);
+    }
+    return element;
+  }
+
+  validateField(name, input) {
+    const rules = this.rules[name];
+    if (!rules) return null;
+
+    // Специальная проверка для radio-кнопок
+    if (input.type === 'radio') {
+      const isChecked = input.parentNode.querySelector(`[name="${name}"]:checked`);
+      
+      if (input.required && !isChecked) {
+        return this.messages.required;
+      }
+    }
+    
+    // Проверка на обязательность
+    if (input.required && !input.value.trim()) {
+      return this.messages.required;
+    }
+    
+    // Пропускаем необязательные пустые поля
+    if (!input.required && !input.value.trim()) {
+      return null;
+    }
+    
+    const length = input.value.length;
+    
+    // Проверка длины
+    if ((rules.min && length < rules.min) || (rules.max && length > rules.max)) {
+      return this.messages.len.replace('{min}', rules.min).replace('{max}', rules.max);
+    }
+    
+    // Проверка по регулярному выражению
+    if (rules.pattern && !rules.pattern.test(input.value)) {
+      return this.messages.pattern;
+    }
+    
+    return null;
+  }
+
+  createError(text) {
+    const errorDiv = createElement('div', '', this.errorTextClass)
+    errorDiv.textContent = text;
+    return errorDiv
+  }
+}
+
+export const validator = new Validator();
