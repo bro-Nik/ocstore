@@ -14,7 +14,7 @@
 				<tr>
 					<td class="image">
 						{% if (thumb) %} 
-							<img src="{{ thumb }}" title="{{ popuporder_heading_title }}" alt="{{ popuporder_heading_title }}" />
+							<img src="{{ thumb }}" title="{{ heading }}" alt="{{ heading }}" />
 						{% endif %} 
 					</td>
 					<td class="name">
@@ -34,11 +34,11 @@
 					</td>
 					<td class="totals">
         {% if (not special) %}
-          <span class="update_price">{{ price }}</span>
+          <span class="update_price">{{ price }} ₽</span>
           <span class="update_special dnone"></span>
         {% else %}
-          <span class="update_special price-new">{{ special }}</span>
-          <span class="update_price price-old">{{ price }}</span>
+          <span class="update_special price-new">{{ special_price }} ₽</span>
+          <span class="update_price price-old">{{ price }} ₽</span>
         {% endif %}
 					</td>
 				</tr>
@@ -48,7 +48,7 @@
 			<div>
 			<div class="image">
 				{% if (thumb) %} 
-					<img src="{{ thumb }}" title="{{ popuporder_heading_title }}" alt="{{ popuporder_heading_title }}" />
+					<img src="{{ thumb }}" title="{{ heading }}" alt="{{ heading }}" />
 				{% endif %} 
 			</div>
 			<div class="name">
@@ -78,11 +78,11 @@
 			</div>
 			<div class="totals">
         {% if (not special) %}
-          <span class="update_price">{{ price }}</span>
+          <span class="update_price">{{ price }} ₽</span>
           <span class="update_special dnone"></span>
         {% else %}
-          <span class="update_special price-new">{{ special }}</span>
-          <span class="update_price price-old">{{ price }}</span>
+          <span class="update_special price-new">{{ special_price }} ₽</span>
+          <span class="update_price price-old">{{ price }} ₽</span>
         {% endif %}
 			</div>		
 			</div>
@@ -91,7 +91,8 @@
     <div class="well well-sm product-info product_informationss">
     {% include 'revolution/template/product/partials/product_options.twig' %}
     </div>
-		{% include 'partials/form.twig' with {'form_settings': revtheme_catalog_popuporder} %}
+		{% include 'partials/form.twig' %}
+
 	</form>
 {% endblock %}
 

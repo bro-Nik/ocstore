@@ -7,9 +7,9 @@ import { BaseCartPopup } from './cart-base.js';
 
 const CONFIG = {
   endpoints: {
-    content: 'index.php?route=revolution/revpopupcartquick',
-    submit: 'index.php?route=revolution/revpopupcartquick/make_order',
-    cartStatus: 'index.php?route=revolution/revpopupcartquick/status_cart',
+    content: 'index.php?route=modal/cartquick',
+    submit: 'index.php?route=modal/cartquick/send',
+    cartStatus: 'index.php?route=modal/cartquick/status',
   },
   selectors: {
     popupId: '#popup-cart-quick',

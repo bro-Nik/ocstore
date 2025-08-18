@@ -1,154 +1,51 @@
 <?php
 require_once('catalog/controller/base/products_list.php');
 require_once('catalog/controller/extension/module/validator.php');
+require_once('catalog/controller/trait/product.php');
 
 class ControllerProductProduct extends ControllerBaseProductsList {
-	use \ValidatorTrait;
+	use \ValidatorTrait, \ProductInfo;
 	private $error = array();
 
 	public function index() {
 		$this->load->language('product/product');
 		$this->load->language('revolution/revolution');
-		$this->load->model('catalog/category');
 
-		if (isset($this->request->get['product_id'])) {
-			$product_id = (int)$this->request->get['product_id'];
-		} else {
-			$product_id = 0;
-		}
-
-    $this->load->model('revolution/revolution');
-
-		$this->load->model('catalog/product');
-
-		$product_info = $this->model_catalog_product->getProduct($product_id);
+		$data['product_id'] = (int)$this->request->get['product_id'] ?? 0;
+		$product_info = $this->model_catalog_product->getProduct($data['product_id']);
 
 		if ($product_info) {
+    	$this->load->model('revolution/revolution');
+			$this->load->model('catalog/product');
 			$data['breadcrumbs'] = $this->prepareBreadcrumbs($product_info);
+			$data['captcha'] = $this->getCaptcha('review');
 
 			$this->setMetaData($product_info, 1);
 			$this->noindexCheck($product_info);
 			$this->setTitleDescription($data, $product_info, 1);
 			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
 
-			$this->load->model('catalog/review');
-
-			$data['review_count'] = (int)$product_info['reviews'];
-			$data['answer_count'] = (int)$this->model_revolution_revolution->gettotalanswers($product_id);
-
-			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
-			$data['product_id'] = (int)$this->request->get['product_id'];
-			$data['sku'] = $product_info['sku'];
-			$data['manufacturer'] = $product_info['manufacturer'];
-			$data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);
-
-			$this->load->model('tool/image');
-			if ($product_info['image']) {
-				$data['thumb']      = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
-				$data['additional'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height'));
-				$data['popup'] 		  = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
+			$this->prepareProductImages($product_info, $data);
+			if ($data['thumb']) {
 				$this->document->setOgImage($data['thumb']);
-			} else {
-				$data['thumb'] = '';
-				$data['additional'] = '';
-				$data['popup'] = '';
 			}
 
-			$thumb_small = $product_info['image'] ? $product_info['image'] : 'no_image.png';
-			$data['thumb_small'] = $this->model_tool_image->resize($thumb_small, $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height'));
-			$data['images'] = $this->prepareProductImages($product_info);
-			$data['price'] = round($product_info['price'], 2);
-			$data['special_price'] = $product_info['special'] ? round($product_info['special'] , 2) : false;
+			$this->prepareProductOptions($product_info, $data);
+			$this->prepareProductPrice($product_info, $data);
+			$this->prepareProductStikers($product_info, $data);
+			$this->prepareProductReviews($product_info, $data);
+			$this->prepareProductTags($product_info, $data);
+			$this->prepareProductOther($product_info, $data);
+			$this->prepareProductTabs($product_info, $data);
 
-			$this->load->model('revolution/revolution');
-			$special = $this->model_revolution_revolution->getProductSpecialData($this->request->get['product_id']);
-			if (is_array($special) && isset($special['date_end']) && $special['date_end'] && time() < strtotime($special['date_end'])) {
-				$this->load->language('revolution/revolution');
-				$data['special_end'] = $special['date_end'];
-				$data['text_countdown'] = $this->language->get('text_countdown');
-			} else {
-				$data['special_end'] = false;
-			}
-
-			$data['options'] = $this->prepareProductOptions($product_id);
-			$data['minimum'] = $product_info['minimum'] ? $product_info['minimum'] : 1;
-
-			// REvolution start
-			// $data['short_description'] = html_entity_decode($product_info['short_description'], ENT_QUOTES, 'UTF-8');
-			$data['options_buy'] = $product_info['options_buy'];
-			$data['brand'] = $this->model_revolution_revolution->get_pr_brand($product_id);
-			$data['stiker_ean'] = $product_info['ean'];
-			$data['stiker_jan'] = $product_info['jan'];
-			$data['stiker_isbn'] = $product_info['isbn'];
-			$data['sklad_status'] = $product_info['stock_status'];
-			$data['quantity'] = $product_info['quantity'];
-			$data['reviews_number'] = $reviews_number = (int)$product_info['reviews'];
-			function getcartword($number, $suffix) {
-				$keys = array(2, 0, 1, 1, 1, 2);
-				$mod = $number % 100;
-				$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
-				return $suffix[$suffix_key];
-			}
-			$textcart_array = array('text_reviews_1', 'text_reviews_2', 'text_reviews_3');
-			$textcart = getcartword($reviews_number, $textcart_array);
-			$data['reviews'] = sprintf($this->language->get($textcart), (int)$product_info['reviews']);
-			if ($this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page')) && $data['revanswers']) {
-				$data['captcha2'] = $this->load->controller('extension/captcha/' . $this->config->get('config_captcha') . '_two');
-			} else {
-				$data['captcha2'] = '';
-			}
-			// Revolution end
-
-			$data['rating'] = number_format($product_info['rating'], 1);
-
-			// Captcha
-			if ($this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page'))) {
-				$data['captcha'] = $this->load->controller('extension/captcha/' . $this->config->get('config_captcha'));
-			} else {
-				$data['captcha'] = '';
-			}
-
-			$data['revtheme_product_all_attribute_group'] = $this->config->get('revtheme_product_all_attribute_group');
-			$data['share'] = $this->url->link('product/product', 'product_id=' . (int)$this->request->get['product_id']);
-			$data['attribute_groups'] = $this->model_catalog_product->getProductAttributes($this->request->get['product_id']);
-
-			$related_products = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
+			$related_products = $this->model_catalog_product->getProductRelated($data['product_id']);
 			$data['accessories'] = $this->prepareProducts($related_products);
 
 			$data['viewed_products'] = $this->load->controller('revolution/viewed_products');
 
-			$this->load->model('revolution/revolution');
-			$data['tab_info'] = $this->model_revolution_revolution->getproductTabs($this->request->get['product_id']);
-			$data['product_tabs'] = array();	
-			$tabresults = $this->model_revolution_revolution->getproducttab($this->request->get['product_id']);
-			foreach($tabresults as $result_tab){
-				$data['product_tabs'][] = array(
-					'product_tab_id' => $result_tab['product_tab_id'],
-					'title'          => $result_tab['heading'],
-					'description'    => html_entity_decode($result_tab['description'], ENT_QUOTES, 'UTF-8')
-				);
-			}
-
-			$data['tags'] = array();
-
-			if ($product_info['tag']) {
-				$tags = explode(',', $product_info['tag']);
-
-				foreach ($tags as $tag) {
-					$data['tags'][] = array(
-						'tag'  => trim($tag),
-						'href' => $this->url->link('product/search', 'tag=' . trim($tag))
-					);
-				}
-			}
-
-			$data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
-			$data['mpn'] = $product_info['mpn'];
-
 			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
 			
 			$data = $this->addCommonTemplateData($data);
-    	
     	$this->response->setOutput($this->load->view('product/product', $data));
 		} else {
 			$this->ErrorPage();
@@ -159,26 +56,11 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$this->load->language('product/product');
 		$this->load->model('catalog/product');
 
-		if (isset($this->request->post['product_id'])) {
-			$product_id = $this->request->post['product_id'];
-		} else {
-			$product_id = 0;
-		}
-
-		if (isset($this->request->post['recurring_id'])) {
-			$recurring_id = $this->request->post['recurring_id'];
-		} else {
-			$recurring_id = 0;
-		}
-
-		if (isset($this->request->post['quantity'])) {
-			$quantity = $this->request->post['quantity'];
-		} else {
-			$quantity = 1;
-		}
+		$product_id = $this->request->post['product_id'] ?? 0;
+		$recurring_id = $this->request->post['recurring_id'] ?? 0;
+		$quantity = $this->request->post['quantity'] ?? 1;
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
-		
 		$recurring_info = $this->model_catalog_product->getProfile($product_id, $recurring_id);
 
 		$json = array();
@@ -536,59 +418,6 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		return $breadcrumbs;
 	}
 
-	protected function prepareProductImages($product_info) {
-    $images = [];
-    $results = $this->model_catalog_product->getProductImages($product_info['product_id']);
-    
-    foreach ($results as $result) {
-      $images[] = [
-        'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height')),
-        'additional' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height')),
-        'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')),
-        'video' => $result['video']
-      ];
-    }
-    
-    return $images;
-	}
-	protected function prepareProductOptions($product_id) {
-		$options = array();
-		foreach ($this->model_catalog_product->getProductOptions($product_id) as $option) {
-			$product_option_value_data = array();
-
-			foreach ($option['product_option_value'] as $option_value) {
-				if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
-					if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
-						$price = round($option_value['price'], 2);
-					} else {
-						$price = false;
-					}
-
-					$product_option_value_data[] = array(
-						'product_option_value_id' => $option_value['product_option_value_id'],
-						'option_value_id'         => $option_value['option_value_id'],
-						'name'                    => $option_value['name'],
-							'quantity' => $option_value['quantity'],
-							'model' => $option_value['model'],
-						'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
-						'price'                   => $price,
-						'price_prefix'            => $option_value['price_prefix']
-					);
-				}
-			}
-
-			$options[] = array(
-				'product_option_id'    => $option['product_option_id'],
-				'product_option_value' => $product_option_value_data,
-				'option_id'            => $option['option_id'],
-				'name'                 => $option['name'],
-				'type'                 => $option['type'],
-				'value'                => $option['value'],
-				'required'             => $option['required']
-			);
-		}
-		return $options;
-	}
 
 	public function getReviews() {
 		$this->load->language('product/product');
@@ -665,14 +494,14 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$json = array();
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			$validForm = $this->validateForm($this->request->post, ['name', 'text', 'rating']);
-			$validCaptcha = $this->validateCaptcha('review');
-			if ($validForm && $validCaptcha) {
+			$requiredFields = ['name', 'text', 'rating'];
+			$errors = $this->validateForm($this->request->post, $requiredFields, 'review');
+			if (!$errors) {
 				$this->load->model('catalog/review');
 				$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
 				$json['success'] = 'Спасибо за ваш отзыв. Он появится после проверки на спам';
 			} else {
-				$json['error'] = 'Отправленные данные не корректны';
+				$json['toasts'] = $errors;
 			}
 		}
 		ob_clean();
@@ -684,15 +513,15 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$json = array();
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			$validForm = $this->validateForm($this->request->post, ['name', 'text']);
-			$validCaptcha = $this->validateCaptcha('answer');
+			$requiredFields = ['name', 'text'];
+			$errors = $this->validateForm($this->request->post, $requiredFields, 'answer');
 
-			if ($validForm && $validCaptcha) {
+			if (!$errors) {
     		$this->load->model('revolution/revolution');
 				$this->model_revolution_revolution->addanswer($this->request->get['product_id'], $this->request->post);
 				$json['success'] = 'Спасибо за ваш вопрос. Он появится после проверки на спам';
 			} else {
-				$json['error'] = 'Отправленные данные не корректны';
+				$json['toasts'] = $errors;
 			}
 		}
 		ob_clean();

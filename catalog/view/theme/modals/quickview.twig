@@ -1,7 +1,5 @@
 {% extends 'modals/base.twig' %}
 
-{% set error = stock_warning %}
-
 {% block content %}
   <div class="row">
     <div class="col-sm-5">
@@ -19,8 +17,10 @@
       	{% include 'revolution/template/product/partials/product_text_blocks.twig' %}
 			  {% include 'revolution/template/product/partials/stock_status.twig' with {'main_product': 'true'} %}
 			</div>
-		  
+
+			{% include 'revolution/template/product/partials/product_accessories.twig' %}
     </div>
+
 		{% include 'revolution/template/product/partials/product_tabs.twig' %}
   </div>    
 {% endblock %}

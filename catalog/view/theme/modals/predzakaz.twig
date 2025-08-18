@@ -1,7 +1,5 @@
 {% extends 'modals/base.twig' %}
 
-{% set error = error_warning %}
-
 {% block content %}
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
 	<input name="product_id" value="{{ product_id }}" style="display: none;" type="hidden" />
@@ -33,7 +31,7 @@
 		</div>
 	</div>
 
-	{% include 'partials/form.twig' with {'form_settings': revtheme_predzakaz} %}
+	{% include 'partials/form.twig' %}
 	</form>
 {% endblock %}
 

@@ -7,7 +7,7 @@ initCarouselSwipers();
 import { initMobilMenu } from './mmenu-light';
 initMobilMenu();
 
-import { handlePhoneInput, handleNumberInput } from './services/validations';
+import validator from './services/validations';
 import compare from './compare';
 import wishlist from './wishlist';
 import cart from './cart';
@@ -17,6 +17,8 @@ import review from './feedback/review';
 import answer from './feedback/answer';
 import uiHelpers from './ui-helpers';
 
+import { initStars } from './elements';
+initStars();
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,59 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 	showContent();
-
-  document.addEventListener('input', (e) => {
-    // Валидация числовых полей
-    if (e.target.matches('input[data-validate="number"]')) {
-      handleNumberInput(e.target);
-    }
-    // Валидация полей телефона
-    if (e.target.matches('input[data-validate="telephone"]')) {
-      handlePhoneInput(e.target);
-    }
-  });
-
-  // Работа со свздами рейтинга
-  const stars = document.querySelectorAll('.rat-star');
-  
-  stars.forEach(star => {
-    // Hover эффект
-    star.addEventListener('mouseover', () => {
-      let prev = star;
-      while (prev = prev.previousElementSibling) {
-        if (prev.classList.contains('rat-star')) prev.classList.add('active');
-      }
-      star.classList.add('active');
-    });
-    
-    star.addEventListener('mouseout', () => {
-      stars.forEach(s => s.classList.remove('active'));
-    });
-    
-    // Клик с выбором оценки
-    star.addEventListener('click', () => {
-      // Снимаем все отметки
-      stars.forEach(s => s.classList.remove('checked'));
-      
-      // Отмечаем текущую и предыдущие звезды
-      let current = star;
-      while (current) {
-        if (current.classList.contains('rat-star')) {
-          current.classList.add('checked');
-        }
-        current = current.previousElementSibling;
-      }
-      
-      // Отмечаем соответствующий input
-      const inputId = star.getAttribute('for');
-      if (inputId) {
-        const input = document.getElementById(inputId);
-        if (input) input.checked = true;
-      }
-    });
-  });
-
-
 });
 
 
@@ -134,7 +83,7 @@ export function numberFormat(n) {
 
 export function priceFormat(n) {
   const t = ''; // разделитель тысяч
-  const s = '₽'; // символ валюты
+  const s = ' ₽'; // символ валюты
   
   let i = parseInt(Math.abs(n)) + ''; 
   let j = (i.length > 3) ? i.length % 3 : 0; 

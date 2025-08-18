@@ -7,6 +7,8 @@ import { BasePopup } from './base.js';
 import { initProductSwipers } from '../swiper';
 import Swiper from 'swiper/core';
 import { Navigation, Thumbs } from 'swiper/modules';
+import { review } from '../feedback/review';
+import { answer } from '../feedback/answer';
 
 const CONFIG = {
   selectors: {
@@ -14,7 +16,7 @@ const CONFIG = {
     popupClass: '.big-dialog'
   },
   endpoints: {
-    content: 'index.php?route=revolution/revpopupview&revproduct_id=',
+    content: 'index.php?route=modal/quickview&revproduct_id=',
   },
   globalEvents: {
     'quick-view': 'show'
@@ -45,6 +47,8 @@ class QuickViewPopup extends BasePopup {
       firstTab.click();
     }
     initProductSwipers();
+    review.init(this.content);
+    answer.init(this.content);
   }
 }
 

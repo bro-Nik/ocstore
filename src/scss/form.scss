@@ -12,23 +12,21 @@ input, textarea, select {
   padding: 0 2rem;
 }
 
-.validation {
-    &-error-element {
+input, textarea, select {
+    &.validation-error-element {
         border: 1px solid red !important;
-        border-radius: 1rem;
     }
+}
+.validation {
     &-error-text {
         color: #dc3545 !important;
-    }
-    &-succes-element {
-        border: 1px solid green !important;
-        border-radius: 1rem;
+        font-size: 1.4rem;
     }
 }
 
 
 input, textarea, .form-control:not(select) {
-    display: block;
+    // display: block;
     transition: 0.25s;
     width: 100%;
     background: #f7f7f7;
@@ -85,8 +83,14 @@ input, textarea, .form-control:not(select) {
 .form-group {
   flex: 1;
 }
-.form-horizontal {
+.form-horizontal, .payment-info {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+}
+
+label.required:before {
+    content: '* ';
+    color: #e47364;
+    font-weight: bold;
 }

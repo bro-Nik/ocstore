@@ -3,6 +3,7 @@
  * @module Review
  */
 import { FeedbackBase } from './base';
+import { initStars } from '../elements';
 
 const CONFIG = {
   moduleName: 'review',
@@ -21,6 +22,11 @@ const CONFIG = {
 class Review extends FeedbackBase {
   constructor() {
     super(CONFIG);
+  }
+
+  bindEvents() {
+    initStars(this.form);
+    super.bindEvents();
   }
 }
 

@@ -12485,80 +12485,10 @@ dialog::backdrop {
   color: #555;
 }
 
-#popup-cart-quick .product-description {
-  max-height: 120px;
-  overflow-y: auto;
-  margin: 15px 0;
-}
-
 #popup-cart-quick .payment-info {
   clear: both;
   padding: 20px 0 10px 0;
   margin: 0;
-}
-
-#popup-cart-quick .info-heading {
-  font-size: 15px;
-  display: block;
-  color: #000;
-  text-align: left;
-}
-
-#popup-cart-quick .info-heading-2 {
-  font-size: 16px;
-  display: block;
-  text-align: left;
-  padding: 10px 0 20px 0;
-}
-
-#popup-cart-quick .payment-info > div {
-  width: 100%;
-  display: inline-block;
-}
-
-#popup-cart-quick .payment-info > div + div {
-  margin-top: 10px;
-}
-
-#popup-cart-quick .payment-info > div label {
-  font-size: 14px;
-  line-height: 30px;
-  float: left;
-  width: 25%;
-  text-align: right;
-  padding-right: 20px;
-}
-
-#popup-cart-quick .payment-info > div label span.required {
-  color: #dd4b39;
-  padding-right: 2px;
-}
-
-#popup-cart-quick .payment-info > div input:focus,
-#popup-cart-quick .payment-info > div textarea:focus {
-  border: 1px solid #ddd;
-  box-shadow: none;
-}
-
-#popup-cart-quick .payment-info > div textarea {
-  min-height: 70px;
-  resize: vertical;
-}
-@media (max-width: 767px) {
-  #popup-cart-quick .payment-info > div label {
-    width: 33%;
-  }
-  #popup-cart-quick .payment-info > div input, #popup-cart-quick .payment-info > div textarea {
-    width: 100%;
-  }
-}
-@media (min-width: 768px) {
-  #popup-cart-quick .payment-info > div label {
-    width: 33%;
-  }
-  #popup-cart-quick .payment-info > div input, #popup-cart-quick .payment-info > div textarea {
-    width: 75%;
-  }
 }
 
 @media (max-width: 767px) {
@@ -12721,20 +12651,16 @@ input, textarea, select {
   padding: 0 2rem;
 }
 
-.validation-error-element {
+input.validation-error-element, textarea.validation-error-element, select.validation-error-element {
   border: 1px solid red !important;
-  border-radius: 1rem;
 }
+
 .validation-error-text {
   color: #dc3545 !important;
-}
-.validation-succes-element {
-  border: 1px solid green !important;
-  border-radius: 1rem;
+  font-size: 1.4rem;
 }
 
 input, textarea, .form-control:not(select) {
-  display: block;
   transition: 0.25s;
   width: 100%;
   background: #f7f7f7;
@@ -12789,10 +12715,16 @@ input, textarea, .form-control:not(select) {
   flex: 1;
 }
 
-.form-horizontal {
+.form-horizontal, .payment-info {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+label.required:before {
+  content: "* ";
+  color: #e47364;
+  font-weight: bold;
 }
 
 /* Сетка статей */
@@ -13521,6 +13453,16 @@ html, body {
 .toast-close {
   margin-left: auto;
   margin-right: 1rem;
+}
+
+.privacy-policy-confirmation {
+  margin-top: 1rem;
+}
+.privacy-policy-confirmation input[type=checkbox] {
+  margin-left: 3px;
+  appearance: auto;
+  width: auto;
+  height: auto;
 }
 
 :root {

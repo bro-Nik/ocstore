@@ -10,8 +10,8 @@ const CONFIG = {
     popupId: '#popup-predzakaz',
   },
   endpoints: {
-    content: 'index.php?route=revolution/revpopuppredzakaz&revproduct_id=',
-    submit: 'index.php?route=revolution/revpopuppredzakaz/make_order_notify',
+    content: 'index.php?route=modal/predzakaz&revproduct_id=',
+    submit: 'index.php?route=modal/predzakaz/send',
   },
   globalEvents: {
     'predzakaz': 'show'

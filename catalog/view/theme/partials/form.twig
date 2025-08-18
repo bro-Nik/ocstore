@@ -1,33 +1,36 @@
 <div class="payment-info">
-	{% if (form_settings['firstname']) %} 
+	{% if ('name' in fields) %} 
 	<div>
-		<label>{% if (form_settings['firstname'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_firstname }}</label>
-		<input name="firstname" value="{{ firstname }}" {% if (form_settings['firstname'] == 2) %}required{% endif %}/>
+		<label {% if ('name' in required_fields) %} class="required"{% endif %}>Имя:</label>
+		<input name="name" value="" {% if ('name' in required_fields) %}required{% endif %}/>
 	</div>
 	{% endif %} 
-	{% if (form_settings['telephone']) %} 
+
+	{% if ('phone' in fields) %} 
 	<div>
-		<label>{% if (form_settings['telephone'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_telephone }}</label>
-		<input name="telephone" value="{{ telephone }}" data-validate="telephone" {% if (form_settings['telephone'] == 2) %}required{% endif %}/>
+		<label {% if ('phone' in required_fields) %} class="required"{% endif %}>Телефон:</label>
+		<input name="phone" value="" {% if ('phone' in required_fields) %}required{% endif %}/>
 	</div>
 	{% endif %} 
-	{% if (form_settings['email']) %} 
+
+	{% if ('email' in fields) %} 
 	<div>
-		<label>{% if (form_settings['email'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_email }}</label>
-		<input name="email" value="{{ email }}" {% if (form_settings['email'] == 2) %}required{% endif %}/>
+		<label {% if ('email' in required_fields) %} class="required"{% endif %}>E-mail:</label>
+		<input name="email" value="" {% if ('email' in required_fields) %}required{% endif %}/>
 	</div>
 	{% endif %} 
-	{% if (form_settings['comment']) %} 
+
+	{% if ('comment' in fields) %} 
 	<div>
-		<label>{% if (form_settings['comment'] == 2) %}<span class="required">*</span>{% endif %}{{ enter_comment }}</label>
-		<textarea name="comment" {% if (form_settings['comment'] == 2) %}required{% endif %}>{{ comment }}</textarea>
+		<label {% if ('comment' in required_fields) %} class="required"{% endif %}>Комментарий:</label>
+		<textarea name="text" {% if ('comment' in required_fields) %}required{% endif %}></textarea>
 	</div>
 	{% endif %} 
 </div>
 
-{% if (text_agree_pol_konf) %} 
-	<div class="rev_pol_konf pull-right text-right">
-		<span>{{ text_agree_pol_konf }}</span>
-		<input type="checkbox" name="agree_pol_konf" checked="checked" />
+{% if (privacy_policy_confirmation) %} 
+	<div class="form-group privacy-policy-confirmation">
+		<label class="col-sm-2 required" for="policy-answer">{{ privacy_policy_confirmation }}</label>
+		<input id="policy-answer" type="checkbox" name="agree_privacy_policy" checked required />
 	</div>
 {% endif %} 

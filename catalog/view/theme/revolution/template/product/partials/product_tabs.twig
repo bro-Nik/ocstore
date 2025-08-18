@@ -1,198 +1,197 @@
+<div class="col-sm-12 mb20">
+	<ul class="nav nav-tabs">
+		{% if (description) %} 
+		<li class="active"><a href="#tab-description" data-toggle="tab">{{ tab_description }}</a></li>
+		{% endif %} 
+		{% if (not atributs) %} 
+		{% if (attribute_groups) %} 
+		<li><a href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a></li>
+		{% endif %} 
+		{% endif %} 
+		<li><a id="load_reviews" href="#tab-review" data-toggle="tab" data-count="{{ review_count }}">Отзывы <sup>{{ review_count }}</sup></a></li>
+		<li><a id="load_answers" href="#tab-answers" data-toggle="tab" data-count="{{ answer_count }}">Вопрос - Ответ <sup>{{ answer_count }}</sup></a></li>
+		{% for info in tab_info %} 
+		<li><a href="#tab-extratab{{ info['tab_id'] }}" data-toggle="tab">{{ info['title'] }}</a></li>
+		{% endfor %} 
+		{% for key,tab in product_tabs %} 
+		<li><a href="#tab-{{ product_id }}-{{ tab['product_tab_id'] }}" data-toggle="tab">{{ tab['title'] }}</a></li>
+		{% endfor %} 
+		{% if (revblogs and blogs) %} 
+		<li><a href="#tab-blogs" data-toggle="tab">{{ text_relblogs }}</a></li>
+		{% endif %} 
+	</ul>		  
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab-description" itemprop="description">{{ description }}</div>
+		{% for info in tab_info %} 
+		<div class="tab-pane" id="tab-extratab{{ info['tab_id'] }}">{{ info['description'] }}</div>
+		{% endfor %} 
+		{% for key,tab in product_tabs %} 
+		<div class="tab-pane" id="tab-{{ product_id }}-{{ tab['product_tab_id'] }}">{{ tab['description'] }}</div>
+		{% endfor %} 
 
-		<div class="col-sm-12 mb20">
-			<ul class="nav nav-tabs">
-				{% if (description) %} 
-				<li class="active"><a href="#tab-description" data-toggle="tab">{{ tab_description }}</a></li>
-				{% endif %} 
-				{% if (not atributs) %} 
-				{% if (attribute_groups) %} 
-				<li><a href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a></li>
-				{% endif %} 
-				{% endif %} 
-				<li><a id="load_reviews" href="#tab-review" data-toggle="tab" data-count="{{ review_count }}">Отзывы <sup>{{ review_count }}</sup></a></li>
-				<li><a id="load_answers" href="#tab-answers" data-toggle="tab" data-count="{{ answer_count }}">Вопрос - Ответ <sup>{{ answer_count }}</sup></a></li>
-				{% for info in tab_info %} 
-				<li><a href="#tab-extratab{{ info['tab_id'] }}" data-toggle="tab">{{ info['title'] }}</a></li>
+		{% if (not atributs) %} 
+		{% if (attribute_groups) %} 
+		<div class="tab-pane" id="tab-specification">         
+			{% if (atributs_group_name) %} 
+				{% for attribute_group in attribute_groups %} 
+				<table class="table attrbutes mb0">
+				<thead>
+					<tr>
+					<td colspan="2">{{ attribute_group['name'] }}</td>
+					</tr>
+				</thead>		
+					<tbody>
+					{% for attribute in attribute_group['attribute'] %} 
+					<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
+					<td itemprop="name">{{ attribute['name'] }}</td>
+					<td itemprop="value">{{ attribute['text'] }}</td>
+					</tr>
+					{% endfor %} 
+				</tbody>
+				</table>
 				{% endfor %} 
-				{% for key,tab in product_tabs %} 
-				<li><a href="#tab-{{ product_id }}-{{ tab['product_tab_id'] }}" data-toggle="tab">{{ tab['title'] }}</a></li>
+			{% else %}	
+				<table class="table attrbutes mb0">
+				<tbody>
+				{% for attribute_group in attribute_groups %} 
+				{% for attribute in attribute_group['attribute'] %} 
+				<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
+				<td itemprop="name">{{ attribute['name'] }}</td>
+				<td itemprop="value">{{ attribute['text'] }}</td>
+				</tr>
 				{% endfor %} 
-				{% if (revblogs and blogs) %} 
-				<li><a href="#tab-blogs" data-toggle="tab">{{ text_relblogs }}</a></li>
-				{% endif %} 
-			</ul>		  
-			<div class="tab-content">
-				<div class="tab-pane active" id="tab-description" itemprop="description">{{ description }}</div>
-				{% for info in tab_info %} 
-				<div class="tab-pane" id="tab-extratab{{ info['tab_id'] }}">{{ info['description'] }}</div>
 				{% endfor %} 
-				{% for key,tab in product_tabs %} 
-				<div class="tab-pane" id="tab-{{ product_id }}-{{ tab['product_tab_id'] }}">{{ tab['description'] }}</div>
-				{% endfor %} 
+				</tbody>
+				</table>
+			{% endif %} 
+		</div>
+		{% endif %} 
+		{% endif %}		
+		<div class="tab-pane reviews_container" id="tab-review">
+		<div id="reviews" data-product-id="{{ product_id }}">
+			{% if review_count < 1 %}
+				<p>{{ text_no_reviews }}</p>
+			{% endif %}
+		</div>
+			<div class="form-group mb0 mt12">
+					<div class="well well-sm otz">
+						<div class="text-right">
+							<a class="btn btn-primary open-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ text_product_wr_review }}</a>
+						</div>						
+						<div class="row content-box">
+							<div class="col-md-12">
+								<form class="form-review form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-2 required" for="input-name">{{ entry_rev_p_name }}</label>
+										<div class="col-sm-10">
+											<input type="text" name="name" value="" id="input-name" required/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 required" for="input-review">{{ entry_rev_p_review }}</label>
+										<div class="col-sm-10">
+											<textarea name="text" rows="5" id="input-review" required></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 required">Рейтинг</label>
+										<div class="col-sm-10">
+											<div class="prod-rating">
+												<input id="rat1" type="radio" name="rating" value="1" required /><label class="rat-star" for="rat1"><i class="fa fa-star"></i></label>
+												<input id="rat2" type="radio" name="rating" value="2" required /><label class="rat-star" for="rat2"><i class="fa fa-star"></i></label>
+												<input id="rat3" type="radio" name="rating" value="3" required /><label class="rat-star" for="rat3"><i class="fa fa-star"></i></label>
+												<input id="rat4" type="radio" name="rating" value="4" required /><label class="rat-star" for="rat4"><i class="fa fa-star"></i></label>
+												<input id="rat5" type="radio" name="rating" value="5" required /><label class="rat-star" for="rat5"><i class="fa fa-star"></i></label>
+											</div>
+											{#}
+											<script><!--
+												$('.rat-star').hover(function () {
+													$(this).prevAll('.rat-star').addClass('active');
+													$(this).addClass('active');
+												},function () {
+													$(this).prevAll('.rat-star').removeClass('active');
+													$(this).removeClass('active');
+												});
+												
+												$('.rat-star').click(function(){
+													$('.rat-star').each(function(){
+														$(this).removeClass('checked');
+														$(this).prevAll('.rat-star').removeClass('checked');
+													});
+													
+													$(this).addClass('checked');
+													$(this).prevAll('.rat-star').addClass('checked');
+												});
+												
+											//--></script>
+											{#}
+										</div>
+									</div>
+									{{ captcha }} 
+									<div class="d-flex justify-content-end">
+										<a class="btn btn-default close-box" href="#">{{ text_product_otmena }}</a>
+										<button type="submit" class="btn btn-primary">{{ entry_rev_p_send }}</button>
+									</div>					
+								</form>
+							</div>
+						</div>
+					</div>
+			</div>              
+		</div>
 
-				{% if (not atributs) %} 
-				{% if (attribute_groups) %} 
-				<div class="tab-pane" id="tab-specification">         
-					{% if (atributs_group_name) %} 
-						{% for attribute_group in attribute_groups %} 
-						<table class="table attrbutes mb0">
-						<thead>
-							<tr>
-							<td colspan="2">{{ attribute_group['name'] }}</td>
-							</tr>
-						</thead>		
-							<tbody>
-							{% for attribute in attribute_group['attribute'] %} 
-							<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
-							<td itemprop="name">{{ attribute['name'] }}</td>
-							<td itemprop="value">{{ attribute['text'] }}</td>
-							</tr>
-							{% endfor %} 
-						</tbody>
-						</table>
-						{% endfor %} 
-					{% else %}	
-						<table class="table attrbutes mb0">
-						<tbody>
-						{% for attribute_group in attribute_groups %} 
-						{% for attribute in attribute_group['attribute'] %} 
-						<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
-						<td itemprop="name">{{ attribute['name'] }}</td>
-						<td itemprop="value">{{ attribute['text'] }}</td>
-						</tr>
-						{% endfor %} 
-						{% endfor %} 
-						</tbody>
-						</table>
-					{% endif %} 
-				</div>
-				{% endif %} 
-				{% endif %}		
-				<div class="tab-pane reviews_container" id="tab-review">
-				<div id="reviews" data-product-id="{{ product_id }}">
-					{% if review_count < 1 %}
-						<p>{{ text_no_reviews }}</p>
+			<div class="tab-pane answers_container" id="tab-answers">
+				<div id="answers" data-product-id="{{ product_id }}">
+					{% if answer_count < 1 %}
+						<p>Пока не было вопросов</p>
 					{% endif %}
 				</div>
-					<div class="form-group required mb0 mt12">
-							<div class="well well-sm otz">
-								<div class="text-right">
-									<a class="btn btn-primary open-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ text_product_wr_review }}</a>
-								</div>						
-								<div class="row content-box">
-									<div class="col-md-12">
-										<form class="form-review form-horizontal">
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-name">{{ entry_rev_p_name }}</label>
-												<div class="col-sm-10">
-													<input type="text" name="name" value="" id="input-name" required/>
-												</div>
-											</div>
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-review">{{ entry_rev_p_review }}</label>
-												<div class="col-sm-10">
-													<textarea name="text" rows="5" id="input-review" required></textarea>
-												</div>
-											</div>
-											<div class="form-group required">
-												<label class="col-sm-2 control-label">{{ entry_rating }}</label>
-												<div class="col-sm-10">
-													<div class="prod-rating">
-														<input id="rat1" type="radio" name="rating" value="1" required /><label class="rat-star" for="rat1"><i class="fa fa-star"></i></label>
-														<input id="rat2" type="radio" name="rating" value="2" required /><label class="rat-star" for="rat2"><i class="fa fa-star"></i></label>
-														<input id="rat3" type="radio" name="rating" value="3" required /><label class="rat-star" for="rat3"><i class="fa fa-star"></i></label>
-														<input id="rat4" type="radio" name="rating" value="4" required /><label class="rat-star" for="rat4"><i class="fa fa-star"></i></label>
-														<input id="rat5" type="radio" name="rating" value="5" required /><label class="rat-star" for="rat5"><i class="fa fa-star"></i></label>
-													</div>
-													{#}
-													<script><!--
-														$('.rat-star').hover(function () {
-															$(this).prevAll('.rat-star').addClass('active');
-															$(this).addClass('active');
-														},function () {
-															$(this).prevAll('.rat-star').removeClass('active');
-															$(this).removeClass('active');
-														});
-														
-														$('.rat-star').click(function(){
-															$('.rat-star').each(function(){
-																$(this).removeClass('checked');
-																$(this).prevAll('.rat-star').removeClass('checked');
-															});
-															
-															$(this).addClass('checked');
-															$(this).prevAll('.rat-star').addClass('checked');
-														});
-														
-													//--></script>
-													{#}
-												</div>
-											</div>
-											{{ captcha }} 
-											<div class="d-flex justify-content-end">
-												<a class="btn btn-default close-box" href="#">{{ text_product_otmena }}</a>
-												<button type="submit" class="btn btn-primary">{{ entry_rev_p_send }}</button>
-											</div>					
-										</form>
-									</div>
-								</div>
-							</div>
-					</div>              
-				</div>
-
-					<div class="tab-pane answers_container" id="tab-answers">
-						<div id="answers" data-product-id="{{ product_id }}">
-							{% if answer_count < 1 %}
-								<p>Пока не было вопросов</p>
-							{% endif %}
-						</div>
-						<div class="form-group required mb0 mt12">
-							<div class="well well-sm otz">
-								<div class="text-right">
-									<a class="btn btn-primary open-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ entry_rev_p_answer_wrt }}</a>
-								</div>						
-								<div class="row content-box">
-									<div class="col-md-12">
-										<form class="form-answer form-horizontal">
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-name-2">{{ entry_rev_p_name }}</label>
-												<div class="col-sm-10">
-													<input type="text" name="name" value="" id="input-name-2" required />
-												</div>
-											</div>
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-answer">{{ entry_rev_p_answer }}</label>
-												<div class="col-sm-10">
-													<textarea name="text" rows="5" id="input-answer" required></textarea>
-												</div>
-											</div>
-											{{ captcha2 }} 
-											<div class="d-flex justify-content-end">
-												<a class="btn btn-default close-box" href="#">{{ text_product_otmena }}</a>
-												<button type="submit" class="btn btn-primary">{{ entry_rev_p_send }}</button>
-											</div>					
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				{% if (revblogs and blogs) %} 
-					<div class="tab-pane" id="tab-blogs">
-						{% for blog in blogs %} 
-							<div class="tab_rb">
-								<a href="{{ blog['href'] }}">
-									{% if (blog['image']) %} 
-										<div class="tab_rb_image">
-										<img src="{{ blog['image'] }}" alt="{{ blog['title'] }}" title="{{ blog['title'] }}" class="img-responsive"/>
+				<div class="form-group mb0 mt12">
+					<div class="well well-sm otz">
+						<div class="text-right">
+							<a class="btn btn-primary open-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ entry_rev_p_answer_wrt }}</a>
+						</div>						
+						<div class="row content-box">
+							<div class="col-md-12">
+								<form class="form-answer form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-2 required" for="input-name-2">{{ entry_rev_p_name }}</label>
+										<div class="col-sm-10">
+											<input type="text" name="name" value="" id="input-name-2" required />
 										</div>
-									{% endif %} 
-									<div class="tab_rb_title">{{ blog['title'] }}</div>
-								</a>
-								<div class="tab_rb_description">{{ blog['description'] }}</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 required" for="input-answer">{{ entry_rev_p_answer }}</label>
+										<div class="col-sm-10">
+											<textarea name="text" rows="5" id="input-answer" required></textarea>
+										</div>
+									</div>
+									{{ captcha2 }} 
+									<div class="d-flex justify-content-end">
+										<a class="btn btn-default close-box" href="#">{{ text_product_otmena }}</a>
+										<button type="submit" class="btn btn-primary">{{ entry_rev_p_send }}</button>
+									</div>					
+								</form>
 							</div>
-						{% endfor %} 
+						</div>
 					</div>
-				{% endif %} 
+				</div>
 			</div>
-		</div>
+		{% if (revblogs and blogs) %} 
+			<div class="tab-pane" id="tab-blogs">
+				{% for blog in blogs %} 
+					<div class="tab_rb">
+						<a href="{{ blog['href'] }}">
+							{% if (blog['image']) %} 
+								<div class="tab_rb_image">
+								<img src="{{ blog['image'] }}" alt="{{ blog['title'] }}" title="{{ blog['title'] }}" class="img-responsive"/>
+								</div>
+							{% endif %} 
+							<div class="tab_rb_title">{{ blog['title'] }}</div>
+						</a>
+						<div class="tab_rb_description">{{ blog['description'] }}</div>
+					</div>
+				{% endfor %} 
+			</div>
+		{% endif %} 
+	</div>
+</div>

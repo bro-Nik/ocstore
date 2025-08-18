@@ -1,10 +1,8 @@
 {% extends 'modals/base.twig' %}
 
-{% set heading = popupphone_heading_title %}
-
 {% block content %}
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
-	  {% include 'partials/form.twig' with {'form_settings': revtheme_header_popupphone} %}
+	  {% include 'partials/form.twig' %}
 		<input type="hidden" value="" name="site_url" />
 	</form>
 {% endblock %}

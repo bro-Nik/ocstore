@@ -13,8 +13,8 @@ export class FeedbackBase extends BaseModule {
     super(config);
   }
 
-  init() {
-    this.container = document.querySelector(this.selectors.container);
+  init(container = document) {
+    this.container = container.querySelector(this.selectors.container);
     if (!this.container) return;
 
     this.content = this.container.querySelector(this.selectors.content);
@@ -105,8 +105,8 @@ export class FeedbackBase extends BaseModule {
       this.notifications.clear();
       const json = await response.json();
 
-      if (json.error) {
-        this.notifications.show(json.error, 'error');
+      if (json.toasts) {
+        this.notifications.showList(json.toasts);
       }
 
       if (json.success) {

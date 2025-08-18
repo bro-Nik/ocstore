@@ -10,8 +10,8 @@ const CONFIG = {
     popupId: '#popup-phone',
   },
   endpoints: {
-    content: 'index.php?route=revolution/revpopupphone',
-    submit: 'index.php?route=revolution/revpopupphone/make_order_phone',
+    content: 'index.php?route=modal/callback',
+    submit: 'index.php?route=modal/callback/send',
   },
   globalEvents: {
     'open-popup-call': 'show',

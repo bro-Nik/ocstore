@@ -1,181 +1,57 @@
-import { createError, createElement } from './dom';
-
-
-/**
-  * Валидация email
-  * @param {string} email - Email для проверки
-  * @returns {boolean} - Валиден ли email
-  */
-export function validateEmailInput(input) {
-  if (!input) return;
-  const value = input.value
-  if (!value && !input.required) return; // Пропускаем если поле пустое (если не обязательное)
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const validated = re.test(value)
-  if (!validated) {
-    return 'Введите корректный Email';
-  }
-}
-
-/**
-* Валидация телефона
-* @param {element} input - Поле ввода телефона
-*/
-export function handleNumberInput(input) {
-  input.value = input.value.replace(/[^\d,]/g, '');
-}
-
-export function handlePhoneInput(input) {
-
-  // Удаляем все нецифровые символы
-  input.value = input.value.replace(/[^\d,]/g, '');
-  
-  // Если номер начинается не с 7 или 8, добавляем +7
-  if (!input.value.startsWith('7') && !input.value.startsWith('8')) {
-    input.value = '7' + input.value;
-  }
-  
-  // Форматируем номер
-  let formattedValue = '+7';
-  
-  if (input.value.length > 1) {
-    formattedValue += ' (' + input.value.substring(1, 4);
-  }
-  if (input.value.length > 3) {
-    formattedValue += ') ' + input.value.substring(4, 7);
-  }
-  if (input.value.length > 7) {
-    formattedValue += '-' + input.value.substring(7, 9);
-  }
-  if (input.value.length > 9) {
-    formattedValue += '-' + input.value.substring(9, 11);
-  }
-  
-  // Устанавливаем отформатированное значение
-  input.value = formattedValue;
-};
-
-/**
-* Валидация телефона
-* @param {string} phone - Номер телефона для проверки
-* @returns {boolean} - Валиден ли номер
-*/
-export function validatePhoneInput(input) {
-  if (!input) return;
-  const value = input.value.trim();
-  if (!value && !input.required) return; // Пропускаем если поле пустое (если не обязательное)
-
-  // Удаляем все нецифровые символы
-  const cleanValue = value.replace(/\D/g, '');
-  
-  // строгая проверка (пример для российских номеров):
-  // const re = /^(\+7|7|8)?[\s\-]?\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-  // const validated = re.test(value)
-  const validated = cleanValue.length == 11
-  if (!validated) {
-    return 'Введите корректный номер телефона';
-  }
-}
-
-export function validateForm(form) {
-  let validList = Arrya();
-
-  // Валидация телефона
-  validList.push(validateFiels(form, 'input[name="telephone"]', validatePhoneInput));
-  
-  // Валидация email, если поле присутствует
-  validList.push(validateFiels(form, 'input[name="email"]', validateEmailInput));
-
-  return !validList.includes(false);
-}
-
-export function validateFiels(form, selector, validator) {
-  const input = form.querySelector(selector);
-  if (!input) return true;
-
-  const error = validator(input);
-  if (error) {
-    showFieldError(input, error);
-    return false;
-  }
-  return true;
-}
-
-
-const ERROR_ELEMENT_CLASS = 'error_style';
-const ERROR_TEXT_CLASS = 'text-danger';
-const SUCCES_ELEMENT_CLASS = 'succes_style';
-const SUCCES_TEXT_CLASS = 'text-succes';
-const TEXT_CLASS_ID = 'validation-text';
-const ELEMENT_CLASS_ID = 'validation-element';
-
-/**
-  * Показать ошибку для конкретного поля
-  * @param {HTMLElement} field - Поле ввода
-  * @param {string} message - Текст ошибки
-  */
-export function showFieldError(field, message, scroll = true) {
-  if (!field) return;
-  if (window.getComputedStyle(field).display === 'none') {
-    field = field.parentNode;
-  }
-
-  // Удаляем предыдущую ошибку
-  const existingError = field.nextElementSibling;
-  if (existingError && existingError.classList.contains(ERROR_TEXT_CLASS)) {
-    existingError.remove();
-  }
-  
-  field.classList.add(ERROR_ELEMENT_CLASS, ELEMENT_CLASS_ID);
-  field.after(createError(message));
-  
-  // Прокручиваем к полю с ошибкой
-  if (scroll) {
-    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    field.focus();
-  }
-}
-
-
-export function showFieldSucces(field, message) {
-  if (!field) return;
-  if (window.getComputedStyle(field).display === 'none') {
-    field = field.parentNode;
-  }
-  
-  field.classList.add(SUCCES_ELEMENT_CLASS, ELEMENT_CLASS_ID);
-}
-
+import { createElement } from './dom';
 
 class Validator {
   constructor() {
     this.rules = {
       name: { min: 3, max: 25 },
       text: { min: 15, max: 3000 },
-      rating: { min: 1, max: 5 },
+      rating: { checked: true },
       email: { min: 5, max: 96, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-      phone: { min: 5, max: 32, pattern: /^\+?[\d\s\-\(\)]+$/ }
+      phone: { min: 18, max: 18, pattern: /^\+?[\d\s\-\(\)]+$/ },
+      agree_privacy_policy: { checked: true },
     };
     
     this.messages = {
       required: 'Поле обязательно для заполнения',
       len: 'Допустимая длина от {min} до {max} символов',
-      pattern: 'Некорректный формат'
+      pattern: 'Некорректный формат',
+      checked: 'Выберите значение',
+      phone: 'Введите номер с кодом города',
+      agree_privacy_policy: 'Для обработки нужно дать согласие'
     };
 
-    this.fields = [ 'telephone', 'email', 'name', 'text', 'rating', ];
+    this.fields = [ 'phone', 'email', 'name', 'text', 'rating', 'agree_privacy_policy'];
 
     this.errorTextClass = 'validation-error-text';
     this.errorElementClass = 'validation-error-element';
-    this.succesElementClass = 'validation-succes-element';
+
+    this.init();
+  }
+
+  init() {
+    if (this.initialized) return;
+    this.bindEvents();
+    this.initialized = true;
+  }
+
+  bindEvents() {
+    // Обработчики для кнопок переключения вида
+    document.addEventListener('input', (e) => {
+      // Валидация числовых полей
+      if (e.target.matches('input[name="number"]')) {
+        this.realTimeCheckNumberInput(e.target);
+      }
+      // Валидация полей телефона
+      if (e.target.matches('input[name="phone"]')) {
+        this.realTimeCheckPhoneInput(e.target);
+      }
+    });
   }
 
   clearNotifications(form) {
     // Очистка сообщений
     form.querySelectorAll(`.${this.errorTextClass}`).forEach(e => e.remove());
-    form.querySelectorAll(`.${this.errorElementClass}, .${this.succesElementClass}`).forEach(e => {
-      e.classList.remove(this.errorElementClass, this.succesElementClass);
-    });
+    form.querySelectorAll(`.${this.errorElementClass}`).forEach(e => e.classList.remove(this.errorElementClass));
   }
 
   validateForm(form) {
@@ -189,8 +65,6 @@ class Validator {
         if (error) {
           this.showError(element, error)
           valid = false;
-        } else {
-          this.showSucces(element)
         }
       }
     });
@@ -201,10 +75,6 @@ class Validator {
     element = this.getAvailableElement(element);
     element.classList.add(this.errorElementClass);
     element.after(this.createError(error));
-  }
-  showSucces(element) {
-    element = this.getAvailableElement(element);
-    element.classList.add(this.succesElementClass);
   }
 
   getAvailableElement(element) {
@@ -218,18 +88,17 @@ class Validator {
     const rules = this.rules[name];
     if (!rules) return null;
 
-    // Специальная проверка для radio-кнопок
-    if (input.type === 'radio') {
-      const isChecked = input.parentNode.querySelector(`[name="${name}"]:checked`);
-      
-      if (input.required && !isChecked) {
-        return this.messages.required;
+    // Проверка чекбоксов
+    if (rules.checked) {
+      const checked = !!input.parentNode.querySelector(`[name="${name}"]:checked`);
+      if (input.required && rules.checked != checked) {
+        return this.messages?.[name] || this.messages.checked;
       }
     }
     
     // Проверка на обязательность
     if (input.required && !input.value.trim()) {
-      return this.messages.required;
+      return this.messages?.[name] || this.messages.required;
     }
     
     // Пропускаем необязательные пустые поля
@@ -237,13 +106,14 @@ class Validator {
       return null;
     }
     
-    const length = input.value.length;
-    
     // Проверка длины
-    if ((rules.min && length < rules.min) || (rules.max && length > rules.max)) {
-      return this.messages.len.replace('{min}', rules.min).replace('{max}', rules.max);
+    const length = input.value.length;
+    if (rules.min && rules.max) {
+      if (length < rules.min || length > rules.max) {
+        return this.messages?.[name] || this.messages.len.replace('{min}', rules.min).replace('{max}', rules.max);
+      }
     }
-    
+  
     // Проверка по регулярному выражению
     if (rules.pattern && !rules.pattern.test(input.value)) {
       return this.messages.pattern;
@@ -257,6 +127,24 @@ class Validator {
     errorDiv.textContent = text;
     return errorDiv
   }
+
+  realTimeCheckNumberInput(input) {
+    input.value = input.value.replace(/[^\d,]/g, '');
+  }
+
+  realTimeCheckPhoneInput(input) {
+    // Оставляем только цифры
+    let digits = input.value.replace(/\D/g, '');
+    
+    // Добавляем 7 в начало, если номер не начинается с 7 или 8
+    if (!/^[78]/.test(digits)) digits = '7' + digits;
+    
+    // Форматируем номер по маске +7 (XXX) XXX-XX-XX
+    input.value = digits.replace(/^(\d)(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/, 
+      (_, a, b, c, d, e) => 
+        `+7${b ? ` (${b}` : ''}${c ? `) ${c}` : ''}${d ? `-${d}` : ''}${e ? `-${e}` : ''}`
+    );
+  };
 }
 
 export const validator = new Validator();

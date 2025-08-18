@@ -3,12 +3,13 @@
  * @module BaseCartPopup
  */
 
-import { validateForm } from '../services/validations';
 import { events } from '../events/events';
 import { LoadingManager } from '../services/loading';
 import { createError, createElement, toggleClass } from '../services/dom';
 import { eventManager } from '../events/event-manager';
 import { apiService } from '../services/api';
+import { validator } from '../services/validations';
+import { NotificationManager } from '../services/notifications';
 
 const BASE_CONFIG = {
   selectors: {
@@ -42,6 +43,7 @@ class BasePopup {
     this.loading = null;
     this.initialized = false;
     this.api = apiService;
+    this.notifications = new NotificationManager();
 
     this.init();
   }
@@ -195,15 +197,15 @@ class BasePopup {
     this.dialog.querySelectorAll('.text-danger').forEach(el => el.remove());
     this.dialog.querySelectorAll('.error_style').forEach(el => el.classList.remove('error_style'));
 
-    if (errors.field) {
-      for (const [fieldName, errorText] of Object.entries(errors.field)) {
-        const field = this.dialog.querySelector(`[name="${fieldName}"]`);
-        if (field) {
-          field.classList.add('error_style');
-          field.after(createError(errorText));
-        }
-      }
-    }
+    // if (errors.field) {
+    //   for (const [fieldname, errortext] of object.entries(errors.field)) {
+    //     const field = this.dialog.querySelector(`[name="${fieldName}"]`);
+    //     if (field) {
+    //       field.classList.add('error_style');
+    //       field.after(createError(errorText));
+    //     }
+    //   }
+    // }
 
     if (errors.option) {
       for (const [optionId, errorText] of Object.entries(errors.option)) {
@@ -227,7 +229,7 @@ class BasePopup {
     const form = this.dialog.querySelector(this.selectors.purchaseForm);
 
     // Валидация формы
-    if (!validateForm(form)) return;
+    if (!validator.validateForm(form)) return;
 
     try {
       this.loading.show();
@@ -241,11 +243,9 @@ class BasePopup {
       
       const json = await response.json();
       
-      if (json.error) {
-        this.handleErrors(json.error);
-      } else if (json.output) {
-        this.handleSuccess(json.output);
-      }
+      if (json.toasts) this.notifications.show(json.toasts);
+      if (json.error) this.handleErrors(json.error);
+      if (json.html) this.handleSuccess(json.html);
     } catch (error) {
       console.error('Ошибка при оформлении заказа:', error);
     } finally {
@@ -253,9 +253,9 @@ class BasePopup {
     }
   }
 
-  handleSuccess(output) {
+  handleSuccess(html) {
     const popup = this.dialog.querySelector(this.selectors.popupCenter)
-    if (popup) popup.innerHTML = output;
+    if (popup) popup.innerHTML = html;
 
     this.removecheckoutBtn()
   }

@@ -12,9 +12,8 @@ const CONFIG = {
     popupId: '#popup-purchase',
   },
   endpoints: {
-    content: 'index.php?route=revolution/revpopuporder&revproduct_id=',
-    submit: 'index.php?route=revolution/revpopuporder/make_order',
-    update: 'index.php?route=product/product/update_prices',
+    content: 'index.php?route=modal/purchase&revproduct_id=',
+    submit: 'index.php?route=modal/purchase/send',
   },
   globalEvents: {
     'purchase': 'show'

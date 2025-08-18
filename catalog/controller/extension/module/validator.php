@@ -6,7 +6,11 @@ trait ValidatorTrait {
     'text' => ['min' => 15, 'max' => 3000],
     'rating' => ['min' => 1, 'max' => 5],
     'email' => ['min' => 5, 'max' => 96, 'pattern' => '/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
-    'phone' => ['min' => 5, 'max' => 32, 'pattern' => '/^\+?[\d\s\-\(\)]+$/']
+    'phone' => ['min' => 18, 'max' => 18, 'pattern' => '/^\+?[\d\s\-\(\)]+$/']
+  ];
+
+  protected $messages = [
+    'agree_privacy_policy' => 'Для обработки нужно дать согласие'
   ];
 
   /**
@@ -14,7 +18,9 @@ trait ValidatorTrait {
     * @param array $requiredFields - Массив обязательных полей (например ['name', 'email'])
     * @return array - Массив ошибок
     */
-  public function validateForm(array $data, array $requiredFields) {
+  public function validateForm(array $data, array $requiredFields, $formName) {
+    $errors = array();
+    $notCorrect = false;
         
     // Проверяем только поля, которые есть в rules
     foreach ($this->fieldRules as $field => $rules) {
@@ -28,33 +34,70 @@ trait ValidatorTrait {
       
       // Проверка на обязательность
       if ($isRequired && empty($value)) {
-        return false;
+        $notCorrect = true;
       }
       
+      // Проверка длины
       $length = utf8_strlen($value);
-      
-      // Проверка минимальной длины
-      if (isset($rules['min']) && $length < $rules['min']) {
-        return false;
-      }
-      
-      // Проверка максимальной длины
-      if (isset($rules['max']) && $length > $rules['max']) {
-        return false;
+      if ((isset($rules['min']) && $length < $rules['min']) || (isset($rules['max']) && $length > $rules['max'])) {
+        $notCorrect = true;
       }
       
       // Проверка по регулярному выражению
       if (isset($rules['pattern']) && !preg_match($rules['pattern'], $value)) {
-        return false;
+        $notCorrect = true;
       }
     }
+    if ($notCorrect) {
+      $errors[] = [
+        'category' => 'warning',
+        'text' => 'Не коректные данные'
+      ];
+    }
+
+    // Captcha
+		$error = $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array($formName, (array)$this->config->get('config_captcha_page'));
+    if ($error) {
+      $errors[] = [
+        'category' => 'warning',
+        'text' => $error
+      ];
+    }
+
+    if (isset($this->request->post['agree_privacy_policy'])) {
+			// ToDo
+			$this->load->model('catalog/information');
+			$information_info = $this->model_catalog_information->getInformation($this->config->get('revtheme_all_settings')['pol_konf']);
+			if ($information_info && !isset($this->request->post['agree_privacy_policy'])) {
+        $errors[] = [
+          'category' => 'warning',
+          'text' => $this->language->get('error_agree_pol_konf')
+        ];
+			}
+    }
         
-    return true;
+    return $errors;
   }
 
-	public function validateCaptcha($module) {
-		$error = $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array($module, (array)$this->config->get('config_captcha_page'));
-    return true;
-    return !$error;
+	public function getCaptcha($name) {
+		if ($this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array($name, (array)$this->config->get('config_captcha_page'))) {
+			return $this->load->controller('extension/captcha/' . $this->config->get('config_captcha'));
+    }
+		return '';
+	}
+
+	public function getPrivacyPolicyConfirmation() {
+    $result = '';
+		$this->load->model('catalog/information');
+		// ToDo избавиться от настроек revolution
+		$information_info = $this->model_catalog_information->getInformation($this->config->get('revtheme_all_settings')['pol_konf']);
+		if ($information_info) {
+			if ($this->config->get('revtheme_all_settings')['pol_konf_tvivod']) {
+				$result = sprintf($this->language->get('text_agree_pol_konf_st'), $this->url->link('information/information', 'information_id=' . $this->config->get('revtheme_all_settings')['pol_konf'], true), $information_info['title'], $information_info['title']);
+			} else {
+				$result = sprintf($this->language->get('text_agree_pol_konf'), $this->url->link('information/information', 'information_id=' . $this->config->get('revtheme_all_settings')['pol_konf'], true), $information_info['title']);
+			}
+		}
+    return $result;
 	}
 }

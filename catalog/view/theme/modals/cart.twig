@@ -100,7 +100,5 @@
 {% block footer %}
   <button class="continue-shopping" data-action="close">{{ button_shopping }}</button>
   <a href="{{ checkout_link }}" class="checkout-btn">{{ button_checkout }}</a>
-	{% if (setting_header_cart['cart_quick']) %} 
-		<button class="quickorder_b btn btn-default btn-sm" data-action="quick-order">{{ text_rev_buy_quick }}</button>
-	{% endif %} 
+		<button class="quickorder_b btn btn-default" data-action="quick-order">{{ text_rev_buy_quick }}</button>
 {% endblock %}

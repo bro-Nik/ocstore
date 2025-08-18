@@ -890,11 +890,6 @@ margin-bottom: 15px;
 footer iframe {
 max-width: 100%;
 }
-div.required .control-label:before {
-content: '* ';
-color: #e47364;
-font-weight: bold;
-}
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:hover i {
 color: #dd4b39;
@@ -5907,14 +5902,6 @@ margin: 10px 6px 10px 0;
 #revcheckout .total_checkout {
 font-size: 17px;
 padding: 10px 6px;
-}
-#revcheckout .rev_pol_konf {
-margin-bottom: 5px;
-}
-.rev_pol_konf input[type=checkbox] {
-margin-top: 3px;
-vertical-align: top;
-margin-left: 3px;
 }
 #revcheckout .panel {
 border: 0;

@@ -13,10 +13,22 @@ export class NotificationManager {
     }
     this.toastsSelector = moduleName ? `.toast-${moduleName}` : '';
   }
+  showList(messages) {
+    for (const message of messages) {
+      this.show(message.text, message.category);
+    }
+  }
   
   show(message, category) {
     if (!this.container) return;
-    this.clear();
+    // this.clear();
+
+    if (Array.isArray(message) && message.length > 0) {
+      for (const m of message) {
+        this.show(m.text, m.category);
+      }
+      return;
+    }
 
     var bgClass, icon;
     switch(category){
@@ -39,10 +51,6 @@ export class NotificationManager {
     }
 
     const notification = createElement('div', '', this.toastsSelector);
-    // Обработка сообщения (строка или массив)
-    if (Array.isArray(message)) {
-      message = message.join('<br>');
-    }
     
     notification.innerHTML = `
       <div class="toast alert-success" role="status" aria-live="polite">
