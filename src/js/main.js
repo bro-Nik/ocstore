@@ -16,6 +16,7 @@ import modals from './modals/init';
 import review from './feedback/review';
 import answer from './feedback/answer';
 import uiHelpers from './ui-helpers';
+import { pageViewCounter } from './statistic';
 
 import { initStars } from './elements';
 initStars();
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 	showContent();
+	pageViewCounter();
 });
 
 
@@ -105,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   descriptions.forEach(desc => {
     const content = desc.querySelector('.description');
+    if (!content) return;
 
     // Создаем элементы
     const fade = document.createElement('div');

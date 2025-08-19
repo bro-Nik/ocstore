@@ -9,6 +9,7 @@ import Swiper from 'swiper/core';
 import { Navigation, Thumbs } from 'swiper/modules';
 import { review } from '../feedback/review';
 import { answer } from '../feedback/answer';
+import { pageViewCounter } from '../statistic';
 
 const CONFIG = {
   selectors: {
@@ -49,6 +50,7 @@ class QuickViewPopup extends BasePopup {
     initProductSwipers();
     review.init(this.content);
     answer.init(this.content);
+    pageViewCounter(this.content);
   }
 }
 

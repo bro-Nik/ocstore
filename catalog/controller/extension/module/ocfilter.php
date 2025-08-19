@@ -15,7 +15,7 @@ class ControllerExtensionModuleOCFilter extends Controller {
     }
 
     $data = $this->load->language('extension/module/ocfilter');             
-        
+ 
     $module_heading_title = $this->ocfilter->config('module_heading_title');
 
     if ($module_heading_title && isset($module_heading_title[$this->config->get('config_language_id')])) {
@@ -271,11 +271,23 @@ class ControllerExtensionModuleOCFilter extends Controller {
     $data['ocf_class'] = 'ocf-' . $this->ocfilter->placement->getPlace();
     
     if ($this->ocfilter->placement->isManufacturer()) {
-    	 $data['ocf_class'] .= '-' . $this->ocfilter->seo->getManufacturerId();
+      $manufacturer_id = $this->ocfilter->seo->getManufacturerId();
+    	$data['ocf_class'] .= '-' . $manufacturer_id;
+
+		  // Данные для статистики
+      $data['counter_data'] = [ 'type' => 'manufacturer', 'id' => $manufacturer_id ];
     } else if ($this->ocfilter->placement->isCustomPage()) {
-    	 $data['ocf_class'] .= '-' . $this->ocfilter->placement->getCustomPageLayoutId();
+      $layout_id = $this->ocfilter->placement->getCustomPageLayoutId();
+    	$data['ocf_class'] .= '-' . $layout_id;
+
+		  // Данные для статистики
+      $data['counter_data'] = [ 'type' => 'ocfilter_page', 'id' => $layout_id ];
     } else if ($this->ocfilter->placement->isCategory()) {
-    	 $data['ocf_class'] .= '-' . $this->ocfilter->seo->getCategoryId();
+      $category_id = $this->ocfilter->seo->getCategoryId();
+    	$data['ocf_class'] .= '-' . $category_id;
+
+		  // Данные для статистики
+      $data['counter_data'] = [ 'type' => 'category', 'id' => $category_id ];
     }    
     
     // Output   

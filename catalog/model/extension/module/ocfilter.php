@@ -2042,10 +2042,4 @@ class ModelExtensionModuleOCFilter extends Model {
 
     return $query->num_rows ? $query->row['total'] : 0;
   }
-
-  public function incrementPageView($page_id) {
-      $this->db->query("UPDATE " . DB_PREFIX . "ocfilter_page 
-                        SET view = view + 1 
-                        WHERE page_id = '" . (int)$page_id . "'");
-  }
 }

@@ -116,6 +116,9 @@ trait ProductInfo {
 		$data['rating'] = number_format($product_info['rating'], 1);
 		$data['revtheme_product_all_attribute_group'] = $this->config->get('revtheme_product_all_attribute_group');
 		$data['attribute_groups'] = $this->model_catalog_product->getProductAttributes($data['product_id']);
+
+		// Данные для статистики
+    $data['counter_data'] = [ 'type' => 'product', 'id' => $data['product_id'] ];
   }
 
 	protected function prepareProductTags($product_info, &$data) {

@@ -32,6 +32,9 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
 		$data['breadcrumbs'] = $this->prepareBreadcrumbs($manufacturer_info);
 
 		if ($manufacturer_info) {
+		  // Данные для статистики
+      $data['counter_data'] = [ 'type' => 'manufacturer', 'id' => $manufacturer_id ];
+
 			$this->noindexCheck($manufacturer_info);
 			$this->setTitleDescription($data, $manufacturer_info, $params['page']);
       $this->setMetaData($manufacturer_info, $params['page']);

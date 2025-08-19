@@ -49,4 +49,7 @@
 
 {% block after_content %}
   {{ viewed_products }}
+
+  {# Статистика #}
+	{% include 'statistic/page_view_counter.twig' %}
 {% endblock %}

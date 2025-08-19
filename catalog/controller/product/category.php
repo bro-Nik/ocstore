@@ -17,8 +17,6 @@ class ControllerProductCategory extends ControllerBaseProductsList {
 			$parts = explode('_', (string)$this->request->get['path']);
 			$category_id = (int)array_pop($parts);
 		}
-    // Фиксируем просмотр
-    $this->model_catalog_category->incrementCategoryView($category_id);
 
     // Рекомендуемые категории
     // $data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'category_id=' . $category_id);
@@ -33,6 +31,9 @@ class ControllerProductCategory extends ControllerBaseProductsList {
 		$data['breadcrumbs'] = $this->prepareBreadcrumbs($category_info);
 
     if ($category_info) {
+		  // Данные для статистики
+      $data['counter_data'] = [ 'type' => 'category', 'id' => $category_id ];
+
 			$this->noindexCheck($category_info);
 			$this->setTitleDescription($data, $category_info, $params['page']);
       $this->setMetaData($category_info, $params['page']);

@@ -45,14 +45,19 @@ class ControllerToolUpdater extends Controller {
     }
 
     private function updateDbTabs() {
-      $query = $this->db->query("SHOW COLUMNS FROM `oc_category` LIKE 'view'");
+      $query = $this->db->query("SHOW COLUMNS FROM `oc_category` LIKE 'viewed'");
       if (!$query->num_rows) {
-        $this->db->query("ALTER TABLE `oc_category` ADD COLUMN `view` INT(11) NOT NULL DEFAULT 0 AFTER `status`");
+        $this->db->query("ALTER TABLE `oc_category` ADD COLUMN `viewed` INT(11) NOT NULL DEFAULT 0 AFTER `status`");
       }
 
-      $query = $this->db->query("SHOW COLUMNS FROM `oc_ocfilter_page` LIKE 'view'");
+      $query = $this->db->query("SHOW COLUMNS FROM `oc_ocfilter_page` LIKE 'viewed'");
       if (!$query->num_rows) {
-        $this->db->query("ALTER TABLE `oc_ocfilter_page` ADD COLUMN `view` INT(11) NOT NULL DEFAULT 0 AFTER `status`");
+        $this->db->query("ALTER TABLE `oc_ocfilter_page` ADD COLUMN `viewed` INT(11) NOT NULL DEFAULT 0 AFTER `status`");
+      }
+
+      $query = $this->db->query("SHOW COLUMNS FROM `oc_manufacturer` LIKE 'viewed'");
+      if (!$query->num_rows) {
+        $this->db->query("ALTER TABLE `oc_manufacturer` ADD COLUMN `viewed` INT(11) NOT NULL DEFAULT 0 AFTER `noindex`");
       }
 
       return 'Внесение изменения структуру базы данных выполнено.';

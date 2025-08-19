@@ -80,30 +80,23 @@ class ModelCatalogCategory extends Model {
     return $service_related_data;
 	}
 
-	public function incrementCategoryView($category_id) {
-    // Уменьшаем старые просмотры на 10% и добавляем новый
-    // новые просмотры имеют больший вес
-    $this->db->query("UPDATE " . DB_PREFIX . "category SET view = view * 0.9 + 1 
-                    	WHERE category_id = '" . (int)$category_id . "'");
-	}
-
 	public function getPopularSubcategories($category_id, $limit = 5) {
-    $query = $this->db->query("SELECT c.category_id, cd.name, c.parent_id, c.view, 
+    $query = $this->db->query("SELECT c.category_id, cd.name, c.parent_id, c.viewed, 
                              	(SELECT COUNT(*) FROM " . DB_PREFIX . "product_to_category p2c 
                               	WHERE p2c.category_id = c.category_id) as product_count
                              	FROM " . DB_PREFIX . "category c
                              	LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id)
                              	WHERE c.parent_id = '" . (int)$category_id . "' 
                              	AND c.status = '1'
-                             	AND c.view != '0'
+                             	AND c.viewed != '0'
                              	AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'
-                             	ORDER BY c.view DESC, product_count DESC, c.sort_order
+                             	ORDER BY c.viewed DESC, product_count DESC, c.sort_order
                              	LIMIT " . (int)$limit);
     
     return $query->rows;
 	}
 	public function getPopularFilters($category_id, $limit = 5) {
-    $query = $this->db->query("SELECT op.page_id, opd.name, op.view, 
+    $query = $this->db->query("SELECT op.page_id, opd.name, op.viewed, 
                               (SELECT GROUP_CONCAT(DISTINCT cp.path_id ORDER BY cp.`level` SEPARATOR '_') 
                                FROM " . DB_PREFIX . "category_path cp 
                                WHERE cp.category_id = op.category_id) AS path
@@ -112,8 +105,8 @@ class ModelCatalogCategory extends Model {
                                 ON (op.page_id = opd.page_id)
                               WHERE op.category_id = '" . (int)$category_id . "' 
                               AND op.status = '1'
-                              AND op.view != '0'
-                              ORDER BY op.view DESC
+                              AND op.viewed != '0'
+                              ORDER BY op.viewed DESC
                               LIMIT " . (int)$limit);
     
     return $query->rows;
