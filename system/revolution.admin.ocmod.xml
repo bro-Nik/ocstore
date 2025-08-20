@@ -202,15 +202,6 @@
             ]]></add>
         </operation>
     </file>
-	<file path="admin/language/{uk-ua}/common/column_left.php">
-        <operation error="skip">
-            <search><![CDATA[$_['text_user']]]></search>
-            <add position="before"><![CDATA[
-				$_['text_product_review'] = 'Відгуки про товари';
-				$_['text_store_review'] = 'Відгуки про магазин';
-            ]]></add>
-        </operation>
-    </file>
 	<file path="admin/view/template/common/column_left.twig">
 		<operation error="skip">
 			<search><![CDATA[<ul id="menu">]]></search>

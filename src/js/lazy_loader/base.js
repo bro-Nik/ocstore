@@ -27,13 +27,16 @@ class LazyLoaderBase {
     }
   }
 
-
   observerHandler() {
     if (this.loaded) return;
-    this.loadHtml(this.endpoints.content, this.container, () => {
+    this.loadHtml(this.contentUrl(), this.container, () => {
       this.loaded = true;
       this.afterLoad();
     });
+  }
+
+  contentUrl() {
+    return this.endpoints.content;
   }
 
   afterLoad() {

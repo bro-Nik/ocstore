@@ -126,6 +126,14 @@ class ControllerCommonColumnLeft extends Controller {
 				);
 			}
 
+			if ($this->user->hasPermission('access', 'catalog/settings')) {
+				$catalog[] = array(
+					'name'	   => 'Настройки',
+					'href'     => $this->url->link('catalog/settings', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()
+				);
+			}
+
 			if ($catalog) {
 				$data['menus'][] = array(
 					'id'       => 'menu-catalog',
@@ -135,6 +143,7 @@ class ControllerCommonColumnLeft extends Controller {
 					'children' => $catalog
 				);
 			}
+
 
 			// BLOG
 			$blog = array();

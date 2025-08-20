@@ -1,5 +1,6 @@
 export const LoaderMixin = {
   async loadHtml(url, container, collback) {
+    console.log(url)
     try {
       const response = await fetch(url);
       
