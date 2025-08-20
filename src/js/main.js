@@ -13,6 +13,7 @@ import wishlist from './wishlist';
 import cart from './cart';
 import events from './events/events';
 import modals from './modals/init';
+import lazyElements from './lazy_loader/init';
 import review from './feedback/review';
 import answer from './feedback/answer';
 import uiHelpers from './ui-helpers';

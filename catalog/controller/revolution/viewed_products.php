@@ -2,7 +2,7 @@
 require_once('catalog/controller/base/product_cart.php');
 
 class ControllerRevolutionViewedProducts extends ControllerBaseProductCart {
-	public function index($settings) {
+	public function index($settings = []) {
 		
 		$products = array();
 
@@ -23,7 +23,6 @@ class ControllerRevolutionViewedProducts extends ControllerBaseProductCart {
 		$limit = !empty($settings['limit']) ? (int)$settings['limit'] : 8;
 		$products_ids = array_slice($products, 0, $limit);
 
-    
     $this->load->model('catalog/product');
     $products = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $products_ids]);
 		
@@ -31,7 +30,8 @@ class ControllerRevolutionViewedProducts extends ControllerBaseProductCart {
 		$data['id'] = 'slider_viewed_products';
 		$data['title'] = 'Вы недавно смотрели';
 
-		return $this->load->view('product/carousel_product', $data);
+		// return $this->load->view('product/carousel_product', $data);
+    $this->response->setOutput($this->load->view('product/carousel_product', $data));
 
 	}
 }

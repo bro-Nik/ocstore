@@ -41,8 +41,6 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 			$related_products = $this->model_catalog_product->getProductRelated($data['product_id']);
 			$data['accessories'] = $this->prepareProducts($related_products);
 
-			$data['viewed_products'] = $this->load->controller('revolution/viewed_products');
-			
 			$data = $this->addCommonTemplateData($data);
     	$this->response->setOutput($this->load->view('product/product', $data));
 		} else {

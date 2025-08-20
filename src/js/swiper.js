@@ -30,11 +30,11 @@ export function initProductSwipers() {
   return { productThumbsSwiper, productMainSwiper };
 }
 
-export function initCarouselSwipers() {
+export function initCarouselSwipers(container = document) {
   const swipers = {};
   
   // Проходим по всем каруселям на странице
-  document.querySelectorAll('.swiper-carousel').forEach((carouselEl, index) => {
+  container.querySelectorAll('.swiper-carousel').forEach((carouselEl, index) => {
     
     // Базовые настройки для всех каруселей
     const defaultConfig = {
