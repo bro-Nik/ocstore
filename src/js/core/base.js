@@ -3,12 +3,12 @@
  * @class BaseModule
  */
 
-// import { postFormData } from '../services/api';
 import { LoadingManager } from '../services/loading';
 import { NotificationManager } from '../services/notifications';
+import { LoaderMixin } from '../mixins/loader';
+import { FormMixin } from '../mixins/form';
 import { eventManager } from '../events/event-manager';
 import { events } from '../events/events';
-import { apiService } from '../services/api';
 
 const BASE_CONFIG = {};
 
@@ -23,8 +23,9 @@ export class BaseModule {
     this.content = null;
     this.loading = null;
     this.initialized = false;
-    this.api = apiService;
     this.notifications = new NotificationManager(this.config.moduleName);
+
+    Object.assign(this, LoaderMixin, FormMixin);
 
     this.init();
   }
@@ -67,7 +68,7 @@ export class BaseModule {
    * @returns {Promise}
    */
   sendFormData(url, formData) {
-    return this.api.postFormData(url, formData);
+    return this.postFormData(url, formData);
   }
 
   /**

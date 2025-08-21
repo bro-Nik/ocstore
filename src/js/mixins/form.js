@@ -36,7 +36,7 @@ export const FormMixin = {
       const json = await response.json();
 
       if (json.toasts) {
-        notifications.showList(json.toasts);
+        notifications.show(json.toasts);
       }
 
       if (json.success) {
@@ -72,5 +72,23 @@ export const FormMixin = {
     // Фокусировка на первом поле
     const firstInput = form.querySelector('input, textarea, select');
     if (firstInput) firstInput.focus();
+  },
+
+  async postFormData(url, formData) {
+    // return fetch(url, {
+    //   method: 'POST',
+    //   body: formData
+    // });
+    //
+    return fetch(url, {
+      method: 'POST',
+      body: new URLSearchParams(formData),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then(response => {
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return response.json();
+    });
   }
 };

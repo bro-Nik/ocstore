@@ -13,11 +13,11 @@ export class NotificationManager {
     }
     this.toastsSelector = moduleName ? `.toast-${moduleName}` : '';
   }
-  showList(messages) {
-    for (const message of messages) {
-      this.show(message.text, message.category);
-    }
-  }
+  // showList(messages) {
+  //   for (const message of messages) {
+  //     this.show(message.text, message.category);
+  //   }
+  // }
   
   show(message, category) {
     if (!this.container) return;

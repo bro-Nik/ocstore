@@ -66,28 +66,14 @@ export class ToggleModule extends BaseModule {
       }
     }
     
-    try {
-      const response = await fetch('index.php?route=api/session&nocache=' + Date.now());
-      if (!response.ok) throw new Error('Network response was not ok');
-      
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Invalid content type');
-      }
-      
-      const data = await response.json();
-      if (data.success) {
-        const cacheData = {
-          data: data.data,
-          timestamp: Date.now()
-        };
-        localStorage.setItem(SESSION_CACHE_KEY, JSON.stringify(cacheData));
-        return data.data;
-      }
-      throw new Error(data.error || 'Unknown error');
-    } catch (error) {
-      console.error('Error fetching session data:', error);
-      return null;
+    const data = await this.getJson('index.php?route=api/session&nocache=' + Date.now());
+    if (data.success) {
+      const cacheData = {
+        data: data.data,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(SESSION_CACHE_KEY, JSON.stringify(cacheData));
+      return data.data;
     }
   }
 

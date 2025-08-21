@@ -7,9 +7,9 @@ import { events } from '../events/events';
 import { LoadingManager } from '../services/loading';
 import { createError, createElement, toggleClass } from '../services/dom';
 import { eventManager } from '../events/event-manager';
-import { apiService } from '../services/api';
 import { validator } from '../services/validations';
 import { NotificationManager } from '../services/notifications';
+import { LoaderMixin } from '../mixins/loader';
 
 const BASE_CONFIG = {
   selectors: {
@@ -42,8 +42,9 @@ class BasePopup {
     this.content = null;
     this.loading = null;
     this.initialized = false;
-    this.api = apiService;
     this.notifications = new NotificationManager();
+
+    Object.assign(this, LoaderMixin);
 
     this.init();
   }
@@ -135,7 +136,7 @@ class BasePopup {
 
     if (typeof url !== 'string') url = this.endpoints.content;
 
-    await this.api.loadHtml(url, this.content);
+    await this.loadHtml(url, this.content);
 
     // Генерируем событие ПОСЛЕ открытия
     const openedEvent = new CustomEvent('popup:opened', {
@@ -196,16 +197,6 @@ class BasePopup {
     // Удаляем предыдущие ошибки
     this.dialog.querySelectorAll('.text-danger').forEach(el => el.remove());
     this.dialog.querySelectorAll('.error_style').forEach(el => el.classList.remove('error_style'));
-
-    // if (errors.field) {
-    //   for (const [fieldname, errortext] of object.entries(errors.field)) {
-    //     const field = this.dialog.querySelector(`[name="${fieldName}"]`);
-    //     if (field) {
-    //       field.classList.add('error_style');
-    //       field.after(createError(errorText));
-    //     }
-    //   }
-    // }
 
     if (errors.option) {
       for (const [optionId, errorText] of Object.entries(errors.option)) {
