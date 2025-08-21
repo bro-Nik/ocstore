@@ -1,7 +1,8 @@
 export const LoaderMixin = {
   async loadHtml(url, container, collback) {
-    console.log(url)
     try {
+      await new Promise(resolve => setTimeout(resolve, 300));
+
       const response = await fetch(url);
       
       if (!response.ok) {

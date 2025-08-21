@@ -25,7 +25,6 @@ class RelatedProducts extends LazyLoaderBase {
     if (!infoEl) return;
 
     const id = infoEl.dataset.id;
-    console.log(id)
     return `${this.endpoints.content}${id}`;
   }
 

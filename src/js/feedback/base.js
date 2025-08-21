@@ -6,11 +6,13 @@
 import { BaseModule } from '../core/base';
 import { LoadingManager } from '../services/loading';
 import { ToggleBoxManager } from '../services/animations';
-import { validator } from '../services/validations';
+import { LoaderMixin } from '../mixins/loader';
+import { FormMixin } from '../mixins/form';
 
 export class FeedbackBase extends BaseModule {
   constructor(config) {
     super(config);
+    Object.assign(this, LoaderMixin, FormMixin);
   }
 
   init(container = document) {
@@ -23,11 +25,11 @@ export class FeedbackBase extends BaseModule {
     this.productId = this.content.dataset.productId;
     if (!this.productId) return;
 
-    this.submitButton = this.container.querySelector('[type="submit"]');
     this.form = this.container.querySelector('form');
+    this.submitButton = this.form.querySelector('[type="submit"]');
 
     this.loading = new LoadingManager(this.content);
-    this.tiggleBox = new ToggleBoxManager(this.container);
+    this.toggleBox = new ToggleBoxManager(this.container);
 
     super.init();
   }
@@ -60,86 +62,20 @@ export class FeedbackBase extends BaseModule {
   }
   async loadContent(url) {
     this.loading.show();
-    try {
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Network response was not ok');
-      
-      const html = await response.text();
-
-      if (this.content) {
-        this.content.innerHTML = html;
-        // Повторно инициализируем контейнер после загрузки нового контента
-        this.content = document.querySelector(this.selectors.content);
-      }
-      
-    } catch (error) {
-      console.error('Ошибка при загрузке контента:', error);
-      this.notifications.show('Не удалось загрузить данные', 'error');
-    }
+    await this.loadHtml(url, this.content);
     this.loading.hide();
   }
 
   async submitForm() {
-    if (!this.form || !this.submitButton) return;
-
-    const formLoading = new LoadingManager(this.form);
-    try {
-      formLoading.show();
-      this.submitButton.disabled = true;
-
-      if (!validator.validateForm(this.form)) return;
-      validator.clearNotifications(this.form);
-
-      const formData = new FormData(this.form);
-      formData.append('product_id', this.productId);
-
-      const response = await fetch(`${this.config.endpoints.write}${this.productId}`, {
-        method: 'POST',
-        body: new URLSearchParams(formData)
-      });
-      
-      if (!response.ok) throw new Error('Network response was not ok');
-      
-      this.notifications.clear();
-      const json = await response.json();
-
-      if (json.toasts) {
-        this.notifications.showList(json.toasts);
-      }
-
-      if (json.success) {
-        this.notifications.show(json.success, 'success');
-        this.resetForm();
-        this.tiggleBox.close();
-      }
-
-    } catch (error) {
-      console.error('Ошибка:', error);
-      this.notifications.show('Произошла ошибка при отправке', 'error');
-    } finally {
-      this.submitButton.disabled = false;
-      formLoading.hide();
-    }
+    const url = `${this.config.endpoints.write}${this.productId}`;
+    const data = {
+      product_id: this.productId,
+    };
+    this.submit(this.form, url, data);
   }
 
-  resetForm() {
-    if (!this.form) return;
-    
-    this.form.reset();
-    
-    // Дополнительные сбросы для специфических элементов
-    const stars = this.form.querySelectorAll('.stars .glyphicon');
-    if (stars) {
-      stars.forEach(star => {
-        star.classList.remove('glyphicon-star');
-        star.classList.add('glyphicon-star-empty');
-      });
-    }
-    
-    // Фокусировка на первом поле
-    const firstInput = this.form.querySelector('input, textarea, select');
-    if (firstInput) firstInput.focus();
+  async afterSucces() {
+    this.resetForm();
+    this.toggleBox.close();
   }
 }

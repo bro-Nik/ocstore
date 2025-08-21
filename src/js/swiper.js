@@ -6,7 +6,7 @@ export function initProductSwipers() {
   if (!swiperEl) return;
   const slidesCount = swiperEl.querySelectorAll('.swiper-slide').length;
 
-  var productThumbsSwiper = new Swiper(".product_thumbs_swiper", {
+  const productThumbsSwiper = new Swiper(".product_thumbs_swiper", {
     loop: slidesCount > 4,
     spaceBetween: 10,
     slidesPerView: 4,
@@ -14,7 +14,7 @@ export function initProductSwipers() {
     watchSlidesProgress: true,
   });
 
-  var productMainSwiper = new Swiper(".product_main_swiper", {
+  const productMainSwiper = new Swiper(".product_main_swiper", {
     modules: [Navigation, Thumbs],
     loop: true,
     spaceBetween: 10,

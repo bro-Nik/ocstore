@@ -205,38 +205,7 @@ export class ToggleModule extends BaseModule {
   updateButton(button, forceState = false) {
     const inListSelector = `in-${this.config.moduleName}`
     const inList = !button.classList.contains(inListSelector)
-    // const inList = forceState ? !button.classList.contains(inListSelector) : button.classList.contains(inListSelector);
 
-    // if (inList) {
-    //   // Удаляем класс принадлежности к списку
-    //   button.classList.remove(inListSelector);
-    //
-    //   // Обновляем атрибуты
-    //   button.setAttribute('title', this.config.titleIn || '');
-    //   button.setAttribute('data-original-title', this.config.titleIn || '');
-    //   button.setAttribute('data-toggle', 'tooltip');
-    //
-    //   // Меняем action
-    //   button.setAttribute('data-action', `${this.config.moduleName}-toggle`);
-    //
-    //   // Меняем текст
-    //   if (this.config.textIn) button.innerHTML = this.config.textIn;
-    //
-    // } else {
-    //   // Сбрасываем и добавляем классы
-    //   button.classList.add(inListSelector);
-    //
-    //   // Обновляем атрибуты
-    //   button.setAttribute('title', this.config.titleOut || '');
-    //   button.setAttribute('data-original-title', this.config.titleOut || '');
-    //   button.setAttribute('data-toggle', 'tooltip');
-    //
-    //   // Меняем action
-    //   button.setAttribute('data-action', this.config.actionIn || `${this.config.moduleName}-toggle`);
-    //
-    //   // Меняем текст
-    //   if (this.config.textOut) button.innerHTML = this.config.textOut;
-    // }
     if (inList) {
       button.classList.add(inListSelector);
       if (this.config.titleOut) button.setAttribute('title', this.config.titleOut);

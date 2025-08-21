@@ -263,13 +263,13 @@ class Cart extends ToggleModule {
     })
     .then(response => response.json())
     .then(json => {
-      element.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
-        el.textContent = numberFormat(json.option_quantity, product_id);
-      });
+      // element.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
+      //   el.textContent = numberFormat(json.option_quantity, product_id);
+      // });
       
-      element.querySelectorAll('.product_informationss .pr_points').forEach(el => {
-        el.textContent = number_Format(json.points, product_id);
-      });
+      // element.querySelectorAll('.product_informationss .pr_points').forEach(el => {
+      //   el.textContent = number_Format(json.points, product_id);
+      // });
       
       element.querySelectorAll('.product_informationss .pr_model').forEach(el => {
         el.textContent = json.opt_model;
@@ -308,13 +308,13 @@ class Cart extends ToggleModule {
     formData.append('product_id', product_id);
     
     const json = await this.api.postFormData('index.php?route=product/product/update_prices', formData);
-    document.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
-      el.textContent = number_format(json.option_quantity, product_id);
-    });
+    // document.querySelectorAll('.product_informationss .pr_quantity').forEach(el => {
+    //   el.textContent = number_format(json.option_quantity, product_id);
+    // });
     
-    document.querySelectorAll('.product_informationss .pr_points').forEach(el => {
-      el.textContent = number_format(json.points, product_id);
-    });
+    // document.querySelectorAll('.product_informationss .pr_points').forEach(el => {
+    //   el.textContent = number_format(json.points, product_id);
+    // });
     
     document.querySelectorAll('.product_informationss .pr_model').forEach(el => {
       el.textContent = json.opt_model;

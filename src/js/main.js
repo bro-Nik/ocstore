@@ -53,7 +53,7 @@ function showContent() {
   }, 300);
 }
 // Fallback на случай проблем
-setTimeout(showContent, 3000);
+// setTimeout(showContent, 3000);
 
 var h_top3 = $('#top3').outerHeight();
 // $('.main-content').css('padding-top', h_top3+25);

@@ -21,14 +21,16 @@ export class NotificationManager {
   
   show(message, category) {
     if (!this.container) return;
-    // this.clear();
 
-    if (Array.isArray(message) && message.length > 0) {
-      for (const m of message) {
-        this.show(m.text, m.category);
-      }
+    // Проверяем на массив
+    if (Array.isArray(message)) {
+      if (message.length === 0) return;
+      message.forEach(m => this.show(m.text, m.category));
       return;
     }
+
+    // Проверяем, что message - строка
+    if (typeof message !== 'string') return;
 
     var bgClass, icon;
     switch(category){
@@ -41,7 +43,6 @@ export class NotificationManager {
       icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle text-white" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"></path></svg>`
       break;
     case 'success':
-      // bgClass = 'bg-success';
       bgClass = 'bg-primary';
       icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle text-white" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/></svg>`
       break;
