@@ -9,7 +9,7 @@ const CONFIG = {
   moduleName: 'compare',
   selectors: {
     btns: [
-      '[data-action="compare-toggle"][data-product-id="{product_id}"]'
+      '.compare[data-product-id="{product_id}"]'
     ],
   },
 };

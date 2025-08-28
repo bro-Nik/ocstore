@@ -59,6 +59,10 @@ export function setCookie(name, value, days = 30) {
     document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/;SameSite=Lax";
 }
 
+export function clearCookie(name) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+}
+
 export function addToCartCookie(productId, quantity = 1, options = []) {
   if (!productId) return;
     const cookieKey = 'cart';

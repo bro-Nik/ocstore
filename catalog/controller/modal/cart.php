@@ -230,6 +230,7 @@ class ControllerModalCart extends Controller {
 
 			// $this->cart->clear();
 			
+			setcookie('cart', '');
 			$json['html'] = $this->language->get('text_success_order');
 		}
 		

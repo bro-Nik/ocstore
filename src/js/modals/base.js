@@ -219,7 +219,6 @@ class BasePopup {
   }
 
   async handleSubmit() {
-    console.log('handleSubmit')
     const form = this.dialog.querySelector(this.selectors.purchaseForm);
     const json = await this.submit(form, this.endpoints.submit);
 

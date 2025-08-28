@@ -27,9 +27,10 @@ export class ToggleBoxManager {
     this.closeBtn = this.container.querySelector('.close-box');
     this.hiddenContent = this.container.querySelector('.hidden-content-box');
     this.switchableContent = this.container.querySelector('.switchable-content-box');
-    this.input = this.hiddenContent.querySelector('input, textarea');
 
     if (!this.openBtn || !this.hiddenContent) return;
+
+    this.input = this.hiddenContent.querySelector('input, textarea');
 
     // Инициализация начального состояния
     this.hiddenContent.style.display = 'none';

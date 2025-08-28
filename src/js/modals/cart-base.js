@@ -8,7 +8,7 @@ import { cart } from '../core/cart';
 import { wishlist } from '../core/wishlist';
 import { events } from '../events/events';
 import { eventManager } from '../events/event-manager';
-import { getCookie } from '../cookie';
+import { getCookie, clearCookie } from '../cookie';
 import { priceFormat } from '../main';
 
 const BASE_CART_CONFIG = {
@@ -185,10 +185,13 @@ class BaseCartPopup extends BasePopup {
 
   updateTotalSum() {
     const productItemList = this.content.querySelector(this.selectors.productItemList);
-    if (!productItemList) return;
+    if (!productItemList) {
+      this.content.querySelector(this.selectors.popupCenter).innerHTML = 'В корзине пусто';
+      this.removecheckoutBtn();
+      return;
+    }
 
     const productItems = productItemList.querySelectorAll(this.selectors.productItem);
-
     if (!productItems.length) {
       this.content.querySelector(this.selectors.popupCenter).innerHTML = 'В корзине пусто';
       this.removecheckoutBtn();
@@ -204,6 +207,12 @@ class BaseCartPopup extends BasePopup {
 
     const sumElement = this.content.querySelector('#all_total');
     if (sumElement) sumElement.innerHTML = priceFormat(sum);
+  }
+
+  handleSuccess() {
+    clearCookie('cart');
+    cart.updateTotalCount(0);
+    super.handleSuccess();
   }
 }
 

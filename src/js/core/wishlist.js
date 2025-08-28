@@ -11,7 +11,7 @@ const CONFIG = {
   titleOut: 'Из закладок',
   selectors: {
     btns: [
-      '[data-action="wishlist-toggle"][data-product-id="{product_id}"]'
+      '.wishlist[data-product-id="{product_id}"]'
     ],
   },
 };

@@ -28,7 +28,7 @@ const CONFIG = {
     quantityContainer: '#revcart_upd .number',
     cartContent: '.rev_cart',
     btns: [
-      '[data-action="cart-toggle"][data-product-id="{product_id}"]'
+      '.btn-cart[data-product-id="{product_id}"]',
     ],
   },
   globalEvents: {
