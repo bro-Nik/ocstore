@@ -1,5 +1,9 @@
 <?php
+require_once('catalog/controller/trait/cookie.php');
+
 class ControllerProductCompare extends Controller {
+	use \CookieTrait;
+
 	public function index() {
 		$this->load->language('revolution/revcompare');
 		$this->load->language('revolution/revolution');
@@ -8,19 +12,9 @@ class ControllerProductCompare extends Controller {
 
 		$this->load->model('tool/image');
 
-		if (!isset($this->session->data['compare'])) {
-			$this->session->data['compare'] = array();
-		}
-
-		if (isset($this->request->get['remove'])) {
-			$key = array_search($this->request->get['remove'], $this->session->data['compare']);
-
-			if ($key !== false) {
-				unset($this->session->data['compare'][$key]);
-			}
-
-			$this->response->redirect($this->url->link('product/compare'));
-		}
+		$compare_data = $this->getCookie('compare') ?? [];
+		$product_ids = array_map('intval', $compare_data);
+    $products = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $product_ids]);
 
 		if ($this->config->get('revtheme_meta')['comp_meta_title'][(int)$this->config->get('config_language_id')]) {
 			$this->document->setTitle($this->config->get('revtheme_meta')['comp_meta_title'][(int)$this->config->get('config_language_id')]);
@@ -75,38 +69,6 @@ class ControllerProductCompare extends Controller {
 
 		$this->load->model('revolution/revolution');
 		$settings_stikers = $this->config->get('revtheme_catalog_stiker');
-		if ($settings_stikers['status']) {
-			$data['stikers_status'] = true;
-
-			if ($settings_stikers['new_status']) {
-				$settings_last = $this->config->get('revtheme_catalog_last');
-				$data_last = array(
-					'sort'  => 'p.date_added',
-					'order' => 'DESC',
-					'start' => 0,
-					'limit' => $settings_last['limit']
-					);
-				$date_added = $this->model_catalog_product->getProducts($data_last);
-			}
-
-			if ($settings_stikers['best_status']) {
-				$settings_best = $this->config->get('revtheme_catalog_best');
-				if ($settings_best['best_products'] != '') {
-					$best_seller = array_flip(explode(',', $settings_best['best_products']));
-				} else {
-					$data_best = array(
-						'sort'  => 'p.sales',
-						'order' => 'DESC',
-						'start' => 0,
-						'limit' => $settings_best['limit'],
-						'filter_buy' => $settings_best['filter_buy']
-					);
-					$best_seller = $this->model_revolution_revolution->getBestProducts($data_best);
-				}
-			}
-		} else {
-			$data['stikers_status'] = false;
-		}
 		
 		$product_settings = $this->config->get('revtheme_product_all');
 		$data['zakaz'] = $product_settings['zakaz'];
@@ -119,8 +81,8 @@ class ControllerProductCompare extends Controller {
 		$data['attribute_groups'] = array();
 
 		if ($settings['cat_sort']) {
-			foreach ($this->session->data['compare'] as $key => $product_id) {
-				$product_info = $this->model_catalog_product->getProduct($product_id);
+			foreach ($products as $product_info) {
+				// $product_info = $this->model_catalog_product->getProduct($product_id);
 				
 				if ($product_info) {
 					if ($product_info['image']) {
@@ -167,79 +129,48 @@ class ControllerProductCompare extends Controller {
 						}
 					}					
 					
-					if (isset($this->session->data['compare'])) {
-						if (in_array($product_id, $this->session->data['compare'])) {
-							$compare_class = 'in-compare';
-							$button_compare = $this->language->get('button_compare_out');
-						} else {
-							$compare_class = '';
-							$button_compare = $this->language->get('button_compare');
-						}
-					} else {
-						$compare_class = '';
-						$button_compare = $this->language->get('button_compare');
-					}
-					if (isset($this->session->data['wishlist'])) {
-						if (in_array($product_id, $this->session->data['wishlist'])) {
-							$wishlist_class = 'in-wishlist';
-							$button_wishlist = $this->language->get('button_wishlist_out');
-						} else {
-							$wishlist_class = '';
-							$button_wishlist = $this->language->get('button_wishlist');
-						}
-					} else {
-						$wishlist_class = '';
-						$button_wishlist = $this->language->get('button_wishlist');
-					}
-					if ($this->customer->isLogged()) {
-						$this->load->model('account/wishlist');
-						$wishlist_register = $this->model_account_wishlist->getWishlist();
-						if ($wishlist_register) {
-							$wishlist_register2 = array();
-							foreach ($wishlist_register as $result_wishlist_register_id) {
-								$wishlist_register_id[] = $result_wishlist_register_id['product_id'];
-							}
-							if (in_array($product_id, $wishlist_register_id)) {
-								$wishlist_class = 'in-wishlist';
-								$button_wishlist = $this->language->get('button_wishlist_out');
-							} else {
-								$wishlist_class = '';
-								$button_wishlist = $this->language->get('button_wishlist');
-							}
-						}
-					}
+					// if (isset($this->session->data['compare'])) {
+					// 	if (in_array($product_id, $this->session->data['compare'])) {
+					// 		$compare_class = 'in-compare';
+					// 		$button_compare = $this->language->get('button_compare_out');
+					// 	} else {
+					// 		$compare_class = '';
+					// 		$button_compare = $this->language->get('button_compare');
+					// 	}
+					// } else {
+					// 	$compare_class = '';
+					// 	$button_compare = $this->language->get('button_compare');
+					// }
+					// if (isset($this->session->data['wishlist'])) {
+					// 	if (in_array($product_id, $this->session->data['wishlist'])) {
+					// 		$wishlist_class = 'in-wishlist';
+					// 		$button_wishlist = $this->language->get('button_wishlist_out');
+					// 	} else {
+					// 		$wishlist_class = '';
+					// 		$button_wishlist = $this->language->get('button_wishlist');
+					// 	}
+					// } else {
+					// 	$wishlist_class = '';
+					// 	$button_wishlist = $this->language->get('button_wishlist');
+					// }
+					// if ($this->customer->isLogged()) {
+					// 	$this->load->model('account/wishlist');
+					// 	$wishlist_register = $this->model_account_wishlist->getWishlist();
+					// 	if ($wishlist_register) {
+					// 		$wishlist_register2 = array();
+					// 		foreach ($wishlist_register as $result_wishlist_register_id) {
+					// 			$wishlist_register_id[] = $result_wishlist_register_id['product_id'];
+					// 		}
+					// 		if (in_array($product_id, $wishlist_register_id)) {
+					// 			$wishlist_class = 'in-wishlist';
+					// 			$button_wishlist = $this->language->get('button_wishlist_out');
+					// 		} else {
+					// 			$wishlist_class = '';
+					// 			$button_wishlist = $this->language->get('button_wishlist');
+					// 		}
+					// 	}
+					// }
 					
-					if ($settings_stikers['new_status']) {
-						if (isset($date_added[$product_info['product_id']])) {
-							$stiker_last = true;
-						} else {
-							$stiker_last = false;
-						}
-					} else {
-						$stiker_last = false;
-					}
-					
-					if ($settings_stikers['best_status']) {
-						if (isset($best_seller[$product_info['product_id']])) {
-							$stiker_best = true;	
-						} else {
-							$stiker_best = false;
-						}
-					} else {
-						$stiker_best = false;
-					}
-					
-					if ($settings_stikers['spec_status']) {
-						$stiker_spec = true;
-					} else {
-						$stiker_spec = false;
-					}
-					
-					if ($settings_stikers['stock_status']) {
-						$stiker_stock = true;
-					} else {
-						$stiker_stock = false;
-					}
 					
 					if ($settings_stikers['upc']) {
 						$stiker_upc = $product_info['upc'];
@@ -294,18 +225,8 @@ class ControllerProductCompare extends Controller {
 					$reviews = sprintf($this->language->get($textcart), (int)$product_info['reviews']);
 					
 					$data['products'][$product_id] = array(
-						'ed_izm' => $ed_izm,
-						'compare_class' => $compare_class,
-						'wishlist_class' => $wishlist_class,
-						'button_compare' => $button_compare,
-						'button_wishlist' => $button_wishlist,
 						'price_number' => $price_number,
 						'special_number' => $special_number,
-						'stiker_last' => $stiker_last,
-						'stiker_best' => $stiker_best,
-						'stiker_spec' => $stiker_spec,
-						'stiker_stock' => $stiker_stock,
-						'stiker_sklad_status' => $stiker_sklad_status,
 						'stiker_upc' => $stiker_upc,
 						'stiker_ean' => $stiker_ean,
 						'stiker_jan' => $stiker_jan,
@@ -344,8 +265,6 @@ class ControllerProductCompare extends Controller {
 							$data['attribute_groups'][$attribute_group['attribute_group_id']]['attribute'][$attribute['attribute_id']]['name'] = $attribute['name'];
 						}
 					}
-				} else {
-					unset($this->session->data['compare'][$key]);
 				}
 			}
 			$brands = array();
@@ -359,9 +278,7 @@ class ControllerProductCompare extends Controller {
 			uksort($brands, 'strcasecmp');
 			$data['products'] = $brands;
 		} else {
-			foreach ($this->session->data['compare'] as $key => $product_id) {
-				$product_info = $this->model_catalog_product->getProduct($product_id);
-				
+			foreach ($products as $product_info) {
 				if ($product_info) {
 					if ($product_info['image']) {
 						$image = $this->model_tool_image->resize($product_info['image'], $config_image_compare_width, $config_image_compare_height);
@@ -399,87 +316,13 @@ class ControllerProductCompare extends Controller {
 					
 					$attribute_data = array();
 					
-					$attribute_groups = $this->model_catalog_product->getProductAttributes($product_id);
+					$attribute_groups = $this->model_catalog_product->getProductAttributes($product_info['product_id']);
 					
 					foreach ($attribute_groups as $attribute_group) {
 						foreach ($attribute_group['attribute'] as $attribute) {
 							$attribute_data[$attribute['attribute_id']] = $attribute['text'];
 						}
 					}					
-					
-					if (isset($this->session->data['compare'])) {
-						if (in_array($product_id, $this->session->data['compare'])) {
-							$compare_class = 'in-compare';
-							$button_compare = $this->language->get('button_compare_out');
-						} else {
-							$compare_class = '';
-							$button_compare = $this->language->get('button_compare');
-						}
-					} else {
-						$compare_class = '';
-						$button_compare = $this->language->get('button_compare');
-					}
-					if (isset($this->session->data['wishlist'])) {
-						if (in_array($product_id, $this->session->data['wishlist'])) {
-							$wishlist_class = 'in-wishlist';
-							$button_wishlist = $this->language->get('button_wishlist_out');
-						} else {
-							$wishlist_class = '';
-							$button_wishlist = $this->language->get('button_wishlist');
-						}
-					} else {
-						$wishlist_class = '';
-						$button_wishlist = $this->language->get('button_wishlist');
-					}
-					if ($this->customer->isLogged()) {
-						$this->load->model('account/wishlist');
-						$wishlist_register = $this->model_account_wishlist->getWishlist();
-						if ($wishlist_register) {
-							$wishlist_register2 = array();
-							foreach ($wishlist_register as $result_wishlist_register_id) {
-								$wishlist_register_id[] = $result_wishlist_register_id['product_id'];
-							}
-							if (in_array($product_id, $wishlist_register_id)) {
-								$wishlist_class = 'in-wishlist';
-								$button_wishlist = $this->language->get('button_wishlist_out');
-							} else {
-								$wishlist_class = '';
-								$button_wishlist = $this->language->get('button_wishlist');
-							}
-						}
-					}
-					
-					if ($settings_stikers['new_status']) {
-						if (isset($date_added[$product_info['product_id']])) {
-							$stiker_last = true;
-						} else {
-							$stiker_last = false;
-						}
-					} else {
-						$stiker_last = false;
-					}
-					
-					if ($settings_stikers['best_status']) {
-						if (isset($best_seller[$product_info['product_id']])) {
-							$stiker_best = true;	
-						} else {
-							$stiker_best = false;
-						}
-					} else {
-						$stiker_best = false;
-					}
-					
-					if ($settings_stikers['spec_status']) {
-						$stiker_spec = true;
-					} else {
-						$stiker_spec = false;
-					}
-					
-					if ($settings_stikers['stock_status']) {
-						$stiker_stock = true;
-					} else {
-						$stiker_stock = false;
-					}
 					
 					if ($settings_stikers['upc']) {
 						$stiker_upc = $product_info['upc'];
@@ -533,19 +376,9 @@ class ControllerProductCompare extends Controller {
 					$textcart = $this->getcartword($reviews_number, $textcart_array);
 					$reviews = sprintf($this->language->get($textcart), (int)$product_info['reviews']);
 					
-					$data['products'][$product_id] = array(
-						'ed_izm' => $ed_izm,
-						'compare_class' => $compare_class,
-						'wishlist_class' => $wishlist_class,
-						'button_compare' => $button_compare,
-						'button_wishlist' => $button_wishlist,
+					$data['products'][$product_info['product_id']] = array(
 						'price_number' => $price_number,
 						'special_number' => $special_number,
-						'stiker_last' => $stiker_last,
-						'stiker_best' => $stiker_best,
-						'stiker_spec' => $stiker_spec,
-						'stiker_stock' => $stiker_stock,
-						'stiker_sklad_status' => $stiker_sklad_status,
 						'stiker_upc' => $stiker_upc,
 						'stiker_ean' => $stiker_ean,
 						'stiker_jan' => $stiker_jan,
@@ -572,8 +405,8 @@ class ControllerProductCompare extends Controller {
 						'width'        => $this->length->format($product_info['width'], $product_info['length_class_id']),
 						'height'       => $this->length->format($product_info['height'], $product_info['length_class_id']),
 						'attribute'    => $attribute_data,
-						'href'         => $this->url->link('product/product', 'product_id=' . $product_id),
-						'remove'       => $this->url->link('product/compare', 'remove=' . $product_id),
+						'href'         => $this->url->link('product/product', 'product_id=' . $product_info['product_id']),
+						'remove'       => $this->url->link('product/compare', 'remove=' . $product_info['product_id']),
 						'text_catalog_stiker_netu' => $text_catalog_stiker_netu
 					);
 					
@@ -584,8 +417,6 @@ class ControllerProductCompare extends Controller {
 							$data['attribute_groups'][$attribute_group['attribute_group_id']]['attribute'][$attribute['attribute_id']]['name'] = $attribute['name'];
 						}
 					}
-				} else {
-					unset($this->session->data['compare'][$key]);
 				}
 			}	
 		}
@@ -608,109 +439,4 @@ class ControllerProductCompare extends Controller {
 		$suffix_key = ($mod > 7 && $mod < 20) ? 2: $keys[min($mod % 10, 5)];
 		return $suffix[$suffix_key];
 	}
-
-	public function add() {
-		$this->load->language('revolution/revcompare');
-
-		$json = array();
-
-		if (!isset($this->session->data['compare'])) {
-			$this->session->data['compare'] = array();
-		}
-
-		if (!isset($this->session->data['compare_brand'])) {
-			$this->session->data['compare_brand'] = array();
-		}
-		
-		if (isset($this->request->post['product_id'])) {
-			$product_id = $this->request->post['product_id'];
-		} else {
-			$product_id = 0;
-		}
-		
-		if (isset($this->request->post['brand'])) {
-			$brand = $this->request->post['brand'];
-		} else {
-			$brand = 0;
-		}
-
-		$this->load->model('catalog/product');
-
-		$product_info = $this->model_catalog_product->getProduct($product_id);
-
-		if ($product_info) {
-			
-			if (!in_array($product_id, $this->session->data['compare'])) {
-				$this->session->data['compare'][$product_id] = $product_id;
-				$this->session->data['compare_brand'][$product_id] = $brand;
-				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('product/compare'));
-				$json['class_compare'] = 'in-compare';
-				$json['button_compare'] = $this->language->get('button_compare_out');
-			} else {
-				unset($this->session->data['compare'][$product_id]);
-				unset($this->session->data['compare_brand'][$brand]);
-				$json['success'] = sprintf($this->language->get('text_unsuccess'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('product/compare'));
-				$json['class_compare'] = '';
-				$json['button_compare'] = $this->language->get('button_compare');
-			}
-		
-			$json['total'] = count($this->session->data['compare'] ?? []);
-			$json['title'] = $this->language->get('heading_title');
-
-		}
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
-	
-	public function remove() {
-		$this->load->language('revolution/revcompare');
-		
-		$json = array();
-
-		if (!isset($this->session->data['compare'])) {
-			$this->session->data['compare'] = array();
-		}
-		
-		if (!isset($this->session->data['compare_brand'])) {
-			$this->session->data['compare_brand'] = array();
-		}
-		
-		if (isset($this->request->post['product_id'])) {
-			$product_id = $this->request->post['product_id'];
-		} else {
-			$product_id = 0;
-		}
-		
-		if (isset($this->request->post['brand'])) {
-			$brand = $this->request->post['brand'];
-		} else {
-			$brand = 0;
-		}	
-		
-		$this->load->model('catalog/product');
-		
-		$product_info = $this->model_catalog_product->getProduct($product_id);
-		
-		if ($product_info) {
-			
-			unset($this->session->data['compare'][$product_id]);
-			unset($this->session->data['compare_brand'][$product_id]);
-
-			if (in_array($brand, $this->session->data['compare_brand'])) {
-				$udbrand = false;
-			} else {
-				$udbrand = str_replace(' ','',$brand);
-			}
-			
-			$json['success'] = sprintf($this->language->get('text_unsuccess'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('product/compare'));
-			$json['total3'] = $udbrand;
-			$json['total'] = sprintf($this->language->get('text_compare'), (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0));		
-			$json['total2'] = count($this->session->data['compare']);
-		}		
-		
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
-
 }

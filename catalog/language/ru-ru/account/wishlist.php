@@ -3,7 +3,7 @@
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 // Heading
-$_['heading_title'] = 'Мои закладки';
+$_['heading_title'] = 'Избранное';
 
 // Text
 $_['text_account']  = 'Личный кабинет';

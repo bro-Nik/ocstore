@@ -13584,6 +13584,11 @@ html, body {
   height: auto;
 }
 
+.wishlist-products .btn-cart,
+.compare-products .btn-cart {
+  padding: 3px 5px;
+}
+
 :root {
   --color-primary: #0063D1; /* Основной брендовый цвет (акцентные элементы, кнопки) */
   --color-secondary: #6c757d; /* Второстепенный фон (карточки, разделители) */

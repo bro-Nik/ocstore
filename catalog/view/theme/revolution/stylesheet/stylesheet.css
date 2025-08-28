@@ -2202,6 +2202,7 @@ border: 0;
 font-size: 100%;
 vertical-align: baseline;
 list-style: none;
+margin-block-start: 0;
 }
 .compare-info li {
 margin: 0;
@@ -4064,7 +4065,7 @@ line-height: 10px;
 .cd-products-table .top-info {
 position: relative;
 height: 200px;
-width: 150px;
+width: 200px;
 text-align: center;
 padding: 10px;
 border-color: #e6e6e6;
@@ -4348,11 +4349,6 @@ display: none;
 .cd-products-comparison-table .wishlist,
 .cd-products-comparison-table .trash {
 float: left;
-}
-@media (max-width: 1170px) {
-.cd-products-comparison-table .wishlist {
-display: none;
-}
 }
 .cd-products-comparison-table .wishlist i:after {
 content: "+";

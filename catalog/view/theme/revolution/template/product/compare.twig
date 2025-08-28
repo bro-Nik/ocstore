@@ -2,11 +2,6 @@
 
 {% block content %}
 
-  {% if (success) %} 
-  <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-  </div>
-  {% endif %} 
 	<div id="pusto" class="content" style="display:none"></div>
 	
 {% if (products) %} 
@@ -172,9 +167,13 @@
 												</div>
 											{% endif %} 
     									{% include 'product/btns/wishlist.twig' %}
-											{% endif %} 
 											<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">
+											{#}
 												<a href="{{ product['remove'] }}"><i class="fa fa-border fa-trash-o"></i></a>
+											{#}
+								<a href="" onclick="setTimeout(function() { location.reload(); }, 100); return false;" data-action="compare-toggle" data-product-id="{{ product.product_id }}">
+									<i class="fa fa-border fa-trash-o"></i>
+								</a>
 											</div>
 										</div>
 										</li>
@@ -195,7 +194,9 @@
 		<section class="cd-products-comparison-table compare-info">
 			<div class="cd-header">
 				<div style="float: left;">
+				{#}
 					<label class="filter_otlich_span"><input type="checkbox" class="filter_otlich" hidden>{{ text_compare_onlyrazn }}</label></label>
+				{#}
 				</div>
 				<div class="actions">
 					<a href="#" class="reset">{{ text_compare_otmena }}</a>
@@ -251,7 +252,7 @@
 					</ul>
 				</div>
 				<div class="cd-products-wrapper">
-					<ul class="cd-products-columns products_category">
+					<ul class="cd-products-columns products_category compare-products">
 						{% for product in products %} 
 						<li class="product">
 							<div class="top-info product_{{ product['product_id'] }}">
@@ -336,7 +337,12 @@
 									{% endif %} 
     							{% include 'product/btns/wishlist.twig' %}
 									<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">
+									{#}
 										<a href="{{ product['remove'] }}"><i class="fa fa-border fa-trash-o"></i></a>
+									{#}
+								<a href="" onclick="setTimeout(function() { location.reload(); }, 100); return false;" data-action="compare-toggle" data-product-id="{{ product.product_id }}">
+									<i class="fa fa-border fa-trash-o"></i>
+								</a>
 									</div>
 								</div>
 								</li>

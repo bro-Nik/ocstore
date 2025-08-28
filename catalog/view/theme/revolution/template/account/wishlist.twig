@@ -1,11 +1,7 @@
 {% extends 'revolution/template/product/partials/base.twig' %}
+{% from 'macro/format.twig' import price_format %}
 
 {% block content %}
-  {% if (success) %} 
-  <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }} 
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-  </div>
-  {% endif %} 
   <div class="row">{{ column_left }} 
     {% if (column_left and column_right) %} 
     {% set class = 'col-sm-6' %} 
@@ -31,7 +27,7 @@
             <td class="text-center">{{ column_action }}</td>
           </tr>
         </thead>
-        <tbody class="products_category">
+        <tbody class="products_category wishlist-products">
           {% for product in products %} 
           <tr class="product_{{ product['product_id'] }}">
             <td class="text-center image hidden-xs">{% if (product['thumb']) %} 
@@ -47,18 +43,18 @@
             <td class="text-center hidden-xs">{% if (product['price']) %} 
               <div class="price">
                 {% if (not product['special']) %} 
-                {{ product['price'] }}{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
+                {{ price_format(product['price']) }}
                 {% else %} 
-                <span class="price-old">{{ product['price'] }}</span><span class="price-new">{{ product['special'] }}</span>{{ product['ed_izm'] ? '<span class="ed_izm">'~product['ed_izm']~'</span>' : '' }}
+                <span class="price-old">{{ price_format(product['price']) }}</span><span class="price-new">{{ price_format(product['special']) }}</span>
                 {% endif %} 
               </div>
               {% endif %}</td>
             <td class="text-center wwicons">
               <div class="inline-btns">
                 {% include 'product/btns/cart.twig' %}
-                {% include 'product/btns/wishlist.twig' %}
-                {% include 'product/btns/lupa.twig' %}
-                <a href="{{ product['remove'] }}" data-toggle="tooltip" title="{{ button_remove }}"><i class="fa fa-trash-o"></i></a>
+								<a href="" onclick="setTimeout(function() { location.reload(); }, 100); return false;" data-action="wishlist-toggle" data-product-id="{{ product.product_id }}">
+									<i class="fa fa-border fa-trash-o"></i>
+								</a>
               </div>
 			      </td>
           </tr>
