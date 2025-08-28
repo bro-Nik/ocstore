@@ -1,8 +1,11 @@
 <?php
 
 require_once('catalog/controller/base/products_list.php');
+require_once('catalog/controller/trait/template.php');
 
 class ControllerProductManufacturer extends ControllerBaseProductsList {
+	use \TemplateTrait;
+
 	public function index() {
 		$this->load->language('product/manufacturer');
 		$this->load->model('catalog/manufacturer');
@@ -12,7 +15,7 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
 		$data['breadcrumbs'] = $this->prepareBreadcrumbs();
 		$data['categories'] = $this->getManufacturersByAlphabet();
 
-    $data = $this->addCommonTemplateData($data);
+    $this->addCommonTemplateData($data);
 
 		$this->response->setOutput($this->load->view('product/manufacturer_list', $data));
 	}
@@ -112,7 +115,7 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
       	$data['limit'] = $params['limit'];
       }
 
-      $data = $this->addCommonTemplateData($data);
+      $this->addCommonTemplateData($data);
 
 			$this->response->setOutput($this->load->view('product/manufacturer_info', $data));
 		} else {

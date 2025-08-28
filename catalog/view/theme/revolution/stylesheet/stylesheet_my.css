@@ -203,7 +203,6 @@ body {color: #333;}
 #top6 .home_block .image > img {width: 100px; margin-top: -15px;}
 #top6 .home_block .text {margin-left: 120px;}
 .breadcrumb {border-color: #ededed;}
-#revcheckout .panel-default>.panel-heading {background: #f7f7f7; border-radius: 4px;}
 #revcheckout .table > thead td {background: #f7f7f7;}
 #revcheckout .rev_cart {
   box-shadow: 0 0px 4px rgba(0,0,0,0.2);
@@ -211,7 +210,6 @@ body {color: #333;}
 }
 
 .revblog-list + .revblog-list .product-thumb, #revfilter_box .option_box, .panel-default>.panel-heading, .panel-default, .category_description, #blog_mod .col-lg-12 + .col-lg-12 .blog-list {border-color: #ededed !important;}
-.panel-default>.panel-heading {background-color: #f7f7f7;}
 #column-left #revfilter {margin-bottom: 25px;}
 .list-group a.active {background-color: #fff; color: #E85A71; border-color: #ededed !important; font-size: 15px;}
 .panel.revmenumodcustom .panel-heading {padding: 10px; font-size: 15px;}

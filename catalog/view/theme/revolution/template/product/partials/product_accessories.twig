@@ -1,3 +1,5 @@
+{% from 'macro/format.twig' import price_format %}
+
 {% if (accessories) %}
   <div id="product_accessories">
     <div class="accessories_tab_heading">{{ text_related }}</div>
@@ -24,10 +26,10 @@
                   </div>
                   <div class="accessories-price">
                     {% if (not product['special_price']) %}
-                      <span class="price_no_format{{ product['product_id'] }}">{{ product['price'] }} ₽</span>
+                      <span class="price_no_format{{ product['product_id'] }}">{{ price_format(product['price']) }}</span>
                     {% else %}
                       <span class="price-new">
-                        <span class="price_no_format{{ product['product_id'] }}">{{ product['special_price'] }} ₽</span>
+                        <span class="price_no_format{{ product['product_id'] }}">{{ price_format(product['special_price']) }}</span>
                       </span>
                     {% endif %}
                   </div>

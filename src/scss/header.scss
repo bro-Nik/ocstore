@@ -10,6 +10,10 @@
     background: #fff;
     border-bottom: 1px solid #E4E7F1;
   }
+  & sup {
+      width: 5px;
+      display: inline-block;
+  }
 
   &__mobile {
     @media (min-width: $desktop) {

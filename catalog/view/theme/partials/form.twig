@@ -20,6 +20,13 @@
 	</div>
 	{% endif %} 
 
+	{% if ('address' in fields) %} 
+	<div>
+		<label {% if ('address' in required_fields) %} class="required"{% endif %}>Адрес:</label>
+		<input name="address" value="" {% if ('address' in required_fields) %}required{% endif %}/>
+	</div>
+	{% endif %} 
+
 	{% if ('comment' in fields) %} 
 	<div>
 		<label {% if ('comment' in required_fields) %} class="required"{% endif %}>Комментарий:</label>
@@ -28,7 +35,7 @@
 	{% endif %} 
 </div>
 
-{% if (privacy_policy_confirmation) %} 
+{% if ('privacy_policy_confirmation' in fields and privacy_policy_confirmation) %} 
 	<div class="form-group privacy-policy-confirmation">
 		<label class="col-sm-2 required" for="policy-answer">{{ privacy_policy_confirmation }}</label>
 		<input id="policy-answer" type="checkbox" name="agree_privacy_policy" checked required />

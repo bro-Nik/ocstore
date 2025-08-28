@@ -57,18 +57,15 @@ trait ProductInfo {
 		}
   }
 
-	protected function prepareProductOptions($product_info, &$data) {
+	protected function prepareProductOptions($product_id) {
 		$options = array();
-		foreach ($this->model_catalog_product->getProductOptions($data['product_id']) as $option) {
+
+		foreach ($this->model_catalog_product->getProductOptions($product_id) as $option) {
 			$product_option_value_data = array();
 
 			foreach ($option['product_option_value'] as $option_value) {
 				if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
-					if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
-						$price = round($option_value['price'], 2);
-					} else {
-						$price = false;
-					}
+					$price = round($option_value['price'], 2);
 
 					$product_option_value_data[] = array(
 						'product_option_value_id' => $option_value['product_option_value_id'],
@@ -93,7 +90,7 @@ trait ProductInfo {
 				'required'             => $option['required']
 			);
 		}
-		$data['options'] = $options;
+		return $options;
 	}
 
 	protected function prepareProductOther($product_info, &$data) {

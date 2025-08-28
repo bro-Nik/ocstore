@@ -1,22 +1,6 @@
-{{ header }} 
-<div class="container-fluid">
-	<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
-		{% for i,breadcrumb in breadcrumbs %} 
-		{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
-		{% endfor %} 
-		<li><h1 class="inbreadcrumb" itemprop="name">{{ heading_title }}</h1></li>
-	</ul>
-	<div class="error"></div>
-	<div class="row">
-		{{ column_left }} 
-		{% if (column_left and column_right) %} 
-		{% set class = 'col-sm-6' %} 
-		{% elseif (column_left or column_right) %} 
-		{% set class = 'col-sm-9' %} 
-		{% else %} 
-		{% set class = 'col-sm-12' %} 
-		{% endif %} 
-		<div id="content" class="{{ class }}">
+{% extends 'revolution/template/product/partials/base.twig' %}
+
+{% block content %}
 			<div id="revcheckout" class="row">
 				<div class="revcart_column_left col-sm-12">
 					<div class="row">
@@ -29,7 +13,11 @@
 											{% if (not logged and settings['revcheckout_login']) %}<a style="float: right;" onclick="get_revpopup_login();">{{ text_revcheckout_returning_customer }}</a>{% endif %} 
 										</div>
 										<div class="panel-body">
+										
+	    								{% include 'revolution/template/revolution/checkout/_user.twig' %}
+	    								{#}
 											{{ user }} 
+	    								{#}
 										</div>
 									</div>
 								</div>
@@ -61,7 +49,11 @@
 						<div class="col-sm-12">
 							<div class="panel panel-default rev_cart">
 								<div id="revcart_upd">
+								{#}
 									{{ cart }} 
+								{#}
+
+    							{% include 'modals/cart_products_list.twig' %}
 								</div>
 								<div id="confirm">
 									<div class="total_checkout col-md-12 text-right"><span>{{ text_total_revcheckout }}</span> <span class="total_html"></span></div>
@@ -94,11 +86,9 @@
 					</div>
 				</div>
 			</div>
-		</div>			
-		{{ content_bottom }} 
-		{{ column_right }} 
-	</div>
-</div>
+{% endblock %}
+
+{% block script %}
 <script><!--
 	$('.show-register-form input').on('change', function() {
 		$('.register-form').toggle();
@@ -184,7 +174,8 @@
 				}
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText)
+				// alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		}); 
 	});  
@@ -348,7 +339,7 @@
 			url: 'index.php?route=revolution/revcheckout/korzina&ajax=1',
 			dataType: 'html',
 			success: function(html) {
-				$('#revcart_upd').html(html);
+				// $('#revcart_upd').html(html);
 				$('.total_checkout span.total_html').html($('.total_table td:last').html());
 				// masked('#revcart_upd', false);
 			}
@@ -403,4 +394,4 @@
 		}
 	})()
 --></script>
-{{ footer }}
+{% endblock %}

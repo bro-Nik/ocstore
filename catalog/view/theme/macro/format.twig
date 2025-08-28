@@ -1,0 +1,7 @@
+{% macro price_format(price) %}
+  {% if price is not null %}
+    {{ (price|abs|round(0))|number_format(0, ',', ' ') }} ₽
+  {% else %}
+    0 ₽
+  {% endif %}
+{% endmacro %}

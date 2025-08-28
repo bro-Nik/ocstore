@@ -171,10 +171,7 @@
 													<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');"><span class="prlistb">{{ text_predzakaz }}</span></a>
 												</div>
 											{% endif %} 
-											{% if (rev_wish_prod) %} 
-												<div class="wishlist">
-													<a class="wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-action="wishlist-toggle" data-product-id="{{ product['product_id'] }}" data-toggle="tooltip" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
-												</div>
+    									{% include 'product/btns/wishlist.twig' %}
 											{% endif %} 
 											<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">
 												<a href="{{ product['remove'] }}"><i class="fa fa-border fa-trash-o"></i></a>
@@ -337,11 +334,7 @@
 											<a onclick="get_revpopup_predzakaz('{{ product['product_id'] }}');"><i class="fa fa-border fa-shopping-basket predzakaz"><span class="prlistb">{{ text_predzakaz }}</span></i></a>
 										</div>
 									{% endif %} 
-									{% if (rev_wish_prod) %} 
-										<div class="wishlist">
-											<a class="wishlist_wprid_{{ product['product_id'] }} {{ product['wishlist_class'] }}" data-action="wishlist-toggle" data-product-id="{{ product['product_id'] }}" data-toggle="tooltip" title="{{ product['button_wishlist'] }}"><i class="fa fa-border fa-heart"></i></a>
-										</div>
-									{% endif %} 
+    							{% include 'product/btns/wishlist.twig' %}
 									<div class="trash" data-toggle="tooltip" title="{{ text_compare_trash_tooltip }}">
 										<a href="{{ product['remove'] }}"><i class="fa fa-border fa-trash-o"></i></a>
 									</div>

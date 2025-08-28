@@ -4,14 +4,15 @@
  */
 
 import { BaseCartPopup } from './cart-base.js';
+import { ToggleBoxManager } from '../services/animations';
 
 const CONFIG = {
   selectors: {
     popupId: '#popup-cart',
   },
   endpoints: {
-    content: 'index.php?route=revolution/revpopupcart',
-    cartStatus: 'index.php?route=revolution/revpopupcart/status_cart',
+    content: 'index.php?route=modal/cart',
+    submit: 'index.php?route=modal/cart/send',
   },
   globalEvents: {
     'open-popup-cart': 'show',
@@ -23,9 +24,9 @@ class CartPopup extends BaseCartPopup {
     super(CONFIG);
   }
 
-  async updateCartItem(productId, quantity) {
-    const url = `${this.endpoints.content}&update=${productId}&quantity=${quantity}`;
-    super.updateCartItem(url);
+  afterShow() {
+    this.toggleBox = new ToggleBoxManager(this.content);
+    super.afterShow();
   }
 }
 

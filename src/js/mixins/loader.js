@@ -10,15 +10,8 @@ export const LoaderMixin = {
       }
       
       const html = await response.text();
-      
       container.innerHTML = html;
-      
-      // Дополнительные методы после вставки
-      if (collback) {
-        setTimeout(() => {
-          collback();
-        }, 100);
-      }
+      if (collback) collback();
         
     } catch (error) {
         console.error('Error loading:', error);

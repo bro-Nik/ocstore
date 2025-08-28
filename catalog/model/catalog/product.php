@@ -557,6 +557,7 @@ class ModelCatalogProduct extends Model {
 			return 0;
 		}
 	}
+
 	public function getProductsByIds($data = array()) {
 			$product_ids = $data['filter_product_ids'];
     	// Проверяем и подготавливаем список ID товаров
@@ -576,7 +577,7 @@ class ModelCatalogProduct extends Model {
     	// Устанавливаем значения по умолчанию
     	$data['start'] = $data['start'] ?? 0;
     	$data['limit'] = $data['limit'] ?? count($product_ids);
-    	$data['sort'] = $data['sort'] ?? 'p.sort_order';
+    	// $data['sort'] = $data['sort'] ?? 'p.sort_order';
     	$data['order'] = $data['order'] ?? 'ASC';
     	
     	$sql = "SELECT p.product_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 
@@ -630,15 +631,7 @@ class ModelCatalogProduct extends Model {
     	}
     	
     	if (isset($data['start']) || isset($data['limit'])) {
-        	if ($data['start'] < 0) {
-            	$data['start'] = 0;
-        	}
-        	
-        	if ($data['limit'] < 1) {
-            	$data['limit'] = 20;
-        	}
-        	
-        	$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+        $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
     	}
     	
     	$query = $this->db->query($sql);

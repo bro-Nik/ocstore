@@ -1,7 +1,9 @@
 <?php
+require_once('catalog/controller/trait/template.php');
 require_once('catalog/controller/base/product_cart.php');
 
 abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
+	use \TemplateTrait;
 
   protected function getPagination($total, $page, $limit, $url) {
     $this->addOCFilterParams($url);
@@ -75,19 +77,6 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
     }
     
     return $url;
-  }
-
-  protected function addCommonTemplateData($data = []) {
-		$data['continue'] = $this->url->link('common/home');
-
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['column_right'] = $this->load->controller('common/column_right');
-		$data['content_top'] = $this->load->controller('common/content_top');
-		$data['content_bottom'] = $this->load->controller('common/content_bottom');
-		$data['footer'] = $this->load->controller('common/footer');
-		$data['header'] = $this->load->controller('common/header');
-    
-    return $data;
   }
 
   protected function getParams($defaults = []) {
@@ -333,7 +322,7 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
 
 		$this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');
 
-    $data = $this->addCommonTemplateData($data);
+    $this->addCommonTemplateData($data);
 
     $this->response->setOutput($this->load->view('error/not_found', $data));
 	}

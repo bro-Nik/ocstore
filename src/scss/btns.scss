@@ -174,11 +174,11 @@ padding: 0 0 0 5px;
 
 .checkout-btn {
   border-radius: 8px;
-  background: $primary-color;
-  color: #fff;
+  background: $primary-color !important;
+  color: #fff !important;
 }
 
 .checkout-btn:hover {
-  background: $primary-light-color;
+  background: $primary-light-color !important;
   color: #fff;
 }

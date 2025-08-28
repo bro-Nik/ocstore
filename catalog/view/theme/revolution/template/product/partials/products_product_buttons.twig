@@ -1,10 +1,7 @@
+{% from 'macro/format.twig' import price_format %}
+
 <div class="compare_rating">
-  <div class="compare">
-    <a class="compare" data-action="compare-toggle" data-toggle="tooltip" data-product-id="{{ product.product_id }}" data-brand="{{ product.brand }}">
-      <i class="fa fa-bar-chart-o"></i>
-      <span>В сравнение</span>
-    </a>
-  </div>
+  {% include 'product/btns/compare.twig' with {'product_id': product.product_id} %}
 
   <div class="rating">
     <span{% if product.rating %} itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"{% endif %}>
@@ -28,17 +25,15 @@
     <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
       {% if product.price > 0 and product.quantity > 0 %}
         {% if not product.special_price %}
-          <span class="price_no_format{{ product.product_id }}">{{ product.price }} ₽</span>
+          <span>{{ price_format(product.price) }}</span>
           <meta itemprop="price" content="{{ product.price }}">
         {% else %}
-          <span class="price-old">{{ product.price }} ₽</span>
-          <span class="price-new">
-            <span class="price_no_format{{ product.product_id }}">{{ product.special_price }} ₽</span>
-          </span>
+          <span class="price-old">{{ price_format(product.price) }}</span>
+          <span class="price-new">{{ price_format(product.special_price) }}</span>
           <meta itemprop="price" content="{{ product.special_price }}">
         {% endif %}
       {% else %}
-        <span class="hidden price_no_format{{ product.product_id }}"></span>
+        <span class="hidden"></span>
         <meta itemprop="price" content="{{ product.price }}">
       {% endif %}
       <meta itemprop="priceCurrency" content="RUB">
@@ -47,5 +42,3 @@
   
   {% include 'product/btns/cart.twig' %}
 </div>
-
-

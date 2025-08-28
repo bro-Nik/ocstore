@@ -1,0 +1,73 @@
+import { BaseModule } from '../core/base';
+import { getCookie } from '../cookie';
+import { priceFormat } from '../main';
+import { cart } from '../core/cart';
+import { initProductSwipers } from '../swiper';
+
+const CONFIG = {
+  globalEvents: {
+    'update_prices_product': 'priceChange'
+  }
+};
+
+export class Product extends BaseModule {
+
+  constructor() {
+    super(CONFIG);
+  }
+
+  init(container = document) {
+    const counterEl = container.querySelector('#counter_data');
+    if (!counterEl) return;
+    const { type, id } = counterEl.dataset;
+    if (type != 'product') return;
+
+    this.productId = id;
+    this.container = container;
+    this.infoBox = container.querySelector('.product_informationss');
+    this.checkOptions();
+    this.calculatePrice();
+    initProductSwipers();
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    document.addEventListener('optionChange', () => this.checkOptions());
+    super.bindEvents();
+  }
+
+  checkOptions() {
+    const cartProducts = getCookie('cart') || {};
+    const product = cartProducts[this.productId] || {};
+    if (!product) return;
+
+    const options = product.options || [];
+    const optionElements = this.infoBox.querySelectorAll('[data-option-id]');
+
+    optionElements.forEach(el => el.checked = options.includes(el.dataset.optionId));
+  }
+
+  priceChange(e, btn) {
+    this.calculatePrice();
+
+    const selectedOptions = this.infoBox.querySelectorAll('input[type="checkbox"]:checked');
+    const options = Array.from(selectedOptions).map(option => option.dataset.optionId);
+
+    cart.addToCookieList(this.infoBox.dataset.productId, 1, options);
+  }
+
+  calculatePrice() {
+    // Найти все выбранные чекбоксы внутри элемента
+    const selectedOptions = this.infoBox.querySelectorAll('input[type="checkbox"]:checked');
+
+    const { productPrice } = this.infoBox.dataset;
+    let totalPrice = parseFloat(productPrice);
+    selectedOptions.forEach(checkbox => totalPrice += parseFloat(checkbox.dataset.optionPrice));
+
+    const priceBox = this.infoBox.querySelector('.price');
+    if (priceBox) priceBox.innerHTML = priceFormat(totalPrice);
+  }
+}
+
+
+export const productPage = new Product();

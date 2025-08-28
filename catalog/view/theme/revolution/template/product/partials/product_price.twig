@@ -1,5 +1,7 @@
+{% from 'macro/format.twig' import price_format %}
+
 <div class="form-group pokupka">
-  {% if (zakaz_price_null or price > 0) %}
+  {% if (price > 0) %}
     {% if (share_status) %}
       {{ share_status_code }}
     {% endif %}
@@ -14,13 +16,12 @@
             <meta itemprop="priceValidUntil" content="{{ now|date_modify('+1 month')|date('Y-m-d') }}">
           {% endif %}
           {% if (not special_price) %}
-            <span class="update_price">{{ price }} ₽</span>
-            <span class="update_special dnone"></span>
+            <span class="update_price price">{{ price_format(price) }}</span>
             <meta itemprop="price" content="{{ price }}">
           {% else %}
-            <span class="update_special price-new">{{ special_price }} ₽</span>
+            <span class="update_special price-new">{{ price_format(special_price) }}</span>
             <meta itemprop="price" content="{{ special_price }}">
-            <span class="update_price price-old">{{ price }} ₽</span>
+            <span class="update_price price-old">{{ price_format(price) }}</span>
           {% endif %}
           <link itemprop="availability" href="http://schema.org/{{ quantity > 0?"InStock":"OutOfStock" }}" />
           <meta itemprop="priceCurrency" content="RUB">
@@ -30,22 +31,16 @@
       {% endif %}
     {% endif %}
 
-    {% if (price > 0 and quantity > 0) %}
-      <div class="pop_left">
+    <div class="pop_left">
+      {% if (price > 0 and quantity > 0) %}
         <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="cart-toggle" class="btn-cart product_{{ product_id }}" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
-      </div>
-    {% else %}
-      <div class="pop_left">
+      {% else %}
         <button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
 
     <div class="pop_right">
-      <a class="pop_ico" data-action="purchase" data-product-id="{{ product_id }}"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md">Купить в 1 клик</span></a>
-
-      <a class="wishlist pjid_{{ product_id }}" data-action="wishlist-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" title="{{ button_wishlist }}">
-        <i class="fa fa-border fa-heart"></i>
-      </a>
+      {% include 'product/btns/wishlist.twig' %}
     </div>
   {% endif %}
 </div>

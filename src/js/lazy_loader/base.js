@@ -36,7 +36,11 @@ class LazyLoaderBase {
   }
 
   contentUrl() {
-    return this.endpoints.content;
+    const infoEl = document.querySelector('#counter_data');
+    if (!infoEl || infoEl.dataset.type != 'product') return;
+
+    const id = infoEl.dataset.id;
+    return `${this.endpoints.content}&revproduct_id=${id}`;
   }
 
   afterLoad() {

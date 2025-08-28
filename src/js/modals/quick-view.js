@@ -5,11 +5,11 @@
 
 import { BasePopup } from './base.js';
 import { initProductSwipers } from '../swiper';
-import Swiper from 'swiper/core';
-import { Navigation, Thumbs } from 'swiper/modules';
 import { review } from '../feedback/review';
 import { answer } from '../feedback/answer';
 import { pageViewCounter } from '../statistic';
+import { productPage } from '../pages/product';
+import { markProducts } from '../core/products';
 
 const CONFIG = {
   selectors: {
@@ -30,14 +30,8 @@ class QuickViewPopup extends BasePopup {
   }
 
   show(e, btn) {
-    const productId = btn.dataset.productId || '';
-    const url = `${this.endpoints.content}${productId}`
+    const url = `${this.endpoints.content}${btn.dataset.productId}`
     super.show(url);
-  }
-
-  async updateCartItem(productId, quantity) {
-    const url = `${this.endpoints.content}&update=${productId}&quantity=${quantity}`;
-    super.updateCartItem(url);
   }
 
   afterShow() {
@@ -47,12 +41,13 @@ class QuickViewPopup extends BasePopup {
     if (firstTab) {
       firstTab.click();
     }
-    initProductSwipers();
+    initProductSwipers(this.content);
+    markProducts(this.content);
     review.init(this.content);
     answer.init(this.content);
+    productPage.init(this.content);
     pageViewCounter(this.content);
   }
 }
-
 
 export const quickViewPopup = new QuickViewPopup();

@@ -1,104 +1,28 @@
 {% extends 'modals/base.twig' %}
 
-{% set heading = products ? heading_cartpopup_title : heading_cartpopup_title_empty %}
-{% set error = error_warning %}
-
 {% block content %}
   {% if (products) %} 
-    <table class="display-products-cart">
-      <tbody>
-        {% for product in products %} 
-        <tr>
-          <td class="image">
-            {% if (product['thumb']) %} 
-            <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-thumbnail" /></a>
-            {% endif %} 
-          </td>
-          <td class="name">
-            <a href="{{ product['href'] }}">{{ product['name'] }}</a>
-            {% if (not product['stock']) %} 
-            <span class="text-danger">***</span>
-            {% endif %} 
-            {% if (product['option']) %} 
-            {% for option in product['option'] %} 
-            <br />
-            {{ option['name'] }}: {{ option['value'] }} 
-            {% endfor %} 
-            {% endif %} 
-            {% if (product['reward']) %} 
-            <br />
-            {{ product['reward'] }} 
-            {% endif %} 
-          </td>
-          <td class="qt">
-      	    {% include 'product/partials/change_quantity.twig' with {'product_id': product['key'],
-      	                                                             'quantity': product['quantity'],
-      	                                                             'min_quantity': product['quantity_pr']} %}
-          </td>
-          <td class="totals">{{ product['total'] }}</td>
-		      <td class="remove">
-            <button type="button" data-product-id="{{ product['product_id'] }}"><i class="fa fa-trash-o"></i></button>
-            <input name="product_key" value="{{ product['key'] }}" style="display: none;" hidden />           
-          </td>
-        </tr>
-        {% endfor %} 
-      </tbody>
-    </table>
-
-    <div class="mobile-products-cart">
-    {% for product in products %} 
-      <div>
-        <div class="image">
-          {% if (product['thumb']) %} 
-          <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-thumbnail" /></a>
-          {% endif %} 
-        </div>
-        <div class="name">
-          <a href="{{ product['href'] }}">{{ product['name'] }}</a>
-          {% if (not product['stock']) %} 
-          <span class="text-danger">***</span>
-          {% endif %} 
-          {% if (product['option']) %} 
-          {% for option in product['option'] %} 
-          <br />
-          {{ option['name'] }}: {{ option['value'] }} 
-          {% endfor %} 
-          {% endif %} 
-          {% if (product['reward']) %} 
-          <br />
-          {{ product['reward'] }} 
-          {% endif %} 
-        </div>
-        <div class="qt">
-      	  {% include 'product/partials/change_quantity.twig' with {'product_id': product['key'],
-      	                                                           'quantity': product['quantity'],
-      	                                                           'min_quantity': product['quantity_pr']} %}
-			<span class="remove">
-			  <button type="button" onclick="update(this, 'remove'); cart.remove('{{ product['key'] }}', '{{ product['product_id'] }}')"><i class="fa fa-trash-o"></i></button>
-			  <input name="product_key" value="{{ product['key'] }}" style="display: none;" hidden />
-			</span>
-        </div>
-        <div class="totals">
-          {{ product['total'] }} 
-        </div>		
-        </div>
-      {% endfor %} 
+    <div class="switchable-content-box">
+      {% include 'modals/cart_products_list.twig' %}
     </div>
-    <div class="all-total">
-      {% for total in totals %} 
-		<div class="clear-total">
-		<div class="totals-right">{{ total['text'] }}</div>
-        <div class="totals-left">{{ total['title'] }}:</div>     
-        </div>
-      {% endfor %} 
-    </div>    
-  {% else %} 
-    {{ text_cartpopup_empty }}
-  {% endif %} 
+
+    <div class="hidden-content-box">
+	    <form method="post" enctype="multipart/form-data" id="purchase-form">
+	      {% include 'partials/form.twig' %}
+	    </form>
+			<div class="d-flex justify-content-end mt-5">
+				<a class="btn btn-default close-box" href="#">Отмена</a>
+				<button type="submit" data-action="submit" class="btn btn-primary">Отправить</button>
+			</div>					
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block footer %}
-  <button class="continue-shopping" data-action="close">{{ button_shopping }}</button>
+  {#}
   <a href="{{ checkout_link }}" class="checkout-btn">{{ button_checkout }}</a>
-		<button class="quickorder_b btn btn-default" data-action="quick-order">{{ text_rev_buy_quick }}</button>
+		<button class="quickorder_b btn" data-action="quick-order">{{ text_rev_buy_quick }}</button>
+  {#}
+		<!-- <button class="quickorder_b btn checkout-btn" data-action="quick-order">Оформить заказ</button> -->
+		<button class="quickorder_b btn checkout-btn open-box">Оформить заказ</button>
 {% endblock %}

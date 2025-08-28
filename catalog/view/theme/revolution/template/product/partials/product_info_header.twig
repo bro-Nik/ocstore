@@ -17,10 +17,7 @@
 
 <div class="product_list_top2">
   <div class="product-info">
-    <a class="compare pjid_{{ product_id }}" data-action="compare-toggle" data-toggle="tooltip" data-product-id="{{ product_id }}" data-brand="{{ brand }}">
-      <i class="fa fa-bar-chart-o"></i>
-      <span>Сравнить</span>
-    </a>
+    {% include 'product/btns/compare.twig' with {'product_id': product_id} %}
   </div>
 
   <div class="rating">

@@ -1,22 +1,27 @@
 import Swiper from 'swiper/core';
 import { Navigation, Thumbs } from 'swiper/modules';
 
-export function initProductSwipers() {
-  const swiperEl = document.querySelector('.swiper');
+export function initProductSwipers(container = document) {
+  const swiperEl = container.querySelector('.swiper');
   if (!swiperEl) return;
-  const slidesCount = swiperEl.querySelectorAll('.swiper-slide').length;
 
-  const productThumbsSwiper = new Swiper(".product_thumbs_swiper", {
-    loop: slidesCount > 4,
-    spaceBetween: 10,
-    slidesPerView: 4,
-    freeMode: true,
-    watchSlidesProgress: true,
-  });
+  const slidesCount = swiperEl.querySelectorAll('.swiper-slide').length;
+  const isMobile = window.innerWidth <= 767;
+
+  let productThumbsSwiper = null;
+  if (!isMobile) {
+    productThumbsSwiper = new Swiper(".product_thumbs_swiper", {
+      loop: slidesCount > 4,
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesProgress: true,
+    });
+  }
 
   const productMainSwiper = new Swiper(".product_main_swiper", {
-    modules: [Navigation, Thumbs],
-    loop: true,
+    modules: isMobile ? [Navigation] : [Navigation, Thumbs],
+    loop: slidesCount > 1,
     spaceBetween: 10,
     navigation: {
       nextEl: ".swiper-button-next",

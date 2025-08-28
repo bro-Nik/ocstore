@@ -3,8 +3,8 @@
  * @module CallbackPopup
  */
 
-import { LazyLoaderBase } from './base.js';
-import { initCarouselSwipers } from '../swiper';
+import { ProductsSlider } from './products_slider.js';
+import { getCookie } from '../cookie';
 
 const CONFIG = {
   selectors: {
@@ -15,13 +15,21 @@ const CONFIG = {
   },
 };
 
-class ViewedProducts extends LazyLoaderBase {
+class ViewedProducts extends ProductsSlider {
   constructor() {
     super(CONFIG);
   }
 
-  afterLoad() {
-    initCarouselSwipers(this.container);
+  loadingCondition() {
+    const infoEl = document.querySelector('#counter_data');
+    if (!infoEl) return;
+
+    const productId = infoEl.dataset.id;
+    const products = getCookie('viewed') || [];
+    const wasInCookies = products.includes(productId.toString());
+
+    // Если это единственный товар то не показываем
+    return ((products.length > 1) || (products.length == 1 && !wasInCookies));
   }
 }
 

@@ -1,7 +1,10 @@
 <?php
 require_once('catalog/controller/base/products_list.php');
+require_once('catalog/controller/trait/template.php');
 
 class ControllerProductSpecial extends ControllerBaseProductsList {
+	use \TemplateTrait;
+
 	public function index() {
 		$this->load->language('product/special');
 		$this->load->model('catalog/product');
@@ -46,7 +49,7 @@ class ControllerProductSpecial extends ControllerBaseProductsList {
     $data['order'] = $params['order'];
     $data['limit'] = $params['limit'];
 
-		$data = $this->addCommonTemplateData($data);
+		$this->addCommonTemplateData($data);
 
     $this->response->setOutput($this->load->view('product/special', $data));
 	}

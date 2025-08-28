@@ -29,7 +29,7 @@
           {% include 'revolution/template/product/partials/stock_status.twig' %}
 
           <div class="btns-actions">
-            {% include 'product/btns/wishlist.twig' %}
+            {% include 'product/btns/wishlist.twig' with {'product_id': product.product_id} %}
             {% include 'product/btns/lupa.twig' %}
           </div>
         </div>

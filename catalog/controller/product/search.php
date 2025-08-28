@@ -1,7 +1,10 @@
 <?php
 require_once('catalog/controller/base/products_list.php');
+require_once('catalog/controller/trait/template.php');
 
 class ControllerProductSearch extends ControllerBaseProductsList {
+	use \TemplateTrait;
+
 	public function index() {
 		$this->load->language('product/search');
 		$this->load->model('catalog/category');
@@ -94,7 +97,7 @@ class ControllerProductSearch extends ControllerBaseProductsList {
     $data['order'] = $params['order'];
     $data['limit'] = $params['limit'];
 
-    $data = $this->addCommonTemplateData($data);
+    $this->addCommonTemplateData($data);
 
 		$this->response->setOutput($this->load->view('product/search', $data));
 	}

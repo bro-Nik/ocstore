@@ -4,7 +4,7 @@ import { NotificationManager } from '../services/notifications';
 
 
 export const FormMixin = {
-  async submit(form, url, data) {
+  async submit(form, url, data = {}) {
     if (!form) return;
 
     const notifications = new NotificationManager('Forms');
@@ -43,6 +43,7 @@ export const FormMixin = {
         notifications.show(json.success, 'success');
         this.afterSucces();
       }
+      return json;
 
     } catch (error) {
       console.error('Ошибка:', error);

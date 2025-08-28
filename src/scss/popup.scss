@@ -252,65 +252,6 @@ background-color: #eee;
 transition: all 100ms linear;
 }
 
-.number {
-border: 1px solid #f7f7f7;
-display: inline-block;
-vertical-align: middle;
-position: relative;
-border-radius: 8px;
-}
-.btn-plus button {
-width: 30px;
-height: 26px;
-font-size: 12px;
-line-height: 0;
-padding: 0;
-cursor: pointer;
-display: inline-block;
-background: #f7f7f7;
-border: 0;
-outline: none;
-text-align: center;
-}
-.btn-minus button {
-width: 30px;
-height: 26px;
-font-size: 17px;
-line-height: 0;
-padding: 0;
-cursor: pointer;
-display: inline-block;
-background: #f7f7f7;
-border: 0;
-outline: none;
-text-align: center;
-}
-
-
-input.plus-minus {
-background: #f7f7f7;
-width: 50px;
-height: 26px;
-outline: none;
-font-size: 14px;
-text-align: center;
-position: absolute;
-top: 0;
-left: 30px;
-border: 0;
-border-radius: 0;
-}
-
-.btn-plus {
-float: right;
-height: 26px;
-width: 30px;
-}
-.btn-minus {
-float: left;
-height: 26px;
-width: 30px;
-}
 
 .frame-change-count {
 width: 110px;

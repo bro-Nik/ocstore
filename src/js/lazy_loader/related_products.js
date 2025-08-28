@@ -3,8 +3,7 @@
  * @module CallbackPopup
  */
 
-import { LazyLoaderBase } from './base.js';
-import { initCarouselSwipers } from '../swiper';
+import { ProductsSlider } from './products_slider';
 
 const CONFIG = {
   selectors: {
@@ -15,21 +14,9 @@ const CONFIG = {
   },
 };
 
-class RelatedProducts extends LazyLoaderBase {
+class RelatedProducts extends ProductsSlider {
   constructor() {
     super(CONFIG);
-  }
-
-  contentUrl() {
-    const infoEl = document.querySelector('#counter_data');
-    if (!infoEl) return;
-
-    const id = infoEl.dataset.id;
-    return `${this.endpoints.content}${id}`;
-  }
-
-  afterLoad() {
-    initCarouselSwipers(this.container);
   }
 }
 

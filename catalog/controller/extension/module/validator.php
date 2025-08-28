@@ -86,18 +86,4 @@ trait ValidatorTrait {
 		return '';
 	}
 
-	public function getPrivacyPolicyConfirmation() {
-    $result = '';
-		$this->load->model('catalog/information');
-		// ToDo избавиться от настроек revolution
-		$information_info = $this->model_catalog_information->getInformation($this->config->get('revtheme_all_settings')['pol_konf']);
-		if ($information_info) {
-			if ($this->config->get('revtheme_all_settings')['pol_konf_tvivod']) {
-				$result = sprintf($this->language->get('text_agree_pol_konf_st'), $this->url->link('information/information', 'information_id=' . $this->config->get('revtheme_all_settings')['pol_konf'], true), $information_info['title'], $information_info['title']);
-			} else {
-				$result = sprintf($this->language->get('text_agree_pol_konf'), $this->url->link('information/information', 'information_id=' . $this->config->get('revtheme_all_settings')['pol_konf'], true), $information_info['title']);
-			}
-		}
-    return $result;
-	}
 }

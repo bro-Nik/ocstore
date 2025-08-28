@@ -1,9 +1,10 @@
 <?php
+require_once('catalog/controller/trait/cookie.php');
 require_once('catalog/controller/extension/module/validator.php');
 require_once('catalog/controller/trait/form_handler.php');
 
 class ControllerModalCartquick extends Controller {
-	use \ValidatorTrait, \FormHandlerTrait;
+	use \CookieTrait, \ValidatorTrait, \FormHandlerTrait;
 
 	const FIELDS = ['name', 'phone', 'comment', 'privacy_policy_confirmation'];
   const REQUIRED_FIELDS = ['phone', 'privacy_policy_confirmation'];
@@ -13,46 +14,38 @@ class ControllerModalCartquick extends Controller {
 		$this->load->language('revolution/revolution');
 		$data = $this->getCommonData();
 
-		if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
-			$data['error'] = $this->language->get('error_stock');
-		} elseif (isset($this->session->data['error'])) {
-			$data['error'] = $this->session->data['error'];
-
-			unset($this->session->data['error']);
-		} else {
-			$data['error'] = '';
-		}
-		
-		if ( isset( $this->request->request['remove'] ) ) {
-			$this->cart->remove( $this->request->request['remove'] );
-			unset( $this->session->data['vouchers'][$this->request->request['remove']] );
-		}
-
-		if ( isset( $this->request->request['update'] ) ) {
-			$this->cart->update( $this->request->request['update'], $this->request->request['quantity'] );
-		}
-
-		if ( isset( $this->request->request['add'] ) ) {
-			$this->cart->add( $this->request->request['add'], $this->request->request['quantity'] );
-		}
-
-		if (isset($this->session->data['success'])) {
-			$data['success'] = $this->session->data['success'];
-			unset($this->session->data['success']);
-		} else {
-			$data['success'] = '';
-		}
+		// if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
+		// 	$data['error'] = $this->language->get('error_stock');
+		// } elseif (isset($this->session->data['error'])) {
+		// 	$data['error'] = $this->session->data['error'];
+		//
+		// 	unset($this->session->data['error']);
+		// } else {
+		// 	$data['error'] = '';
+		// }
+		//
+		// if (isset($this->session->data['success'])) {
+		// 	$data['success'] = $this->session->data['success'];
+		// 	unset($this->session->data['success']);
+		// } else {
+		// 	$data['success'] = '';
+		// }
 
 		$this->load->model('tool/image');
 		$this->load->model('tool/upload');
 		$this->load->model('catalog/product');
 
 		$data['products'] = array();
-		$products = $this->cart->getProducts();
+
+		$cart_data = $this->getCookie('cart') ?? [];
+		$product_ids = array_map('intval', array_keys($cart_data));
+    $products = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $product_ids]);
+
 		foreach ($products as $product) {
-			if ($product['minimum'] > $product['quantity']) {
-				$data['warning'] = sprintf($this->language->get('error_minimum'), $product['name'], $product['minimum']);
-			}
+			// if ($product['minimum'] > $product['quantity']) {
+			// 	$data['warning'] = sprintf($this->language->get('error_minimum'), $product['name'], $product['minimum']);
+			// }
+			//
 
 			if ($product['image']) {
 				$image = $this->model_tool_image->resize($product['image'], 80, 80);
@@ -60,94 +53,42 @@ class ControllerModalCartquick extends Controller {
 				$image = $this->model_tool_image->resize('no_image.png', 80, 80);
 			}
 			
-			$option_data = array();
+			// $option_data = array();
 
-			foreach ($product['option'] as $option) {
-				if ($option['type'] != 'file') {
-					$value = $option['value'];
-				}
-
-				$option_data[] = array(
-					'name' => $option['name'],
-					'model' => (isset($option['model']) ? $option['model'] : false),
-					'value' => (utf8_strlen($value) > 50 ? utf8_substr($value, 0, 50) . '..' : $value),
-				);
-			}
+			// foreach ($product['option'] as $option) {
+			// 	if ($option['type'] != 'file') {
+			// 		$value = $option['value'];
+			// 	}
+			//
+			// 	$option_data[] = array(
+			// 		'name' => $option['name'],
+			// 		'model' => (isset($option['model']) ? $option['model'] : false),
+			// 		'value' => (utf8_strlen($value) > 50 ? utf8_substr($value, 0, 50) . '..' : $value),
+			// 	);
+			// }
 
 			$data['products'][] = array(
-				'minimum'     => $product['minimum'] > 0 ? $product['minimum'] : 1,
-				'key'         => $product['cart_id'],
+				// 'minimum'     => $product['minimum'] > 0 ? $product['minimum'] : 1,
+				// 'key'         => $product['cart_id'],
 				'product_id'  => $product['product_id'],
 				'thumb'       => $image,
 				'name'        => $product['name'],
-				'model'       => $product['model'],
-				'option'      => $option_data,
+				// 'model'       => $product['model'],
+				// 'option'      => $option_data,
 				'quantity'    => $product['quantity'],
-				'stock'       => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
-				'reward'      => ($product['reward'] ? sprintf($this->language->get('text_cartpopup_points'), $product['reward']) : ''),
+				// 'stock'       => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
+				// 'reward'      => ($product['reward'] ? sprintf($this->language->get('text_cartpopup_points'), $product['reward']) : ''),
 				'price'       => $product['price'],
-				'total'       => $product['price'] * $product['quantity'],
+				// 'total'       => $product['price'] * $product['quantity'],
 				'href'        => $this->url->link('product/product', 'product_id=' . $product['product_id'])
-			);
-		}
-
-		// Totals
-		$this->load->model('setting/extension');
-
-		$totals = array();
-		$taxes = $this->cart->getTaxes();
-		$total = 0;
-					
-		$total_data = array(
-			'totals' => &$totals,
-			'taxes'  => &$taxes,
-			'total'  => &$total
-		);
-		
-		if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-			$sort_order = array();
-
-			$results = $this->model_setting_extension->getExtensions('total');
-
-			foreach ($results as $key => $value) {
-				$sort_order[$key] = $this->config->get('total_' . $value['code'] . '_sort_order');
-			}
-
-			array_multisort($sort_order, SORT_ASC, $results);
-
-			foreach ($results as $result) {
-				if ($this->config->get('total_' . $result['code'] . '_status')) {
-					$this->load->model('extension/total/' . $result['code']);
-					$this->{'model_extension_total_' . $result['code']}->getTotal($total_data);
-				}
-			}
-
-			$sort_order = array();
-
-			foreach ($totals as $key => $value) {
-				$sort_order[$key] = $value['sort_order'];
-			}
-
-			array_multisort($sort_order, SORT_ASC, $totals);
-		}
-
-		$data['totals'] = array();
-
-		foreach ($totals as $total) {
-			$data['totals'][] = array(
-				'title' => $total['title'],
-				'text'  => $total['value']
 			);
 		}
 
 		$data['heading'] = $this->language->get('heading_cartpopupquick_title');
 		$this->response->setOutput($this->load->view('modals/cartquick', $data));
+
 	}
 
-	protected function doAfterChecking() {
-	}
-
-	
 	public function send() {
 		
 		$json = array();
@@ -364,50 +305,6 @@ class ControllerModalCartquick extends Controller {
 			$this->cart->clear();
 			
 			$json['html'] = $this->language->get('text_success_order');
-		}
-		
-    $this->sendJsonResponse($json);
-	}
-
-	public function status() {
-		
-		$json = array();
-
-		$this->load->language('revolution/revolution');
-		$this->load->model('setting/extension');
-		
-		$total = 0;
-		$taxes = $this->cart->getTaxes();
-		
-		$totals = array();
-		$total_data = array(
-			'totals' => &$totals,
-			'taxes'  => &$taxes,
-			'total'  => &$total
-		);
-		
-		if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-			$sort_order = array();
-			$results = $this->model_setting_extension->getExtensions('total');
-
-			foreach ($results as $key => $value) {
-				$sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
-			}
-			array_multisort($sort_order, SORT_ASC, $results);
-
-			foreach ($results as $result) {
-				if ($this->config->get($result['code'] . '_status')) {
-					$this->load->model('extension/total/' . $result['code']);
-					$this->{'model_extension_total_' . $result['code']}->getTotal($total_data);
-				}
-			}
-			
-			$sort_order = array();
-			foreach ($totals as $key => $value) {
-				$sort_order[$key] = $value['sort_order'];
-			}
-			array_multisort($sort_order, SORT_ASC, $totals);
-
 		}
 		
     $this->sendJsonResponse($json);

@@ -1,8 +1,18 @@
 <?php 
+require_once('catalog/controller/trait/template.php');
+require_once('catalog/controller/trait/cookie.php');
+require_once('catalog/controller/extension/module/validator.php');
+require_once('catalog/controller/trait/form_handler.php');
+
 class ControllerRevolutionRevcheckout extends Controller {
+	use \TemplateTrait, \CookieTrait, \ValidatorTrait, \FormHandlerTrait;
+
+	const FIELDS = ['name', 'phone', 'comment'];
+  const REQUIRED_FIELDS = ['phone'];
 	
 	public function index() {
-		$data = array();
+		$data = $this->getCommonData();
+		// $data = array();
 		
 		$this->load->language('checkout/cart');
 		$this->load->language('checkout/checkout');
@@ -19,23 +29,77 @@ class ControllerRevolutionRevcheckout extends Controller {
 			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('checkout/revcheckout', '', 'SSL')
 		);
+
+		$cart_data = $this->getCookie('cart') ?? [];
 		
-		if (!$this->cart->hasProducts()) {
-			
-			$data['continue'] = $this->url->link('common/home');
-
+		if (!$cart_data) {
 			unset($this->session->data['success']);
-
-			$data['column_left'] = $this->load->controller('common/column_left');
-			$data['column_right'] = $this->load->controller('common/column_right');
-			$data['content_top'] = $this->load->controller('common/content_top');
-			$data['content_bottom'] = $this->load->controller('common/content_bottom');
-			$data['footer'] = $this->load->controller('common/footer');
-			$data['header'] = $this->load->controller('common/header');
+      $this->addCommonTemplateData($data);
 
 			$this->response->setOutput($this->load->view('error/not_found', $data));
 			
 		} else {
+			// new
+			$product_ids = array_map('intval', array_keys($cart_data));
+    	$products = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $product_ids]);
+
+		foreach ($products as $product) {
+			if ($product['image']) {
+				$image = $this->model_tool_image->resize($product['image'], 150, 150);
+			} else {
+				$image = $this->model_tool_image->resize('no_image.png', 150, 150);
+			}
+			
+			$option_data = array();
+
+			// foreach ($product['option'] as $option) {
+			// 	if ($option['type'] != 'file') {
+			// 		$value = $option['value'];
+			// 	} else {
+			// 		$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
+			//
+			// 		if ($upload_info) {
+			// 			$value = $upload_info['name'];
+			// 		} else {
+			// 			$value = '';
+			// 		}
+			// 	}
+			//
+			// 	$option_data[] = array(
+			// 		'name' => $option['name'],
+			// 		'model' => (isset($option['model']) ? $option['model'] : false),
+			// 		'value' => (utf8_strlen($value) > 50 ? utf8_substr($value, 0, 50) . '..' : $value),
+			// 	);
+			// 	
+			// 	if (isset($option['opt_image'])) {
+			// 		if ($option['opt_image']) {
+			// 			$image = $option['opt_image'] ? $this->model_tool_image->resize($option['opt_image'], 80, 80) : '';
+			// 		} else {
+			// 			$image = $image;
+			// 		}
+			// 	}
+			// 	if ($option['quantity']) {
+			// 		$quantity_pr = $option['quantity'];
+			// 	}
+			// }
+
+			$data['products'][] = array(
+				// 'quantity_pr' => $quantity_pr,
+				'minimum'     => $product['minimum'] > 0 ? $product['minimum'] : 1,
+				// 'key'         => $product['cart_id'],
+				'product_id'  => $product['product_id'],
+				'thumb'       => $image,
+				'name'        => $product['name'],
+				// 'model'       => $product['model'],
+				'option'      => $option_data,
+				'quantity'    => $cart_data[$product['product_id']]['quantity'],
+				// 'stock'       => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
+				// 'reward'      => ($product['reward'] ? sprintf($this->language->get('text_cartpopup_points'), $product['reward']) : ''),
+				'price'       => $product['price'],
+				// 'total'       => $total,
+				'href'        => $this->url->link('product/product', 'product_id=' . $product['product_id'])
+			);
+		}
 
 			$data['sticky'] = $this->config->get('revtheme_header_menu')['sticky'];
 			
@@ -43,39 +107,39 @@ class ControllerRevolutionRevcheckout extends Controller {
 			$language_id = $this->config->get('config_language_id');
 			
 			$data['descript'] = html_entity_decode($settings[$language_id]['revcheckout_description']);
-			if ($this->config->get('revtheme_geo_set')['status']) {
-				require_once(DIR_SYSTEM . 'library/revolution/SxGeo.php');
-				$SxGeo = new SxGeo();
-				if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-					$ip = $_SERVER['HTTP_CLIENT_IP'];
-				} else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-					$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-				} else {
-					$ip = $_SERVER['REMOTE_ADDR'];
-				}
-				$ip_city = $SxGeo->getCity($ip)['city']['name_ru'];
-				$ip_region = $SxGeo->getCityFull($ip)['region']['name_ru'];
-				$rev_geo_data = $this->config->get('revtheme_geo');
-				$data['rev_geos'] = array();
-				if (!empty($rev_geo_data)){
-					foreach ($rev_geo_data as $rev_geo) {
-						if ($ip_city == $rev_geo['city'] || $ip_region == $rev_geo['city']) {
-							$data['rev_geos'][] = array(
-								'code' => $rev_geo['code'],
-								'text' => $rev_geo['text'][$this->config->get('config_language_id')]
-							);
-						}
-					}
-				}
-				foreach ($data['rev_geos'] as $rev_geo) {
-					if (strpos($data['descript'], $rev_geo['code'])) {
-						$data['descript'] = html_entity_decode(str_replace($rev_geo['code'], $rev_geo['text'], $data['descript']));
-					}
-				}
-			}
+			// if ($this->config->get('revtheme_geo_set')['status']) {
+			// 	require_once(DIR_SYSTEM . 'library/revolution/SxGeo.php');
+			// 	$SxGeo = new SxGeo();
+			// 	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+			// 		$ip = $_SERVER['HTTP_CLIENT_IP'];
+			// 	} else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			// 		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			// 	} else {
+			// 		$ip = $_SERVER['REMOTE_ADDR'];
+			// 	}
+			// 	$ip_city = $SxGeo->getCity($ip)['city']['name_ru'];
+			// 	$ip_region = $SxGeo->getCityFull($ip)['region']['name_ru'];
+			// 	$rev_geo_data = $this->config->get('revtheme_geo');
+			// 	$data['rev_geos'] = array();
+			// 	if (!empty($rev_geo_data)){
+			// 		foreach ($rev_geo_data as $rev_geo) {
+			// 			if ($ip_city == $rev_geo['city'] || $ip_region == $rev_geo['city']) {
+			// 				$data['rev_geos'][] = array(
+			// 					'code' => $rev_geo['code'],
+			// 					'text' => $rev_geo['text'][$this->config->get('config_language_id')]
+			// 				);
+			// 			}
+			// 		}
+			// 	}
+			// 	foreach ($data['rev_geos'] as $rev_geo) {
+			// 		if (strpos($data['descript'], $rev_geo['code'])) {
+			// 			$data['descript'] = html_entity_decode(str_replace($rev_geo['code'], $rev_geo['text'], $data['descript']));
+			// 		}
+			// 	}
+			// }
 			$data['logged'] = $this->customer->isLogged();
 
-			$data['user'] = $this->user();
+			// $data['user'] = $this->user();
 			$data['address'] = $this->address();
 			$data['shipping_method'] = $this->shipping_method();
 			$data['payment_method'] = $this->payment_method();
@@ -131,14 +195,40 @@ class ControllerRevolutionRevcheckout extends Controller {
 			$this->load->model('revolution/revolution');
 			$data['custom_fields'] = $this->model_revolution_revolution->geRevcheckoutCustomFields($customer_group_id);
 
-			$data['column_left'] = $this->load->controller('common/column_left');
-			$data['column_right'] = $this->load->controller('common/column_right');
-			$data['content_top'] = $this->load->controller('common/content_top');
-			$data['content_bottom'] = $this->load->controller('common/content_bottom');
-			$data['footer'] = $this->load->controller('common/footer');
-			$data['header'] = $this->load->controller('common/header');
+
+			// User
+
+		$this->load->language('checkout/cart');
+		$this->load->language('checkout/checkout');
+		$this->load->language('revolution/revolution');
+		
+		$settings = $data['settings'] = $this->config->get('revtheme_all_settings');
+		$language_id = $this->config->get('config_language_id');
+		
+		
+		$this->load->model('account/customer_group');
+		$data['customer_groups'] = array();
+		if (is_array($this->config->get('config_customer_group_display'))) {
+			$customer_groups = $this->model_account_customer_group->getCustomerGroups();
+			foreach ($customer_groups as $customer_group) {
+				if (in_array($customer_group['customer_group_id'], $this->config->get('config_customer_group_display'))) {
+					$data['customer_groups'][] = $customer_group;
+				}
+			}
+		}
+		
+		$data['checkout_guest'] = $this->config->get('config_checkout_guest');
+		$data['customer_group_id'] = $customer_group_id = isset($this->request->post['customer_group_id']) ? $this->request->post['customer_group_id'] : $this->config->get('config_customer_group_id');
+		$data['comment'] = isset($this->session->data['comment']) ? $this->session->data['comment'] : '';
+		$data['register'] = isset($this->request->post['register']) ? $this->request->post['register'] : 0;
+		
+		$this->load->model('revolution/revolution');
+		$data['custom_fields'] = $this->model_revolution_revolution->geRevcheckoutCustomFields($customer_group_id);
+
+      $this->addCommonTemplateData($data);
 			
 			$this->response->setOutput($this->load->view('revolution/checkout/checkout', $data));
+			// $this->response->setOutput($this->load->view('revolution/checkout/cart', $data));
 		}
   	}
 	
@@ -344,90 +434,6 @@ class ControllerRevolutionRevcheckout extends Controller {
 		$this->response->setOutput(json_encode($json));	
 	}	
 
-	public function user() {
-		$data = array();
-		$this->load->language('checkout/cart');
-		$this->load->language('checkout/checkout');
-		$this->load->language('revolution/revolution');
-		
-		if (isset($this->session->data['shipping_address_id']))	{
-			unset($this->session->data['shipping_address_id']);
-		}
-		
-		$settings = $data['settings'] = $this->config->get('revtheme_all_settings');
-		$language_id = $this->config->get('config_language_id');
-		
-		$data['is_logged'] = $this->customer->isLogged() ? true : false;
-		$data['is_shipping'] = $this->cart->hasShipping() ? true : false;
-		
-		if (!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) {
-			$this->response->redirect($this->url->link('checkout/cart'));
-		}
-		
-		if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
-			$data['error_warning'] = $this->language->get('error_stock');
-		}
-		
-		if ($this->customer->isLogged()) {
-			$data['customer_id'] = $this->session->data['customer_id'];
-			unset($this->session->data['shipping_method']);
-			unset($this->session->data['shipping_methods']);
-			unset($this->session->data['shipping_address']);
-			unset($this->session->data['shipping_address_id']);
-			unset($this->session->data['payment_address']);
-			unset($this->session->data['payment_address_id']);
-			unset($this->session->data['payment_method']);
-			unset($this->session->data['payment_methods']);
-			unset($this->session->data['guest']);
-			unset($this->session->data['account']);
-			unset($this->session->data['shipping_country_id']);
-			unset($this->session->data['shipping_zone_id']);
-			unset($this->session->data['payment_country_id']);
-			unset($this->session->data['payment_zone_id']);
-		}
-
-		$data['logged'] = $this->customer->isLogged();
-		$data['firstname'] = isset($this->session->data['payment_address']['firstname']) ? $this->session->data['payment_address']['firstname'] : '';
-		$data['lastname'] = isset($this->session->data['payment_address']['lastname']) ? $this->session->data['payment_address']['lastname'] : '';
-		$data['email'] = isset($this->session->data['payment_address']['email']) ? $this->session->data['payment_address']['email'] : '';
-		$data['telephone'] = isset($this->session->data['payment_address']['telephone']) ? $this->session->data['payment_address']['telephone'] : '';
-				
-		if ($this->customer->isLogged()){
-			$this->load->model('account/address');
-			$data['firstname'] = $this->customer->getFirstName();
-			$data['lastname'] = $this->customer->getLastName();
-			$data['email'] = $this->customer->getEmail();
-			$data['telephone'] = $this->customer->getTelephone();
-		}
-		
-		$this->load->model('account/customer_group');
-		$data['customer_groups'] = array();
-		if (is_array($this->config->get('config_customer_group_display'))) {
-			$customer_groups = $this->model_account_customer_group->getCustomerGroups();
-			foreach ($customer_groups as $customer_group) {
-				if (in_array($customer_group['customer_group_id'], $this->config->get('config_customer_group_display'))) {
-					$data['customer_groups'][] = $customer_group;
-				}
-			}
-		}
-		
-		$data['checkout_guest'] = $this->config->get('config_checkout_guest');
-		$data['customer_group_id'] = $customer_group_id = isset($this->request->post['customer_group_id']) ? $this->request->post['customer_group_id'] : $this->config->get('config_customer_group_id');
-		$data['comment'] = isset($this->session->data['comment']) ? $this->session->data['comment'] : '';
-		$data['register'] = isset($this->request->post['register']) ? $this->request->post['register'] : 0;
-		
-		$this->load->model('revolution/revolution');
-		$data['custom_fields'] = $this->model_revolution_revolution->geRevcheckoutCustomFields($customer_group_id);
-
-		$result = $this->load->view('revolution/checkout/user', $data);
-
-		if (isset($this->request->get['ajax'])) {
-			$this->response->setOutput($result);
-		} else {
-			return $result;
-		}
-	}
-	
 	public function address() {
 		$data = array();
 		$this->load->language('checkout/cart');
@@ -604,10 +610,10 @@ class ControllerRevolutionRevcheckout extends Controller {
 				$sort_order[$key] = $value['sort_order'];
 			}
 			array_multisort($sort_order, SORT_ASC, $method_data);
-			$this->session->data['shipping_methods'] = $method_data;
+			// $this->session->data['shipping_methods'] = $method_data;
 		}
 		
-		$data['shipping_methods'] = $this->session->data['shipping_methods'];
+		// $data['shipping_methods'] = $this->session->data['shipping_methods'];
 		
 		$shipping = explode('.', $this->session->data['ship_meth']);
 		
@@ -774,8 +780,11 @@ class ControllerRevolutionRevcheckout extends Controller {
 		$this->load->model('catalog/product');
 
         $data['products'] = array();
+				$cart_data = $this->getCookie('cart') ?? [];
+				$product_ids = array_map('intval', array_keys($cart_data));
+    		$products = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $product_ids]);
 
-        $products = $this->cart->getProducts();
+        // $products = $this->cart->getProducts();
 			
         foreach ($products as $product) {
             $product_total = 0;
@@ -807,51 +816,51 @@ class ControllerRevolutionRevcheckout extends Controller {
 			
 			$this->load->model('tool/upload');
 
-            foreach ($product['option'] as $option) {
-                if ($option['type'] != 'file') {
-					if (isset($option['option_value']))	{
-						$value = $option['option_value'];
-					} else if (isset($option['value']))	{
-						$value = $option['value'];
-					} else {
-						$value = '';
-					}
-                } else {
-                    $upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
-					if ($upload_info) {
-						$value = $upload_info['name'];
-					} else {
-						$value = '';
-					}
-                }
-				
-				if (isset($option['opt_image'])) {
-					if ($option['opt_image']) {
-						$image = $this->model_tool_image->resize($option['opt_image'], $image_cart_width,  $image_cart_height);
-					} else {
-						if ($product['image']) {
-							$image = $this->model_tool_image->resize($product['image'], $image_cart_width, $image_cart_height);
-						} else {
-							$image = $this->model_tool_image->resize('no_image.png', $image_cart_width, $image_cart_height);
-						}
-					}
-				} else {
-					if ($product['image']) {
-						$image = $this->model_tool_image->resize($product['image'], $image_cart_width, $image_cart_height);
-					} else {
-						$image = $this->model_tool_image->resize('no_image.png', $image_cart_width, $image_cart_height);
-					}
-				}
-
-                $option_data[] = array(
-                    'name'  => $option['name'],
-                    'value' => (utf8_strlen($value) > 50 ? utf8_substr($value, 0, 50) . '..' : $value),
-					'model' => (isset($option['model']) ? $option['model'] : false)
-                );
-				if ($option['quantity']) {
-					$quantity_pr = $option['quantity'];
-				}
-            }
+    //         foreach ($product['option'] as $option) {
+    //             if ($option['type'] != 'file') {
+				// 	if (isset($option['option_value']))	{
+				// 		$value = $option['option_value'];
+				// 	} else if (isset($option['value']))	{
+				// 		$value = $option['value'];
+				// 	} else {
+				// 		$value = '';
+				// 	}
+    //             } else {
+    //                 $upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
+				// 	if ($upload_info) {
+				// 		$value = $upload_info['name'];
+				// 	} else {
+				// 		$value = '';
+				// 	}
+    //             }
+				// 
+				// if (isset($option['opt_image'])) {
+				// 	if ($option['opt_image']) {
+				// 		$image = $this->model_tool_image->resize($option['opt_image'], $image_cart_width,  $image_cart_height);
+				// 	} else {
+				// 		if ($product['image']) {
+				// 			$image = $this->model_tool_image->resize($product['image'], $image_cart_width, $image_cart_height);
+				// 		} else {
+				// 			$image = $this->model_tool_image->resize('no_image.png', $image_cart_width, $image_cart_height);
+				// 		}
+				// 	}
+				// } else {
+				// 	if ($product['image']) {
+				// 		$image = $this->model_tool_image->resize($product['image'], $image_cart_width, $image_cart_height);
+				// 	} else {
+				// 		$image = $this->model_tool_image->resize('no_image.png', $image_cart_width, $image_cart_height);
+				// 	}
+				// }
+				//
+    //             $option_data[] = array(
+    //                 'name'  => $option['name'],
+    //                 'value' => (utf8_strlen($value) > 50 ? utf8_substr($value, 0, 50) . '..' : $value),
+				// 	'model' => (isset($option['model']) ? $option['model'] : false)
+    //             );
+				// if ($option['quantity']) {
+				// 	$quantity_pr = $option['quantity'];
+				// }
+    //         }
 
             if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
                 $price = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')), $currency);
@@ -869,25 +878,25 @@ class ControllerRevolutionRevcheckout extends Controller {
                 
             $recurring = '';
 
-			if ($product['recurring']) {
-				$frequencies = array(
-					'day'        => $this->language->get('text_day'),
-					'week'       => $this->language->get('text_week'),
-					'semi_month' => $this->language->get('text_semi_month'),
-					'month'      => $this->language->get('text_month'),
-					'year'       => $this->language->get('text_year')
-				);
-
-				if ($product['recurring']['trial']) {
-					$recurring = sprintf($this->language->get('text_trial_description'), $this->currency->format($this->tax->calculate($product['recurring']['trial_price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['trial_cycle'], $frequencies[$product['recurring']['trial_frequency']], $product['recurring']['trial_duration']) . ' ';
-				}
-
-				if ($product['recurring']['duration']) {
-					$recurring .= sprintf($this->language->get('text_payment_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
-				} else {
-					$recurring .= sprintf($this->language->get('text_payment_cancel'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
-				}
-			}
+			// if ($product['recurring']) {
+			// 	$frequencies = array(
+			// 		'day'        => $this->language->get('text_day'),
+			// 		'week'       => $this->language->get('text_week'),
+			// 		'semi_month' => $this->language->get('text_semi_month'),
+			// 		'month'      => $this->language->get('text_month'),
+			// 		'year'       => $this->language->get('text_year')
+			// 	);
+			//
+			// 	if ($product['recurring']['trial']) {
+			// 		$recurring = sprintf($this->language->get('text_trial_description'), $this->currency->format($this->tax->calculate($product['recurring']['trial_price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['trial_cycle'], $frequencies[$product['recurring']['trial_frequency']], $product['recurring']['trial_duration']) . ' ';
+			// 	}
+			//
+			// 	if ($product['recurring']['duration']) {
+			// 		$recurring .= sprintf($this->language->get('text_payment_description'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
+			// 	} else {
+			// 		$recurring .= sprintf($this->language->get('text_payment_cancel'), $this->currency->format($this->tax->calculate($product['recurring']['price'] * $product['quantity'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']), $product['recurring']['cycle'], $frequencies[$product['recurring']['frequency']], $product['recurring']['duration']);
+			// 	}
+			// }
 			
 			if ($this->config->get('revtheme_product_all')['ed_izm']) {
 				$ed_izm = $product['isbn'];
@@ -896,8 +905,8 @@ class ControllerRevolutionRevcheckout extends Controller {
 			}
 
             $data['products'][] = array(
-				'ed_izm'              => $ed_izm,
-				'cart_id'  			  => $product['cart_id'],
+				// 'ed_izm'              => $ed_izm,
+				// 'cart_id'  			  => $product['cart_id'],
                 'product_id'          => $product['product_id'],
                 'thumb'               => $image,
                 'name'                => $product['name'],
@@ -907,7 +916,7 @@ class ControllerRevolutionRevcheckout extends Controller {
 				'sku'                 => $product['sku'],
                 'option'              => $option_data,
                 'quantity'            => $product['quantity'],
-                'stock'               => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
+                // 'stock'               => $product['stock'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
                 'reward'              => ($product['reward'] ? sprintf($this->language->get('text_points'), $product['reward']) : ''),
                 'price'               => $price,
                 'total'               => $total,
@@ -1368,24 +1377,24 @@ class ControllerRevolutionRevcheckout extends Controller {
 		return $this->load->controller('extension/payment/'.$code[0]);
   	}
 	
-	public function country() {
-		$json = array();
-		$this->load->model('localisation/country');
-    	$country_info = $this->model_localisation_country->getCountry($this->request->get['country_id']);
-		if ($country_info) {
-			$this->load->model('localisation/zone');
-			$json = array(
-				'country_id'        => $country_info['country_id'],
-				'name'              => $country_info['name'],
-				'iso_code_2'        => $country_info['iso_code_2'],
-				'iso_code_3'        => $country_info['iso_code_3'],
-				'address_format'    => $country_info['address_format'],
-				'postcode_required' => $country_info['postcode_required'],
-				'zone'              => $this->model_localisation_zone->getZonesByCountryId($this->request->get['country_id']),
-				'status'            => $country_info['status']		
-			);
-		}		
-		$this->response->setOutput(json_encode($json));
-	}
+	// public function country() {
+	// 	$json = array();
+	// 	$this->load->model('localisation/country');
+ //    	$country_info = $this->model_localisation_country->getCountry($this->request->get['country_id']);
+	// 	if ($country_info) {
+	// 		$this->load->model('localisation/zone');
+	// 		$json = array(
+	// 			'country_id'        => $country_info['country_id'],
+	// 			'name'              => $country_info['name'],
+	// 			'iso_code_2'        => $country_info['iso_code_2'],
+	// 			'iso_code_3'        => $country_info['iso_code_3'],
+	// 			'address_format'    => $country_info['address_format'],
+	// 			'postcode_required' => $country_info['postcode_required'],
+	// 			'zone'              => $this->model_localisation_zone->getZonesByCountryId($this->request->get['country_id']),
+	// 			'status'            => $country_info['status']		
+	// 		);
+	// 	}		
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 	
 }

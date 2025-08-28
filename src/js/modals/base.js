@@ -10,6 +10,7 @@ import { eventManager } from '../events/event-manager';
 import { validator } from '../services/validations';
 import { NotificationManager } from '../services/notifications';
 import { LoaderMixin } from '../mixins/loader';
+import { FormMixin } from '../mixins/form';
 
 const BASE_CONFIG = {
   selectors: {
@@ -44,7 +45,7 @@ class BasePopup {
     this.initialized = false;
     this.notifications = new NotificationManager();
 
-    Object.assign(this, LoaderMixin);
+    Object.assign(this, LoaderMixin, FormMixin);
 
     this.init();
   }
@@ -144,7 +145,7 @@ class BasePopup {
       detail: { popup: this, url }
     });
     this.dialog.dispatchEvent(openedEvent);
-    await this.afterShow();
+    this.afterShow();
   }
 
   /**
@@ -190,6 +191,7 @@ class BasePopup {
   close(e, target) {
     this.delEvents()
     this.dialog.close();
+    this.content.innerHTML = '';
     this.cleanupAfterClose();
   }
 
@@ -217,31 +219,13 @@ class BasePopup {
   }
 
   async handleSubmit() {
+    console.log('handleSubmit')
     const form = this.dialog.querySelector(this.selectors.purchaseForm);
+    const json = await this.submit(form, this.endpoints.submit);
 
-    // Валидация формы
-    if (!validator.validateForm(form)) return;
-
-    try {
-      this.loading.show();
-
-      const formData = new FormData(form);
-      
-      const response = await fetch(this.endpoints.submit, {
-        method: 'POST',
-        body: formData
-      });
-      
-      const json = await response.json();
-      
-      if (json.toasts) this.notifications.show(json.toasts);
-      if (json.error) this.handleErrors(json.error);
-      if (json.html) this.handleSuccess(json.html);
-    } catch (error) {
-      console.error('Ошибка при оформлении заказа:', error);
-    } finally {
-      this.loading.hide();
-    }
+    if (!json) return;
+    if (json.error) this.handleErrors(json.error);
+    if (json.html) this.handleSuccess(json.html);
   }
 
   handleSuccess(html) {

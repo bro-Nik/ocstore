@@ -1,6 +1,6 @@
 <div class="cart">
   {% if (product.quantity > 0 and product.price > 0) %}
-    <a class="btn-cart" data-product-id="{{ product.product_id }}" data-action="cart-toggle" data-module="catalog" data-toggle="tooltip" title="{{ button_cart }}">
+    <a class="btn-cart" data-product-id="{{ product.product_id }}" data-min-quantity-id="{{ product.product_id }}" data-action="cart-toggle" data-module="catalog" data-toggle="tooltip" title="{{ button_cart }}">
       Купить
     </a>
   {% elseif (product.quantity < 1) %}

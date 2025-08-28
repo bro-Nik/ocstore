@@ -8,6 +8,9 @@ export const ObserverMixin = {
       console.error('Not found observerHandler');
       return;
     }
+    if (this.loadingCondition) {
+      if (!this.loadingCondition()) return;
+    }
 
     const placeholder = document.createElement('div');
     placeholder.className = 'lazy-placeholder';

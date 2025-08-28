@@ -4,9 +4,12 @@
  */
 
 import { BasePopup } from './base';
-import { cart } from '../cart';
+import { cart } from '../core/cart';
+import { wishlist } from '../core/wishlist';
 import { events } from '../events/events';
 import { eventManager } from '../events/event-manager';
+import { getCookie } from '../cookie';
+import { priceFormat } from '../main';
 
 const BASE_CART_CONFIG = {
   endpoints: {
@@ -15,14 +18,13 @@ const BASE_CART_CONFIG = {
   selectors: {
     // Элементы корзины
     quantityInput: '.plus-minus',
+    optionInput: '[data-action="update_prices_product"]',
     productIdInput: 'input[name="product_id"]',
-    quantityPlus: '.btn-plus button',
-    quantityMinus: '.btn-minus button',
+    quantity: '.change-quantity button',
     quantityContainer: '.number',
-    removeButton: '.remove button',
-
-    // Кнопки действий
-    cartItems: '#cart > ul',
+    removeButton: 'button.remove',
+    productItem: '.cart-product-item',
+    productItemList: '.cart-product-items'
   },
 };
 
@@ -40,84 +42,168 @@ class BaseCartPopup extends BasePopup {
   bindPopupEvents() {
     super.bindPopupEvents();
     // Обработчики кнопок +/-
-    this.addEvent('click', this.selectors.quantityPlus, this.quantityChange);
-    this.addEvent('click', this.selectors.quantityMinus, this.quantityChange);
+    this.addEvent('click', this.selectors.quantity, this.quantityChange);
 
     // Обработчики для ручного ввода
     this.addEvent('change', this.selectors.quantityInput, this.quantityChangeManual);
-    this.addEvent('keyup', this.selectors.quantityInput, this.quantityChangeManual);
+    this.addEvent('input', this.selectors.quantityInput, this.quantityChangeManual);
+
+    // Обработчики для опций
+    this.addEvent('change', this.selectors.optionInput, this.optionChange);
 
     // Обработчики удаления
     this.addEvent('click', this.selectors.removeButton, this.removeItem);
   }
 
-  async quantityChange(e, btn) {
-    const action = btn.closest(this.selectors.quantityPlus) ? 'increase' : 'decrease';
-    const container = btn.closest(this.selectors.quantityContainer);
-    const input = container.querySelector(this.selectors.quantityInput);
-    const productId = container.querySelector(this.selectors.productIdInput).value;
-    
-    let quantity = parseInt(input.value);
-    quantity = action === 'increase' ? quantity + 1 : quantity - 1;
-    
-    if (quantity < 1) quantity = 1;
-    input.value = quantity;
-    
-    await this.updateCartItem(productId, quantity);
+  optionChange(e, btn) {
+    const productBox = btn.closest(this.selectors.productItem);
+    this.updateProduct(productBox)
+
+    // Генерируем кастомное событие
+    document.dispatchEvent(new CustomEvent('optionChange'));
   }
 
-  async quantityChangeManual(e, input) {
-    input.value = input.value.replace(/[^\d]/g, '');
-    const quantity = parseInt(input.value) || 1;
-    const productKey = input.closest('tr, .mobile-products-cart > div')
-                          .querySelector(this.selectors.productIdInput).value;
+  quantityChange(e, btn) {
+    const productBox = btn.closest(this.selectors.productItem);
+    const input = productBox.querySelector(this.selectors.quantityInput);
+    const { productId, action } = btn.dataset;
+
+    const quantity = parseInt(input.value) + (action === 'quantity+' ? 1 : -1);   
+    this.updateQuantity(input, quantity, productId);
+  }
+
+  quantityChangeManual(e, input) {
+    if (e.type === 'keyup' && !['ArrowUp', 'ArrowDown'].includes(e.key)) return;
     
-    if (input.value) await this.updateCartItem(productKey, quantity);
-  }
+    const productBox = input.closest(this.selectors.productItem);
+    const { productId } = productBox.dataset;
 
-  async removeItem(e, btn) {
-    const productId = btn.nextElementSibling.value;
-    
-    await this.updateCartItem(productId, 0);
-    cart.updateButtons(productId);
-    cart.updateSessionData(cart.config.moduleName, btn.dataset.productId);
-  }
-
-  async updateCartItem(url) {
-    this.loading.show();
-    try {
-      await this.api.loadHtml(url, this.content);
-      this.updateCartStatus();
-    } finally {
-      this.loading.hide();
-    }
-  }
-
-  async updateCartStatus() {
-    try {
-      const json = await this.api.loadJson(this.endpoints.cartStatus);
-
-      if (json.total) {
-        cart.updateTotalCount(json.total);
-
-        // Удаляем и изменяем кнопки
-        if (json.total === '0') {
-          this.removecheckoutBtn()
-          cart.updateButtons();
+    // Обработка пустого поля при уходе фокуса
+    input.onblur = () => {
+        if (!input.value.trim()) {
+            input.value = 1;
+            this.updateQuantity(input, 1, productId);
         }
-        
-        // Обновляем список товаров в корзине
-        const cartItems = document.querySelector(this.selectors.cartItems);
-        await this.api.loadHtml(this.endpoints.cartInfo, cartItems);
-      }
-    } catch (error) {
-      console.error('Ошибка при обновлении статуса корзины:', error);
+    };
+
+    if (!input.value) {
+      this.updateProductTotal(productBox);
+      this.updateTotalSum();
+      return;
     }
+
+    let quantity = parseInt(input.value) || 1;
+    
+    // Обрабатываем стрелки
+    if (e.key === 'ArrowUp') quantity++;
+    if (e.key === 'ArrowDown') quantity--;
+    
+    this.updateQuantity(input, quantity, productId);
   }
 
-  handleSuccess(output) {
-    super.handleSuccess(output);
-    this.updateCartStatus();
+  updateQuantity(input, quantity, productId) {
+    // Ограничиваем значение
+    quantity = Math.max(1, Math.min(99, quantity));
+
+    input.value = quantity;
+
+    const productBox = input.closest(this.selectors.productItem);
+    this.updateProduct(productBox);
+  }
+
+  getProductInfo(productBox) {
+    // Найти все выбранные чекбоксы внутри элемента
+    const selectedOptions = productBox.querySelectorAll('.options input[type="checkbox"]:checked');
+
+    let productTotal = parseFloat(productBox.dataset.productPrice);
+    let options = [];
+    selectedOptions.forEach(checkbox => {
+      productTotal += parseFloat(checkbox.dataset.optionPrice || 0);
+      options.push(checkbox.dataset.optionId);
+    });
+    const quantity = parseInt(productBox.querySelector(this.selectors.quantityInput).value) || 0;
+
+    return { productTotal, quantity, options };
+  }
+
+  updateProductTotal(productBox) {
+    let { productTotal, quantity, options } = this.getProductInfo(productBox);
+    productTotal *= quantity;
+    productBox.dataset.total = productTotal;
+
+    const priceElement = productBox.querySelector('.price');
+    if (priceElement) priceElement.innerHTML = priceFormat(productTotal);
+  }
+
+  updateProduct(productBox) {
+    this.updateProductTotal(productBox);
+    this.updateTotalSum();
+
+    const { productTotal, quantity, options } = this.getProductInfo(productBox);
+    const { productId } = productBox.dataset;
+    cart.addToCookieList(productId, quantity, options);
+  }
+
+  removeItem(e, btn) {
+    const productBox = btn.closest(this.selectors.productItem);
+    const { productId } = productBox.dataset;
+
+    productBox.remove();
+    this.updateTotalSum();
+
+    const productsCount = cart.addToCookieList(productId, 0);
+    cart.updateTotalCount(productsCount);
+    cart.updateButtons(productId);
+  }
+
+  afterShow() {
+    super.afterShow();
+    this.checkOptions();
+    this.updateTotalSum();
+
+    const wishlistProducts = getCookie('wishlist');
+    wishlist.markProducts(wishlistProducts);
+  }
+
+  checkOptions() {
+    const productItemList = this.content.querySelector(this.selectors.productItemList);
+    if (!productItemList) return;
+    const productItems = productItemList.querySelectorAll(this.selectors.productItem);
+    if (!productItems.length) return;
+
+    const cartProducts = getCookie('cart');
+
+    productItems.forEach(productBox => {
+      const product = cartProducts[productBox.dataset.productId] || {};
+
+      product.options?.forEach(optionId => {
+        const optionElement = productBox.querySelector(`[data-option-id="${optionId}"]`);
+        if (optionElement) optionElement.checked = true;
+      });
+    });
+  }
+
+  updateTotalSum() {
+    const productItemList = this.content.querySelector(this.selectors.productItemList);
+    if (!productItemList) return;
+
+    const productItems = productItemList.querySelectorAll(this.selectors.productItem);
+
+    if (!productItems.length) {
+      this.content.querySelector(this.selectors.popupCenter).innerHTML = 'В корзине пусто';
+      this.removecheckoutBtn();
+      return;
+    }
+
+    let sum = 0;
+    productItems.forEach(productBox => {
+      // Ставим общую цену и атрибут
+      if (!productBox.dataset.total) this.updateProductTotal(productBox);
+      sum += parseFloat(productBox.dataset.total);
+    });
+
+    const sumElement = this.content.querySelector('#all_total');
+    if (sumElement) sumElement.innerHTML = priceFormat(sum);
   }
 }
 

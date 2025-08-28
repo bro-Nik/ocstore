@@ -40,7 +40,6 @@ export class BaseModule {
     events.addHandlers(this.config.globalEvents, document, this);
   };
 
-
   showLoading(btn) {
     const loading = new LoadingManager(btn);
     loading.show();

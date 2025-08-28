@@ -1,6 +1,6 @@
 // swiper
-import { initProductSwipers, initCarouselSwipers } from './swiper';
-initProductSwipers();
+import { initCarouselSwipers } from './swiper';
+// initProductSwipers();
 initCarouselSwipers();
 
 // mobile-menu
@@ -8,9 +8,9 @@ import { initMobilMenu } from './mmenu-light';
 initMobilMenu();
 
 import validator from './services/validations';
-import compare from './compare';
-import wishlist from './wishlist';
-import cart from './cart';
+import compare from './core/compare';
+import wishlist from './core/wishlist';
+import cart from './core/cart';
 import events from './events/events';
 import modals from './modals/init';
 import lazyElements from './lazy_loader/init';
@@ -18,6 +18,7 @@ import review from './feedback/review';
 import answer from './feedback/answer';
 import uiHelpers from './ui-helpers';
 import { pageViewCounter } from './statistic';
+import { productPage } from './pages/product';
 
 import { initStars } from './elements';
 initStars();
@@ -85,11 +86,11 @@ export function numberFormat(n) {
 
 
 export function priceFormat(n) {
-  const t = ''; // разделитель тысяч
+  const t = ' '; // разделитель тысяч
   const s = ' ₽'; // символ валюты
   
-  let i = parseInt(Math.abs(n)) + ''; 
-  let j = (i.length > 3) ? i.length % 3 : 0; 
+  const i = parseInt(Math.abs(n)) + ''; 
+  const j = (i.length > 3) ? i.length % 3 : 0; 
   
   return (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + s;
 }

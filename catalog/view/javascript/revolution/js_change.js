@@ -33,6 +33,19 @@ $(function () {
 
 
 
+$('.pr_reviews_count').on('click', function(e) {
+	url = $(this).attr('data-href');
+	location = url;
+});
+if (window.location.hash === "#tab-review") {
+	setTimeout(function() {
+		$('html, body').animate({ scrollTop: $('.tab-review').offset().top - 100}, 250);
+		var no_hash_url = window.location.href.replace(/#.*$/, '');
+		window.history.replaceState('', document.title, no_hash_url);
+	}, 150);
+}
+
+
 
 
 
@@ -132,6 +145,11 @@ $('#price-view').click(function() {
 	$('html').removeClass('opacity_minus').addClass('opacity_plus');
 	
 
+		$(window).load(function() {
+			$('html').removeClass('opacity_plus');
+		});
+	
+
 
 
 
@@ -156,13 +174,6 @@ $('#price-view').click(function() {
 })
 
 
-
-
-	NProgress.start();
-	$(window).load(function() {
-		NProgress.done();
-		$('html').removeClass('opacity_plus');
-	});
 
 
 
@@ -500,12 +511,6 @@ function get_revpopup_cart_option (opt_id, option, quantity, product_id) {
 				$('#top2 #cart-total').html(json['total']);
 				$('#top3 #cart-total-popup').html(json['total']);
 				$('#cart > ul').load('index.php?route=common/cart/info ul li');
-				
-
-					setTimeout(function() {
-						$('.product-thumb.product_'+ product_id +' .image .pr_in_cart_i').remove();
-						$('.product-thumb.product_'+ product_id +' .image').append('<div class="pr_in_cart_i"><i class="fa fa-check"></i></div>');
-					}, 300);
 				
 
 			}

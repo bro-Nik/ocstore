@@ -25,20 +25,21 @@ export class ToggleBoxManager {
   initElements() {
     this.openBtn = this.container.querySelector('.open-box');
     this.closeBtn = this.container.querySelector('.close-box');
-    this.contentBox = this.container.querySelector('.content-box');
-    this.input = this.container.querySelector('input, textarea');
+    this.hiddenContent = this.container.querySelector('.hidden-content-box');
+    this.switchableContent = this.container.querySelector('.switchable-content-box');
+    this.input = this.hiddenContent.querySelector('input, textarea');
 
-    if (!this.openBtn || !this.contentBox) return;
+    if (!this.openBtn || !this.hiddenContent) return;
 
     // Инициализация начального состояния
-    this.contentBox.style.display = 'none';
-    this.contentBox.style.overflow = 'hidden';
-    this.contentBox.style.height = '0';
-    this.contentBox.style.transition = `height ${this.options.duration}ms ease`;
+    this.hiddenContent.style.display = 'none';
+    this.hiddenContent.style.overflow = 'hidden';
+    this.hiddenContent.style.height = '0';
+    this.hiddenContent.style.transition = `height ${this.options.duration}ms ease`;
   }
 
   bindEvents() {
-    if (!this.openBtn || !this.contentBox) return;
+    if (!this.openBtn || !this.hiddenContent) return;
 
     this.openBtn.addEventListener('click', this.handleOpen.bind(this));
     
@@ -53,11 +54,16 @@ export class ToggleBoxManager {
     // Скрываем кнопку открытия
     this.openBtn.style.display = 'none';
 
+    // Скрываем переключаемый контент
+    if (this.switchableContent) {
+      this.slideUp(this.switchableContent, this.options.duration);
+    }
+
     // Анимация открытия
-    this.slideDown(this.contentBox, this.options.duration, () => {
+    this.slideDown(this.hiddenContent, this.options.duration, () => {
       this.input?.focus();
       // Прокрутка к открытому блоку
-      this.contentBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      this.hiddenContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   }
 
@@ -65,7 +71,11 @@ export class ToggleBoxManager {
     if (e) e.preventDefault();
 
     // Анимация закрытия
-    this.slideUp(this.contentBox, this.options.duration);
+    this.slideUp(this.hiddenContent, this.options.duration);
+
+    if (this.switchableContent) {
+      this.slideDown(this.switchableContent, this.options.duration);
+    }
 
     // Показываем кнопку открытия
     this.openBtn.style.display = 'block';
@@ -99,7 +109,7 @@ export class ToggleBoxManager {
   }
 
   toggle() {
-    if (this.contentBox.style.display === 'none') {
+    if (this.hiddenContent.style.display === 'none') {
       this.open();
     } else {
       this.close();

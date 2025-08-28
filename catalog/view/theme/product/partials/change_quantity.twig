@@ -1,12 +1,11 @@
 <div class="number">
-  <input name="product_id" value="{{ product_id }}" style="display: none;" type="hidden" />
   <div class="frame-change-count">
-    <div class="btn-plus">
-      <button type="button" data-action="quantity+{{ min_quantity }}">+</button>
+    <div class="btn-plus change-quantity">
+      <button type="button" data-action="quantity+{{ product.min_quantity }}">+</button>
     </div>
-    <div class="btn-minus">
-      <button type="button" data-action="quantity-{{ min_quantity }}">-</button>
+    <div class="btn-minus change-quantity">
+      <button type="button" data-action="quantity-{{ product.min_quantity }}">-</button>
     </div>
   </div>
-  <input type="text" name="quantity" value="{{ quantity }}" class="plus-minus" data-temp="{{ product['key'] }}, {{ product['quantity_pr'] }}"/>
+  <input type="text" name="quantity" value="{{ product.quantity }}" class="plus-minus" />
 </div>

@@ -1,0 +1,117 @@
+@use 'variables' as *;
+
+.cart-product-item {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  & .name {
+    @media (max-width: $desktop - 1) {
+      font-size: 1.4rem;
+    }
+  }
+
+  & .price {
+    font-weight: bold;
+    width: max-content;
+  }
+
+  & .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    gap: 1rem;
+  }
+  & .info2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+  }
+  & img {
+    padding: 0.25rem;
+    max-width: 100%;
+  }
+  & .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: .5rem;
+    & .fa {
+      border: none;
+      // color: $text-light;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      &:hover {
+        background: #f7f7f7;
+      }
+    }
+  }
+}
+
+
+.number {
+border: 1px solid #f7f7f7;
+display: inline-block;
+vertical-align: middle;
+position: relative;
+border-radius: 8px;
+width: fit-content;
+}
+.btn-plus button {
+width: 30px;
+height: 26px;
+font-size: 12px;
+line-height: 0;
+padding: 0;
+cursor: pointer;
+display: inline-block;
+background: #f7f7f7;
+border: 0;
+outline: none;
+text-align: center;
+}
+.btn-minus button {
+width: 30px;
+height: 26px;
+font-size: 17px;
+line-height: 0;
+padding: 0;
+cursor: pointer;
+display: inline-block;
+background: #f7f7f7;
+border: 0;
+outline: none;
+text-align: center;
+}
+
+
+input.plus-minus {
+background: #f7f7f7;
+width: 50px;
+height: 26px;
+outline: none;
+font-size: 14px;
+text-align: center;
+position: absolute;
+top: 0;
+left: 30px;
+border: 0;
+border-radius: 0;
+}
+
+.btn-plus {
+float: right;
+height: 26px;
+width: 30px;
+}
+.btn-minus {
+float: left;
+height: 26px;
+width: 30px;
+}

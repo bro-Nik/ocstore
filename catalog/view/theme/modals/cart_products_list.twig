@@ -1,0 +1,36 @@
+<div class="cart-product-items">
+  {% for product in products %} 
+    <div class="cart-product-item" data-product-id="{{ product.product_id }}" data-product-price="{{ product.price }}">
+      <div class="image">
+        {% if (product['thumb']) %} 
+          <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" /></a>
+        {% endif %} 
+      </div>
+
+      <div class="info">
+        <div class="name">
+          <a href="{{ product['href'] }}">{{ product['name'] }}</a>
+        </div>
+        {% include 'product/partials/change_quantity.twig' %}
+        <div class="product-info">
+    	    {% include 'product/options.twig' with {'options': product.options} %}
+        </div>
+
+	    </div>
+        <div class="info2">
+			    <div class="actions">
+            {% include 'product/btns/wishlist.twig' with {'product_id': product.product_id} %}
+			      <button class="remove" type="button"><i class="fa fa-trash-o"></i></button>
+			    </div>
+
+			    <div class="price"></div>
+		    </div>
+    </div>
+  {% endfor %} 
+</div>
+
+<div class="all-total">
+	<div class="totals-right">Сумма:</div>
+  <div id="all_total" class="totals-left"></div>     
+</div>    
+

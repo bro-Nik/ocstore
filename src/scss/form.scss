@@ -87,6 +87,7 @@ input, textarea, .form-control:not(select) {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    width: 100%;
 }
 
 label.required:before {
@@ -94,3 +95,7 @@ label.required:before {
     color: #e47364;
     font-weight: bold;
 }
+// input[type='radio'] + i:before,
+// input[type='checkbox'] + i:before {
+//     display: none;
+// }

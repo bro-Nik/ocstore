@@ -30,7 +30,7 @@ class ControllerModalQuickview extends Controller {
 			$this->prepareProductImages($product_info, $data);
 			$this->prepareProductPrice($product_info, $data);
 			$this->prepareProductStikers($product_info, $data);
-			$this->prepareProductOptions($product_info, $data);
+			$data['options'] = $this->prepareProductOptions($data['product_id']);
 			$this->prepareProductOther($product_info, $data);
 			$this->prepareProductTags($product_info, $data);
 			$this->prepareProductReviews($product_info, $data);
