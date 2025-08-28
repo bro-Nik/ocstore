@@ -7,7 +7,7 @@ class ControllerCommonFooter extends Controller {
 
 
 		// Revolution Start
-		$data['revlanguage'] = $this->load->controller('revolution/revlanguage');
+		// $data['revlanguage'] = $this->load->controller('revolution/revlanguage');
 		$data['catalog_img_width'] = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width');
 		$data['revfilter_route'] = false;
 		if ((isset($this->request->get['route']) && $this->request->get['route'] != 'product/category') || isset($this->config->get('revtheme_filter')['filter_categories'])) {

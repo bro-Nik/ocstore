@@ -209,10 +209,10 @@ class BaseCartPopup extends BasePopup {
     if (sumElement) sumElement.innerHTML = priceFormat(sum);
   }
 
-  handleSuccess() {
+  handleSuccess(html) {
     clearCookie('cart');
     cart.updateTotalCount(0);
-    super.handleSuccess();
+    super.handleSuccess(html);
   }
 }
 
