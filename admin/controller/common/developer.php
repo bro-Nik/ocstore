@@ -7,6 +7,7 @@ class ControllerCommonDeveloper extends Controller {
 
 		$data['developer_theme'] = $this->config->get('developer_theme');
 		$data['developer_sass'] = $this->config->get('developer_sass');
+		$data['developer_mode'] = $this->config->get('developer_mode');
 
 		$eval = false;
 

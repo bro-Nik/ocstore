@@ -1,6 +1,15 @@
 <?php
 class ModelLocalisationLanguage extends Model {
 	public function getLanguage($language_id) {
+    return array(
+        'language_id' => 1,
+        'name'        => 'Russian',
+        'code'        => 'ru',
+        'locale'      => 'ru_RU.UTF-8,ru_RU,ru-ru,ru',
+        'directory'   => 'russian',
+        'sort_order'  => 1,
+        'status'      => 1
+    );
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "language WHERE language_id = '" . (int)$language_id . "'");
 
 		return $query->row;

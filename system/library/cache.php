@@ -61,4 +61,8 @@ class Cache {
 	public function delete($key) {
 		return $this->adaptor->delete($key);
 	}
+
+	public function clear() {
+		return $this->adaptor->clear();
+	}
 }

@@ -1,5 +1,9 @@
 <?php
+require_once('catalog/controller/trait/cache.php');
+
 class ControllerExtensionModuleProdvar extends Controller {	
+	use \CacheTrait;
+
 	private $error = array();
 	private $modpath = 'extension/module/prodvar'; 
 	private $modtpl = 'extension/module/prodvar'; 
@@ -13,6 +17,12 @@ class ControllerExtensionModuleProdvar extends Controller {
  	} 
 	
 	public function index() {
+		$cache_key = 'product.prodvar.' . $this->request->get['product_id'];
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) {
+      return $cache;
+    }
+
 		$data['prodvar_status'] = $this->setvalue($this->modname.'_status');
 		if ($data['prodvar_status'] && isset($this->request->get['product_id'])) {
 			
@@ -109,7 +119,9 @@ $products = (!empty($prodvar_data['prodvar_product_str_id']))
 				}
 			}
 			
-			return $this->load->view($this->modtpl, $data);
+			$result = $this->load->view($this->modtpl, $data);
+    	$this->setCache($cache_key, $result, 108000);
+			return $result;
  		} 
 	}
 	

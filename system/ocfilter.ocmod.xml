@@ -208,34 +208,6 @@
 
   <!-- CONTROLLER -->
 
-  <file path="catalog/controller/{common,startup,extension,extension/d_seo_module}/{seo_url,seo_pro,wkseo_url,seo_mega_pack_pro_url,d_seo_module_url,multimerch_seo_url}.php">
-    <operation>
-      <search><![CDATA[$this->url->addRewrite($this);]]></search>
-      <add position="after"><![CDATA[
-      // OCFilter start
-      if ($this->registry->get('ocfilter')) {
-        $this->url->addRewrite($this->ocfilter->seo);
-      }
-      // OCFilter end
-      ]]></add>
-    </operation>
-  </file>
-
-  <file path="catalog/controller/{common,startup}/seo_url.php">
-    <operation>
-      <search><![CDATA[if ($url[0] == 'information_id')]]></search>
-      <add position="before"><![CDATA[
-          // OCFilter start
-          if ($url[0] == 'ocfilter_page_id') {
-            $this->request->get['ocfilter_page_id'] = $url[1];
-
-            continue;
-          }
-          // OCFilter end
-      ]]></add>
-    </operation>
-  </file>
-
   <file path="catalog/controller/product/{special,search}.php">
     <operation>
       <search><![CDATA[$data['sorts'] = array]]></search>
@@ -521,29 +493,6 @@
     </operation>
   </file>
 
-  <!-- SlaSeoPro fix -->
-  <file path="system/library/slaseopro.php">
-    <operation>
-      <search><![CDATA[if ($lang_code == $this->language_code[$row['query']['language_id']])]]></search>
-      <add position="before"><![CDATA[
-            // OCFilter start
-            if (substr($row['query']['query'], 0, 17) == 'ocfilter_page_id=') {
-              $queries[$row['keyword']] = $row['query']['query'];
-
-              $i++;
-
-              continue;
-            }
-            // OCFilter end
-      ]]></add>
-    </operation>
-    <operation>
-      <search><![CDATA[$row['language_id'] == $this->config->get('config_language_id')]]></search>
-      <add position="replace"><![CDATA[$row['language_id'] == $this->config->get('config_language_id') || substr($row['query'], 0, 17) == 'ocfilter_page_id=']]></add>
-    </operation>
-  </file>
-
-
   <!-- Hotsearch module -->
   <file path="catalog/model/extension/module/hotsearch.php">
     <operation>
@@ -566,54 +515,6 @@
     // OCFilter start
     if (!empty($data['filter_ocfilter']) && $this->registry->get('ocfilter') && $this->ocfilter->startup()) {
       $this->ocfilter->api->setProductSQL($data['filter_ocfilter'], $sql);
-    }
-    // OCFilter end
-      ]]></add>
-    </operation>
-  </file>
-
-  <!-- SEO Pro fix -->
-  <file path="system/library/seopro.php">
-    <operation>
-      <search><![CDATA[validate() {]]></search>
-      <add position="after"><![CDATA[
-    // OCFilter start
-    if (method_exists($this, 'detectAjax')) {
-      $this->detectAjax();
-    }
-    // OCFilter end
-      ]]></add>
-    </operation>
-    <operation>
-      <search><![CDATA['extension/feed/google_sitemap',]]></search>
-      <add position="after"><![CDATA['extension/feed/ocfilter_sitemap',]]></add>
-    </operation>
-    <operation>
-      <search><![CDATA[$parts = explode('/', $this->request->get['_route_']);]]></search>
-      <add position="replace"><![CDATA[$parts = array_filter(explode('/', $this->request->get['_route_']), 'utf8_strlen');]]></add>
-    </operation>
-    <operation>
-      <search><![CDATA[return $keyword;]]></search>
-      <add position="before"><![CDATA[
-        // OCFilter start
-        if (empty($keyword) && is_string($query)) {
-          $sql_keyword = 'keyword';
-          if ($this->config->get('config_seopro_lowercase'))
-              $sql_keyword = 'LCASE(keyword) as '. $sql_keyword;
-
-          $query = $this->db->query("SELECT " . $sql_keyword . " FROM " . DB_PREFIX . "seo_url WHERE query = '" . $this->db->escape($query) . "' AND store_id = '" . $store_id . "' AND language_id = '" . (int)$language_id . "' LIMIT 1");
-          $keyword =  !empty($query->row) ? (string)$query->row['keyword'] : null;
-        }
-        // OCFilter end
-      ]]></add>
-    </operation>
-    <operation>
-      <search><![CDATA[return $query;]]></search>
-      <add position="before"><![CDATA[
-    // OCFilter start
-    if (empty($query) && !isset($_query)) {
-      $_query = $this->db->query("SELECT query FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape(trim($keyword)) . "' AND store_id = '" . $store_id . "' AND language_id = '" . $language_id . "' LIMIT 1");
-      $query = !empty($_query->row) ? (string)$_query->row['query'] : null;
     }
     // OCFilter end
       ]]></add>

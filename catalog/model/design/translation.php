@@ -1,10 +1,22 @@
 <?php
+require_once('catalog/controller/trait/cache.php');
+
 class ModelDesignTranslation extends Model {
+	use \CacheTrait;
+
 	public function getTranslations($route) {
-		$language_code = !empty($this->session->data['language']) ? $this->session->data['language'] : $this->config->get('config_language');
+		$cache_key = 'translation.' . md5($route);
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) {
+      return $cache;
+    }
+
+		$language_code = $this->config->get('config_language');
 		
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "translation WHERE store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "' AND (route = '" . $this->db->escape($route) . "' OR route = '" . $this->db->escape($language_code) . "')");
 
-		return $query->rows;
+		$translations = $query->rows;
+    $this->setCache($cache_key, $translations, 108000);
+		return $translations;
 	}
 }

@@ -20,20 +20,20 @@ class Cart {
 		// Remove all the expired carts with no customer ID
 		$this->db->query("DELETE FROM " . DB_PREFIX . "cart WHERE (api_id > '0' OR customer_id = '0') AND date_added < DATE_SUB(NOW(), INTERVAL 1 HOUR)");
 
-		if ($this->customer->getId()) {
-			// We want to change the session ID on all the old items in the customers cart
-			$this->db->query("UPDATE " . DB_PREFIX . "cart SET session_id = '" . $this->db->escape($this->session->getId()) . "' WHERE api_id = '0' AND customer_id = '" . (int)$this->customer->getId() . "'");
-
-			// Once the customer is logged in we want to update the customers cart
-			$cart_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "cart WHERE api_id = '0' AND customer_id = '0' AND session_id = '" . $this->db->escape($this->session->getId()) . "'");
-
-			foreach ($cart_query->rows as $cart) {
-				$this->db->query("DELETE FROM " . DB_PREFIX . "cart WHERE cart_id = '" . (int)$cart['cart_id'] . "'");
-
-				// The advantage of using $this->add is that it will check if the products already exist and increaser the quantity if necessary.
-				$this->add($cart['product_id'], $cart['quantity'], json_decode($cart['option']), $cart['recurring_id']);
-			}
-		}
+		// if ($this->customer->getId()) {
+		// 	// We want to change the session ID on all the old items in the customers cart
+		// 	$this->db->query("UPDATE " . DB_PREFIX . "cart SET session_id = '" . $this->db->escape($this->session->getId()) . "' WHERE api_id = '0' AND customer_id = '" . (int)$this->customer->getId() . "'");
+		//
+		// 	// Once the customer is logged in we want to update the customers cart
+		// 	$cart_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "cart WHERE api_id = '0' AND customer_id = '0' AND session_id = '" . $this->db->escape($this->session->getId()) . "'");
+		//
+		// 	foreach ($cart_query->rows as $cart) {
+		// 		$this->db->query("DELETE FROM " . DB_PREFIX . "cart WHERE cart_id = '" . (int)$cart['cart_id'] . "'");
+		//
+		// 		// The advantage of using $this->add is that it will check if the products already exist and increaser the quantity if necessary.
+		// 		$this->add($cart['product_id'], $cart['quantity'], json_decode($cart['option']), $cart['recurring_id']);
+		// 	}
+		// }
 	}
 
 	public function getProducts() {

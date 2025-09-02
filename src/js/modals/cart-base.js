@@ -212,6 +212,7 @@ class BaseCartPopup extends BasePopup {
   handleSuccess(html) {
     clearCookie('cart');
     cart.updateTotalCount(0);
+    cart.updateButtons();
     super.handleSuccess(html);
   }
 }

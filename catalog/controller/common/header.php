@@ -1,9 +1,17 @@
 <?php
-// *	My modifications
+require_once('catalog/controller/trait/cache.php');
+require_once('catalog/controller/trait/category.php');
 
 class ControllerCommonHeader extends Controller {
+	use \CacheTrait, \CategoryTrait;
 
 	public function index() {
+		$cache_key = 'header';
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) {
+      return $cache;
+    }
+
 		// Analytics
 		$data['analytics'] = array();
 		
@@ -32,6 +40,8 @@ class ControllerCommonHeader extends Controller {
 		}
 
 		$data['title'] = $this->document->getTitle();
+
+		$data['developer_mode'] = $this->config->get('developer_mode');
 
 		# Revolution start
 		// For page specific css
@@ -83,18 +93,10 @@ class ControllerCommonHeader extends Controller {
 		$data['stikers_settings'] = $this->config->get('revtheme_catalog_stiker');
 		$data['setting_header_search'] = $setting_header_search = $this->config->get('revtheme_header_search');
 		$setting_all_settings = $this->config->get('revtheme_all_settings');
-		$data['setting_all_settings'] = $this->config->get('revtheme_all_settings');
 		$data['revtheme_cat_attributes'] = $this->config->get('revtheme_cat_attributes');
 		$data['revtheme_product_all'] = $this->config->get('revtheme_product_all');
 		$data['header_search_doptext'] = '';
-		if ($setting_all_settings['mobile_on']) {
-			$is_mobile = $data['is_mobile'] = $this->mobiledetect->isMobile();
-			$is_desctope = $data['is_desctope'] = !$this->mobiledetect->isMobile() || $this->mobiledetect->isTablet();
-		} else {
-			$is_mobile = $data['is_mobile'] = true;
-			$is_desctope = $data['is_desctope'] = true;
-		}
-		if ($setting_all_settings['minif_on']) {
+		if (!$data['developer_mode']) {
 			// Читаем manifest.json, если он существует
 			$manifest = [];
 			if (file_exists('catalog/view/manifest.json')) {
@@ -107,9 +109,8 @@ class ControllerCommonHeader extends Controller {
     	}
 
 		}
-		// if ($setting_header_search['ajax_search_status']) {
-			$this->document->addScript('catalog/view/javascript/revolution/ajax_search.js');
-		// }
+
+		$this->document->addScript('catalog/view/javascript/revolution/ajax_search.js');
 		if ($setting_header_search['ch_text']) {
 			$data['header_search_doptext'] = html_entity_decode($setting_header_search[$this->config->get('config_language_id')]['doptext'], ENT_QUOTES, 'UTF-8');
 		}
@@ -649,126 +650,11 @@ class ControllerCommonHeader extends Controller {
 		$data['cart'] = $this->load->controller('common/cart');
 		// $data['menu'] = $this->load->controller('common/menu');
 
-		$cache_data = $this->cache->get('revmenu.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id'));
-		if ($cache_data) {
-			$data['categories'] = $cache_data;
-		} else {
-			$this->load->model('catalog/category');
-			$this->load->model('catalog/product');
-			
-			$data['categories'] = array();
-			$categories = $this->model_catalog_category->getCategories(0);
+		$data['categories'] = $this->categoriesTree($setting_header_menu);
 
-			foreach ($categories as $category) {
-				if ($category['top']) {
-					// Level 2
-					$children_data = array();
-					$children = $this->model_catalog_category->getCategories($category['category_id']);
+		$output = $this->load->view('common/header', $data);
+    $this->setCache($cache_key, $output, 108000);
 
-					foreach ($children as $child) {
-						$children_data_level2 = array();
-						if (!$setting_header_menu['image_in_ico'] || $setting_header_menu['tri_level']) {
-							$children_level2 = $this->model_catalog_category->getCategories($child['category_id']);
-							foreach ($children_level2 as $child_level2) {
-								$data_level2 = array(
-									'filter_category_id'  => $child_level2['category_id'],
-									'filter_sub_category' => true
-								);
-								
-								$filter_data_2 = array(
-									'filter_category_id'  => $child_level2['category_id'],
-									'filter_sub_category' => true
-								);
-
-								$children_data_level2[] = array(
-									'name'  =>  $child_level2['name'] . ($this->config->get('config_product_count') ? ' <sup>' . $this->model_catalog_product->getTotalProducts($filter_data_2) . '</sup>' : ''),
-									'category_id' => $child_level2['category_id'],
-									'href'  => $this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_level2['category_id']),
-									
-								);
-							}
-						}
-						
-						$filter_data_1 = array(
-							'filter_category_id'  => $child['category_id'],
-							'filter_sub_category' => true
-						);
-
-						$child_info = $this->model_catalog_category->getCategory($child['category_id']);
-						if ($child_info) {
-							if ($child_info['image']) {
-								$thumb = $this->model_tool_image->resize($child_info['image'], $config_image_category_width, $config_image_category_height);
-							} else {
-								$thumb = $this->model_tool_image->resize('no_image.png', $config_image_category_width, $config_image_category_height);
-							}
-							if ($setting_header_menu['image_in_ico']) {
-								$style = ' hidden';
-							} else {
-								$style = '';
-							}
-							if ($child_info['category_icontype']) {
-								if ($child_info['category_icon'] == 'fa none') {
-									$style = ' hidden';
-								}
-								$category_image = '<i class="am_category_icon '.$child_info['category_icon'].$style.'"></i>';
-							} else {
-								if (!$child_info['category_image'] || $child_info['category_image'] == 'no_image.png') {
-									$style = 'hidden';
-								}
-								$category_image = '<span class="'.$style.'"><img src="'.$this->model_tool_image->resize($child_info['category_image'], 21, 21).'" alt=""/></span>';
-							}
-						}
-						
-						$children_data[] = array(
-							'name'        	 => $child['name'] . ($this->config->get('config_product_count') ? ' <sup>' . $this->model_catalog_product->getTotalProducts($filter_data_1) . '</sup>' : ''),
-							'thumb' 		 => $thumb,
-							'category_image' => $category_image,
-							'category_id' 	 => $child['category_id'],
-							'children'   	 => $children_data_level2,
-							'href'        	 => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
-						);
-					}
-					
-					$category_info = $this->model_catalog_category->getCategory($category['category_id']);
-					if ($category_info) {
-						if ($category_info['image2']) {
-							$thumb2 = $this->model_tool_image->resize($category_info['image2'], 300, 300);
-						} else {
-							$thumb2 = '';
-						}
-						$style = '';
-						if ($category_info['category_icontype']) {
-							if ($category_info['category_icon'] == 'fa none') {
-								$style = ' hidden';
-							}
-							$category_image = '<i class="am_category_icon hidden-md '.$category_info['category_icon'].$style.'"></i>';
-						} else {
-							if (!$category_info['category_image'] || $category_info['category_image'] == 'no_image.png') {
-								$style = ' hidden';
-							}
-							$category_image = '<span class="hidden-md'.$style.'"><img src="'.$this->model_tool_image->resize($category_info['category_image'], 21, 21).'" alt=""/></span>';
-						}
-					}
-					
-					$data['categories'][] = array(
-						'category_id' 	 => $category['category_id'],
-						'name'     		 => $category['name'],
-						'thumb2'   		 => $thumb2,
-						'category_image' => $category_image,
-						'children' 		 => $children_data,
-						'column'   		 => $category['column'] ? $category['column'] : 1,
-						'href'    		 => $this->url->link('product/category', 'path=' . $category['category_id'])
-					);
-				
-				}
-			}
-
-
-			if ($this->config->get('revtheme_all_settings')['cache_on']) {
-				$this->cache->set('revmenu.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id'), $data['categories']);
-			}
-		}
-
-		return $this->load->view('common/header', $data);
+		return $output;
 	}
 }

@@ -1,8 +1,17 @@
 <?php
-class ModelSettingSetting extends Model {
-	public function getSetting($code, $store_id = 0) {
-		$data = array();
+require_once('catalog/controller/trait/cache.php');
 
+class ModelSettingSetting extends Model {
+	use \CacheTrait;
+
+	public function getSetting($code, $store_id = 0) {
+		$cache_key = 'setting.' . $code;
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) {
+      return $cache;
+    }
+
+		$data = array();
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "setting WHERE store_id = '" . (int)$store_id . "' AND `code` = '" . $this->db->escape($code) . "'");
 
 		foreach ($query->rows as $result) {
@@ -13,6 +22,7 @@ class ModelSettingSetting extends Model {
 			}
 		}
 
+    $this->setCache($cache_key, $data, 108000);
 		return $data;
 	}
 	

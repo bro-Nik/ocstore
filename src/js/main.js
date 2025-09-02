@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		site_url.value = window.location.href;
   }
 
+  prepareLogo();
 	showContent();
 	pageViewCounter();
 });
@@ -140,3 +141,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+function prepareLogo() {
+  var logoLinks = document.querySelectorAll('.logo-link');
+
+  logoLinks.forEach(logoLink => {
+    if (logoLink && window.location.pathname === '/') {
+      const logoImg = logoLink.querySelector('img');
+      if (logoImg) logoLink.outerHTML = logoImg.outerHTML;
+    }
+  })
+
+}

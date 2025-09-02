@@ -7,15 +7,13 @@
 
 <div class="header__logo">
 	<div>
-		{% if (logo) %} 
-		{% if (home == og_url) %} 
-			<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" />
-		{% else %} 
-			<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" /></a>
-		{% endif %} 
-		{% else %} 
-		<a href="{{ home }}">{{ name }}</a>
-		{% endif %} 
+	{% if (logo) %} 
+    <a href="{{ home }}" class="logo-link">
+      <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive header__logo" />
+    </a>
+	{% else %} 
+    <a href="{{ home }}" class="logo-link">{{ name }}</a>
+	{% endif %}
 	</div>
 </div>
 

@@ -7,6 +7,16 @@ class ModelLocalisationCurrency extends Model {
 	}
 
 	public function getCurrencies() {
+		$currency_data = array();
+		$currency_data['rub'] = array(
+        'currency_id'   => 1,
+        'symbol_left'   => '',
+        'symbol_right'  => '₽',
+        'decimal_place' => 2,
+        'value'         => 1.00000000
+    );
+		return $currency_data;
+
 		$currency_data = $this->cache->get('currency');
 
 		if (!$currency_data) {

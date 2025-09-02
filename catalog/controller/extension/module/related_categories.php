@@ -17,18 +17,27 @@ class ControllerExtensionModuleRelatedCategories extends Controller {
         if ($category_info) {
             // Получаем страницы фильтров
             $pages = json_decode($recommend['pages'], true) ?: array();
+
             $filter_links = array();
             
             foreach ($pages as $page_id) {
-                $page_info = $this->model_extension_module_ocfilter->getPage($page_id);
-                if ($page_info) {
+                $page = $this->model_extension_module_ocfilter->getPage($page_id);
+                // Или используем SEO URL если есть keyword
+                if ($page['keyword']) {
+                    $link = $this->url->link('product/category', 'path=' . $category_info['category_id']) . '/' . $page['keyword'];
+                } else {
+                    // Создаем ссылку через OCFilter
+                    $link = $this->url->link('product/category', 'path=' . $category_info['category_id'] . '&ocfilter_page_id=' . $page_id);
+                }
+
+                if ($page) {
                   $filter_links[] = array(
-                    'name' => $page_info['name'],
-                    'href' => $this->url->link('product/category', 'path=' . $category_info['category_id'] . '&filter_ocfilter=' . $page_info['keyword'])
+                    'name' => $page['name'],
+                    'href' => $link
                   );
                 }
             }
-            
+
             if ($filter_links) {
                 // Загрузка изображения категории
                 if ($category_info['image']) {

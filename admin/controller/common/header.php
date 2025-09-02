@@ -12,6 +12,7 @@ class ControllerCommonHeader extends Controller {
 			$data['base'] = HTTP_SERVER;
 		}
 
+		$data['clear_cache'] = $this->url->link('tool/cache/clearCache', 'user_token=' . $this->session->data['user_token'], true);
 		$data['description'] = $this->document->getDescription();
 		$data['keywords'] = $this->document->getKeywords();
 		$data['links'] = $this->document->getLinks();

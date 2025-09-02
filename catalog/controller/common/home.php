@@ -47,7 +47,6 @@ class ControllerCommonHome extends Controller {
 		}
 
 		$data['title'] = $aboutstore['title'];
-		
 		$data['html'] = html_entity_decode($aboutstore['description'], ENT_QUOTES, 'UTF-8');
 
 		return $this->load->view('common/home/aboutstore', $data);

@@ -235,14 +235,6 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
     $this->load->model('catalog/product');
     $this->load->model('catalog/category');
     
-    // Создаем уникальный ключ для кэша
-    $cache_key = 'popular_products.' . md5(json_encode($filters) . '.' . $limit);
-    // $cached = $this->cache->get($cache_key);
-    
-    // if ($cached) {
-    //   return $cached;
-    // }
-
     $filter_data = [
       'sort'  => 'p.viewed',
       'order' => 'DESC',
@@ -271,8 +263,6 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
       $prepared['title'] = 'Популярные товары';
       $result = $this->load->view('product/carousel_product', $prepared);
       
-      // Кэшируем результат на 1 час
-      $this->cache->set($cache_key, $result, 3600);
     }
     
     return $result;
@@ -317,7 +307,7 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
     $this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');
     $data['heading_title'] = $this->language->get('text_error');
     $data['text_error'] = $this->language->get('text_error');
-		$data['breadcrumbs'] = $this->prepareBreadcrumbs();
+		// $data['breadcrumbs'] = $this->prepareBreadcrumbs();
 		$data['continue'] = $this->url->link('common/home');
 
 		$this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');

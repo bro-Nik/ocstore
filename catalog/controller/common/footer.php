@@ -1,43 +1,47 @@
 <?php
 class ControllerCommonFooter extends Controller {
-	public function index() {
-		$this->load->language('common/footer');
 
+	public function index() {
+  //   $cache_key = 'footer';
+		// $cache = $this->cache->get($cache_key);
+  //   if ($cache) {
+  //     return $cache;
+  //   }
+
+		$this->load->language('common/footer');
 		$this->load->model('catalog/information');
 
-
 		// Revolution Start
-		// $data['revlanguage'] = $this->load->controller('revolution/revlanguage');
 		$data['catalog_img_width'] = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width');
 		$data['revfilter_route'] = false;
 		if ((isset($this->request->get['route']) && $this->request->get['route'] != 'product/category') || isset($this->config->get('revtheme_filter')['filter_categories'])) {
 			$data['revfilter_route'] = true;
 		}
-		if ($this->config->get('revtheme_geo_set')['status']) {
-			require_once(DIR_SYSTEM . 'library/revolution/SxGeo.php');
-			$SxGeo = new SxGeo();
-			if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-				$ip = $_SERVER['HTTP_CLIENT_IP'];
-			} else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-				$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			} else {
-				$ip = $_SERVER['REMOTE_ADDR'];
-			}
-			$ip_city = $SxGeo->getCity($ip)['city']['name_ru'];
-			$ip_region = $SxGeo->getCityFull($ip)['region']['name_ru'];
-			$rev_geo_data = $this->config->get('revtheme_geo');
-			$data['rev_geos'] = array();
-			if (!empty($rev_geo_data)){
-				foreach ($rev_geo_data as $rev_geo) {
-					if ($ip_city == $rev_geo['city'] || $ip_region == $rev_geo['city']) {
-						$data['rev_geos'][] = array(
-							'code' => $rev_geo['code'],
-							'text' => $rev_geo['text'][$this->config->get('config_language_id')]
-						);
-					}
-				}
-			}
-		}
+		// if ($this->config->get('revtheme_geo_set')['status']) {
+		// 	require_once(DIR_SYSTEM . 'library/revolution/SxGeo.php');
+		// 	$SxGeo = new SxGeo();
+		// 	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+		// 		$ip = $_SERVER['HTTP_CLIENT_IP'];
+		// 	} else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		// 		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		// 	} else {
+		// 		$ip = $_SERVER['REMOTE_ADDR'];
+		// 	}
+		// 	$ip_city = $SxGeo->getCity($ip)['city']['name_ru'];
+		// 	$ip_region = $SxGeo->getCityFull($ip)['region']['name_ru'];
+		// 	$rev_geo_data = $this->config->get('revtheme_geo');
+		// 	$data['rev_geos'] = array();
+		// 	if (!empty($rev_geo_data)){
+		// 		foreach ($rev_geo_data as $rev_geo) {
+		// 			if ($ip_city == $rev_geo['city'] || $ip_region == $rev_geo['city']) {
+		// 				$data['rev_geos'][] = array(
+		// 					'code' => $rev_geo['code'],
+		// 					'text' => $rev_geo['text'][$this->config->get('config_language_id')]
+		// 				);
+		// 			}
+		// 		}
+		// 	}
+		// }
 		$data['config_email'] = $this->config->get('config_email');
 		$header_phone = $this->config->get('revtheme_header_phone');
 		$data['header_phone_cod'] = $header_phone[$this->config->get('config_language_id')]['cod'];
@@ -149,7 +153,9 @@ class ControllerCommonFooter extends Controller {
 		$is_mobile = $data['is_mobile'] = true;
 		$is_desctope = $data['is_desctope'] = true;
 
-		if ($settings_all_settings['minif_on']) {
+		$data['developer_mode'] = $this->config->get('developer_mode');
+
+		if (!$data['developer_mode']) {
 			// Читаем manifest.json, если он существует
 			$manifest = [];
 			if (file_exists('catalog/view/manifest.json')) {
@@ -419,7 +425,7 @@ class ControllerCommonFooter extends Controller {
 		$data['return'] = $this->url->link('account/return/add', '', true);
 		$data['sitemap'] = $this->url->link('information/sitemap');
 		$data['tracking'] = $this->url->link('information/tracking');
-		$data['manufacturer'] = $this->url->link('product/manufacturer');
+		// $data['manufacturer'] = $this->url->link('product/manufacturer');
 		$data['voucher'] = $this->url->link('account/voucher', '', true);
 		$data['affiliate'] = $this->url->link('affiliate/login', '', true);
 		$data['special'] = $this->url->link('product/special');
@@ -431,33 +437,37 @@ class ControllerCommonFooter extends Controller {
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 
 		// Whos Online
-		if ($this->config->get('config_customer_online')) {
-			$this->load->model('tool/online');
-
-			if (isset($this->request->server['REMOTE_ADDR'])) {
-				$ip = $this->request->server['REMOTE_ADDR'];
-			} else {
-				$ip = '';
-			}
-
-			if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
-				$url = ($this->request->server['HTTPS'] ? 'https://' : 'http://') . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
-			} else {
-				$url = '';
-			}
-
-			if (isset($this->request->server['HTTP_REFERER'])) {
-				$referer = $this->request->server['HTTP_REFERER'];
-			} else {
-				$referer = '';
-			}
-
-			$this->model_tool_online->addOnline($ip, $this->customer->getId(), $url, $referer);
-		}
+		// if ($this->config->get('config_customer_online')) {
+		// 	$this->load->model('tool/online');
+		//
+		// 	if (isset($this->request->server['REMOTE_ADDR'])) {
+		// 		$ip = $this->request->server['REMOTE_ADDR'];
+		// 	} else {
+		// 		$ip = '';
+		// 	}
+		//
+		// 	if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
+		// 		$url = ($this->request->server['HTTPS'] ? 'https://' : 'http://') . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
+		// 	} else {
+		// 		$url = '';
+		// 	}
+		//
+		// 	if (isset($this->request->server['HTTP_REFERER'])) {
+		// 		$referer = $this->request->server['HTTP_REFERER'];
+		// 	} else {
+		// 		$referer = '';
+		// 	}
+		//
+		// 	$this->model_tool_online->addOnline($ip, $this->customer->getId(), $url, $referer);
+		// }
 
 		$data['scripts'] = $this->document->getScripts('footer');
 		$data['styles'] = $this->document->getStyles('footer');
 		
-		return $this->load->view('common/footer', $data);
+		$output = $this->load->view('common/footer', $data);
+    // $this->cache->set($cache_key, $output, 108000);
+
+
+		return $output;
 	}
 }

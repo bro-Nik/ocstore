@@ -301,7 +301,7 @@
 
 <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
 <script src="catalog/view/javascript/revolution/common.js"></script>
-{% if (not setting_all_settings['minif_on']) %} 
+{% if (developer_mode) %} 
 	<script src="catalog/view/js/main.js"></script>
 {% endif %} 
 
@@ -522,5 +522,6 @@
 	//--></script>
 	<!--/noindex-->
 {% endif %} 
+
 
 </body></html>

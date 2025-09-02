@@ -30,4 +30,17 @@ class Redis {
 	public function delete($key) {
 		$this->cache->del(CACHE_PREFIX . $key);
 	}
+
+	public function clear() {
+		// Получаем все ключи с префиксом
+		$keys = $this->cache->keys(CACHE_PREFIX . '*');
+		
+		// Удаляем каждый ключ
+		if (!empty($keys)) {
+			$this->cache->del($keys);
+		}
+		
+		return true;
+	}
+
 }
