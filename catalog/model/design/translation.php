@@ -16,7 +16,7 @@ class ModelDesignTranslation extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "translation WHERE store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "' AND (route = '" . $this->db->escape($route) . "' OR route = '" . $this->db->escape($language_code) . "')");
 
 		$translations = $query->rows;
-    $this->setCache($cache_key, $translations, 108000);
+    $this->setCache($cache_key, $translations);
 		return $translations;
 	}
 }

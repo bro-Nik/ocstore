@@ -81,7 +81,7 @@ if ($config->get('db_autostart')) {
 	$registry->set('db', $db);
 
 	// Sync PHP and DB time zones
-	$db->query("SET time_zone = '" . $db->escape(date('P')) . "'");
+	// $db->query("SET time_zone = '" . $db->escape(date('P')) . "'");
 }
 
 // Session
@@ -170,3 +170,17 @@ $route->dispatch(new Action($config->get('action_router')), new Action($config->
 
 // Output
 $response->output();
+
+
+// SEO
+// $seo_cache = $registry->get('cache')->get('seo_data.mass');
+// if (!$seo_cache) {
+//     $seo_cache = [];
+//     $query = $db->query("SELECT query, keyword FROM " . DB_PREFIX . "seo_url 
+//                         WHERE store_id = '0' AND language_id = '1'");
+//     foreach ($query->rows as $row) {
+//         $seo_cache[$row['query']] = $row['keyword'];
+//     }
+//     $registry->get('cache')->set('seo_data.mass', $seo_cache, 86400);
+// }
+// $registry->set('seo_cache', $seo_cache);

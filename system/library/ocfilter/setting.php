@@ -4,17 +4,10 @@ namespace OCFilter;
 
 class Setting extends Factory {
   private $tmp = [];
-  private $installed = false;
+  // private $installed = false;
+  private $installed = true;
   
   public function __construct() {   
-    $query = $this->opencart->db->query("SHOW TABLES LIKE '" . DB_PREFIX . "ocfilter_setting'");
-    
-    $this->installed = (bool)$query->num_rows;
-    
-    if (!$this->installed) {
-      return;  
-    }
-      
     $query = $this->opencart->db->query("SELECT * FROM " . DB_PREFIX . "ocfilter_setting");
     
     foreach ($query->rows as $result) {

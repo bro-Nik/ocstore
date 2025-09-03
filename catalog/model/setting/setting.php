@@ -22,7 +22,7 @@ class ModelSettingSetting extends Model {
 			}
 		}
 
-    $this->setCache($cache_key, $data, 108000);
+    $this->setCache($cache_key, $data);
 		return $data;
 	}
 	

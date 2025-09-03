@@ -370,6 +370,10 @@ class SeoPro {
 		$store_id = 0;
 		$query = null;
 
+		// if (isset($this->registry->get('seo_cache')[$keyword])) {
+  //     return $this->registry->get('seo_cache')[$keyword];
+  //   }
+
 		if ($this->config->get('config_seo_url_cache')){
 			if (isset($this->queries[$keyword][$store_id][$language_id])) {
 				$query = $this->queries[$keyword][$store_id][$language_id];

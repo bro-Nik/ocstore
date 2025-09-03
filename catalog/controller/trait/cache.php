@@ -11,10 +11,10 @@ trait CacheTrait {
     return false;
   }
 
-  public function setCache($key, $output, $sec) {
+  public function setCache($key, $output, $sec = null) {
 		if ($this->config->get('developer_theme')) {
 		  // print_r('Сохранено в кэш. Key = ' . $key . '<br>');
-      $this->cache->set($key, $output, $sec);
+      $this->cache->set($key, $output);
 		}
   }
 }
