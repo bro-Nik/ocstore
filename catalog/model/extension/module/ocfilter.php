@@ -1,12 +1,15 @@
 <?php
+require_once('catalog/controller/trait/cache.php');
 
 class ModelExtensionModuleOCFilter extends Model {
+	use \CacheTrait;
+
   /* FILTERS */
   public function getFilter($filter_key) {
     $special_filter = $this->ocfilter->params->key($filter_key)->special();
 
     if ($special_filter == 'price') {
-      $cache_key = (string)$this->ocfilter->cache->key('filter', $filter_key, $this->config->get('config_language_id'), $this->currency->getId($this->session->data['currency']));
+      $cache_key = (string)$this->ocfilter->cache->key('filter', $filter_key, $this->config->get('config_language_id'), 1);
     } else {
       $cache_key = (string)$this->ocfilter->cache->key('filter', $filter_key, $this->config->get('config_language_id'));
     }
@@ -236,7 +239,7 @@ class ModelExtensionModuleOCFilter extends Model {
           $this->ocfilter->placement->getPlaceSign($data),
           $this->config->get('config_store_id'),
           $this->config->get('config_customer_group_id'),
-          $this->currency->getId($this->session->data['currency']),
+          1, //currency
           $this->ocfilter->config('special_price_consider_tax'),
           $this->ocfilter->config('special_price_consider_regular_price'),
           $this->ocfilter->config('special_price_consider_discount'),
@@ -377,8 +380,8 @@ class ModelExtensionModuleOCFilter extends Model {
 
     if ($range['min'] && $range['max']) {
       return [
-        'min' => $this->currency->format(min($range['min']), $this->session->data['currency'], '', false),
-        'max' => $this->currency->format(max($range['max']), $this->session->data['currency'], '', false),
+        'min' => $this->currency->format(min($range['min']), '', '', false),
+        'max' => $this->currency->format(max($range['max']), '', '', false),
       ];
     }
 
@@ -534,7 +537,7 @@ class ModelExtensionModuleOCFilter extends Model {
           $min, $max,
           $this->config->get('config_store_id'),
           $this->config->get('config_customer_group_id'),
-          $this->currency->getId($this->session->data['currency']),
+          1, //currency
           $this->ocfilter->config('special_price_consider_tax'),
           $this->ocfilter->config('special_price_consider_regular_price'),
           $this->ocfilter->config('special_price_consider_discount'),
@@ -1093,8 +1096,8 @@ class ModelExtensionModuleOCFilter extends Model {
         list($from, $to) = $this->ocfilter->params->parseRange(array_shift($values));
 
         if (isset($from) && isset($to)) {
-          $price_from = floor((float)$from / $this->currency->getValue($this->session->data['currency']));
-          $price_to = ceil((float)$to / $this->currency->getValue($this->session->data['currency']));
+          $price_from = floor((float)$from);
+          $price_to = ceil((float)$to);
 
           if ($this->ocfilter->config('special_price_consider_tax')) {
             $join[] = $this->getTaxJoinSQL();
@@ -1888,6 +1891,12 @@ class ModelExtensionModuleOCFilter extends Model {
   }
 
   public function getPage($page_id, $category_id = null) {
+		$cache_key = 'ocfilter.page.' . $page_id . '.' . $category_id;
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) {
+      return $cache;
+    }
+
     $query = $this->ocfilter->query("SELECT *, (SELECT GROUP_CONCAT(DISTINCT cp.path_id ORDER BY cp.`level` SEPARATOR '_') AS path FROM " . DB_PREFIX . "category_path cp WHERE cp.category_id = p.category_id) AS path, " . $this->getKeywordSQL('p.') . " AS keyword FROM " . DB_PREFIX . "ocfilter_page p LEFT JOIN " . DB_PREFIX . "ocfilter_page_description pd ON (p.page_id = pd.page_id) WHERE p.page_id = '" . (int)$page_id . "' AND p.status = '1' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
     // Search by destination category and same keyword
@@ -1915,7 +1924,9 @@ class ModelExtensionModuleOCFilter extends Model {
       }
     }
 
-    return $query->row;
+    $page = $query->row;
+    $this->setCache($cache_key, $page);
+    return $page;
   }
 
   public function getPageByManufacturer($manufacturer_id, $category_id = null) {

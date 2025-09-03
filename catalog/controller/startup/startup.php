@@ -17,33 +17,13 @@ class ControllerStartupStartup extends Controller {
 
 	public function index() {
 		// Store
-		$cache_key = 'store.config.' . md5($_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
-		$query_data = $this->getCache($cache_key);
-
-		if ($query_data === false) {
-			if ($this->request->server['HTTPS']) {
-				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "store WHERE REPLACE(`ssl`, 'www.', '') = '" . $this->db->escape('https://' . str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/') . "'");
-			} else {
-				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "store WHERE REPLACE(`url`, 'www.', '') = '" . $this->db->escape('http://' . str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/') . "'");
-			}
-			$query_data = $query->row;
-    	$this->setCache($cache_key, $query_data);
-		}
-
 		$this->config->set('config_store_id', 0);
-		if (!$query_data) {
-			$this->config->set('config_url', HTTP_SERVER);
-			$this->config->set('config_ssl', HTTPS_SERVER);
-		}
+		$this->config->set('config_url', HTTP_SERVER);
+		$this->config->set('config_ssl', HTTPS_SERVER);
 		
 		// Settings
-		$cache_key = 'settings.all';
-		$settings_data = $this->getCache($cache_key);
-		if ($settings_data === false) {
-			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE store_id = '0' OR store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY store_id ASC");
-			$settings_data = $query->rows;
-    	$this->setCache($cache_key, $settings_data);
-		}
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE store_id = '0' OR store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY store_id ASC");
+		$settings_data = $query->rows;
 		
 		foreach ($settings_data as $result) {
 			if (!$result['serialized']) {

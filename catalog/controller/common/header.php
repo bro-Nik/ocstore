@@ -653,7 +653,7 @@ class ControllerCommonHeader extends Controller {
 		$data['categories'] = $this->categoriesTree($setting_header_menu);
 
 		$output = $this->load->view('common/header', $data);
-    $this->setCache($cache_key, $output, 108000);
+    $this->setCache($cache_key, $output);
 
 		return $output;
 	}

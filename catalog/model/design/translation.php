@@ -7,9 +7,7 @@ class ModelDesignTranslation extends Model {
 	public function getTranslations($route) {
 		$cache_key = 'translation.' . md5($route);
 		$cache = $this->getCache($cache_key);
-    if ($cache !== false) {
-      return $cache;
-    }
+    if ($cache !== false) return $cache;
 
 		$language_code = $this->config->get('config_language');
 		

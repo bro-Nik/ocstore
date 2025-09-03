@@ -9,16 +9,23 @@ class Weight {
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
 
-		$weight_class_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "weight_class wc LEFT JOIN " . DB_PREFIX . "weight_class_description wcd ON (wc.weight_class_id = wcd.weight_class_id) WHERE wcd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$this->weights[1] = array(
+			'weight_class_id' => 1,
+			'title'           => 'Штуки',
+			'unit'            => 'шт',
+			'value'           => 1.00000000
+		);
 
-		foreach ($weight_class_query->rows as $result) {
-			$this->weights[$result['weight_class_id']] = array(
-				'weight_class_id' => $result['weight_class_id'],
-				'title'           => $result['title'],
-				'unit'            => $result['unit'],
-				'value'           => $result['value']
-			);
-		}
+		// $weight_class_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "weight_class wc LEFT JOIN " . DB_PREFIX . "weight_class_description wcd ON (wc.weight_class_id = wcd.weight_class_id) WHERE wcd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		//
+		// foreach ($weight_class_query->rows as $result) {
+		// 	$this->weights[$result['weight_class_id']] = array(
+		// 		'weight_class_id' => $result['weight_class_id'],
+		// 		'title'           => $result['title'],
+		// 		'unit'            => $result['unit'],
+		// 		'value'           => $result['value']
+		// 	);
+		// }
 	}
 
 	public function convert($value, $from, $to) {

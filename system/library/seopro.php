@@ -504,20 +504,20 @@ class SeoPro {
 			$keyword = '';
 		}
 
-		if ($keyword || $this->request->server['REQUEST_URI'] == '/') {
-			$query = $this->db->query("SELECT language_id FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape(trim($keyword)) . "' AND store_id = '" . 0 . "' LIMIT 1");
+		// if ($keyword || $this->request->server['REQUEST_URI'] == '/') {
+		// 	$query = $this->db->query("SELECT language_id FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape(trim($keyword)) . "' AND store_id = '" . 0 . "' LIMIT 1");
 	  
-			if ($query->row) {
-				$request_language_id = (int)$query->row['language_id'];
-
-				$query = $this->db->query("SELECT code FROM " . DB_PREFIX . "language WHERE language_id = '" . (int)$request_language_id . "' AND status = '1' LIMIT 1");
-
-				if ($query->row) {
-					$request_language_code = $query->row['code'];
-					$this->session->data['language'] = $request_language_code;
-				}
-			}
-		}
+			// if ($query->row) {
+			// 	$request_language_id = (int)$query->row['language_id'];
+			//
+			// 	$query = $this->db->query("SELECT code FROM " . DB_PREFIX . "language WHERE language_id = '" . (int)$request_language_id . "' AND status = '1' LIMIT 1");
+			//
+			// 	if ($query->row) {
+			// 		$request_language_code = $query->row['code'];
+			// 		$this->session->data['language'] = $request_language_code;
+			// 	}
+			// }
+		// }
 
 		// if (isset($this->session->data['language'])) {
 		// 	$query = $this->db->query("SELECT language_id FROM " . DB_PREFIX . "language WHERE code = '" . (int)$this->session->data['language'] . "' AND status = '1' LIMIT 1");

@@ -277,8 +277,8 @@ class Seo extends Factory {
 
           // Add currency symbols
           $page_info[$k] = strtr($page_info[$k], [
-            '{cb}' => $this->opencart->currency->getSymbolLeft($this->opencart->session->data['currency']),
-            '{ca}' => $this->opencart->currency->getSymbolRight($this->opencart->session->data['currency'])
+            '{cb}' => '',
+            '{ca}' => ' ₽'
           ]);
         }
       }

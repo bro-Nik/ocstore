@@ -1,5 +1,8 @@
 <?php
+require_once('catalog/controller/trait/cache.php');
+
 class ModelRevolutionRevolution extends Model {
+	use \CacheTrait;
 
 	// Revpbest START //
 
@@ -2235,31 +2238,30 @@ class ModelRevolutionRevolution extends Model {
         return $query->row['total'];
     }
 	public function get_pr_brand($product_id) {
-		$cache = 'brand_data.' . crc32((int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$product_id);
-        $brand = $this->cache->get($cache);
-		if (!$brand) {
-			$this->load->language('revolution/revolution');
-			$brand = $this->language->get('all_products_compare');
-			$settings = $this->config->get('revtheme_cat_compare');
-			if ($settings['main_cat']) {
-				$query_brand_main_cat_true = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$product_id . "' AND main_category = 1");
-				if ($query_brand_main_cat_true->num_rows) {
-					$query_brand = $this->db->query("SELECT cd.name FROM " . DB_PREFIX . "product_to_category ptc LEFT JOIN " . DB_PREFIX . "category_description cd ON (cd.category_id = ptc.category_id) WHERE ptc.product_id = '" . (int)$product_id . "' AND main_category = 1");
-					$brand = $query_brand->row['name'];
-				}
-			} else {
-				$query_brand = $this->db->query("SELECT cd.name FROM " . DB_PREFIX . "product_to_category ptc LEFT JOIN " . DB_PREFIX . "category_description cd ON (cd.category_id = ptc.category_id) WHERE ptc.product_id = '" . (int)$product_id . "'");
-				if ($query_brand->num_rows) {
-					$brand = $query_brand->row['name'];
-				}
+		$cache_key = 'brand_data' . (int)$product_id;
+    $cache = $this->getCache($cache_key);
+		if ($cache !== false) {
+			return $cache;
+		}
+
+		$this->load->language('revolution/revolution');
+		$brand = $this->language->get('all_products_compare');
+		$settings = $this->config->get('revtheme_cat_compare');
+		if ($settings['main_cat']) {
+			$query_brand_main_cat_true = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$product_id . "' AND main_category = 1");
+			if ($query_brand_main_cat_true->num_rows) {
+				$query_brand = $this->db->query("SELECT cd.name FROM " . DB_PREFIX . "product_to_category ptc LEFT JOIN " . DB_PREFIX . "category_description cd ON (cd.category_id = ptc.category_id) WHERE ptc.product_id = '" . (int)$product_id . "' AND main_category = 1");
+				$brand = $query_brand->row['name'];
 			}
-			$setting_all_settings = $this->config->get('revtheme_all_settings');
-			if ($setting_all_settings['cache_on']) {
-				$this->cache->set($cache, $brand);
+		} else {
+			$query_brand = $this->db->query("SELECT cd.name FROM " . DB_PREFIX . "product_to_category ptc LEFT JOIN " . DB_PREFIX . "category_description cd ON (cd.category_id = ptc.category_id) WHERE ptc.product_id = '" . (int)$product_id . "'");
+			if ($query_brand->num_rows) {
+				$brand = $query_brand->row['name'];
 			}
 		}
-        return $brand;
-    }
+    $this->setCache($cache_key, $brand);
+    return $brand;
+  }
 	
 	// Revpopuppredzakaz START //
 	

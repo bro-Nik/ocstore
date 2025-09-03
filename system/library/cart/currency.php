@@ -6,38 +6,39 @@ class Currency {
 	private $currencies = array();
 
 	public function __construct($registry) {
-		$this->db = $registry->get('db');
-		$this->language = $registry->get('language');
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "currency");
-
-		foreach ($query->rows as $result) {
-			$this->currencies[$result['code']] = array(
-				'currency_id'   => $result['currency_id'],
-				'title'         => $result['title'],
-				'symbol_left'   => $result['symbol_left'],
-				'symbol_right'  => $result['symbol_right'],
-				'decimal_place' => $result['decimal_place'],
-				'value'         => $result['value']
-			);
-		}
+		$this->currencies['rub'] = array(
+        'currency_id'   => 1,
+				'title'         => 'Рубль',
+        'symbol_left'   => '',
+        'symbol_right'  => '₽',
+        'decimal_place' => 2,
+        'value'         => 1.00000000
+    );
+		// $this->db = $registry->get('db');
+		// $this->language = $registry->get('language');
+		//
+		// $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "currency");
+		//
+		// foreach ($query->rows as $result) {
+		// 	$this->currencies[$result['code']] = array(
+		// 		'currency_id'   => $result['currency_id'],
+		// 		'title'         => $result['title'],
+		// 		'symbol_left'   => $result['symbol_left'],
+		// 		'symbol_right'  => $result['symbol_right'],
+		// 		'decimal_place' => $result['decimal_place'],
+		// 		'value'         => $result['value']
+		// 	);
+		// }
 	}
 
-	public function format($number, $currency, $value = '', $format = true) {
-		// $symbol_left = $this->currencies[$currency]['symbol_left'];
-		// $symbol_right = $this->currencies[$currency]['symbol_right'];
-		// $decimal_place = $this->currencies[$currency]['decimal_place'];
+	public function format($number, $currency = null, $value = '', $format = true) {
 
 		$symbol_left = '';
 		$symbol_right = '₽';
 		$decimal_place = ' ';
 
-		if (!$value) {
-			$value = $this->currencies[$currency]['value'];
-		}
-
-		$amount = $value ? (float)$number * $value : (float)$number;
-		
+		$amount = (float)$number;
 		$amount = round($amount, (int)$decimal_place);
 		
 		if (!$format) {

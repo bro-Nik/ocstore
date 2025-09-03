@@ -216,10 +216,10 @@
 		</operation>
 	</file>
 	<file path="catalog/model/catalog/product.php">
-		<operation>
-			<search><![CDATA[$sql = "SELECT p.product_id, (SELECT AVG(rating)]]></search>
-			<add position="replace"><![CDATA[$sql = "SELECT p.product_id, p.price, p.quantity > 0 as nalichie, p.price > 0 as nalichie2, (SELECT AVG(rating)]]></add>
-		</operation>
+		<!-- <operation> -->
+		<!-- 	<search><![CDATA[$sql = "SELECT p.product_id, (SELECT AVG(rating)]]></search> -->
+		<!-- 	<add position="replace"><![CDATA[$sql = "SELECT p.product_id, p.price, p.quantity > 0 as nalichie, p.price > 0 as nalichie2, (SELECT AVG(rating)]]></add> -->
+		<!-- </operation> -->
 		<operation>
 			<search><![CDATA[$sql = "SELECT DISTINCT ps.product_id, (SELECT AVG(rating)]]></search>
 			<add position="replace"><![CDATA[$sql = "SELECT DISTINCT ps.product_id, p.price, p.quantity > 0 as nalichie, p.price > 0 as nalichie2, (SELECT AVG(rating)]]></add>
@@ -1051,7 +1051,7 @@
 					$stiker_sklad_status = false;
 				}
 			
-				$brand = $this->model_revolution_revolution->get_pr_brand($result['product_id']);
+				//$brand = $this->model_revolution_revolution->get_pr_brand($result['product_id']);
 				
 				$description = '';
 				$options = false;
@@ -1163,7 +1163,7 @@
 				'stiker_isbn' => $stiker_isbn,
 				'stiker_mpn' => $stiker_mpn,
 				'text_catalog_stiker_netu' => $text_catalog_stiker_netu,
-				'brand' => $brand,
+				//'brand' => $brand,
 				'images' => $images,
 				'options_buy' => $result['options_buy'],
 				'model' => $result['model'],

@@ -34,7 +34,7 @@ abstract class ControllerBaseProductCart extends Controller {
 				'stiker_jan' => $product_info['jan'],
 				'stiker_isbn' => $product_info['isbn'],
 				'sklad_status' => $product_info['stock_status'],
-				'brand' => $this->model_revolution_revolution->get_pr_brand($product_info['product_id']),
+				// 'brand' => $this->model_revolution_revolution->get_pr_brand($product_info['product_id']),
 				'quantity' => $product_info['quantity'],
 				'model' => $product_info['model'],
 				// 'short_description' => html_entity_decode($product_info['short_description'], ENT_QUOTES, 'UTF-8'),
