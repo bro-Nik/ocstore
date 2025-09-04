@@ -26,7 +26,7 @@ class ControllerAccountWishList extends Controller {
 		
 		$data['heading_title'] = $this->language->get('heading_title');
 
-		$currency = $this->session->data['currency'];
+		// $currency = $this->session->data['currency'];
 		$config_image_wishlist_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_wishlist_width');
 		$config_image_wishlist_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_wishlist_height');
 		
