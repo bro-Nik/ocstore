@@ -32,38 +32,23 @@
 		{% if (not atributs) %} 
 		{% if (attribute_groups) %} 
 		<div class="tab-pane" id="tab-specification">         
-			{% if (atributs_group_name) %} 
-				{% for attribute_group in attribute_groups %} 
-				<table class="table attrbutes mb0">
-				<thead>
-					<tr>
-					<td colspan="2">{{ attribute_group['name'] }}</td>
-					</tr>
-				</thead>		
-					<tbody>
-					{% for attribute in attribute_group['attribute'] %} 
-					<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
-					<td itemprop="name">{{ attribute['name'] }}</td>
-					<td itemprop="value">{{ attribute['text'] }}</td>
-					</tr>
-					{% endfor %} 
-				</tbody>
-				</table>
-				{% endfor %} 
-			{% else %}	
-				<table class="table attrbutes mb0">
+			{% for attribute_group in attribute_groups %} 
+			<table class="table attrbutes mb0">
+			<thead>
+				<tr>
+				<td colspan="2">{{ attribute_group['name'] }}</td>
+				</tr>
+			</thead>		
 				<tbody>
-				{% for attribute_group in attribute_groups %} 
 				{% for attribute in attribute_group['attribute'] %} 
 				<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
 				<td itemprop="name">{{ attribute['name'] }}</td>
 				<td itemprop="value">{{ attribute['text'] }}</td>
 				</tr>
 				{% endfor %} 
-				{% endfor %} 
-				</tbody>
-				</table>
-			{% endif %} 
+			</tbody>
+			</table>
+			{% endfor %} 
 		</div>
 		{% endif %} 
 		{% endif %}		

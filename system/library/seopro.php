@@ -55,6 +55,8 @@ class SeoPro {
 	}
 
 	public function prepareRoute($parts) {
+		// print_r($parts);
+  //   print_r('prepareRoute. parts: ' . print_r($parts) . '<br>');
 		if (!empty($parts) && is_array($parts)) {
 			foreach($parts as $id => $part) {
 				if($this->config->get('config_seopro_lowercase')) {
@@ -72,10 +74,10 @@ class SeoPro {
             }
 
             // OCFilter
-            if ($url[0] == 'ocfilter_page_id') {
-              $this->request->get['ocfilter_page_id'] = $url[1];
-              continue;
-            }
+            // if ($url[0] == 'ocfilter_page_id') {
+            //   $this->request->get['ocfilter_page_id'] = $url[1];
+            //   continue;
+            // }
 
 						if ($url[0] == 'category_id') {
 							if (!isset($this->request->get['path'])) {
@@ -217,31 +219,30 @@ class SeoPro {
 				}
 				break;
 				
-			case 'common/home':
-				// Для главной страницы
-				$keyword = $this->getKeywordByQuery('common/home', $language_id, $store_id);
-				
-				if ($keyword !== null) {
-					if ($keyword === '') {
-            // Если keyword пустой, используем корневой URL
-            $url = '';
-            unset($data['route']);
-        	} else {
-            $url = '/' . rawurlencode($keyword);
-            unset($data['route']);
-        	}
-				} else {
-					// Если нет keyword для главной, используем просто /
-					$url = '';
-					unset($data['route']);
-				}
-				break;
+			// case 'common/home':
+			// 	// Для главной страницы
+			// 	$keyword = $this->getKeywordByQuery('common/home', $language_id, $store_id);
+			// 	
+			// 	if ($keyword !== null) {
+			// 		if ($keyword === '') {
+   //          // Если keyword пустой, используем корневой URL
+   //          $url = '';
+   //          unset($data['route']);
+   //      	} else {
+   //          $url = '/' . rawurlencode($keyword);
+   //          unset($data['route']);
+   //      	}
+			// 	} else {
+			// 		// Если нет keyword для главной, используем просто /
+			// 		$url = '';
+			// 		unset($data['route']);
+			// 	}
+			// 	break;
 
 			case 'product/manufacturer/info':
 				if (isset($data['manufacturer_id'])) {
 					$manufacturer_id = $data['manufacturer_id'];
-					$keyword = $this->getKeywordByQuery('manufacturer_id=' . $manufacturer_id, $language_id, $store_id);
-				
+					$keyword = $this->getKeywordByQuery('manufacturer_id=' . $manufacturer_id, $language_id, $store_id);	
 
 					if ($keyword) {
 						$url = '/' . rawurlencode($keyword);
@@ -256,12 +257,14 @@ class SeoPro {
 					$keyword = $this->getKeywordByQuery($route, $language_id, $store_id);
 					
 					if ($keyword !== null) {
-						$url = '';
-						if($keyword !== '') {
+						// $url = '';
+						// if($keyword !== '') {
+						// 	$url = '/' . rawurlencode($keyword);
+						// }
 							$url = '/' . rawurlencode($keyword);
-						}
 						unset($data['route']);
 					} else {
+						print_r($route . '<br>');
 
 						// OCFilter start - попробуем найти ocfilter_page_id
             if (isset($data['ocfilter_page_id'])) {

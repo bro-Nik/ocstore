@@ -1622,10 +1622,12 @@ class ModelRevolutionRevolution extends Model {
 	
 	// Revfilter
 	public function getrevAttributes_gr($product_id, $attribute_id)	{
+		return [];
 		$query = $this->db->query("SELECT a.attribute_id, ad.name, pa.text FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) WHERE pa.product_id = '" . (int)$product_id . "' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "' AND a.attribute_id = '" . (int)$attribute_id . "' ORDER BY a.sort_order, ad.name");
 		return $query->rows;
 	}
 	public function getrevAttributes($product_id, $attribute_ids = 0)	{
+		return [];
 		$sql = "SELECT a.attribute_id, ad.name, pa.text FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) WHERE pa.product_id = '" . (int)$product_id . "' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		if ($attribute_ids) {
 			$sql .= " AND a.attribute_id IN ( ". implode(',',$attribute_ids) ." )";

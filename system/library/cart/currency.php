@@ -33,31 +33,13 @@ class Currency {
 	}
 
 	public function format($number, $currency = null, $value = '', $format = true) {
-
-		$symbol_left = '';
-		$symbol_right = '₽';
-		$decimal_place = ' ';
-
+		$decimal_place = 2;
 		$amount = (float)$number;
 		$amount = round($amount, (int)$decimal_place);
 		
-		if (!$format) {
-			return $amount;
-		}
+		if (!$format) return $amount;
 
-		$string = '';
-
-		if ($symbol_left) {
-			$string .= $symbol_left;
-		}
-
-		$string .= number_format($amount, (int)$decimal_place, $this->language->get('decimal_point'), $this->language->get('thousand_point'));
-
-		if ($symbol_right) {
-			$string .= $symbol_right;
-		}
-
-		return $string;
+		return number_format($amount, (int)$decimal_place, ',', '.') . ' ₽';
 	}
 
 	public function convert($value, $from, $to) {

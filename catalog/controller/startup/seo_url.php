@@ -15,6 +15,17 @@ class ControllerStartupSeoUrl extends Controller {
 	public function index() {
 		$this->url->addRewrite($this);
 
+        // Отладочная информация
+        // print_r('REQUEST_URI: ' . ($_SERVER['REQUEST_URI'] ?? '') . '<br>');
+        // print_r('GET params: ' . print_r($_GET, true) . '<br>');
+        // print_r('Route: ' . ($_GET['route'] ?? 'not set') . '<br>');
+        //
+        // if (isset($_GET['_route_'])) {
+        //     print_r($_GET['_route_'] . '<br>');
+        // } else {
+        //     print_r('нет _route_' . '<br>');
+        // }
+
 		// SeoPro обработка
     if ($this->config->get('config_seo_pro') && is_object($this->seo_pro)) {
       
