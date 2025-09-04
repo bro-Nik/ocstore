@@ -117,8 +117,10 @@ export class ToggleModule extends BaseModule {
   updateTotalCount(total) {
     const elements = document.querySelectorAll(`.${this.config.moduleName}-total`);
     if (!total || total < 1) total = '';
+    else total = `<span>${total}</span>`;
     
-    elements.forEach(element => element.textContent = total);
+    // elements.forEach(element => element.textContent = total);
+    elements.forEach(element => element.innerHTML = total);
   }
 }
 

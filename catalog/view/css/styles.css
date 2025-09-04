@@ -11245,8 +11245,7 @@ textarea.form-control-lg {
   }
 }
 .header sup {
-  width: 5px;
-  display: inline-block;
+  position: absolute;
 }
 @media (min-width: 1200px) {
   .header__mobile {
@@ -11378,7 +11377,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 450px) {
   .header__group i {
-    margin-right: 0.3rem;
+    margin-left: 0.5rem;
   }
 }
 .header__action {
@@ -11394,6 +11393,31 @@ textarea.form-control-lg {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   height: 4.6rem;
+}
+.header__action a {
+  display: flex;
+  gap: 0.7rem;
+}
+.header__action .fa-total {
+  position: relative;
+}
+.header__action .fa-total sup:has(span) {
+  padding: 0.1rem 0.2rem;
+  font-weight: 700;
+  right: -0.7rem;
+  background: linear-gradient(0deg, #0063D1, rgba(0, 99, 209, 0.768627451));
+  border-radius: 50px;
+  align-items: center;
+  color: #fff;
+  display: inline-flex;
+  height: 1.3rem;
+  justify-content: center;
+  line-height: 1.3rem;
+  min-width: 1.3rem;
+  position: absolute;
+  text-align: center;
+  box-shadow: 0 0 0 2px #fff;
+  font-size: 1rem;
 }
 .header__catalog {
   flex: 0 0 21rem;

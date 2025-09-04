@@ -1,32 +1,50 @@
 	<div id="top" class="header__row top1">
-				<div class="header__group header__info">
-				  {% for info in informations %}<a href="{{ info.href }}">{{ info.title }}</a>{% endfor %}
+		<div class="header__group header__info">
+			{% for info in informations %}<a href="{{ info.href }}">{{ info.title }}</a>{% endfor %}
 
-  				{% for link in revtheme_header_links %}<a href="{{ link.link }}">{{ link.title }}</a>{% endfor %}
+  		{% for link in revtheme_header_links %}<a href="{{ link.link }}">{{ link.title }}</a>{% endfor %}
 
-					{% if (revtheme_dop_menus_2) %} 
-							{% for revtheme_dop_menu in revtheme_dop_menus_2 %} 
-								{% if (revtheme_dop_menu['children'] is defined) %} 
-									<div class="dropdown">
-										<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" class="dropdown-toggle" data-toggle="dropdown">
-											{{ revtheme_dop_menu['name'~config_language_id] }}
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											{% for child in revtheme_dop_menu['children'] %}
-												<li><a href="{{ child['href'~config_language_id] }}">{{ child['name'~config_language_id] }}</a></li>
-											{% endfor %}
-										</ul>
-									</div>
-								{% else %}
-									<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
-								{% endif %}
-							{% endfor %}
-					{% endif %} 
+			{% if (revtheme_dop_menus_2) %} 
+				{% for revtheme_dop_menu in revtheme_dop_menus_2 %} 
+					{% if (revtheme_dop_menu['children'] is defined) %} 
+						<div class="dropdown">
+							<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" class="dropdown-toggle" data-toggle="dropdown">
+								{{ revtheme_dop_menu['name'~config_language_id] }}
+							</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								{% for child in revtheme_dop_menu['children'] %}
+									<li><a href="{{ child['href'~config_language_id] }}">{{ child['name'~config_language_id] }}</a></li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% else %}
+						<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
+					{% endif %}
+				{% endfor %}
+			{% endif %} 
+		</div>
+
+		<div class="header__group header__action">
+			<a href="{{ compare }}">
+				<div class="fa-total">
+					<i class="fa fa-bar-chart"></i>
+					<sup class="compare-total"></sup>
 				</div>
-
-			<div class="header__group header__action">
-				<a href="{{ compare }}"><i class="fa fa-bar-chart"></i>Сравнение<sup class="compare-total"></sup></a>
-				<a href="{{ wishlist }}"><i class="fa fa-heart"></i>Избранное<sup class="wishlist-total"></sup></a>
-				<a data-action="open-popup-cart"><i class="fa fa-shopping-basket"></i>Корзина<sup class="cart-total"></sup></a>
-			</div>
+				Сравнение
+			</a>
+			<a href="{{ wishlist }}">
+				<div class="fa-total">
+					<i class="fa fa-heart"></i>
+					<sup class="wishlist-total"></sup>
+				</div>
+				Избранное
+			</a>
+			<a data-action="open-popup-cart">
+				<div class="fa-total">
+					<i class="fa fa-shopping-basket"></i>
+					<sup class="cart-total"></sup>
+				</div>
+				Корзина
+			</a>
+		</div>
 	</div>
