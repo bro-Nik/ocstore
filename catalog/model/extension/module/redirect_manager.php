@@ -101,14 +101,6 @@ class ModelExtensionModuleRedirectManager extends Model {
     $this->cache_loaded = true;
   }
   
-  public function clearCache() {
-    $cache_key = 'redirects.all.' . $this->name;
-    $this->cache->delete($cache_key);
-    $this->redirects = [];
-    $this->wildcard_redirects = [];
-    $this->cache_loaded = false;
-  }
-  
   //------------------------------------------------------------------------------
   // Redirect Processing
   //------------------------------------------------------------------------------
@@ -237,7 +229,7 @@ class ModelExtensionModuleRedirectManager extends Model {
 			return $this->settings;
 		}
 
-		$cache_key = 'redirects.settings';
+		$cache_key = 'redirects.settings.' . $this->name;
 		$cache = $this->getCache($cache_key);
     if ($cache !== false) {
 			$this->settings_loaded = true;
@@ -269,13 +261,5 @@ class ModelExtensionModuleRedirectManager extends Model {
 		$this->settings_loaded = true;
     $this->setCache($cache_key, $settings);
     return $settings;
-  }
-  
-  //------------------------------------------------------------------------------
-  // Public methods for admin operations
-  //------------------------------------------------------------------------------
-  
-  public function onRedirectUpdate() {
-    $this->clearCache();
   }
 }

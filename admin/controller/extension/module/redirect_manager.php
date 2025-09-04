@@ -660,6 +660,8 @@ class ControllerExtensionModuleRedirectManager extends Controller {
 				");
 			}
 		}
+
+		$this->updateCache();
 	}
 	
 	//==============================================================================
@@ -746,9 +748,21 @@ class ControllerExtensionModuleRedirectManager extends Controller {
 			
 			$this->db->query("INSERT INTO `" . DB_PREFIX . $this->name . "` SET " . implode(', ', $sql));
 		}
-		
+
+		$this->updateCache();
 		$this->session->data['success'] = $data['text_settings_restored'];
 		$this->response->redirect(str_replace(array('&amp;', "\n", "\r"), array('&', '', ''), $this->url->link('extension/' . $this->type . '/' . $this->name, $token . '=' . $this->session->data[$token], 'SSL')));
+	}
+
+	private function updateCache() {
+    $cache_key = 'redirects.all.' . $this->name;
+    $this->cache->delete($cache_key);
+    $this->redirects = [];
+    $this->wildcard_redirects = [];
+    $this->cache_loaded = false;
+
+		$cache_key = 'redirects.settings.' . $this->name;
+    $this->cache->delete($cache_key);
 	}
 	
 	//==============================================================================
@@ -756,6 +770,7 @@ class ControllerExtensionModuleRedirectManager extends Controller {
 	//==============================================================================
 	public function deleteRow() {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . $this->name . "` WHERE " . $this->name . "_id = " . (int)$this->request->get['id']);
+		$this->updateCache();
 	}
 	
 	public function delete404() {
@@ -769,6 +784,7 @@ class ControllerExtensionModuleRedirectManager extends Controller {
 			$post = $this->request->post;
 			$this->db->query("INSERT INTO `" . DB_PREFIX . $this->name . "` SET active = 1, from_url = '" . $this->db->escape($post['from_url']) . "', to_url = '" . $this->db->escape(trim($post['to_url'])) . "', response_code = " . (int)$post['response_code']);
 			$this->db->query("DELETE FROM `" . DB_PREFIX . $this->name . "_404` WHERE url = '" . $this->db->escape($post['from_url']) . "'");
+			$this->updateCache();
 		}
 	}
 	
