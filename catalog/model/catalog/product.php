@@ -591,7 +591,10 @@ class ModelCatalogProduct extends Model {
     	}
     	
     	foreach ($product_ids as $id) {
-        	$product_data[$id] = $this->getProduct($id);
+				$product = $this->getProduct($id);
+				if ($product) {
+        		$product_data[$id] = $product;
+				}
     	}
     	
     	return $product_data;

@@ -24,17 +24,18 @@ class ControllerRevolutionViewedProducts extends ControllerBaseProductCart {
     $products = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $products_ids]);
 
 		// СОРТИРУЕМ товары в порядке из куков
-    $sorted_products = [];
-    foreach ($products_ids as $product_id) {
-        foreach ($products as $product) {
-            if ($product['product_id'] == $product_id) {
-                $sorted_products[] = $product;
-                break;
-            }
-        }
-    }
+    // $sorted_products = [];
+    // foreach ($products_ids as $product_id) {
+    //     foreach ($products as $product) {
+    //         if ($product['product_id'] == $product_id) {
+    //             $sorted_products[] = $product;
+    //             break;
+    //         }
+    //     }
+    // }
 		
-    $data = $this->prepareProductsData($sorted_products, $settings);
+    // $data = $this->prepareProductsData($sorted_products, $settings);
+    $data = $this->prepareProductsData($products, $settings);
 		$data['id'] = 'slider_viewed_products';
 		$data['title'] = 'Вы недавно смотрели';
 
