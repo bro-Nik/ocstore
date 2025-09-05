@@ -45,21 +45,22 @@ class ControllerToolUpdater extends Controller {
     // }
 
     private function updateDbTabs() {
-        $table_name = DB_PREFIX . "category_service_related";
+        $table_name = "related_categories";
 
         // Проверяем существование таблицы
-        $query = $this->db->query("SELECT TABLE_NAME 
-                                FROM INFORMATION_SCHEMA.TABLES 
-                                WHERE TABLE_SCHEMA = DATABASE() 
-                                AND TABLE_NAME = '" . $this->db->escape($table_name) . "'");
+        $query = $this->db->query("SHOW TABLES LIKE '" . $this->db->escape($table_name) . "'");
 
         if (!$query->num_rows) {
-            // Создаем таблицу если она не существует
-            $sql = "CREATE TABLE `" . $table_name . "` (
+            $sql = "CREATE TABLE IF NOT EXISTS `" . $table_name . "` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `query` varchar(255) NOT NULL,
                 `category_id` int(11) NOT NULL,
-                `article_id` int(11) NOT NULL,
-                PRIMARY KEY (`category_id`, `article_id`),
-                KEY `article_id` (`article_id`)
+                `pages` text NOT NULL,
+                `sort_order` int(3) NOT NULL DEFAULT '0',
+                PRIMARY KEY (`id`),
+                KEY `query` (`query`),
+                KEY `category_id` (`category_id`),
+                KEY `sort_order` (`sort_order`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8";
             
             $this->db->query($sql);
