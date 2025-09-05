@@ -13,197 +13,196 @@ class ControllerStartupSeoUrl extends Controller {
 	//seopro end
 	
 	public function index() {
-		$this->url->addRewrite($this);
-
-        // Отладочная информация
-        // print_r('REQUEST_URI: ' . ($_SERVER['REQUEST_URI'] ?? '') . '<br>');
-        // print_r('GET params: ' . print_r($_GET, true) . '<br>');
-        // print_r('Route: ' . ($_GET['route'] ?? 'not set') . '<br>');
-        //
-        // if (isset($_GET['_route_'])) {
-        //     print_r($_GET['_route_'] . '<br>');
-        // } else {
-        //     print_r('нет _route_' . '<br>');
+        // if (isset($this->request->get['_route_'])) {
+        //     print_r('SEO URL processing: _route_ = ' . $this->request->get['_route_']);
+        // } elseif (isset($this->request->get['route'])) {
+        //     print_r('SEO URL processing: route = ' . $this->request->get['route']);
         // }
 
-		// SeoPro обработка
-    if ($this->config->get('config_seo_pro') && is_object($this->seo_pro)) {
-      
-      // SeoPro подготовка route
-      if (isset($this->request->get['_route_'])) {
-        $parts = explode('/', $this->request->get['_route_']);
-        $parts = $this->seo_pro->prepareRoute($parts);
-        $this->request->get['_route_'] = implode('/', $parts);
-      }
-      
-      $this->seo_pro->validate();
-    }
+		// Add rewrite to url class
+		if ($this->config->get('config_seo_url') || $this->config->get('config_seo_pro')) {
+		    $this->url->addRewrite($this);
+		}
 
-	
-		// Стандартная обработка OpenCart (если SeoPro отключен)
-    if ($this->config->get('config_seo_url') && (!$this->config->get('config_seo_pro') || !is_object($this->seo_pro))) {
-        $this->log->write('Using standard SEO processing');
-    
-        // Decode URL
-        if (isset($this->request->get['_route_'])) {
-            $parts = explode('/', $this->request->get['_route_']);
+		// Decode URL
+		if (isset($this->request->get['_route_'])) {
+			$parts = explode('/', $this->request->get['_route_']);
 
-            // remove any empty arrays from trailing
-            if (utf8_strlen(end($parts)) == 0) {
-                array_pop($parts);
-            }
+		    //seopro prepare route
+		    if($this->config->get('config_seo_pro')){		
+			    $parts = $this->seo_pro->prepareRoute($parts);
+		    }
+		    //seopro prepare route end
+	    
 
-            foreach ($parts as $part) {
-                $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape($part) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "'");
+			// remove any empty arrays from trailing
+			if (utf8_strlen(end($parts)) == 0) {
+				array_pop($parts);
+			}
 
-                if ($query->num_rows) {
-                    $url = explode('=', $query->row['query']);
+			foreach ($parts as $part) {
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape($part) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
-                    if ($url[0] == 'product_id') {
-                        $this->request->get['product_id'] = $url[1];
-                    }
+				if ($query->num_rows) {
+					$url = explode('=', $query->row['query']);
 
-                    if ($url[0] == 'category_id') {
-                        if (!isset($this->request->get['path'])) {
-                            $this->request->get['path'] = $url[1];
-                        } else {
-                            $this->request->get['path'] .= '_' . $url[1];
-                        }
-                    }
+					if ($url[0] == 'product_id') {
+						$this->request->get['product_id'] = $url[1];
+					}
 
-                    if ($url[0] == 'manufacturer_id') {
-                        $this->request->get['manufacturer_id'] = $url[1];
-                    }
+					if ($url[0] == 'category_id') {
+						if (!isset($this->request->get['path'])) {
+							$this->request->get['path'] = $url[1];
+						} else {
+							$this->request->get['path'] .= '_' . $url[1];
+						}
+					}
 
-                    if ($url[0] == 'revblog_id') {
-                        $this->request->get['revblog_id'] = $url[1];
-                    }
-                    if ($url[0] == 'revblog_category_id') {
-                        if (!isset($this->request->get['revblog_category_id'])) {
-                            $this->request->get['revblog_category_id'] = $url[1];
-                        } else {
-                            $this->request->get['revblog_category_id'] .= '_' . $url[1];
-                        }
-                    }
+					if ($url[0] == 'manufacturer_id') {
+						$this->request->get['manufacturer_id'] = $url[1];
+					}
 
-                    if ($url[0] == 'information_id') {
-                        $this->request->get['information_id'] = $url[1];
-                    }
+					if ($url[0] == 'revblog_id') {
+						$this->request->get['revblog_id'] = $url[1];
+					}
+					if ($url[0] == 'revblog_category_id') {
+						if (!isset($this->request->get['revblog_category_id'])) {
+							$this->request->get['revblog_category_id'] = $url[1];
+						} else {
+							$this->request->get['revblog_category_id'] .= '_' . $url[1];
+						}
+					}
 
-                    if ($query->row['query'] && $url[0] != 'information_id' && $url[0] != 'manufacturer_id' && $url[0] != 'category_id' && $url[0] != 'product_id' && $url[0] != 'revblog_id' && $url[0] != 'revblog_category_id') {
-                        $this->request->get['route'] = $query->row['query'];
-                    }
-                } else {
-                    if(!$this->config->get('config_seo_pro')){		
-                        $this->request->get['route'] = 'error/not_found';
-                    }
-                    break;
-                }
-            }
+					if ($url[0] == 'information_id') {
+						$this->request->get['information_id'] = $url[1];
+					}
 
-            if (!isset($this->request->get['route'])) {
-                if (isset($this->request->get['product_id'])) {
-                    $this->request->get['route'] = 'product/product';
-                } elseif (isset($this->request->get['path'])) {
-                    $this->request->get['route'] = 'product/category';
-                } elseif (isset($this->request->get['manufacturer_id'])) {
-                    $this->request->get['route'] = 'product/manufacturer/info';
-                } elseif (isset($this->request->get['revblog_id'])) {
-                    $this->request->get['route'] = 'revolution/revblog_blog';
-                } elseif (isset($this->request->get['revblog_category_id'])) {
-                    $this->request->get['route'] = 'revolution/revblog_category';
-                } elseif (isset($this->request->get['information_id'])) {
-                    $this->request->get['route'] = 'information/information';
-                }
-            }
-        }
-    }
+					if ($query->row['query'] && $url[0] != 'information_id' && $url[0] != 'manufacturer_id' && $url[0] != 'category_id' && $url[0] != 'product_id' && $url[0] != 'revblog_id' && $url[0] != 'revblog_category_id') {
+						$this->request->get['route'] = $query->row['query'];
+					}
+				} else {
+					if(!$this->config->get('config_seo_pro')){		
+						$this->request->get['route'] = 'error/not_found';
+					}
+
+					break;
+				}
+			}
+
+			if (!isset($this->request->get['route'])) {
+				if (isset($this->request->get['product_id'])) {
+					$this->request->get['route'] = 'product/product';
+				} elseif (isset($this->request->get['path'])) {
+					$this->request->get['route'] = 'product/category';
+				} elseif (isset($this->request->get['manufacturer_id'])) {
+					$this->request->get['route'] = 'product/manufacturer/info';
+				} elseif (isset($this->request->get['revblog_id'])) {
+					$this->request->get['route'] = 'revolution/revblog_blog';
+				} elseif (isset($this->request->get['revblog_category_id'])) {
+					$this->request->get['route'] = 'revolution/revblog_category';
+				} elseif (isset($this->request->get['information_id'])) {
+					$this->request->get['route'] = 'information/information';
+				}
+			}
+		}
+		
+		//seopro validate
+		if($this->config->get('config_seo_pro')){		
+			$this->seo_pro->validate();
+		}
+	//seopro validate
 		
 	}
 
 	public function rewrite($link) {
-    // Всегда используем SeoPro если он включен
-    if ($this->config->get('config_seo_pro') && is_object($this->seo_pro)) {
-        
-        $url_info = parse_url(str_replace('&amp;', '&', $link));
-        $data = array();
-        parse_str($url_info['query'], $data);
-        
-        list($url, $data, $postfix) = $this->seo_pro->baseRewrite($data, (int)$this->config->get('config_language_id'));    
-        
-        unset($data['route']);
+        // print_r('start rewrite. link = ' . $link . '. ');
+		$url_info = parse_url(str_replace('&amp;', '&', $link));
 
-        $query = '';
-        if ($data) {
-            foreach ($data as $key => $value) {
-                $query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string)$value));
-            }
-            if ($query) {
-                $query = '?' . str_replace('&', '&amp;', trim($query, '&'));
-            }
+		if($this->config->get('config_seo_pro')){		
+		    $url = null;
+        } else {
+		    $url = '';
+        }
+		$data = array();
+
+		parse_str($url_info['query'], $data);
+		
+		//seo_pro baseRewrite
+		if($this->config->get('config_seo_pro')){		
+			list($url, $data, $postfix) =  $this->seo_pro->baseRewrite($data, (int)$this->config->get('config_language_id'));	
+		}
+		
+		//seo_pro baseRewrite
+		//
+        if($this->config->get('config_seo_pro')) {		
+			$condition = ($url !== null);
+		} else {
+			$condition = $url;
+		}
+
+        // Если SeoPro не обработал или отключен - используем стандартный механизм
+		if($condition && $this->config->get('config_seo_url')) {
+		    foreach ($data as $key => $value) {
+			    if (isset($data['route'])) {
+				    if (($data['route'] == 'product/product' && $key == 'product_id') || (($data['route'] == 'product/manufacturer/info' || $data['route'] == 'product/product') && $key == 'manufacturer_id') || ($data['route'] == 'information/information' && $key == 'information_id')) {
+					    $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE `query` = '" . $this->db->escape($key . '=' . (int)$value) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+					    if ($query->num_rows && $query->row['keyword']) {
+						    $url .= '/' . $query->row['keyword'];
+
+						    unset($data[$key]);
+					    }
+				    } elseif ($key == 'path') {
+					    $categories = explode('_', $value);
+
+					    foreach ($categories as $category) {
+						    $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE `query` = 'category_id=" . (int)$category . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+						    if ($query->num_rows && $query->row['keyword']) {
+							    $url .= '/' . $query->row['keyword'];
+						    } else {
+							    $url = '';
+
+							    break;
+						    }
+					    }
+
+					    unset($data[$key]);
+				    }
+			    }
+		    }
         }
 
-        if ($url !== null) {
-            return $url_info['scheme'] . '://' . $url_info['host'] . (isset($url_info['port']) ? ':' . $url_info['port'] : '') . str_replace('/index.php', '', $url_info['path']) . $url . $query;
-        }
-        
-        return $link;
-    }
+		//seo_pro add blank url
+		unset($data['route']);
 
-    // Стандартная обработка OpenCart (если SeoPro отключен)
-    if ($this->config->get('config_seo_url')) {
-        $this->log->write('Standard rewrite called for: ' . $link);
-        
-        $url_info = parse_url(str_replace('&amp;', '&', $link));
-        $url = '';
-        $data = array();
+		$query = '';
 
-        parse_str($url_info['query'], $data);
-        
-        foreach ($data as $key => $value) {
-            if (isset($data['route'])) {
-                if (($data['route'] == 'product/product' && $key == 'product_id') || (($data['route'] == 'product/manufacturer/info' || $data['route'] == 'product/product') && $key == 'manufacturer_id') || ($data['route'] == 'information/information' && $key == 'information_id')) {
-                    $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE `query` = '" . $this->db->escape($key . '=' . (int)$value) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		if ($data) {
+			foreach ($data as $key => $value) {
+				$query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string)$value));
+			}
 
-                    if ($query->num_rows && $query->row['keyword']) {
-                        $url .= '/' . $query->row['keyword'];
-                        unset($data[$key]);
-                    }
-                } elseif ($key == 'path') {
-                    $categories = explode('_', $value);
+			if ($query) {
+				$query = '?' . str_replace('&', '&amp;', trim($query, '&'));
+			}
+		}
 
-                    foreach ($categories as $category) {
-                        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE `query` = 'category_id=" . (int)$category . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		if ($condition) {
+            // Добавляем постфикс если нужно
+			if($this->config->get('config_seo_pro')){		
+				if($this->config->get('config_page_postfix') && $postfix) {
+					$url .= $this->config->get('config_page_postfix');
+				} elseif($this->config->get('config_seopro_addslash') || !empty($query)) {
+					$url .= '/';
+				} 
+			}
 
-                        if ($query->num_rows && $query->row['keyword']) {
-                            $url .= '/' . $query->row['keyword'];
-                        } else {
-                            $url = '';
-                            break;
-                        }
-                    }
-                    unset($data[$key]);
-                }
-            }
-        }
-
-        unset($data['route']);
-
-        $query = '';
-        if ($data) {
-            foreach ($data as $key => $value) {
-                $query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string)$value));
-            }
-            if ($query) {
-                $query = '?' . str_replace('&', '&amp;', trim($query, '&'));
-            }
-        }
-
-        if ($url) {
-            return $url_info['scheme'] . '://' . $url_info['host'] . (isset($url_info['port']) ? ':' . $url_info['port'] : '') . str_replace('/index.php', '', $url_info['path']) . $url . $query;
-        }
-    }
-
-    return $link;
+            // print_r('end rewrite. url = ' . $url_info['scheme'] . '://' . $url_info['host'] . (isset($url_info['port']) ? ':' . $url_info['port'] : '') . str_replace('/index.php', '', $url_info['path']) . $url . $query . '<br>');
+			return $url_info['scheme'] . '://' . $url_info['host'] . (isset($url_info['port']) ? ':' . $url_info['port'] : '') . str_replace('/index.php', '', $url_info['path']) . $url . $query;
+		} else {
+            // print_r('end rewrite. url = ' . $link . '<br>');
+			return $link;
+		}
 	}
 }

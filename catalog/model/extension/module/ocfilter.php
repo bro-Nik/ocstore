@@ -28,8 +28,8 @@ class ModelExtensionModuleOCFilter extends Model {
         'sort_order'  => $this->ocfilter->config('special_price_sort_order'),
 
         'name'        => $this->language->get('text_price'),
-        'prefix'      => $this->currency->getSymbolLeft($this->session->data['currency']),
-        'suffix'      => $this->currency->getSymbolRight($this->session->data['currency']),
+        'prefix'      => '',
+        'suffix'      => '₽',
       ];
     }
 
@@ -1597,8 +1597,8 @@ class ModelExtensionModuleOCFilter extends Model {
 
         $name = sprintf($_['text_slider_selected_range'],
           '{cb}',
-          '{c:' . $min . '|' . $this->session->data['currency'] . '}',
-          '{c:' . $max . '|' . $this->session->data['currency'] . '}',
+          '{c:' . $min . '|}',
+          '{c:' . $max . '|}',
           '{ca}'
         );
 
@@ -1706,7 +1706,7 @@ class ModelExtensionModuleOCFilter extends Model {
           '{cb}',
           '{ca}',
           '{c:',
-          '|' . $this->session->data['currency'] . '}'
+          '|}'
         ], '', $value_name);
 
         if ($this->ocfilter->opencart->version >= 30) {

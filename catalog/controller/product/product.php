@@ -42,6 +42,11 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 			$related_products = $this->model_catalog_product->getProductRelated($data['product_id']);
 			$data['accessories'] = $this->prepareProducts($related_products);
 
+    	// OCFilter Start
+    	if ($this->registry->get('ocfilter') && $this->ocfilter->startup()) {
+      	$this->ocfilter->api->setProductItemControllerData($data);
+    	}
+    	// OCFilter End
 			$this->addCommonTemplateData($data);
     	$this->response->setOutput($this->load->view('product/product', $data));
 		} else {
