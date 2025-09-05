@@ -61,12 +61,12 @@
     <div class="form-group featured-products" id="featured-products-{{ index }}" style="display: {{ slider.category_id == 'featured' ? 'block' : 'none' }};">
       <label class="col-sm-2 control-label">Товары (автозаполнение):</label>
       <div class="col-sm-4">
-        <input type="text" name="product_{{ index }}" value="" placeholder="Товары" class="form-control product-autocomplete" data-index="{{ index }}" />
+        <input type="text" name="product_{{ index }}" value="" placeholder="Товары" class="form-control product-autocomplete" data-index="{{ index }}" data-slider-key="{{ slider_key }}" />
         <br/>
         <div class="scrollbox well well-sm featured-product-list" id="featured-product-{{ index }}" style="height: 150px; overflow: auto;">
           {% if slider.featured is defined %}
             {% for product in slider.featured %}
-              <div id="featured-product{{ index }}-{{ product.product_id }}" class="{{ cycle(['odd', 'even'], loop.index0) }}">
+              <div id="featured-product{{ index }}-{{ product.product_id }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
                 {{ product.name }} <i class="fa fa-minus-circle"></i>
                 <input type="hidden" name="{{ slider_key }}[featured][]" value="{{ product.product_id }}" />
               </div>
@@ -156,64 +156,3 @@
   {{ _self.slider_form(sliders_key, sliders.slider_4, 4, categories, manufacturers) }}
 </div>
 
-<script>
-// Обработка изменения категории
-$('.slider-category').change(function() {
-  var index = $(this).data('index');
-  var isFeatured = $(this).val() == 'featured';
-  
-  $('#featured-products-' + index).toggle(isFeatured);
-  $('#manufacturer-block-' + index).toggle(!isFeatured);
-});
-
-// Автозаполнение товаров
-$('.product-autocomplete').autocomplete({
-    source: function(request, response) {
-        var index = $(this.element).data('index');
-        $.ajax({
-            url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
-            dataType: 'json',
-            success: function(json) {
-                response($.map(json, function(item) {
-                    return {
-                        label: item.name,
-                        value: item.product_id
-                    }
-                }));
-            }
-        });
-    },
-    select: function(item) {
-        var index = $(this).data('index');
-        var productId = item.value;
-        var container = $('#featured-product-' + index);
-        
-        // Проверяем, не добавлен ли уже товар
-        if ($('#featured-product' + index + '-' + productId).length) {
-            return false;
-        }
-        
-        // Добавляем товар
-        container.append(
-            '<div id="featured-product' + index + '-' + productId + '" class="' + (container.children().length % 2 ? 'even' : 'odd') + '">' +
-                item.label + ' <i class="fa fa-minus-circle remove-product" data-index="' + index + '" data-id="' + productId + '"></i>' +
-                '<input type="hidden" name="' + sliders_key + '_slider_' + index + '[featured][]" value="' + productId + '" />' +
-            '</div>'
-        );
-        
-        return false;
-    }
-});
-
-// Удаление товара
-$(document).on('click', '.remove-product', function() {
-    var index = $(this).data('index');
-    var productId = $(this).data('id');
-    $('#featured-product' + index + '-' + productId).remove();
-    
-    // Обновляем чередование стилей
-    $('#featured-product-' + index + ' div').each(function(i) {
-        $(this).removeClass('odd even').addClass(i % 2 ? 'even' : 'odd');
-    });
-});
-</script>

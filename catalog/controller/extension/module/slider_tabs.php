@@ -29,9 +29,9 @@ class ControllerExtensionModuleSliderTabs extends ControllerBaseProductCart {
                 
                 if ($slider_settings['category_id'] == 'featured' && !empty($slider_settings['featured'])) {
                     // Режим "Выборочные товары"
-                    $product_ids = array_column($slider_settings['featured'], 'product_id');
-                    $filter_data['filter_product_ids'] = $product_ids;
-                    $results = $this->model_catalog_product->getProductsByIds($filter_data);
+                    $products_ids = array_column($slider_settings['featured'], 'product_id');
+                    $results = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $products_ids]);
+
                 } else {
                     // Режим категории или все товары
                     if ($slider_settings['category_id'] > 0) {
@@ -41,6 +41,7 @@ class ControllerExtensionModuleSliderTabs extends ControllerBaseProductCart {
                         $filter_data['filter_manufacturer_id'] = $slider_settings['manufacturer_id'];
                     }
                     $results = $this->model_catalog_product->getProducts($filter_data);
+                    // print_r("results = " . print_r($results) . '<br>');
                 }
                 
                 $data[$slider_key] = $this->prepareProductsData($results, $slider_settings);
