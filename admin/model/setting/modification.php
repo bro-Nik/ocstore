@@ -5,8 +5,8 @@ class ModelSettingModification extends Model {
 	}
 
     public function addModificationBackup($modification_id, $data) {
-        // $xml = html_entity_decode($data['xml']);
-        // $this->db->query("INSERT INTO " . DB_PREFIX . "modification_backup SET modification_id = '" . (int)$modification_id . "', code = '" . $this->db->escape($data['code']) . "', xml = '" . $this->db->escape($xml) . "', date_added = NOW()");
+        $xml = html_entity_decode($data['xml']);
+        $this->db->query("INSERT INTO " . DB_PREFIX . "modification_backup SET modification_id = '" . (int)$modification_id . "', code = '" . $this->db->escape($data['code']) . "', xml = '" . $this->db->escape($xml) . "', date_added = NOW()");
     }
 
     public function editModification($modification_id, $data) {
@@ -24,7 +24,7 @@ class ModelSettingModification extends Model {
 	}
 
     public function deleteModificationBackups($modification_id) {
-        // $this->db->query("DELETE FROM " . DB_PREFIX . "modification_backup WHERE modification_id = '" . (int)$modification_id . "'");
+        $this->db->query("DELETE FROM " . DB_PREFIX . "modification_backup WHERE modification_id = '" . (int)$modification_id . "'");
     }
 
 	public function deleteModificationsByExtensionInstallId($extension_install_id) {
@@ -86,17 +86,15 @@ class ModelSettingModification extends Model {
 	}
 
     public function getModificationBackups($modification_id) {
-			return [];
-        // $sql = "SELECT * FROM " . DB_PREFIX . "modification_backup  WHERE modification_id = '" . (int)$modification_id . "' ORDER BY date_added DESC";
-        // $query = $this->db->query($sql);
-        // return $query->rows;
+        $sql = "SELECT * FROM " . DB_PREFIX . "modification_backup  WHERE modification_id = '" . (int)$modification_id . "' ORDER BY date_added DESC";
+        $query = $this->db->query($sql);
+        return $query->rows;
     }
 
     public function getModificationBackup($modification_id, $backup_id) {
-			return [];
-        // $sql = "SELECT * FROM " . DB_PREFIX . "modification_backup  WHERE modification_id = '" . (int)$modification_id . "' AND backup_id = '" . (int)$backup_id . "' ORDER BY date_added DESC";
-        // $query = $this->db->query($sql);
-        // return $query->row;
+        $sql = "SELECT * FROM " . DB_PREFIX . "modification_backup  WHERE modification_id = '" . (int)$modification_id . "' AND backup_id = '" . (int)$backup_id . "' ORDER BY date_added DESC";
+        $query = $this->db->query($sql);
+        return $query->row;
     }
 
     public function getTotalModifications() {
