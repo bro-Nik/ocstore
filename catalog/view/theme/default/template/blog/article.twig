@@ -19,7 +19,6 @@
 			{% endif %}
 			-->
 			<div class="content">
-				<h1>{{ heading_title }}</h1>
 				<div class="tab-pane active" id="tab-description">{{ description }}</div>
 				{% if review_status %}
 					<div class="rating">
@@ -83,6 +82,7 @@
 													<span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %}
 											</p>
 										{% endif %}
+
 									</div>
 									<div class="button-group">
 										<button type="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span> <i class="fa fa-shopping-cart"></i></button>
