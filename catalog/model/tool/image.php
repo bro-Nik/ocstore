@@ -39,6 +39,48 @@ class ModelToolImage extends Model {
 				$image->save(DIR_IMAGE . $image_new);
 			} else {
 				copy(DIR_IMAGE . $image_old, DIR_IMAGE . $image_new);
+
+				if ($this->config->get('revtheme_all_settings')['watermark_status']) {
+					$this->load->model('revolution/revolution');
+					$this->model_revolution_revolution->revwatermark($image_old, $image_new);
+				}
+				if (!empty($this->config->get('revtheme_all_settings')['webp_on'])) {
+					$gd_info = gd_info();
+					if($gd_info['WebP Support']) {
+						$image_new_webp = 'cache/webp/' . utf8_substr($filename, 0, utf8_strrpos($filename, '.')) . '-' . (int)$width . 'x' . (int)$height . '.webp';
+						if (is_file(DIR_IMAGE . $image_new) && (!is_file(DIR_IMAGE . $image_new_webp) || (filemtime(DIR_IMAGE . $image_new) > filemtime(DIR_IMAGE . $image_new_webp)))) {
+							$path = '';
+							$directories = explode('/', dirname($image_new_webp));
+							foreach ($directories as $directory) {
+								$path = $path . '/' . $directory;
+
+								if (!is_dir(DIR_IMAGE . $path)) {
+									@mkdir(DIR_IMAGE . $path, 0755);
+								}
+							}
+							$extension = strtolower($extension);
+							if ($extension == 'gif') {
+								$img = imagecreatefromgif(DIR_IMAGE.$image_new);
+							} elseif ($extension == 'png') {
+								$img = imagecreatefrompng(DIR_IMAGE.$image_new);
+							} elseif ($extension == 'jpeg' || $extension == 'jpg') {
+								$img = imagecreatefromjpeg(DIR_IMAGE.$image_new);
+							} else {
+								$img = '';
+							}
+							if($img) {
+								imagepalettetotruecolor($img);
+								imagewebp($img, DIR_IMAGE.$image_new_webp);
+								imagedestroy($img);
+							}
+						}
+						if(is_file(DIR_IMAGE . $image_new_webp)) {
+							if(stripos($this->request->server['REQUEST_URI'], 'admin') === false && isset($this->request->server['HTTP_ACCEPT']) && strpos($this->request->server['HTTP_ACCEPT'], 'image/webp') !== false) {
+								$image_new = $image_new_webp;
+							}
+						}
+					}
+				}
 			}
 		}
 		
@@ -50,14 +92,13 @@ class ModelToolImage extends Model {
 			return $this->config->get('config_url') . 'image/' . $image_new;
 		}
 	}
+
 	public function resizeToHeight($filename, $target_height) {
     if (!is_file(DIR_IMAGE . $filename) || substr(str_replace('\\', '/', realpath(DIR_IMAGE . $filename)), 0, strlen(DIR_IMAGE)) != DIR_IMAGE) {
         return;
     }
 
-		$width = 0;
     $extension = pathinfo($filename, PATHINFO_EXTENSION);
-
     $image_old = $filename;
     $image_new = 'cache/' . utf8_substr($filename, 0, utf8_strrpos($filename, '.')) . '-' . (int)$target_height . '.' . $extension;
 
@@ -68,12 +109,12 @@ class ModelToolImage extends Model {
         $ratio = $width_orig / $height_orig;
         $target_width = round($target_height * $ratio);
 
-        if (!in_array($image_type, array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF))) { 
+        $iimmgg = getimagesize(DIR_IMAGE . $image_old);
+        if (!in_array($image_type, array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF)) && (isset($iimmgg['mime']) && ($iimmgg['mime'] != 'image/svg+xml'))) { 
             return DIR_IMAGE . $image_old;
         }
         
         $path = '';
-
         $directories = explode('/', dirname($image_new));
 
         foreach ($directories as $directory) {
@@ -89,7 +130,93 @@ class ModelToolImage extends Model {
             $image->resize($target_width, $target_height);
             $image->save(DIR_IMAGE . $image_new);
         } else {
-            copy(DIR_IMAGE . $image_old, DIR_IMAGE . $image_new);
+          copy(DIR_IMAGE . $image_old, DIR_IMAGE . $image_new);
+
+					if ($this->config->get('revtheme_all_settings')['watermark_status']) {
+						$this->load->model('revolution/revolution');
+						$this->model_revolution_revolution->revwatermark($image_old, $image_new);
+					}
+					if (!empty($this->config->get('revtheme_all_settings')['webp_on'])) {
+						$gd_info = gd_info();
+						if($gd_info['WebP Support']) {
+							$image_new_webp = 'cache/webp/' . utf8_substr($filename, 0, utf8_strrpos($filename, '.')) . '-' . (int)$target_width . 'x' . (int)$target_height . '.webp';
+							if (is_file(DIR_IMAGE . $image_new) && (!is_file(DIR_IMAGE . $image_new_webp) || (filemtime(DIR_IMAGE . $image_new) > filemtime(DIR_IMAGE . $image_new_webp)))) {
+								$path = '';
+								$directories = explode('/', dirname($image_new_webp));
+								foreach ($directories as $directory) {
+									$path = $path . '/' . $directory;
+
+									if (!is_dir(DIR_IMAGE . $path)) {
+										@mkdir(DIR_IMAGE . $path, 0755);
+									}
+								}
+								$extension = strtolower($extension);
+								if ($extension == 'gif') {
+									$img = imagecreatefromgif(DIR_IMAGE.$image_new);
+								} elseif ($extension == 'png') {
+									$img = imagecreatefrompng(DIR_IMAGE.$image_new);
+								} elseif ($extension == 'jpeg' || $extension == 'jpg') {
+									$img = imagecreatefromjpeg(DIR_IMAGE.$image_new);
+								} else {
+									$img = '';
+								}
+								if($img) {
+									imagepalettetotruecolor($img);
+									imagewebp($img, DIR_IMAGE.$image_new_webp);
+									imagedestroy($img);
+								}
+							}
+							if(is_file(DIR_IMAGE . $image_new_webp)) {
+								if(stripos($this->request->server['REQUEST_URI'], 'admin') === false && isset($this->request->server['HTTP_ACCEPT']) && strpos($this->request->server['HTTP_ACCEPT'], 'image/webp') !== false) {
+									$image_new = $image_new_webp;
+								}
+							}
+						}
+					}
+        }
+
+        if ($this->config->get('revtheme_all_settings')['watermark_status']) {
+            $this->load->model('revolution/revolution');
+            $this->model_revolution_revolution->revwatermark($image_old, $image_new);
+        }
+        
+        if (!empty($this->config->get('revtheme_all_settings')['webp_on'])) {
+            $gd_info = gd_info();
+            if($gd_info['WebP Support']) {
+                // Используем target_width и target_height вместо неопределенных переменных
+                $image_new_webp = 'cache/webp/' . utf8_substr($filename, 0, utf8_strrpos($filename, '.')) . '-' . (int)$target_width . 'x' . (int)$target_height . '.webp';
+                if (is_file(DIR_IMAGE . $image_new) && (!is_file(DIR_IMAGE . $image_new_webp) || (filemtime(DIR_IMAGE . $image_new) > filemtime(DIR_IMAGE . $image_new_webp)))) {
+                    $path = '';
+                    $directories = explode('/', dirname($image_new_webp));
+                    foreach ($directories as $directory) {
+                        $path = $path . '/' . $directory;
+
+                        if (!is_dir(DIR_IMAGE . $path)) {
+                            @mkdir(DIR_IMAGE . $path, 0755);
+                        }
+                    }
+                    $extension = strtolower($extension);
+                    if ($extension == 'gif') {
+                        $img = imagecreatefromgif(DIR_IMAGE.$image_new);
+                    } elseif ($extension == 'png') {
+                        $img = imagecreatefrompng(DIR_IMAGE.$image_new);
+                    } elseif ($extension == 'jpeg' || $extension == 'jpg') {
+                        $img = imagecreatefromjpeg(DIR_IMAGE.$image_new);
+                    } else {
+                        $img = '';
+                    }
+                    if($img) {
+                        imagepalettetotruecolor($img);
+                        imagewebp($img, DIR_IMAGE.$image_new_webp);
+                        imagedestroy($img);
+                    }
+                }
+                if(is_file(DIR_IMAGE . $image_new_webp)) {
+                    if(stripos($this->request->server['REQUEST_URI'], 'admin') === false && isset($this->request->server['HTTP_ACCEPT']) && strpos($this->request->server['HTTP_ACCEPT'], 'image/webp') !== false) {
+                        $image_new = $image_new_webp;
+                    }
+                }
+            }
         }
     }
 

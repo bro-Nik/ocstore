@@ -1178,54 +1178,6 @@
 			<add position="after"><![CDATA['description' => $description,]]></add>
 		</operation>
 	</file>
-	<file path="catalog/model/tool/image.php">
-		<operation error="skip">
-			<search><![CDATA[copy(DIR_IMAGE . $image_old, DIR_IMAGE . $image_new);]]></search>
-			<add position="after" offset="1"><![CDATA[
-				if ($this->config->get('revtheme_all_settings')['watermark_status']) {
-					$this->load->model('revolution/revolution');
-					$this->model_revolution_revolution->revwatermark($image_old, $image_new);
-				}
-				if (!empty($this->config->get('revtheme_all_settings')['webp_on'])) {
-					$gd_info = gd_info();
-					if($gd_info['WebP Support']) {
-						$image_new_webp = 'cache/webp/' . utf8_substr($filename, 0, utf8_strrpos($filename, '.')) . '-' . (int)$width . 'x' . (int)$height . '.webp';
-						if (is_file(DIR_IMAGE . $image_new) && (!is_file(DIR_IMAGE . $image_new_webp) || (filemtime(DIR_IMAGE . $image_new) > filemtime(DIR_IMAGE . $image_new_webp)))) {
-							$path = '';
-							$directories = explode('/', dirname($image_new_webp));
-							foreach ($directories as $directory) {
-								$path = $path . '/' . $directory;
-
-								if (!is_dir(DIR_IMAGE . $path)) {
-									@mkdir(DIR_IMAGE . $path, 0755);
-								}
-							}
-							$extension = strtolower($extension);
-							if ($extension == 'gif') {
-								$img = imagecreatefromgif(DIR_IMAGE.$image_new);
-							} elseif ($extension == 'png') {
-								$img = imagecreatefrompng(DIR_IMAGE.$image_new);
-							} elseif ($extension == 'jpeg' || $extension == 'jpg') {
-								$img = imagecreatefromjpeg(DIR_IMAGE.$image_new);
-							} else {
-								$img = '';
-							}
-							if($img) {
-								imagepalettetotruecolor($img);
-								imagewebp($img, DIR_IMAGE.$image_new_webp);
-								imagedestroy($img);
-							}
-						}
-						if(is_file(DIR_IMAGE . $image_new_webp)) {
-							if(stripos($this->request->server['REQUEST_URI'], 'admin') === false && isset($this->request->server['HTTP_ACCEPT']) && strpos($this->request->server['HTTP_ACCEPT'], 'image/webp') !== false) {
-								$image_new = $image_new_webp;
-							}
-						}
-					}
-				}
-			]]></add>
-		</operation>
-	</file>
 	<file path="system/library/image.php">
 		<operation error="skip">
 			<search><![CDATA[$this->image = imagecreatefromjpeg($file);]]></search>

@@ -21,7 +21,7 @@ class ControllerToolUpdater extends Controller {
         }
         
         // Если все проверки пройдены, выполняем обновление
-        $json[] = $this->updateDbTabs();
+        // $json[] = $this->updateDbTabs();
         
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));

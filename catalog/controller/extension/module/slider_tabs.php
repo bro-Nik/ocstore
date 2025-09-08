@@ -41,7 +41,6 @@ class ControllerExtensionModuleSliderTabs extends ControllerBaseProductCart {
                         $filter_data['filter_manufacturer_id'] = $slider_settings['manufacturer_id'];
                     }
                     $results = $this->model_catalog_product->getProducts($filter_data);
-                    // print_r("results = " . print_r($results) . '<br>');
                 }
                 
                 $data[$slider_key] = $this->prepareProductsData($results, $slider_settings);
