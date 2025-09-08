@@ -8,7 +8,20 @@ class ControllerMarketplaceModification extends Controller {
 	private $error = array();
 
 	public function index() {
+        if (!$this->user->hasPermission('modify', 'extension/modification/diff')) {
+            $this->load->model('user/user_group');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/modification/editor');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/modification/editor');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/modification/error_log');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/modification/error_log');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/modification/files');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/modification/files');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/modification/diff');
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/modification/diff');
+        }
+
 		$this->load->language('marketplace/modification');
+        $this->load->language('extension/modification/editor');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -53,7 +66,13 @@ class ControllerMarketplaceModification extends Controller {
 
 
             if (!isset($this->request->get['update'])) {
-                $this->response->redirect($this->url->link('marketplace/modification', 'user_token=' . $this->session->data['user_token'] . $url, true));
+                // $this->response->redirect($this->url->link('marketplace/modification', 'user_token=' . $this->session->data['user_token'] . $url, true));
+                if (isset($this->request->get['modification_editor'])) {
+                    echo $this->session->data['success'];
+                    exit;
+                } else {
+                    $this->response->redirect($this->url->link('marketplace/modification', 'user_token=' . $this->session->data['user_token'] . $url, true));
+                }
             } else {
                 $this->refresh();
                 $this->response->redirect($this->url->link('marketplace/modification/edit', 'user_token=' . $this->session->data['user_token'] . '&modification_id=' . $this->request->get['modification_id'] . $url, true));
@@ -995,11 +1014,15 @@ class ControllerMarketplaceModification extends Controller {
 			'href' => $this->url->link('marketplace/modification', 'user_token=' . $this->session->data['user_token'], true)
 		);
 
+        $data['log_error'] = $this->url->link('extension/modification/error_log', 'user_token=' . $this->session->data['user_token'] . $url, true);
+        $data['files'] = $this->url->link('extension/modification/files', 'user_token=' . $this->session->data['user_token'] . $url, true);
+        $data['new'] = $this->url->link('extension/modification/editor', 'user_token=' . $this->session->data['user_token'] . $url, true);
 		$data['refresh'] = $this->url->link('marketplace/modification/refresh', 'user_token=' . $this->session->data['user_token'] . $url, true);
 		$data['clear'] = $this->url->link('marketplace/modification/clear', 'user_token=' . $this->session->data['user_token'] . $url, true);
 		$data['delete'] = $this->url->link('marketplace/modification/delete', 'user_token=' . $this->session->data['user_token'] . $url, true);
 
 		$data['modifications'] = array();
+
 
 		$filter_data = array(
 			'sort'  => $sort,
@@ -1026,7 +1049,9 @@ class ControllerMarketplaceModification extends Controller {
                 'download'        => $this->url->link('marketplace/modification/download', 'user_token=' . $this->session->data['user_token'] . '&modification_id=' . $result['modification_id'], true),
                 'enable'          => $this->url->link('marketplace/modification/enable', 'user_token=' . $this->session->data['user_token'] . '&modification_id=' . $result['modification_id'], true),
 				'disable'         => $this->url->link('marketplace/modification/disable', 'user_token=' . $this->session->data['user_token'] . '&modification_id=' . $result['modification_id'], true),
-				'enabled'         => $result['status']
+				'enabled'         => $result['status'],
+                'edit' => $this->url->link('extension/modification/editor', 'user_token=' . $this->session->data['user_token'] . '&modification_id=' . $result['modification_id'], true),
+                'download' => $this->url->link('extension/modification/editor/download', 'user_token=' . $this->session->data['user_token'] . '&modification_id=' . $result['modification_id'], true),
 			);
 		}
 

@@ -20,6 +20,7 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 			$this->load->model('catalog/product');
 			$data['breadcrumbs'] = $this->prepareBreadcrumbs($product_info);
 			$data['captcha'] = $this->getCaptcha('review');
+ 			$data['product_variants'] = $this->load->controller('extension/module/prodvar'); 
 
 			$this->setMetaData($product_info, 1);
 			$this->noindexCheck($product_info);

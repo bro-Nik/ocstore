@@ -23,8 +23,7 @@ class ControllerExtensionModuleProdvar extends Controller {
       return $cache;
     }
 
-		$data['prodvar_status'] = $this->setvalue($this->modname.'_status');
-		if ($data['prodvar_status'] && isset($this->request->get['product_id'])) {
+		if (isset($this->request->get['product_id'])) {
 			
 			$this->load->model('tool/image');
 			$this->load->model('catalog/product');

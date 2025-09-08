@@ -23,7 +23,10 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('catalog/product');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_catalog_product->addProduct($this->request->post);
+			// $this->model_catalog_product->addProduct($this->request->post);
+			$product_id = $this->model_catalog_product->addProduct($this->request->post);
+			$this->load->controller('extension/module/prodvar/saveprodvarform', $product_id);
+			$this->load->language('catalog/product');
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -106,7 +109,11 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('catalog/product');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
+			// $this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
+			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);			
+			$this->load->controller('extension/module/prodvar/saveprodvarform', $this->request->get['product_id']);
+			$this->load->language('catalog/product');
+
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -847,6 +854,10 @@ class ControllerCatalogProduct extends Controller {
 	}
 
 	protected function getForm() {
+
+		$data['prodvarform'] = $this->load->controller('extension/module/prodvar/prodvarfieldform');	
+		$this->load->language('catalog/product');
+
 		$data['text_form'] = !isset($this->request->get['product_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
 		if (isset($this->error['warning'])) {
