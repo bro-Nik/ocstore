@@ -43,22 +43,23 @@ export function initCarouselSwipers(container = document) {
     let maxWidth = 0;
 
     // Находим максимальную ширину
-    carouselEl.querySelectorAll('.swiper-slide').forEach(slide => {
-      const width = slide.offsetWidth;
-      if (width > maxWidth) maxWidth = width;
-    });
+    const slide = carouselEl.querySelector('.swiper-slide');
+    if (slide) maxWidth = slide.offsetWidth;
 
-    // Устанавливаем максимальную ширину для всех слайдов
-    carouselEl.querySelectorAll('.swiper-slide').forEach(slide => {
-      slide.style.minWidth = maxWidth + 'px';
-    });
-    
     // Базовые настройки для всех каруселей
     const defaultConfig = {
       slidesPerView: 'auto', // Автоподбор количества видимых слайдов
       freeMode: true, // Для плавного скольжения
       spaceBetween: 10, // Отступ между слайдами
 
+      breakpoints: {
+        370: {
+          slidesPerView: maxWidth > 360 ? 1 : 'auto',
+        },
+        768: {
+          slidesPerView: 'auto',
+        }
+      }
     };
     
     // Индивидуальные настройки из data-атрибутов
