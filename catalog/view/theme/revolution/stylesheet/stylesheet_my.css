@@ -110,7 +110,7 @@ select#input-sort {width: auto;}
 {
 .row .products_category .col-xs-6 {width: 100%;}
 .product-layout.col-lg-12.item.new_line {padding: 2px;}
-#montazh .table-silver td, #montazh .table-silver th {padding: 3px !important;}
+.table-silver td, .table-silver th {padding: 3px !important;}
 }
 @media (max-width: 380px)
 {
@@ -277,10 +277,10 @@ li.compare-attribute {white-space: nowrap;overflow: unset !important;}
 #column-left .heading_h h3 {font-size: 16px;font-weight: normal;}
 #blog_mod .blog-list .opisb h4 {margin: 0 0 0 0;}
 .info-zagolovok { text-align: left;  font-size: 1.8em;  padding-bottom: 1em; line-height: 1.5em;font-weight: bold;}
-#montazh .table-silver { margin: auto;  font-size: 1em;  table-layout: auto;  width: 100%;  border-spacing: 0;  border-collapse: collapse;}
-#montazh .table-silver .small { font-size: 12px;margin: 0px;}
-#montazh .table-silver > tbody > tr:nth-child(2n+1) { background-color: rgba(0, 99, 209, 0.1);}
-#montazh .table-silver td, #montazh .table-silver th {padding: 8px 10px; border: 1px solid #0063d1;}
+.table-silver { margin: auto;  font-size: 1em;  table-layout: auto;  width: 100%;  border-spacing: 0;  border-collapse: collapse;}
+.table-silver .small { font-size: 12px;margin: 0px;}
+.table-silver > tbody > tr:nth-child(2n+1) { background-color: rgba(0, 99, 209, 0.1);}
+.table-silver td, .table-silver th {padding: 8px 10px; border: 1px solid #0063d1;}
 .vnimanie-silver {background-color: #f7f7f7; border-radius: 5px;border: 1px solid; border-color: #eaeaea;padding: 28px;margin-bottom: 50px}
 .vnimanie-silver .header {font-size: 1.2em;font-weight: 600;}
 .vnimanie-silver .content {color: #686868;width: 80%;padding: 5px 15px 0px 5px;display: inline-block;}

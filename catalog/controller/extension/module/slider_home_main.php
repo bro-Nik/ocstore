@@ -18,7 +18,7 @@ class ControllerExtensionModuleSliderHomeMain extends Controller {
 			foreach ($slides as $slide) {
 				$data['slides'][] = array(
 					'title'       		=> html_entity_decode($slide['title'], ENT_QUOTES, 'UTF-8'),
-					'image'       		=> $this->model_tool_image->resizeToHeight($slide['image'], $slider['height']),
+					'image'       		=> $this->model_tool_image->resize($slide['image'], $slider['width'], $slider['height']),
 					'description' 		=> html_entity_decode($slide['description'], ENT_QUOTES, 'UTF-8'),
 					'link'        		=> html_entity_decode($slide['link'], ENT_QUOTES, 'UTF-8'),
 					'link_title'  		=> $slide['link_title'],

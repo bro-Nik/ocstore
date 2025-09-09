@@ -40,12 +40,25 @@ export function initCarouselSwipers(container = document) {
   
   // Проходим по всем каруселям на странице
   container.querySelectorAll('.swiper-carousel').forEach((carouselEl, index) => {
+    let maxWidth = 0;
+
+    // Находим максимальную ширину
+    carouselEl.querySelectorAll('.swiper-slide').forEach(slide => {
+      const width = slide.offsetWidth;
+      if (width > maxWidth) maxWidth = width;
+    });
+
+    // Устанавливаем максимальную ширину для всех слайдов
+    carouselEl.querySelectorAll('.swiper-slide').forEach(slide => {
+      slide.style.minWidth = maxWidth + 'px';
+    });
     
     // Базовые настройки для всех каруселей
     const defaultConfig = {
       slidesPerView: 'auto', // Автоподбор количества видимых слайдов
       freeMode: true, // Для плавного скольжения
       spaceBetween: 10, // Отступ между слайдами
+
     };
     
     // Индивидуальные настройки из data-атрибутов

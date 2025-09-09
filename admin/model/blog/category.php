@@ -40,6 +40,10 @@ class ModelBlogCategory extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "blog_category_to_layout SET blog_category_id = '" . (int)$blog_category_id . "', store_id = '" . (int)$store_id . "', layout_id = '" . (int)$layout_id . "'");
 			}
 		}
+		if (isset($data['type'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "blog_category SET type = '" . $data['type'] . "' WHERE blog_category_id = '" . (int)$blog_category_id . "'");
+		}
+
 		$this->cache->delete('blog_category');
 		
 		if($this->config->get('config_seo_pro')){		
@@ -51,6 +55,9 @@ class ModelBlogCategory extends Model {
 		$this->db->query("UPDATE " . DB_PREFIX . "blog_category SET parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', noindex = '" . (int)$data['noindex'] . "', date_modified = NOW() WHERE blog_category_id = '" . (int)$blog_category_id . "'");
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "blog_category SET image = '" . $this->db->escape($data['image']) . "' WHERE blog_category_id = '" . (int)$blog_category_id . "'");
+		}
+		if (isset($data['type'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "blog_category SET type = '" . $data['type'] . "' WHERE blog_category_id = '" . (int)$blog_category_id . "'");
 		}
 		$this->db->query("DELETE FROM " . DB_PREFIX . "blog_category_description WHERE blog_category_id = '" . (int)$blog_category_id . "'");
 		foreach ($data['category_description'] as $language_id => $value) {

@@ -2,7 +2,11 @@
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
+require_once('catalog/controller/trait/blog.php');
+
 class ControllerBlogCategory extends Controller {
+	use \BlogTrait;
+
 	public function index() {
 		$this->load->language('blog/category');
 
@@ -137,6 +141,7 @@ class ControllerBlogCategory extends Controller {
 			} else {
 				$data['heading_title'] = $category_info['name'];
 			}
+			$data['category_type'] = $category_info['type'];
 			
 			$this->document->setDescription($category_info['meta_description']);
 			$this->document->setKeywords($category_info['meta_keyword']);
@@ -363,13 +368,13 @@ class ControllerBlogCategory extends Controller {
 
 			$data['continue'] = $this->url->link('common/home');
 
-			$data['column_left'] = $this->load->controller('common/column_left');
+			// $data['column_left'] = $this->load->controller('common/column_left');
+			$data['column_left'] = $this->columnLeft($blog_category_id);
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
-			// echo '<pre>'; print_r($data['articles']); echo '</pre>'; exit;
 			$this->response->setOutput($this->load->view('blog/category', $data));
 		} else {
 			$url = '';

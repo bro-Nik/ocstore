@@ -2035,7 +2035,7 @@ overflow: visible;
 clear: both;
 list-style: none;
 padding: 0;
-margin: 0;
+/* margin: 0; */
 }
 .thumbnails a.thumbnail:focus {
 border-color: #fff;

@@ -1,14 +1,15 @@
-{% extends 'revolution/template/product/partials/base.twig' %}
-
+{% extends 'default/template/blog/base.twig' %}
+{% block class %}page{% endblock %}
 {% block content %}
+
+	{% set is_blog = category_type == 'blog' %}
 
 	<div class="row">
 		<div class="col-sm-12">
-			<!--
-			{% if thumb or images %}
+			{% if (thumb or images) and is_blog %}
 				<ul class="thumbnails">
 					{% if thumb %}
-						<li><a class="thumbnail" href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a></li>
+						<li><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></li>
 					{% endif %}
 					{% if images %}
 						{% for image in images %}
@@ -17,7 +18,6 @@
 					{% endif %}
 				</ul>
 			{% endif %}
-			-->
 			<div class="content">
 				<div class="tab-pane active" id="tab-description">{{ description }}</div>
 				{% if review_status %}
@@ -198,83 +198,16 @@
 	</div>
 {% endblock %}
 
+{% block script %}
 
-{#}
+{# Универсальный блок консультации #}
 <script>
-$('#review').delegate('.pagination a', 'click', function(e) {
-    e.preventDefault();
-
-    $('#review').fadeOut('slow');
-
-    $('#review').load(this.href);
-
-    $('#review').fadeIn('slow');
-});
-
-$('#review').load('index.php?route=blog/article/review&article_id={{ article_id }}');
-
-$('#button-review').on('click', function() {
-	$.ajax({
-		url: 'index.php?route=blog/article/write&article_id={{ article_id }}',
-		type: 'post',
-		dataType: 'json',
-		data: $("#form-review").serialize(),
-		beforeSend: function() {
-			$('#button-review').button('loading');
-		},
-		complete: function() {
-			$('#button-review').button('reset');
-		},
-		success: function(json) {
-			$('.alert-dismissible').remove();
-
-			if (json['error']) {
-				$('#review').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
-			}
-
-			if (json['success']) {
-				$('#review').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
-
-				$('input[name=\'name\']').val('');
-				$('textarea[name=\'text\']').val('');
-				$('input[name=\'rating\']:checked').prop('checked', false);
-			}
-		}
-	});
-});
-
-$(document).ready(function() {
-	$('.thumbnails').magnificPopup({
-		type:'image',
-		delegate: 'a',
-		gallery: {
-			enabled: true
-		}
-	});
-});
-</script> 
-<script>
-$(document).ready(function() {
-  $('#description').find('a>img').each(function(){
-    $(this).parent().addClass('gallery');
+const cons = document.querySelector('.consultation-section');
+if (cons) {
+	document.querySelectorAll('.insert-consultation-block').forEach(e => {
+    e.replaceWith(cons.cloneNode(true));
   });
-  $('#description').magnificPopup({
-    delegate: 'a.gallery',
-    type: 'image',
-    gallery: {
-        enabled: true
-    }
-  });
+}
 
-  gotoReview = function() {
-    offset = $('#form-review').offset();
-    $('html, body').animate({ scrollTop: offset.top-20 }, 'slow');
-  }
-  gotoReviewWrite = function() {
-    offset = $('#form-review h2').offset();
-    $('html, body').animate({ scrollTop: offset.top-20 }, 'slow');
-  }
-  
-});
 </script>
-{#}
+{% endblock %}

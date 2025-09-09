@@ -2,17 +2,17 @@
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
+require_once('catalog/controller/trait/cache.php');
+
 class ModelBlogArticle extends Model {
+	use \CacheTrait;
+
 	public function updateViewed($article_id) {
 		$this->db->query("UPDATE " . DB_PREFIX . "article SET viewed = (viewed + 1) WHERE article_id = '" . (int)$article_id . "'");
 	}
 	
 	public function getArticle($article_id) {
-		if ($this->customer->isLogged()) {
-			$customer_group_id = $this->customer->getGroupId();
-		} else {
-			$customer_group_id = $this->config->get('config_customer_group_id');
-		}	
+		$customer_group_id = $this->config->get('config_customer_group_id');
 				
 		$query = $this->db->query("SELECT DISTINCT *, pd.name AS name, p.image, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review_article r1 WHERE r1.article_id = p.article_id AND r1.status = '1' GROUP BY r1.article_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review_article r2 WHERE r2.article_id = p.article_id AND r2.status = '1' GROUP BY r2.article_id) AS reviews, p.sort_order FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id)  WHERE p.article_id = '" . (int)$article_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 		
@@ -43,164 +43,162 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function getArticles($data = array()) {
+
+		$cache_key = 'article.' . md5(http_build_query($data));
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) {
+      return $cache;
+    }
+
 		$customer_group_id = $this->config->get('config_customer_group_id');
 		
-		$cache = 'article.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$customer_group_id . '.' . md5(http_build_query($data));
-		
-		$article_data = $this->cache->get($cache);
-		
-		if (!$article_data) {
-			$sql = "SELECT p.article_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review_article r1 WHERE r1.article_id = p.article_id AND r1.status = '1' GROUP BY r1.article_id) AS rating FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id)"; 
-						
-			if (!empty($data['filter_blog_category_id'])) {
-				$sql .= " LEFT JOIN " . DB_PREFIX . "article_to_blog_category a2c ON (p.article_id = a2c.article_id)";			
-			}
-			
-			$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'"; 
-			
-			if (!empty($data['filter_name']) || !empty($data['filter_tag'])) {
-				$sql .= " AND (";
-				
-				if (!empty($data['filter_name'])) {					
-					if (!empty($data['filter_description'])) {
-						$sql .= "LCASE(pd.name) LIKE '%" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "%' OR MATCH(pd.description) AGAINST('" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "')";
-					} else {
-						$sql .= "LCASE(pd.name) LIKE '%" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "%'";
-					}
-				}
-				
-				if (!empty($data['filter_name']) && !empty($data['filter_tag'])) {
-					$sql .= " OR ";
-				}
-				
-				if (!empty($data['filter_tag'])) {
-					$sql .= "MATCH(pd.tag) AGAINST('" . $this->db->escape(utf8_strtolower($data['filter_tag'])) . "')";
-				}
-			
-				$sql .= ")";
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.model) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.sku) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}	
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.upc) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}		
-
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.ean) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.jan) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.isbn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}		
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.mpn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}					
-			}
-			
-			if (!empty($data['filter_blog_category_id'])) {
-				if (!empty($data['filter_sub_category'])) {
-					$implode_data = array();
+		$sql = "SELECT p.article_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review_article r1 WHERE r1.article_id = p.article_id AND r1.status = '1' GROUP BY r1.article_id) AS rating FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id)"; 
 					
-					$implode_data[] = (int)$data['filter_blog_category_id'];
-					
-					$this->load->model('blog/category');
-					
-					$categories = $this->model_blog_category->getCategoriesByParentId($data['filter_blog_category_id']);
-										
-					foreach ($categories as $blog_category_id) {
-						$implode_data[] = (int)$blog_category_id;
-					}
-								
-					$sql .= " AND a2c.blog_category_id IN (" . implode(', ', $implode_data) . ")";	
-				} else {
-					$sql .= " AND a2c.blog_category_id = '" . (int)$data['filter_blog_category_id'] . "'";
-				}
-			}		
-					
-			$sql .= " GROUP BY p.article_id";
-			
-			$sort_data = array(
-				'pd.name',
-				//OCSTORE.COM
-				'p.viewed',
-				//OCSTORE.COM
-				'rating',
-				'p.sort_order',
-				'p.date_added'
-			);	
-			
-			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-				if ($data['sort'] == 'pd.name' || $data['sort'] == 'p.model' || $data['sort'] == 'p.date_added') {
-					$sql .= " ORDER BY LCASE(" . $data['sort'] . ")";
-				} else {
-					$sql .= " ORDER BY " . $data['sort'];
-				}
-			} else {
-				$sql .= " ORDER BY p.sort_order";	
-			}
-			
-			if (isset($data['order']) && ($data['order'] == 'DESC')) {
-				$sql .= " DESC, LCASE(pd.name) DESC";
-			} else {
-				$sql .= " ASC, LCASE(pd.name) ASC";
-			}
-		
-			if (isset($data['start']) || isset($data['limit'])) {
-				if ($data['start'] < 0) {
-					$data['start'] = 0;
-				}				
-	
-				if ($data['limit'] < 1) {
-					$data['limit'] = 20;
-				}	
-			
-				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-			}
-			
-			$article_data = array();
-					
-			$query = $this->db->query($sql);
-		
-			foreach ($query->rows as $result) {
-				$article_data[$result['article_id']] = $this->getArticle($result['article_id']);
-			}
-			
-			$this->cache->set($cache, $article_data);
+		if (!empty($data['filter_blog_category_id'])) {
+			$sql .= " LEFT JOIN " . DB_PREFIX . "article_to_blog_category a2c ON (p.article_id = a2c.article_id)";			
 		}
 		
+		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'"; 
+		
+		if (!empty($data['filter_name']) || !empty($data['filter_tag'])) {
+			$sql .= " AND (";
+			
+			if (!empty($data['filter_name'])) {					
+				if (!empty($data['filter_description'])) {
+					$sql .= "LCASE(pd.name) LIKE '%" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "%' OR MATCH(pd.description) AGAINST('" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "')";
+				} else {
+					$sql .= "LCASE(pd.name) LIKE '%" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "%'";
+				}
+			}
+			
+			if (!empty($data['filter_name']) && !empty($data['filter_tag'])) {
+				$sql .= " OR ";
+			}
+			
+			if (!empty($data['filter_tag'])) {
+				$sql .= "MATCH(pd.tag) AGAINST('" . $this->db->escape(utf8_strtolower($data['filter_tag'])) . "')";
+			}
+		
+			$sql .= ")";
+			
+			if (!empty($data['filter_name'])) {
+				$sql .= " OR LCASE(p.model) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+			}
+			
+			if (!empty($data['filter_name'])) {
+				$sql .= " OR LCASE(p.sku) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+			}	
+			
+			if (!empty($data['filter_name'])) {
+				$sql .= " OR LCASE(p.upc) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+			}		
+
+			if (!empty($data['filter_name'])) {
+				$sql .= " OR LCASE(p.ean) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+			}
+
+			if (!empty($data['filter_name'])) {
+				$sql .= " OR LCASE(p.jan) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+			}
+			
+			if (!empty($data['filter_name'])) {
+				$sql .= " OR LCASE(p.isbn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+			}		
+			
+			if (!empty($data['filter_name'])) {
+				$sql .= " OR LCASE(p.mpn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+			}					
+		}
+		
+		if (!empty($data['filter_blog_category_id'])) {
+			if (!empty($data['filter_sub_category'])) {
+				$implode_data = array();
+				
+				$implode_data[] = (int)$data['filter_blog_category_id'];
+				
+				$this->load->model('blog/category');
+				
+				$categories = $this->model_blog_category->getCategoriesByParentId($data['filter_blog_category_id']);
+									
+				foreach ($categories as $blog_category_id) {
+					$implode_data[] = (int)$blog_category_id;
+				}
+							
+				$sql .= " AND a2c.blog_category_id IN (" . implode(', ', $implode_data) . ")";	
+			} else {
+				$sql .= " AND a2c.blog_category_id = '" . (int)$data['filter_blog_category_id'] . "'";
+			}
+		}		
+				
+		$sql .= " GROUP BY p.article_id";
+		
+		$sort_data = array(
+			'pd.name',
+			//OCSTORE.COM
+			'p.viewed',
+			//OCSTORE.COM
+			'rating',
+			'p.sort_order',
+			'p.date_added'
+		);	
+		
+		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+			if ($data['sort'] == 'pd.name' || $data['sort'] == 'p.model' || $data['sort'] == 'p.date_added') {
+				$sql .= " ORDER BY LCASE(" . $data['sort'] . ")";
+			} else {
+				$sql .= " ORDER BY " . $data['sort'];
+			}
+		} else {
+			$sql .= " ORDER BY p.sort_order";	
+		}
+		
+		if (isset($data['order']) && ($data['order'] == 'DESC')) {
+			$sql .= " DESC, LCASE(pd.name) DESC";
+		} else {
+			$sql .= " ASC, LCASE(pd.name) ASC";
+		}
+	
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}				
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}	
+		
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+		
+		$article_data = array();
+				
+		$query = $this->db->query($sql);
+	
+		foreach ($query->rows as $result) {
+			$article_data[$result['article_id']] = $this->getArticle($result['article_id']);
+		}
+		
+    $this->setCache($cache_key, $article_data);
 		return $article_data;
 	}
 		
 	public function getLatestArticles($limit) {
-		if ($this->customer->isLogged()) {
-			$customer_group_id = $this->customer->getGroupId();
-		} else {
-			$customer_group_id = $this->config->get('config_customer_group_id');
-		}	
-				
-		$cache = 'article.latest.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $customer_group_id . '.' . (int)$limit;
-		$article_data = $this->cache->get($cache);
 
-		if (!$article_data) { 
-			$query = $this->db->query("SELECT p.article_id FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.date_added DESC LIMIT " . (int)$limit);
-		 	 
-			foreach ($query->rows as $result) {
-				$article_data[$result['article_id']] = $this->getArticle($result['article_id']);
-			}
-			
-			$this->cache->set($cache, $article_data);
+		$cache_key = 'article.latest.' . (int)$limit;
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) {
+      return $cache;
+    }
+
+		$customer_group_id = $this->config->get('config_customer_group_id');
+				
+		$query = $this->db->query("SELECT p.article_id FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.date_added DESC LIMIT " . (int)$limit);
+		 	
+		foreach ($query->rows as $result) {
+			$article_data[$result['article_id']] = $this->getArticle($result['article_id']);
 		}
+
+    $this->setCache($cache_key, $article_data);
 		
 		return $article_data;
 	}

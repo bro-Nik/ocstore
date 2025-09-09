@@ -1,0 +1,27 @@
+<aside class="blog-sidebar col-sm-3">
+  <div class="sidebar-header">
+    <h3>{{ heading_title }}</h3>
+  </div>
+  <nav class="blog-categories">
+    <ul class="categories-list">
+    {#}
+      <li class="category-item">
+        <a href="{{ all_articles_link }}" class="category-link {{ not blog_category_id ? 'active' }}">
+          <span class="category-name">{{ text_all_articles }}</span>
+          <span class="category-count">{{ total_articles }}</span>
+        </a>
+      </li>
+    {#}
+      {% for category in categories %}
+      <li class="category-item">
+        <a href="{{ category.href }}" class="category-link {{ blog_category_id == category.category_id ? 'active' }}">
+          <span class="category-name">{{ category.name }}</span>
+          <span class="category-count">{{ category.count }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+	{% include 'default/template/blog/consultation.twig' %}
+</aside>

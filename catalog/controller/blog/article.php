@@ -2,7 +2,11 @@
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
+require_once('catalog/controller/trait/blog.php');
+
 class ControllerBlogArticle extends Controller {
+	use \BlogTrait;
+
 	private $error = array(); 
 	
 	public function index() { 
@@ -30,6 +34,7 @@ class ControllerBlogArticle extends Controller {
 				$category_info = $this->model_blog_category->getCategory($path_id);
 				
 				if ($category_info) {
+					$data['category_type'] = $category_info['type'];
 					$data['breadcrumbs'][] = array(
 						'text'      => $category_info['name'],
 						'href'      => $this->url->link('blog/category', 'blog_category_id=' . $blog_category_id)
@@ -169,6 +174,11 @@ class ControllerBlogArticle extends Controller {
 			$data['rating'] = (int)$article_info['rating'];
 			$data['gstatus'] = (int)$article_info['gstatus'];
 			$data['description'] = html_entity_decode($article_info['description'], ENT_QUOTES, 'UTF-8');
+			if ($article_info['image']) {
+				$data['thumb'] = $this->model_tool_image->resize($article_info['image'], 800, 400);
+			} else {
+				$data['thumb'] = false;
+			}
 			
 			$data['articles'] = array();
 			
@@ -217,19 +227,19 @@ class ControllerBlogArticle extends Controller {
 					$image = false;
 				}
 				if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+					$price = $this->currency->format($result['price']);
 				} else {
 					$price = false;
 				}
 
 				if ((float)$result['special']) {
-					$special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+					$special = $this->currency->format($result['special']);
 				} else {
 					$special = false;
 				}
 
 				if ($this->config->get('config_tax')) {
-					$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price'], $this->session->data['currency']);
+					$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price']);
 				} else {
 					$tax = false;
 				}
@@ -297,7 +307,8 @@ class ControllerBlogArticle extends Controller {
 			
 			$this->model_blog_article->updateViewed($this->request->get['article_id']);
 
-			$data['column_left'] = $this->load->controller('common/column_left');
+			// $data['column_left'] = $this->load->controller('common/column_left');
+			$data['column_left'] = $this->columnLeft($blog_category_id);
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
@@ -488,5 +499,6 @@ class ControllerBlogArticle extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
 }
 ?>

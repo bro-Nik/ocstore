@@ -1,0 +1,36 @@
+{{ header }}
+
+<div class="container-fluid" {% block container_schema %} {% endblock %}>
+  {% block microdata %}{% endblock %}
+
+
+  
+  <div class="row blog blog-{% block class %}{% endblock %}">{{ column_left }}
+  {#}
+    {% if (column_left and column_right) %}
+      {% set class = 'col-sm-6' %}
+      {% set columns_dd = constant('true') %}
+    {% elseif (column_left or column_right or (products and recpr_rightc)) %}
+      {% set class = 'col-xl-9' %}
+      {% set columns_dd = constant('true') %}
+    {% else %}
+      {% set class = 'col-sm-12' %}
+      {% set columns_dd = constant('false') %}
+    {% endif %}
+  {#}
+
+    <div id="content" class="">{{ content_top }}
+      {% include 'revolution/template/product/partials/breadcrumb.twig' %}
+      <h1>{{ heading_title }}</h1>
+      {% block content %}{% endblock %}
+      {{ content_bottom }}
+    </div>
+
+    {{ column_right }}
+
+  </div>
+    {% block after_content %}{% endblock %}
+</div>
+
+{% block script %}{% endblock %}
+{{ footer }}

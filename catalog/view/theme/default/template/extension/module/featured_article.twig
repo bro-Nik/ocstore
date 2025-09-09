@@ -3,6 +3,20 @@
   	<h3>{{ heading_title }}</h3>
   	<div class="row article-grid">
     	{% for article in articles %}
+    		<!-- <div class="article-cart" style="background: rgb(158, 141, 125);"> -->
+    		<div class="article-cart">
+    			<a href="{{ article.href }}">
+    				<div class="article-cart-top">
+    					<div class="article-cart-image">
+    						<img src="{{ article.thumb }}" alt="story-image">
+    					</div>
+    				</div>
+    				<div class="article-cart-text">
+    					{{ article.name }}
+    				</div>
+    			</a>
+    		</div>
+    	{#}
       	<div class="col-xl-4 col-md-4 col-sm-6 col-xs-12 post" style="background-image: url({{ article.thumb }}); background-size: cover; box-shadow: #efebea 0 220px 170px -60px inset; color: #000;">
         	<div class="article-card">
           	<h4><a href="{{ article.href }}">{{ article.name }}</a></h4>
@@ -20,11 +34,12 @@
           	{% endif %}
           	
           	<div class="article-meta">
-          		{#}<span class="article-date"><i class="fa fa-clock-o"></i> {{ article.date_added }}</span>{#}
+          		<span class="article-date"><i class="fa fa-clock-o"></i> {{ article.date_added }}</span>
             	<span class="article-views"><i class="fa fa-eye"></i> {{ article.viewed }}</span>
           	</div>
         	</div>
       	</div>
+    	{#}
     	{% endfor %}
   	</div>
   </div>

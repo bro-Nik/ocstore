@@ -38,7 +38,6 @@ class ControllerExtensionModuleFeaturedArticle extends Controller {
 						'category_id'  => array_pop($parts),
 						'limit' => $setting['limit']
 					);
-						
 					$results = $this->model_blog_article->getArticleRelatedByCategory($filter_data);			
 				}
 			}
@@ -59,6 +58,15 @@ class ControllerExtensionModuleFeaturedArticle extends Controller {
 						$rating = false;
 					}
 
+					// Получаем категорию статьи для хлебных крошек
+					$article_categories = $this->model_blog_article->getCategories($result['article_id']);
+					$blog_category_id = 0;
+					
+					if ($article_categories) {
+						// Берем первую категорию
+						$blog_category_id = $article_categories[0]['blog_category_id'];
+					}
+
 					$data['articles'][] = array(
 						'article_id'  => $result['article_id'],
 						'thumb'       => $image,
@@ -68,7 +76,8 @@ class ControllerExtensionModuleFeaturedArticle extends Controller {
 						'viewed'      => $result['viewed'],
 						'reviews'    => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
 						'rating'      => $rating,
-						'href'        => $this->url->link('blog/article', 'article_id=' . $result['article_id']),
+						// 'href'        => $this->url->link('blog/article', 'article_id=' . $result['article_id']),
+						'href'        => $this->url->link('blog/article', 'blog_category_id=' . $blog_category_id . '&article_id=' . $result['article_id'])
 					);
 				}
 				

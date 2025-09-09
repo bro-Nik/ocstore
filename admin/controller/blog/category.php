@@ -412,6 +412,14 @@ class ControllerBlogCategory extends Controller {
 			$data['category_layout'] = array();
 		}
 
+		if (isset($this->request->post['type'])) {
+    		$data['type'] = $this->request->post['type'];
+		} elseif (!empty($category_info)) {
+    		$data['type'] = $category_info['type'];
+		} else {
+    		$data['type'] = '';
+		}
+
 		$this->load->model('design/layout');
 
 		$data['layouts'] = $this->model_design_layout->getLayouts();
