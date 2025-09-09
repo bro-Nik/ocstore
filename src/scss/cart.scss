@@ -6,6 +6,12 @@
   display: flex;
   gap: 2rem;
   padding: 1rem;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    position: relative;
+  }
+
   & .name {
     @media (max-width: $desktop - 1) {
       font-size: 1.4rem;
@@ -15,6 +21,9 @@
   & .price {
     font-weight: bold;
     width: max-content;
+    @media (max-width: 767px) {
+      margin-left: auto;
+    }
   }
 
   & .info {
@@ -29,6 +38,11 @@
     flex-direction: column;
     justify-content: space-around;
     flex-wrap: nowrap;
+    @media (max-width: 767px) {
+      position: absolute;
+      right: 15px;
+      top: 10%;
+    }
   }
   & img {
     padding: 0.25rem;

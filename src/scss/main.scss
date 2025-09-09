@@ -203,6 +203,7 @@ a:hover sup {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 .product-info label:has(input[type='radio'])  .fa::before,
 .product-info label:has(input[type='checkbox'])  .fa::before {
