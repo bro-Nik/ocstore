@@ -32,6 +32,7 @@ class PredzakazPopup extends BasePopup {
 
   afterShow() {
     this.dialog.querySelector(this.selectors.popupHeader).innerHTML = this.zakazType;
+    this.dialog.querySelector(this.selectors.submitBtn).innerHTML = this.zakazType;
     super.afterShow();
   }
 }

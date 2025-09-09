@@ -42,9 +42,8 @@ trait FormHandlerTrait {
 
 		$data = array();
 		$data['fields'] = self::FIELDS;
-        $data['required_fields'] = self::REQUIRED_FIELDS;
+    $data['required_fields'] = self::REQUIRED_FIELDS;
 		$data['button_shopping'] = $this->language->get('button_shopping');
-		// $data['button_checkout'] = $this->language->get('button_checkout_popupphone');
 		$data['button_checkout'] = $this->language->get('button_checkout');
 		$data['privacy_policy_confirmation'] = $this->getPrivacyPolicyConfirmation();
       //   if ($captchaType) {

@@ -1,48 +1,48 @@
 {% from 'macro/format.twig' import price_format %}
 
 <div class="form-group pokupka">
+  {% if (share_status) %}
+    {{ share_status_code }}
+  {% endif %}
+
   {% if (price > 0) %}
-    {% if (share_status) %}
-      {{ share_status_code }}
-    {% endif %}
-
-    {% if (price) %}
-      {% if (price > 0) %}
-        <div class="list-unstyled" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-          <meta itemprop="url" content="{{ breadcrumbs|last['href'] }}">
-          {% if (special_end) %}
-            <meta itemprop="priceValidUntil" content="{{ special_end }}">
-          {% else %}
-            <meta itemprop="priceValidUntil" content="{{ now|date_modify('+1 month')|date('Y-m-d') }}">
-          {% endif %}
-          {% if (not special_price) %}
-            <span class="update_price price">{{ price_format(price) }}</span>
-            <meta itemprop="price" content="{{ price }}">
-          {% else %}
-            <span class="update_special price-new">{{ price_format(special_price) }}</span>
-            <meta itemprop="price" content="{{ special_price }}">
-            <span class="update_price price-old">{{ price_format(price) }}</span>
-          {% endif %}
-          <link itemprop="availability" href="http://schema.org/{{ quantity > 0?"InStock":"OutOfStock" }}" />
-          <meta itemprop="priceCurrency" content="RUB">
-        </div>
+    <div class="list-unstyled" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+      <meta itemprop="url" content="{{ breadcrumbs|last['href'] }}">
+      {% if (special_end) %}
+        <meta itemprop="priceValidUntil" content="{{ special_end }}">
       {% else %}
-        <div class="list-unstyled">{{ text_catalog_price_na_zakaz }}</div>
+        <meta itemprop="priceValidUntil" content="{{ now|date_modify('+1 month')|date('Y-m-d') }}">
       {% endif %}
-    {% endif %}
-
-    <div class="pop_left">
-      {% if (price > 0 and quantity > 0) %}
-        <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="cart-toggle" class="btn-cart product_{{ product_id }}" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+      {% if (not special_price) %}
+        <span class="update_price price">{{ price_format(price) }}</span>
+        <meta itemprop="price" content="{{ price }}">
       {% else %}
-        <button type="button" id="button-cart" onclick="get_revpopup_predzakaz({{ product_id }});"><i class="fa fa-shopping-basket predzakaz"></i>{{ text_predzakaz }}</button>
+        <span class="update_special price-new">{{ price_format(special_price) }}</span>
+        <meta itemprop="price" content="{{ special_price }}">
+        <span class="update_price price-old">{{ price_format(price) }}</span>
       {% endif %}
-    </div>
-
-    <div class="pop_right">
-      {% include 'product/btns/wishlist.twig' %}
+      <link itemprop="availability" href="http://schema.org/{{ quantity > 0?"InStock":"OutOfStock" }}" />
+      <meta itemprop="priceCurrency" content="RUB">
     </div>
   {% endif %}
+
+  <div class="pop_left">
+    {% if (price > 0 and quantity > 0) %}
+      <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="cart-toggle" class="btn-cart product_{{ product_id }}" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
+    {% elseif (quantity < 1) %}
+      <a class="btn-ask" data-product-id="{{ product_id }}" data-action="predzakaz" data-toggle="tooltip" title="Уведомить о наличии">
+        Уведомить
+      </a>
+    {% elseif (price == 0) %}
+      <a class="btn-ask" data-product-id="{{ product_id }}" data-action="predzakaz" data-toggle="tooltip" title="Запросить цену">
+        Запросить цену
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="pop_right">
+    {% include 'product/btns/wishlist.twig' %}
+  </div>
 </div>
 
 {% if (special_end) %}

@@ -34,11 +34,8 @@ class ControllerModalPredzakaz extends Controller {
 
 			$this->load->model('tool/image');
 
-			if ($product_info['image']) {
-				$data['thumb'] = $this->model_tool_image->resize($product_info['image'], 80, 80);
-			} else {
-				$data['thumb'] = $this->model_tool_image->resize("placeholder.png", 80, 80);
-			}
+			$image = $product_info['image'] ?? 'placeholder.png';
+			$data['thumb'] = $this->model_tool_image->resize($image, 100, 100);
 				
 			$this->response->setOutput($this->load->view('modals/predzakaz', $data));
 		} else {

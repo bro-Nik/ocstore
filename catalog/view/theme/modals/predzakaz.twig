@@ -4,22 +4,8 @@
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
 	<input name="product_id" value="{{ product_id }}" style="display: none;" type="hidden" />
 	<input class="product_max" value="{{ quantity }}" style="display: none;" type="hidden" />
-	<table class="display-products-cart porder">
-		<tbody>
-			<tr>
-				<td class="image">
-					{% if (thumb) %} 
-						<img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
-					{% endif %} 
-				</td>
-				<td class="name">
-					{{ product_name }} 
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<div class="mobile-products-cart">
-		<div>
+
+	<div class="predzakaz-product">
 		<div class="image">
 			{% if (thumb) %} 
 				<img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
@@ -27,7 +13,6 @@
 		</div>
 		<div class="name">
 			{{ product_name }} 
-		</div>
 		</div>
 	</div>
 
