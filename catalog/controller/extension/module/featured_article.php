@@ -81,7 +81,8 @@ class ControllerExtensionModuleFeaturedArticle extends Controller {
 					);
 				}
 				
-				return $this->load->view('extension/module/featured_article', $data);
+				return $this->load->view('/module/article_slider', $data);
+				// return $this->load->view('extension/module/featured_article', $data);
 			}
 		}
 	}

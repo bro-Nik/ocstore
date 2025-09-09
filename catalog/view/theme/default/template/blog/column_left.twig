@@ -4,14 +4,6 @@
   </div>
   <nav class="blog-categories">
     <ul class="categories-list">
-    {#}
-      <li class="category-item">
-        <a href="{{ all_articles_link }}" class="category-link {{ not blog_category_id ? 'active' }}">
-          <span class="category-name">{{ text_all_articles }}</span>
-          <span class="category-count">{{ total_articles }}</span>
-        </a>
-      </li>
-    {#}
       {% for category in categories %}
       <li class="category-item">
         <a href="{{ category.href }}" class="category-link {{ blog_category_id == category.category_id ? 'active' }}">
