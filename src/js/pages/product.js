@@ -38,7 +38,7 @@ export class Product extends BaseModule {
 
   checkOptions() {
     const cartProducts = getCookie('cart') || {};
-    const product = cartProducts[this.productId] || {};
+    const product = cartProducts[this.productId];
     if (!product) return;
 
     const options = product.options || [];
@@ -49,6 +49,9 @@ export class Product extends BaseModule {
 
   priceChange(e, btn) {
     this.calculatePrice();
+
+    const cartProducts = getCookie('cart') || {};
+    if (!cartProducts[this.productId]) return;
 
     const selectedOptions = this.infoBox.querySelectorAll('input[type="checkbox"]:checked');
     const options = Array.from(selectedOptions).map(option => option.dataset.optionId);
