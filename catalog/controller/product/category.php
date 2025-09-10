@@ -64,6 +64,7 @@ class ControllerProductCategory extends ControllerBaseProductsList {
 
         // Рекомендуемые товары
         $data['recommended_products'] = $this->load->controller('extension/module/featured_product');
+        $data['featured_articles'] = $this->load->controller('extension/module/featured_article');
 				$data['popular_products'] = $this->getPopularProducts(['filter_category_id' => $category_id]);
 				$data['new_products'] = $this->getNewProducts(['filter_category_id' => $category_id]);
 			}

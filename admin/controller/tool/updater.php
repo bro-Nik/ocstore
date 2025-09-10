@@ -32,10 +32,17 @@ class ControllerToolUpdater extends Controller {
     }
 
     private function updateDbTabs() {
-        $sql = "ALTER TABLE `oc_blog_category` ADD `type` VARCHAR(255) NOT NULL AFTER `status`";
+        $sql = "CREATE TABLE IF NOT EXISTS `oc_module_settings` (
+            `code` varchar(32) NOT NULL,
+            `setting` text NOT NULL,
+            PRIMARY KEY (`code`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+        
         $this->db->query($sql);
+        
+        return 'Таблица oc_module_settings успешно создана.';
 
-      return 'Внесение изменения структуру базы данных выполнено.';
+      // return 'Внесение изменения структуру базы данных выполнено.';
     }
 
 }

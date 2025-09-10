@@ -1,18 +1,20 @@
 <?php
-// *	@source		See SOURCE.txt for source and other copyright.
-// *	@license	GNU General Public License version 3; see LICENSE.txt
+
+require_once(DIR_SYSTEM . 'library/trait/module_settings.php');
 
 class ControllerExtensionModuleFeaturedArticle extends Controller {
-	public function index($setting) {
+  use TraitModuleSettings;
+
+	public function index() {
 		if (isset($this->request->get['product_id']) || isset($this->request->get['manufacturer_id']) || isset($this->request->get['path'])) {
 			$this->load->language('extension/module/featured_article');
-
 			$this->load->model('blog/article');
-
 			$this->load->model('tool/image');
 
+			$setting = $this->getSettings('featured_articles');
+
+			$data['title'] = $setting['title'];
 			$data['articles'] = array();
-			
 			$results = array();
 			
 			if (isset($this->request->get['product_id'])) {
@@ -44,20 +46,6 @@ class ControllerExtensionModuleFeaturedArticle extends Controller {
 	
 			if ($results) {
 				foreach ($results as $result) {
-					if ($result['image']) {
-						$image = $this->model_tool_image->resize($result['image'], $setting['width'], $setting['height']);
-					} else {
-						$image = $this->model_tool_image->resize('placeholder.png', $setting['width'], $setting['height']);
-					}
-					
-					$data['configblog_review_status'] = $this->config->get('configblog_review_status');
-
-					if ($this->config->get('configblog_review_status')) {
-						$rating = $result['rating'];
-					} else {
-						$rating = false;
-					}
-
 					// Получаем категорию статьи для хлебных крошек
 					$article_categories = $this->model_blog_article->getCategories($result['article_id']);
 					$blog_category_id = 0;
@@ -69,20 +57,19 @@ class ControllerExtensionModuleFeaturedArticle extends Controller {
 
 					$data['articles'][] = array(
 						'article_id'  => $result['article_id'],
-						'thumb'       => $image,
+						'thumb'       => $this->model_tool_image->resize($result['image'] ?? 'placeholder.png', $setting['width'], $setting['height']),
 						'name'        => $result['name'],
 						'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('configblog_article_description_length')) . '..',
 						'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 						'viewed'      => $result['viewed'],
 						'reviews'    => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
-						'rating'      => $rating,
+						'rating'      => $this->config->get('configblog_review_status') ? $result['rating'] : false,
 						// 'href'        => $this->url->link('blog/article', 'article_id=' . $result['article_id']),
 						'href'        => $this->url->link('blog/article', 'blog_category_id=' . $blog_category_id . '&article_id=' . $result['article_id'])
 					);
 				}
 				
 				return $this->load->view('/module/article_slider', $data);
-				// return $this->load->view('extension/module/featured_article', $data);
 			}
 		}
 	}

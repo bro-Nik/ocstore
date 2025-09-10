@@ -1,5 +1,9 @@
 <?php
+require_once(DIR_SYSTEM . 'library/trait/module_settings.php');
+
 class ControllerCatalogSettings extends Controller {
+    use TraitModuleSettings;
+
     private $error = array();
     private $key = 'catalog';
 
@@ -14,19 +18,14 @@ class ControllerCatalogSettings extends Controller {
     }
 
     protected function processForm() {
-        $this->load->model('setting/setting');
+        $this->processSimilarProducts();
+        $this->processFeaturedArticles();
 
-        $settings = [
-            'catalog_similar_products' => $this->processSimilarProducts(),
-        ];
-
-        $this->model_setting_setting->editSetting($this->key, $settings);
         $this->session->data['success'] = 'Готово!';
         $this->response->redirect($this->url->link('catalog/settings', 'user_token=' . $this->session->data['user_token'], true));
     }
 
     protected function processSimilarProducts() {
-      
         $fields = $this->request->post['similar_products'] ?? [];
         $data = [
             'title' => $fields['title'] ?? '',
@@ -39,8 +38,19 @@ class ControllerCatalogSettings extends Controller {
             'status' => $fields['status'] ?? '',
             'excluded_attributes' => $fields['excluded_attributes'] ?? [],
         ];
+        $this->saveSettings('similar_products', $data);
+    }
 
-        return $data;
+    protected function processFeaturedArticles() {
+        $fields = $this->request->post['featured_articles'] ?? [];
+        $data = [
+            'title' => $fields['title'] ?? '',
+            'limit' => $fields['limit'] ?? '',
+            'width' => $fields['width'] ?? '',
+            'height' => $fields['height'] ?? '',
+            'status' => $fields['status'] ?? '',
+        ];
+        $this->saveSettings('featured_articles', $data);
     }
 
     protected function setupTemplateData() {
@@ -65,7 +75,8 @@ class ControllerCatalogSettings extends Controller {
         $data['footer'] = $this->load->controller('common/footer');
         
         // Данные модулей
-        $data['similar_products'] = $settings['catalog_similar_products'] ?? [];
+        $data['similar_products'] = $this->getSettings('similar_products');
+        $data['featured_articles'] = $this->getSettings('featured_articles');
         
         // Списки категорий и производителей
         $this->load->model('catalog/manufacturer');

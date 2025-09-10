@@ -17,22 +17,19 @@
     <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-homepage" class="form-horizontal">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#tab-similar" data-toggle="tab">Похожие товары</a></li>
-    <!--     <li><a href="#tab-slideshow" data-toggle="tab">Слайдшоу</a></li> -->
-    <!--     <li><a href="#tab-recommendations" data-toggle="tab">Рекомендуемые</a></li> -->
-    <!--     <li><a href="#tab-related-categories" data-toggle="tab">Рекомендуемые категории</a></li> -->
-    <!--     <li><a href="#tab-slider1" data-toggle="tab">Слайдер товаров 1</a></li> -->
-    <!--     <li><a href="#tab-slider2" data-toggle="tab">Слайдер товаров 2</a></li> -->
-    <!--     <li><a href="#tab-blog" data-toggle="tab">Виджет новостей</a></li> -->
-    <!--     <li><a href="#tab-aboutstore" data-toggle="tab">О магазине</a></li> -->
-    <!--     <li><a href="#tab-storereview" data-toggle="tab">Отзывы о магазине</a></li> -->
-				<!-- <li><a href="#tab-viewed-products" data-toggle="tab">Просмотренные товары</a></li> -->
+        <li><a href="#tab-featured-article" data-toggle="tab">Рекомендуемые статьи</a></li>
       </ul>
 
       <div class="tab-content">
 
-				{# Общие #}
+				{# Похожие товары #}
         <div class="tab-pane active" id="tab-similar">
           {% include 'catalog/settings/similar_products.twig' %}
+        </div>
+
+				{# Рекомендуемые статьи #}
+        <div class="tab-pane" id="tab-featured-article">
+          {% include 'catalog/settings/featured_article.twig' %}
         </div>
 
       </div>
