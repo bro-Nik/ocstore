@@ -1,5 +1,5 @@
 <?php
-require_once(DIR_SYSTEM . 'library/trait/module_settings.php');
+require_once(DIR_SYSTEM . 'library/trait/cache.php');
 
 trait TraitModuleSettings {
   use CacheTrait;
@@ -13,6 +13,12 @@ trait TraitModuleSettings {
                           `setting` = '" . $this->db->escape($settings_json) . "'
                       ON DUPLICATE KEY UPDATE 
                           `setting` = '" . $this->db->escape($settings_json) . "'");
+
+    $this->delCache('module_settings.' . $code);
+		$prefixes = explode('_', $code);
+    if ($prefixes) {
+      $this->delCache('module_settings.by_prefix.' . $prefixes[0]);
+    }
   }
     
   // Получить настройки по коду

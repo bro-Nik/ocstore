@@ -17,4 +17,8 @@ trait CacheTrait {
       $this->cache->set($key, $output);
 		}
   }
+
+  public function delCache($key) {
+    $this->cache->delete($key);
+  }
 }
