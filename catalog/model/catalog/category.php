@@ -1,5 +1,5 @@
 <?php
-require_once('catalog/controller/trait/cache.php');
+require_once(DIR_SYSTEM . 'library/trait/cache.php');
 
 class ModelCatalogCategory extends Model {
 	use \CacheTrait;

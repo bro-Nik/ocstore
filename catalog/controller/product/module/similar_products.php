@@ -1,6 +1,6 @@
 <?php
 require_once('catalog/controller/base/product_cart.php');
-require_once('catalog/controller/trait/cache.php');
+require_once(DIR_SYSTEM . 'library/trait/cache.php');
 
 class ControllerProductModuleSimilarProducts extends ControllerBaseProductCart {
 	use \CacheTrait;

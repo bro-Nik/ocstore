@@ -5,7 +5,7 @@
 // Author: Clear Thinking, LLC + Optimization
 //==============================================================================
 
-require_once('catalog/controller/trait/cache.php');
+require_once(DIR_SYSTEM . 'library/trait/cache.php');
 
 class ModelExtensionModuleRedirectManager extends Model {
 	use \CacheTrait;
