@@ -183,7 +183,7 @@ class ControllerCatalogHomepage extends Controller {
     protected function setupTemplateData() {
         $data = [];
 		$settings = $this->getSettingsByPrefix('home');
-        if ($settings) {
+        if (!$settings) {
             $this->migrateSettings();
         }
 
