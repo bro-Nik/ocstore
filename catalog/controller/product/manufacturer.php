@@ -63,10 +63,8 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
         // Добавляем заголовок для списка категорий
         $data['text_categories'] = $this->language->get('text_categories');
 
-        // Популярные товары
+        $data['featured_articles'] = $this->load->controller('extension/module/featured_article');
 				$data['popular_products'] = $this->getPopularProducts(['filter_manufacturer_id' => $manufacturer_id]);
-
-        // Популярные товары
 				$data['new_products'] = $this->getNewProducts(['filter_manufacturer_id' => $manufacturer_id]);
 
 				// Отзывы

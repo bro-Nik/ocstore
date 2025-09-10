@@ -1,14 +1,17 @@
 <?php
 
+require_once(DIR_SYSTEM . 'library/trait/module_settings.php');
 require_once('catalog/controller/base/product_cart.php');
 
 class ControllerExtensionModuleFeaturedProduct extends ControllerBaseProductCart {
-	public function index($setting=[]) {
-    $setting['name'] = $setting['name'] ?? 'Рекомендуемые товары';
-    $setting['limit'] = $setting['limit'] ?? 20;
-    $setting['status'] = $setting['status'] ?? 1;
+  use TraitModuleSettings;
 
-		$results = $this->getProducts($setting);
+	public function index() {
+		$setting = $this->getSettings('featured_products');
+    $setting['name'] = $setting['title'] ?? 'Рекомендуемые товары';
+    $setting['limit'] = $setting['limit'] ?? 20;
+
+		$results = $this->getProducts($setting['limit']);
 		
     $data = $this->prepareProductsData($results, $setting);
 		if ($data) {
@@ -19,14 +22,14 @@ class ControllerExtensionModuleFeaturedProduct extends ControllerBaseProductCart
 		}
 	}
 
-	public function getProducts($setting=[]) {
+	public function getProducts($limit = 8) {
 		$this->load->model('catalog/cms');
 		$results = array();
 		
 		if (isset($this->request->get['manufacturer_id'])) {
 			$filter_data = array(
 				'manufacturer_id'  => $this->request->get['manufacturer_id'],
-				'limit' => $setting['limit']
+				'limit' => $limit
 			);
 					
 			$results = $this->model_catalog_cms->getProductRelatedByManufacturer($filter_data);
@@ -38,7 +41,7 @@ class ControllerExtensionModuleFeaturedProduct extends ControllerBaseProductCart
 			if(!empty($parts) && is_array($parts)) {
 				$filter_data = array(
 					'category_id'  => array_pop($parts),
-					'limit' => $setting['limit']
+					'limit' => $limit
 				);
 						
 				$results = $this->model_catalog_cms->getProductRelatedByCategory($filter_data);			

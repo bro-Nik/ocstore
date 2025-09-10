@@ -1,17 +1,13 @@
 <?php
 class ControllerExtensionModuleSliderHomeRecommendations extends Controller {
 
-	public function index() {
-		$settings = $this->config->get('home_recommendations');
-
+	public function index($settings) {
 		if (!$settings['status']) {
 			return false;
 		}
 
 		$this->load->model('tool/image');
-
 		$data = $settings;
-
 		$slides = $settings['slides'];
 		$data['slides'] = array();
 		

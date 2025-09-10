@@ -20,6 +20,7 @@ class ControllerCatalogSettings extends Controller {
     protected function processForm() {
         $this->processSimilarProducts();
         $this->processFeaturedArticles();
+        $this->processFeaturedProducts();
 
         $this->session->data['success'] = 'Готово!';
         $this->response->redirect($this->url->link('catalog/settings', 'user_token=' . $this->session->data['user_token'], true));
@@ -53,6 +54,16 @@ class ControllerCatalogSettings extends Controller {
         $this->saveSettings('featured_articles', $data);
     }
 
+    protected function processFeaturedProducts() {
+        $fields = $this->request->post['featured_products'] ?? [];
+        $data = [
+            'title' => $fields['title'] ?? '',
+            'limit' => $fields['limit'] ?? '',
+            'status' => $fields['status'] ?? '',
+        ];
+        $this->saveSettings('featured_products', $data);
+    }
+
     protected function setupTemplateData() {
         $data = [];
         $settings = $this->model_setting_setting->getSetting($this->key);
@@ -77,6 +88,7 @@ class ControllerCatalogSettings extends Controller {
         // Данные модулей
         $data['similar_products'] = $this->getSettings('similar_products');
         $data['featured_articles'] = $this->getSettings('featured_articles');
+        $data['featured_products'] = $this->getSettings('featured_products');
         
         // Списки категорий и производителей
         $this->load->model('catalog/manufacturer');

@@ -1,6 +1,10 @@
 <?php
+require_once(DIR_SYSTEM . 'library/trait/module_settings.php');
+
 class ControllerCatalogHomepage extends Controller {
-    private $error = array();
+  use TraitModuleSettings;
+
+  private $error = array();
 
     public function index() {
         $this->load->language('catalog/homepage');
@@ -19,22 +23,19 @@ class ControllerCatalogHomepage extends Controller {
         $this->load->model('tool/image');
         $data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 
-        $settings = [
-            'home_main' => $this->processMainData(),
-            'home_slideshow' => $this->processSlideshowData(),
-            'home_recommendations' => $this->processRecommendationsData(),
-            'home_sliders1' => $this->processSlidersData('sliders_1'),
-            'home_sliders2' => $this->processSlidersData('sliders_2'),
-            'home_blog' => $this->processBlogData(),
-            'home_aboutstore' => $this->processAboutStoreData(),
-            'home_storereview' => $this->processStoreReviewData(),
-            'home_viewed_products' => $this->processViewedProductsData()
-        ];
+        $this->processMainData();
+        $this->processSlideshowData();
+        $this->processRecommendationsData();
+        $this->processSlidersData('sliders_1');
+        $this->processSlidersData('sliders_2');
+        $this->processBlogData();
+        $this->processAboutStoreData();
+        $this->processStoreReviewData();
+        $this->processViewedProductsData();
 
         $this->load->model('extension/module/related_categories');
         $this->model_extension_module_related_categories->saveRelatedCategories('homepage', $this->request->post);
 
-        $this->model_setting_setting->editSetting('home', $settings);
         $this->session->data['success'] = 'Готово!';
         $this->response->redirect($this->url->link('catalog/homepage', 'user_token=' . $this->session->data['user_token'], true));
     }
@@ -43,8 +44,7 @@ class ControllerCatalogHomepage extends Controller {
         $data = [
             'h1' => $this->request->post['main']['h1'] ?? '',
         ];
-
-        return $data;
+        $this->saveSettings('home_main', $data);
     }
 
     protected function processSlideshowData() {
@@ -69,8 +69,7 @@ class ControllerCatalogHomepage extends Controller {
                 ];
             }
         }
-
-        return $data;
+        $this->saveSettings('home_slideshow', $data);
     }
 
     protected function processRecommendationsData() {
@@ -93,8 +92,7 @@ class ControllerCatalogHomepage extends Controller {
                 ];
             }
         }
-
-        return $data;
+        $this->saveSettings('home_recommendations', $data);
     }
 
     protected function processSlidersData($sliders_key) {
@@ -132,12 +130,11 @@ class ControllerCatalogHomepage extends Controller {
                 }
             }
         }
-
-        return $data;
+        $this->saveSettings('home_' . $sliders_key, $data);
     }
 
     protected function processBlogData() {
-        return [
+        $data = [
             'status' => $this->request->post['blog']['status'] ?? 0,
             'title' => $this->request->post['blog']['title'] ?? 'Новости',
             'url_all_text' => $this->request->post['blog']['url_all_text'] ?? '',
@@ -149,18 +146,20 @@ class ControllerCatalogHomepage extends Controller {
             'image_width' => $this->request->post['blog']['image_width'] ?? 200,
             'image_height' => $this->request->post['blog']['image_height'] ?? 200
         ];
+        $this->saveSettings('home_blog', $data);
     }
 
     protected function processAboutStoreData() {
-        return [
+        $data = [
             'status' => $this->request->post['aboutstore']['status'] ?? 0,
             'title' => $this->request->post['aboutstore']['title'] ?? 'О магазине',
             'description' => $this->request->post['aboutstore']['description'] ?? ''
         ];
+        $this->saveSettings('home_aboutstore', $data);
     }
 
     protected function processStoreReviewData() {
-        return [
+        $data = [
             'status' => $this->request->post['storereview']['status'] ?? 0,
             'title' => $this->request->post['storereview']['title'] ?? 'Отзывы наших клиентов',
             'button_all' => $this->request->post['storereview']['button_all'] ?? 0,
@@ -169,19 +168,21 @@ class ControllerCatalogHomepage extends Controller {
             'order' => $this->request->post['storereview']['order'] ?? 0,
             'limit_text' => $this->request->post['storereview']['limit_text'] ?? 200
         ];
+        $this->saveSettings('home_storereview', $data);
     }
 
     protected function processViewedProductsData() {
-        return [
+        $data = [
             'status' => $this->request->post['viewed_products']['status'] ?? 0,
             'title' => $this->request->post['viewed_products']['title'] ?? 'Вы смотрели',
             'limit' => $this->request->post['viewed_products']['limit'] ?? 5
         ];
+        $this->saveSettings('home_viewed_products', $data);
     }
 
     protected function setupTemplateData() {
         $data = [];
-        $settings = $this->model_setting_setting->getSetting('home');
+		$settings = $this->getSettingsByPrefix('home');
 
         // Основные данные
         $data['heading_title'] = $this->language->get('heading_title');
@@ -204,8 +205,8 @@ class ControllerCatalogHomepage extends Controller {
         $data['main'] = $settings['home_main'] ?? [];
         $data['slideshow'] = $this->prepareSlideshowData($settings['home_slideshow'] ?? []);
         $data['recommendations'] = $this->prepareRecommendationsData($settings['home_recommendations'] ?? []);
-        $data['sliders_1'] = $settings['home_sliders1'] ?? [];
-        $data['sliders_2'] = $settings['home_sliders2'] ?? [];
+        $data['sliders_1'] = $settings['home_sliders_1'] ?? [];
+        $data['sliders_2'] = $settings['home_sliders_2'] ?? [];
         $data['blog'] = $settings['home_blog'] ?? [];
         $data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategoriesForm', 'homepage');
         $data['aboutstore'] = $settings['home_aboutstore'] ?? [];

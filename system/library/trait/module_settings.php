@@ -24,25 +24,11 @@ trait TraitModuleSettings {
         return array();
     }
     
-    // Удалить настройки
-    protected function deleteSettings($code) {
-        $this->db->query("DELETE FROM " . DB_PREFIX . "module_settings 
-                         WHERE `code` = '" . $this->db->escape($code) . "'");
-    }
-    
-    // Проверить существование записи
-    protected function settingsExist($code) {
-        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "module_settings 
-                                  WHERE `code` = '" . $this->db->escape($code) . "'");
+    protected function getSettingsByPrefix($prefix) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "module_settings 
+                                  WHERE `code` LIKE '" . $this->db->escape($prefix) . "%'");
         
-        return $query->row['total'] > 0;
-    }
-    
-    // Получить все настройки
-    protected function getAllSettings() {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "module_settings");
         $result = array();
-        
         foreach ($query->rows as $row) {
             $result[$row['code']] = json_decode($row['setting'], true);
         }

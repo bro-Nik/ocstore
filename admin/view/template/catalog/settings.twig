@@ -18,6 +18,8 @@
       <ul class="nav nav-tabs">
         <li class="active"><a href="#tab-similar" data-toggle="tab">Похожие товары</a></li>
         <li><a href="#tab-featured-article" data-toggle="tab">Рекомендуемые статьи</a></li>
+        <li><a href="#tab-featured-products" data-toggle="tab">Рекомендуемые товары</a></li>
+        
       </ul>
 
       <div class="tab-content">
@@ -30,6 +32,11 @@
 				{# Рекомендуемые статьи #}
         <div class="tab-pane" id="tab-featured-article">
           {% include 'catalog/settings/featured_article.twig' %}
+        </div>
+
+				{# Рекомендуемые товары #}
+        <div class="tab-pane" id="tab-featured-products">
+          {% include 'catalog/settings/featured_products.twig' %}
         </div>
 
       </div>
