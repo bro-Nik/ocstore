@@ -2,7 +2,10 @@
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
+require_once(DIR_SYSTEM . 'library/trait/cache.php');
+
 class ModelCatalogManufacturer extends Model {
+	use \CacheTrait;
 	
 	public function getManufacturerLayoutId($manufacturer_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer_to_layout WHERE manufacturer_id = '" . (int)$manufacturer_id . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "'");
@@ -113,5 +116,17 @@ class ModelCatalogManufacturer extends Model {
                               LIMIT " . (int)$limit);
     
     return $query->rows;
+	}
+
+	public function getManufacturersToBrandSlider() {
+		$cache_key = 'manufacturer.brand_slider';
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) return $cache;
+
+		$query = $this->db->query("SELECT manufacturer_id, name, image, viewed FROM " . DB_PREFIX . "manufacturer ORDER BY viewed");	
+		$manufacturer_data = $query->rows;	
+			
+    $this->setCache($cache_key, $manufacturer_data);
+		return $manufacturer_data;
 	}
 }

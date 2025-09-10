@@ -7,9 +7,7 @@ class ModelSettingModule extends Model {
 	public function getModule($module_id) {
 		$cache_key = 'module.' . (int)$module_id;
 		$cache = $this->getCache($cache_key);
-    if ($cache !== false) {
-      return $cache;
-    }
+    if ($cache !== false) return $cache;
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "module WHERE module_id = '" . (int)$module_id . "'");
 		

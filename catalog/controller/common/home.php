@@ -31,6 +31,7 @@ class ControllerCommonHome extends Controller {
 		$data['slider_tabs1'] = $this->load->controller('extension/module/slider_tabs', $settings['home_sliders_1']);
 		$data['slider_tabs2'] = $this->load->controller('extension/module/slider_tabs', $settings['home_sliders_2']);
     $data['aboutstore'] = $this->prepareAboutStore($settings['home_aboutstore'] ?? []);
+    $data['brands'] = $this->prepareBrands();
 
     $data['blog'] = $this->load->controller('extension/module/featured_article', $settings['home_blog']);
 		$data['storereview'] = $this->load->controller('revolution/carousel_review', $settings['home_storereview']);
@@ -50,5 +51,26 @@ class ControllerCommonHome extends Controller {
 		$data['html'] = html_entity_decode($aboutstore['description'], ENT_QUOTES, 'UTF-8');
 
 		return $this->load->view('common/home/aboutstore', $data);
+  }
+
+  protected function prepareBrands() {
+		$this->load->model('catalog/manufacturer');
+    $this->load->model('tool/image');
+
+    $data = [];
+    $data['brands'] = [];
+    $manufacturers = $this->model_catalog_manufacturer->getManufacturersToBrandSlider();
+    
+		foreach ($manufacturers as $manufacturer) {
+      if ($manufacturer['image']) {
+      	$data['brands'][] = [
+          	'name'  => $manufacturer['name'],
+          	'image' => $this->model_tool_image->resize($manufacturer['image'], 100, 50),
+          	'href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer['manufacturer_id'])
+      	];
+			}
+    }
+
+		return $this->load->view('common/home/slider_brands', $data);
   }
 }

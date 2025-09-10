@@ -12,7 +12,6 @@ class ControllerCommonHeader extends Controller {
 			$data['base'] = HTTP_SERVER;
 		}
 
-		$data['clear_cache'] = $this->url->link('tool/cache/clearCache', 'user_token=' . $this->session->data['user_token'], true);
 		$data['description'] = $this->document->getDescription();
 		$data['keywords'] = $this->document->getKeywords();
 		$data['links'] = $this->document->getLinks();
@@ -40,6 +39,7 @@ class ControllerCommonHeader extends Controller {
 			$data['new_download'] = $this->url->link('catalog/download/add', 'user_token=' . $this->session->data['user_token'], true);
 			$data['new_manufacturer'] = $this->url->link('catalog/manufacturer/add', 'user_token=' . $this->session->data['user_token'], true);
 			$data['new_product'] = $this->url->link('catalog/product/add', 'user_token=' . $this->session->data['user_token'], true);
+			$data['clear_cache'] = $this->url->link('tool/cache/clearCache', 'user_token=' . $this->session->data['user_token'], true);
 
 			$this->load->model('user/user');
 

@@ -28,7 +28,8 @@ class ControllerExtensionModuleSliderTabs extends ControllerBaseProductCart {
                 // Получаем товары в зависимости от настроек
                 $filter_data = array(
                     'limit' => $slider_settings['limit'],
-                    'sort' => $slider_settings['sort']
+                    'sort' => $slider_settings['sort'],
+                    'filter_quantity' => true,
                 );
                 
                 if ($slider_settings['category_id'] == 'featured' && !empty($slider_settings['featured'])) {

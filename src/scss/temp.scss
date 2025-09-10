@@ -219,7 +219,7 @@ html, body {
     display: table-cell !important;
   }
 }
-
+// .page_description:has(.description) {
 .page_description {
     border-radius: 16px;
     box-shadow: 0 5px 9px rgba(204, 204, 204, 0.21);
@@ -230,13 +230,15 @@ html, body {
 .title + .page_description {
     margin: 0 0 3rem 0;
 }
+.page_description > div {
+    padding: 1rem;
+}
 .page_description .description {
   position: relative;
   line-height: 1.5;
   overflow: hidden;
   max-height: 4.5em; /* 3 строки текста (1.5em × 3) */
   transition: max-height 0.3s ease;
-    padding: 1rem;
 }
 .page_description .description.expanded {
   max-height: none;

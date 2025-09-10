@@ -103,12 +103,7 @@ class ControllerExtensionModuleProdvar extends Controller {
 		if($data[$this->modname.'_status']) { 
 			
 			$data = $this->load->language($this->modpath);
-			
-			if(substr(VERSION,0,3)>='3.0') { 
-				$data['user_token'] = $this->session->data['user_token'];
-			} else {
-				$data['token'] = $this->session->data['token'];
-			}
+			$data['user_token'] = $this->session->data['user_token'];
 			
 			$this->load->model('localisation/language');
 			$languages = $this->model_localisation_language->getLanguages();
@@ -199,20 +194,4 @@ class ControllerExtensionModuleProdvar extends Controller {
 			return $query->row;
 		} 
 	}
-	
-	public function install() {
-		$query = $this->db->query("SHOW TABLES LIKE '".DB_PREFIX."prodvar' ");
-		if(!$query->num_rows){
-			$this->db->query("CREATE TABLE IF NOT EXISTS `".DB_PREFIX."prodvar` (
-			  `prodvar_id` int(11) NOT NULL AUTO_INCREMENT,
- 			  `product_id` int(11),
-			  `prodvar_title` text,
-			  `prodvar_product_str_id` TEXT,
-  			  PRIMARY KEY (`prodvar_id`)
-			  ) ENGINE=MyISAM  DEFAULT CHARSET=utf8");
-		}
-	}
-	public function uninstall() { 
-		$this->db->query("DROP TABLE `".DB_PREFIX."prodvar` ");       
-	}  
 }
