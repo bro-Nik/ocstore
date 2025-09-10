@@ -8,18 +8,30 @@ class ModelCatalogManufacturer extends Model {
 	use \CacheTrait;
 	
 	public function getManufacturerLayoutId($manufacturer_id) {
+		$cache_key = 'manufacturer.layout.' . $manufacturer_id;
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) return $cache;
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer_to_layout WHERE manufacturer_id = '" . (int)$manufacturer_id . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "'");
 		if ($query->num_rows) {
-			return $query->row['layout_id'];
+			$result = $query->row['layout_id'];
 		} else {
-			return 0;
+			$result = 0;
 		}
+    $this->setCache($cache_key, $result);
+		return $result;
 	}
 	
 	public function getManufacturer($manufacturer_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "manufacturer_description md ON (m.manufacturer_id = md.manufacturer_id) LEFT JOIN " . DB_PREFIX . "manufacturer_to_store m2s ON (m.manufacturer_id = m2s.manufacturer_id) WHERE m.manufacturer_id = '" . (int)$manufacturer_id . "' AND md.language_id = '" . (int)$this->config->get('config_language_id') . "' AND m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+		$cache_key = 'manufacturer.' . $manufacturer_id;
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) return $cache;
 
-		return $query->row;
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "manufacturer_description md ON (m.manufacturer_id = md.manufacturer_id) LEFT JOIN " . DB_PREFIX . "manufacturer_to_store m2s ON (m.manufacturer_id = m2s.manufacturer_id) WHERE m.manufacturer_id = '" . (int)$manufacturer_id . "' AND md.language_id = '" . (int)$this->config->get('config_language_id') . "' AND m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+		$result = $query->row;
+    $this->setCache($cache_key, $result);
+
+		return $result;
 	}
 
 	public function getManufacturers($data = array()) {
@@ -59,21 +71,22 @@ class ModelCatalogManufacturer extends Model {
 
 			return $query->rows;
 		} else {
-			$manufacturer_data = $this->cache->get('manufacturer.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_language_id'));
-
-			if (!$manufacturer_data) {
+			$cache_key = 'manufacturer.all';
+			$cache = $this->getCache($cache_key);
+    	if ($cache !== false) return $cache;
 				
-				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "manufacturer_description md ON (m.manufacturer_id = md.manufacturer_id) LEFT JOIN " . DB_PREFIX . "manufacturer_to_store m2s ON (m.manufacturer_id = m2s.manufacturer_id) WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND md.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");	
-				
-				$manufacturer_data = $query->rows;	
-				
-				$this->cache->set('manufacturer.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_language_id'), $manufacturer_data);
- 			}
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer m LEFT JOIN " . DB_PREFIX . "manufacturer_description md ON (m.manufacturer_id = md.manufacturer_id) LEFT JOIN " . DB_PREFIX . "manufacturer_to_store m2s ON (m.manufacturer_id = m2s.manufacturer_id) WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND md.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");	
+			$manufacturer_data = $query->rows;	
+    	$this->setCache($cache_key, $manufacturer_data);
 			return $manufacturer_data;
 		}
 	}
 
 	public function getManufacturerCategories($manufacturer_id) {
+		$cache_key = 'manufacturer.categories.' . $manufacturer_id;
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) return $cache;
+
     $sql = "SELECT 
                 c.category_id, 
                 cd.name, 
@@ -97,10 +110,16 @@ class ModelCatalogManufacturer extends Model {
             ORDER BY total_views DESC, product_count DESC, cd.name";
     
     $query = $this->db->query($sql);
-    return $query->rows;
+		$result = $query->rows;
+    $this->setCache($cache_key, $reult);
+    return $result;
 	}
 
 	public function getManufacturerReviews($manufacturer_id, $limit = 5) {
+		$cache_key = 'manufacturer.reviews.' . $manufacturer_id . $limit;
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) return $cache;
+
 		$query = $this->db->query("SELECT 
                               r.*, 
                               pd.name as product_name,
@@ -115,7 +134,9 @@ class ModelCatalogManufacturer extends Model {
                               ORDER BY r.date_added DESC
                               LIMIT " . (int)$limit);
     
-    return $query->rows;
+		$result = $query->rows;
+    $this->setCache($cache_key, $reult);
+    return $result;
 	}
 
 	public function getManufacturersToBrandSlider() {
