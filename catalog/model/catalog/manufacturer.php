@@ -111,7 +111,7 @@ class ModelCatalogManufacturer extends Model {
     
     $query = $this->db->query($sql);
 		$result = $query->rows;
-    $this->setCache($cache_key, $reult);
+    $this->setCache($cache_key, $result);
     return $result;
 	}
 
@@ -135,7 +135,7 @@ class ModelCatalogManufacturer extends Model {
                               LIMIT " . (int)$limit);
     
 		$result = $query->rows;
-    $this->setCache($cache_key, $reult);
+    $this->setCache($cache_key, $result);
     return $result;
 	}
 

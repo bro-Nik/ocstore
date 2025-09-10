@@ -3,6 +3,9 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right">
+        <button type="button" id="json-import-btn" data-toggle="tooltip" title="Импорт из JSON" class="btn btn-info">
+          <i class="fa fa-code"></i> Импорт JSON
+        </button>
         <button type="submit" form="form-manufacturer" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
         <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
       <h1>{{ heading_title }}</h1>
@@ -281,4 +284,147 @@ $('#article-related').delegate('.fa-minus-circle', 'click', function() {
 });
 //--></script>
 </div>
+
+{# Генерация из Json start #}
+<!-- Модальное окно для ввода JSON -->
+<div class="modal fade" id="jsonModal" tabindex="-1" role="dialog" aria-labelledby="jsonModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="jsonModalLabel">Импорт данных из JSON</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="jsonInput">Введите JSON данные:</label>
+          <textarea id="jsonInput" class="form-control" rows="15" placeholder='{
+            "H1": "Заголовок H1",
+            "Title": "Meta Title",
+            "Description": "Meta Description",
+            "Text": "HTML контент"
+          }'></textarea>
+        </div>
+        <div class="alert alert-info">
+          <strong>Формат JSON:</strong>
+          <pre>{
+"H1": "текст для H1",
+"Title": "текст для Title",
+"Description": "текст для Description",
+"Text": "HTML контент для текста"
+}</pre>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary" id="importJsonBtn">Импортировать</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Обработчики событий
+document.getElementById('json-import-btn').addEventListener('click', function() {
+  $('#jsonModal').modal('show');
+});
+document.getElementById('importJsonBtn').addEventListener('click', function() {
+  importJsonData();
+});
+    
+// Функция для импорта JSON данных
+function importJsonData() {
+  const jsonInput = document.getElementById('jsonInput').value;
+  
+  if (!jsonInput.trim()) {
+      alert('Пожалуйста, введите JSON данные');
+      return;
+  }
+  
+  try {
+    const data = JSON.parse(jsonInput);
+    
+    // Заполняем поля
+    fillFields(data);
+    
+    // Закрываем модальное окно
+    $('#jsonModal').modal('hide');
+    
+    // Показываем уведомление об успехе
+    showNotification('Данные успешно импортированы!', 'success');
+      
+  } catch (error) {
+    alert('Ошибка парсинга JSON: ' + error.message);
+    console.error('JSON parse error:', error);
+  }
+}
+// Функция заполнения полей
+function fillFields(data) {
+  const fields = [
+    { selector: 'input[name="manufacturer_description[1][meta_h1]"]', value: data.H1 || '' },
+    { selector: 'input[name="manufacturer_description[1][meta_title]"]', value: data.Title || '' },
+    { selector: 'textarea[name="manufacturer_description[1][meta_description]"]', value: data.Description || '' },
+    { selector: 'textarea.note-codable', value: data.Text || '' }
+  ];
+    
+  fields.forEach(field => {
+    const element = document.querySelector(field.selector);
+    if (element) {
+      element.value = field.value;
+      
+      // Триггерим событие change для обновления редактора (если используется)
+      const event = new Event('change', { bubbles: true });
+      element.dispatchEvent(event);
+    }
+  });
+    
+  // Если используется Summernote или подобный редактор
+  updateTextEditorIfNeeded(data.Text);
+}
+    
+// Функция для обновления редактора (если используется)
+function updateTextEditorIfNeeded(content) {
+  // Для Summernote
+  if (typeof $().summernote === 'function') {
+    $('textarea.note-codable').summernote('code', content);
+  }
+  
+  // Для других редакторов добавьте соответствующие вызовы
+}
+    
+// Функция показа уведомлений
+function showNotification(message, type = 'success') {
+  // Создаем элемент уведомления
+  const notification = document.createElement('div');
+  notification.className = `alert alert-${type} alert-dismissible`;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 300px;
+  `;
+  notification.innerHTML = `
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    ${message}
+  `;
+    
+  document.body.appendChild(notification);
+    
+  // Автоматически скрываем через 3 секунды
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.parentNode.removeChild(notification);
+    }
+  }, 3000);
+}
+    
+  // Инициализируем tooltips
+//   if (typeof $().tooltip === 'function') {
+//     $('[data-toggle="tooltip"]').tooltip();
+//   }
+// });
+</script>
+{# Генерация из Json end #}
 {{ footer }}
