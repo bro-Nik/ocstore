@@ -183,6 +183,9 @@ class ControllerCatalogHomepage extends Controller {
     protected function setupTemplateData() {
         $data = [];
 		$settings = $this->getSettingsByPrefix('home');
+        if ($settings) {
+            $this->migrateSettings();
+        }
 
         // Основные данные
         $data['heading_title'] = $this->language->get('heading_title');
@@ -269,5 +272,20 @@ class ControllerCatalogHomepage extends Controller {
             $this->error['warning'] = $this->language->get('error_permission');
         }
         return !$this->error;
+    }
+
+    protected function migrateSettings() {
+        $this->load->model('setting/setting');
+        $s = $this->model_setting_setting->getSetting('home');
+
+        $this->saveSettings('home_main', $s['home_main']);
+        $this->saveSettings('home_slideshow', $s['home_slideshow']);
+        $this->saveSettings('home_recommendations', $s['home_recommendations']);
+        $this->saveSettings('home_slider_1', $s['home_slider1']);
+        $this->saveSettings('home_slider_2', $s['home_slider2']);
+        $this->saveSettings('home_blog', $s['home_blog']);
+        $this->saveSettings('home_aboutstore', $s['home_aboutstore']);
+        $this->saveSettings('home_storereview', $s['home_storereview']);
+        $this->saveSettings('home_viewed_products', $s['home_viewed_products']);
     }
 }
