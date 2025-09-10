@@ -3,6 +3,10 @@ require_once('catalog/controller/base/product_cart.php');
 
 class ControllerExtensionModuleSliderTabs extends ControllerBaseProductCart {
     public function index($settings) {
+
+        if (!$settings || !$settings['status']) {
+            return;
+        }
         $this->load->model('catalog/product');
         
         $data = $settings;
