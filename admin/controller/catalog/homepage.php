@@ -275,17 +275,19 @@ class ControllerCatalogHomepage extends Controller {
     }
 
     protected function migrateSettings() {
+        print_r('Start of migrate');
         $this->load->model('setting/setting');
         $s = $this->model_setting_setting->getSetting('home');
 
         $this->saveSettings('home_main', $s['home_main']);
         $this->saveSettings('home_slideshow', $s['home_slideshow']);
         $this->saveSettings('home_recommendations', $s['home_recommendations']);
-        $this->saveSettings('home_slider_1', $s['home_slider1']);
-        $this->saveSettings('home_slider_2', $s['home_slider2']);
+        $this->saveSettings('home_slider_1', $s['home_slider_1'] ?? []);
+        $this->saveSettings('home_slider_2', $s['home_slider_2'] ?? []);
         $this->saveSettings('home_blog', $s['home_blog']);
         $this->saveSettings('home_aboutstore', $s['home_aboutstore']);
         $this->saveSettings('home_storereview', $s['home_storereview']);
         $this->saveSettings('home_viewed_products', $s['home_viewed_products']);
+        print_r('End of migrate');
     }
 }
