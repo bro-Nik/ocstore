@@ -365,7 +365,7 @@ function fillFields(data) {
     { selector: 'input[name="manufacturer_description[1][meta_h1]"]', value: data.H1 || '' },
     { selector: 'input[name="manufacturer_description[1][meta_title]"]', value: data.Title || '' },
     { selector: 'textarea[name="manufacturer_description[1][meta_description]"]', value: data.Description || '' },
-    { selector: 'textarea.note-codable', value: data.Text || '' }
+    // { selector: 'textarea.note-codable', value: data.Text || '' }
   ];
     
   fields.forEach(field => {
@@ -374,8 +374,8 @@ function fillFields(data) {
       element.value = field.value;
       
       // Триггерим событие change для обновления редактора (если используется)
-      const event = new Event('change', { bubbles: true });
-      element.dispatchEvent(event);
+      // const event = new Event('change', { bubbles: true });
+      // element.dispatchEvent(event);
     }
   });
     
@@ -387,7 +387,7 @@ function fillFields(data) {
 function updateTextEditorIfNeeded(content) {
   // Для Summernote
   if (typeof $().summernote === 'function') {
-    $('textarea.note-codable').summernote('code', content);
+    $('#input-description1').summernote('code', content);
   }
   
   // Для других редакторов добавьте соответствующие вызовы
