@@ -1,0 +1,45 @@
+
+<button type="button" id="json-import-btn" data-toggle="tooltip" title="Импорт из JSON" class="btn btn-info">
+  <i class="fa fa-code"></i> Импорт JSON
+</button>
+<button type="button" id="json-export-btn" data-toggle="tooltip" title="Экспорт из JSON" class="btn btn-info">
+  <i class="fa fa-code"></i> Экспорт JSON
+</button>
+
+<!-- Модальное окно для ввода JSON -->
+<div class="modal fade" id="jsonModal" tabindex="-1" role="dialog" aria-labelledby="jsonModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="jsonModalLabel">Импорт данных из JSON</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="jsonInput">Введите JSON данные:</label>
+          <textarea id="jsonInput" class="form-control" rows="15" placeholder='{
+  "H1": "Заголовок H1",
+  "Title": "Meta Title",
+  "Description": "Meta Description",
+  "Text": "HTML контент"
+}'></textarea>
+        </div>
+        <div class="alert alert-info">
+          <strong>Формат JSON:</strong>
+          <pre>{
+"H1": "текст для H1",
+"Title": "текст для Title",
+"Description": "текст для Description",
+"Text": "HTML контент для текста"
+}</pre>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary" id="importJsonBtn">Импортировать</button>
+      </div>
+    </div>
+  </div>
+</div>

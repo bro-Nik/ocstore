@@ -1,5 +1,9 @@
 {% extends 'partials/base.twig' %}
 
+{% block btns %}
+  {% include 'catalog/partials/json_import.twig' %}
+{% endblock %}
+
 {% block content %}
 
     {% if error_warning %}
