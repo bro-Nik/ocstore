@@ -27,6 +27,7 @@ catalog/view/theme/default/stylesheet/ocfilter/*
 catalog/view/javascript/revolution/*
 catalog/view/javascript/revolution/*
 admin/view/stylesheet/*
+!admin/view/stylesheet/stylesheet.css
 
 *.env
 
