@@ -275,12 +275,13 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$this->load->model('catalog/review');
 
 		$page = isset($this->request->get['page']) ? (int)$this->request->get['page'] : 1;
+		$product_id = $this->request->get['revproduct_id'];
 
 		$data['entry_answer'] = $this->language->get('entry_answer');
 		$data['reviews'] = array();
 
-		$total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
-		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
+		$total = $this->model_catalog_review->getTotalReviewsByProductId($product_id);
+		$results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * 5, 5);
 
 		foreach ($results as $result) {
 			$data['reviews'][] = array(
@@ -297,7 +298,7 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$pagination->total = $total;
 		$pagination->page = $page;
 		$pagination->limit = 10;
-		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $this->request->get['product_id'] . '&page={page}');
+		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $product_id . '&page={page}');
 
 		$data['pagination'] = $pagination->render();
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($total) ? (($page - 1) * 5) + 1 : 0, ((($page - 1) * 5) > ($total - 5)) ? $total : ((($page - 1) * 5) + 5), $total, ceil($total / 5));
@@ -308,8 +309,8 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 	public function getAnswers() {
 		$this->load->language('revolution/revolution');
     $this->load->model('revolution/revolution');
-		$product_id = $this->request->get['product_id'];
 
+		$product_id = $this->request->get['revproduct_id'];
 		$page = isset($this->request->get['page_answers']) ? $this->request->get['page_answers'] : 1;
     
 		$data['entry_answer'] = $this->language->get('entry_answer');
@@ -332,7 +333,7 @@ class ControllerProductProduct extends ControllerBaseProductsList {
     $pagination->total = $total;
     $pagination->page = $page;
     $pagination->limit = 10;
-    $pagination->url = $this->url->link('product/product/answers', 'product_id='.$product_id.'&page_answers={page}');
+    $pagination->url = $this->url->link('product/product/answers', 'product_id=' . $product_id . '&page_answers={page}');
     
     $data['pagination'] = $pagination->render();
     $data['results'] = sprintf($this->language->get('text_pagination'), ($total) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > ($total - 10)) ? $total : ((($page - 1) * 10) + 10), $total, ceil($total / 10));
@@ -344,11 +345,13 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$json = array();
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+			$product_id = $this->request->get['revproduct_id'];
+
 			$requiredFields = ['name', 'text', 'rating'];
 			$errors = $this->validateForm($this->request->post, $requiredFields, 'review');
 			if (!$errors) {
 				$this->load->model('catalog/review');
-				$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
+				$this->model_catalog_review->addReview($product_id, $this->request->post);
 				$json['success'] = 'Спасибо за ваш отзыв. Он появится после проверки на спам';
 			} else {
 				$json['toasts'] = $errors;
@@ -363,12 +366,13 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$json = array();
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+			$product_id = $this->request->get['revproduct_id'];
+
 			$requiredFields = ['name', 'text'];
 			$errors = $this->validateForm($this->request->post, $requiredFields, 'answer');
-
 			if (!$errors) {
     		$this->load->model('revolution/revolution');
-				$this->model_revolution_revolution->addanswer($this->request->get['product_id'], $this->request->post);
+				$this->model_revolution_revolution->addanswer($product_id, $this->request->post);
 				$json['success'] = 'Спасибо за ваш вопрос. Он появится после проверки на спам';
 			} else {
 				$json['toasts'] = $errors;

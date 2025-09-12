@@ -1,9 +1,10 @@
 <?php
 require_once('catalog/controller/base/product_cart.php');
 require_once(DIR_SYSTEM . 'library/trait/cache.php');
+require_once(DIR_SYSTEM . 'library/trait/module_settings.php');
 
 class ControllerProductModuleSimilarProducts extends ControllerBaseProductCart {
-	use \CacheTrait;
+	use \CacheTrait, TraitModuleSettings;
 
     public function index() {
         $product_id =$this->request->get['revproduct_id'];
@@ -16,10 +17,7 @@ class ControllerProductModuleSimilarProducts extends ControllerBaseProductCart {
         }
 
         if ($product_id) {
-            $this->load->model('setting/setting');
-            $all_settings = $this->model_setting_setting->getSetting('catalog') ?? [];
-            $setting = $all_settings['catalog_similar_products'] ?? [];
-
+		    $setting = $this->getSettings('similar_products');
             $this->load->model('catalog/module/similar_products');
 
             $data['products'] = array();
@@ -42,7 +40,7 @@ class ControllerProductModuleSimilarProducts extends ControllerBaseProductCart {
                 $result = $this->load->view('product/carousel_product', $data);
             }
             
-            $this->setCache($cache_key, $result, 108000);
+            $this->setCache($cache_key, $result);
             if ($result) {
                 $this->response->setOutput($result);
             }

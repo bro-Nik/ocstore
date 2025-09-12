@@ -1,17 +1,17 @@
 @font-face {
 font-family: "Roboto";
-src: url('fonts/Roboto-Regular.woff2');
+/* src: url('fonts/Roboto-Regular.woff2'); */
 font-style: normal;
 font-weight: normal;
 }
 @font-face {
 font-family: "Roboto";
-src: url('fonts/Roboto-Bold.woff2');
+/* src: url('fonts/Roboto-Bold.woff2'); */
 font-weight: bold;
 }
 @font-face {
 font-family: "Ubuntu";
-src: url('fonts/Ubuntu-R.woff2');
+/* src: url('fonts/Ubuntu-R.woff2'); */
 }
 html {
 height: 100%;
@@ -48,9 +48,6 @@ min-height: 400px;
 }
 footer {
 flex: 0 0 auto;
-}
-.price {
-font-family: Roboto, Helvetica, sans-serif;
 }
 @media (max-width: 991px) {
 .razmiv2 #top,
@@ -1737,7 +1734,7 @@ top: -4px;
 background-color: #dd4b39;
 border-color: #dd4b39;
 }
-}
+/* } */
 @media (min-width: 992px) {
 }
 .product-thumb .cart a,
@@ -4033,7 +4030,7 @@ padding: 21px 0;
 display: inline-block;
 height: 22px;
 width: 110px;
-background: url('../image/cd-star.svg');
+/* background: url('../image/cd-star.svg'); */
 color: transparent;
 }
 @media only screen and (min-width: 1170px) {
@@ -4144,7 +4141,7 @@ background: #ffffff;
 transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
 }
 .cd-products-table .top-info .check::after {
-background: url('../image/cd-check.svg') no-repeat center center;
+/* background: url('../image/cd-check.svg') no-repeat center center; */
 background-size: 24px 24px;
 opacity: 0;
 -webkit-transition: opacity 0.3s;
@@ -4269,7 +4266,7 @@ white-space: nowrap;
 color: transparent;
 height: 60px;
 width: 40px;
-background: rgba(64, 64, 66, 0.8) url('../image/cd-arrow.svg') no-repeat center center;
+/* background: rgba(64, 64, 66, 0.8) url('../image/cd-arrow.svg') no-repeat center center; */
 border-radius: 2px;
 }
 .cd-table-navigation a.inactive {
@@ -4824,15 +4821,15 @@ opacity: 0.7;
 left: 0;
 top: 0;
 }
-.masked_loading {
-background: url('../image/revpreloader.svg') no-repeat center center;
-width: 100%;
-height: 100%;
-position: absolute;
-z-index: 8;
-top: 0;
-left: 0;
-}
+/* .masked_loading { */
+/* background: url('../image/revpreloader.svg') no-repeat center center; */
+/* width: 100%; */
+/* height: 100%; */
+/* position: absolute; */
+/* z-index: 8; */
+/* top: 0; */
+/* left: 0; */
+/* } */
 .all-total {
 float: right;
 padding: 15px 0;
@@ -5246,7 +5243,7 @@ display: none;
 }
 }
 .thumbnails .mfp-iframe span {
-background: url('../image/play_ico.png') 50% 50% no-repeat;
+/* background: url('../image/play_ico.png') 50% 50% no-repeat; */
 width: 100%;
 height: 100%;
 position: absolute;
@@ -6277,7 +6274,7 @@ cursor: default !important;
 text-decoration: none !important;
 }
 @media (max-width: 767px) {
-.tab-content #tab-specification,
+.tab-content #tab-specification {
 /* .tab-specification.rev_slider { */
 column-count: 1;
 column-gap: initial;

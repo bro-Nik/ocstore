@@ -1,6 +1,10 @@
 // Abstracts
 @use 'variables' as *;
 
+// Old styles
+@use './stylesheet.css';
+@use './stylesheet_my.css';
+
 // Components
 @use './swiper.scss';
 @use './mmenu-light.scss';

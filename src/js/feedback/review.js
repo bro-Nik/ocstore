@@ -8,8 +8,8 @@ import { initStars } from '../elements';
 const CONFIG = {
   moduleName: 'review',
   endpoints: {
-    load: 'index.php?route=product/product/getReviews&product_id=',
-    write: 'index.php?route=product/product/writeReview&product_id=',
+    load: 'index.php?route=product/product/getReviews&revproduct_id=',
+    write: 'index.php?route=product/product/writeReview&revproduct_id=',
   },
   selectors: {
     container: '.reviews_container',

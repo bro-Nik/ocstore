@@ -1,7 +1,7 @@
 export const LoaderMixin = {
   async loadHtml(url, container, collback) {
     try {
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // await new Promise(resolve => setTimeout(resolve, 300));
 
       const response = await fetch(url);
       
@@ -38,11 +38,6 @@ export const LoaderMixin = {
   },
 
   async postFormData(url, formData) {
-    // return fetch(url, {
-    //   method: 'POST',
-    //   body: formData
-    // });
-    //
     return fetch(url, {
       method: 'POST',
       body: new URLSearchParams(formData),
