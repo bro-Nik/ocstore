@@ -1,5 +1,10 @@
+<div class="edge-trigger"></div>
 <nav id="column-left">
-  <div id="navigation"><span class="fa fa-bars"></span> {{ text_navigation }}</div>
+  <div id="navigation"><span class="fa fa-bars"></span> {{ text_navigation }}
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+      <i class="fa fa-thumb-tack"></i>
+    </button>
+  </div>
   <ul id="menu">
     {% set i = 0 %}
     {% for menu in menus %}

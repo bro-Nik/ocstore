@@ -278,7 +278,11 @@ h1, h2, h3, h4, h5, h6, p {
   color: white;
   padding: 12px 20px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
+
 
 /* Меню */
 #menu, #menu ul, #menu li {
@@ -622,8 +626,8 @@ input[type="radio"]:checked {
     left: 0;
   }
   
-  #column-left + #content,
-  #column-left + #content + #footer {
+  #column-left:not(.collapsed) + #content,
+  #column-left:not(.collapsed) + #content + #footer {
     margin-left: var(--sidebar-width);
     left: 0;
   }
@@ -644,4 +648,48 @@ input[type="radio"]:checked {
 .input-group-btn {
   border: 1px solid #e1e5eb;
     border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+.sidebar-toggle {
+    color: white;
+    border: none;
+    cursor: pointer;
+    background: unset;
+    margin-left: auto;
+}
+#column-left {
+  /* transition: all 0.3s ease; */
+}
+#column-left {
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  /* transition: var(--transition); */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  top: 0;
+  left: 0;
+  &.collapsed {
+    left: calc(-1 * var(--sidebar-width));
+  }
+}
+.edge-trigger {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  z-index: 999;
+  background: transparent;
+}
+
+/* Показ меню при hover на триггер */
+.edge-trigger:hover ~ #column-left {
+  left: 0;
+}
+
+/* Чтобы меню не скрывалось при переходе на него */
+.edge-trigger:hover ~ #column-left:hover,
+#column-left:hover {
+  left: 0;
 }

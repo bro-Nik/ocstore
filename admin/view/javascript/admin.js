@@ -19,6 +19,8 @@ $(document).ready(function() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initImportJsonMetaData();
+  initSummernoteCounter();
+  initToggleSidebar();
 });
 
 // Импорт и экспорт мета данных JSON
@@ -91,12 +93,87 @@ function fillFields(data) {
     
   fields.forEach(field => {
     const element = document.querySelector(field.selector);
-    if (element) element.value = field.value;
+    // if (element) element.value = field.value;
+    if (element) {
+      const clone = element.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.removeAttribute('name');
+      clone.style.opacity = '0.7';
+      clone.style.border = '2px dashed #ccc';
+
+      clone.value = element.value;
+      clone.disabled = true;
+
+      element.parentNode.insertBefore(clone, element.nextSibling);
+
+      element.value = field.value;
+    }
   });
-    
-  if (typeof $().summernote === 'function') {
-    $(selectors.text).summernote('code', data.Text);
-  }
+
+  importToSummernote(selectors.text, data.Text);
+}
+
+function importToSummernote(selector, text) {
+  if (typeof $().summernote !== 'function') return;
+  const summernoteElement = document.querySelector(selector);
+  const oldContent = $(summernoteElement).summernote('code');
+
+  const editorContainerParent = summernoteElement.parentNode;
+  const editorContainer = editorContainerParent.querySelector('.note-editor');
+  if (!editorContainer) return;
+
+  const label = editorContainerParent.parentNode.querySelector('label');
+  console.log(label)
+  if (label) label.remove();
+
+  editorContainerParent.style.cssText = `
+      width: 100%;
+      display: flex;
+  `;
+
+  // Меняем стили редактора - уменьшаем ширину до 50%
+  editorContainer.style.cssText = `
+      width: 50%;
+      float: left;
+      margin-right: 20px;
+`;
+
+  const editorContainerBox = editorContainer.querySelector('.note-editable');
+  editorContainerBox.style.cssText = `
+      height: unset;
+`;
+        
+  // Создаем контейнер для старого контента
+  const panelHeadingHeight = editorContainer.querySelector('.panel-heading').offsetHeight;
+  const oldContentContainer = document.createElement('div');
+  oldContentContainer.style.cssText = `
+      width: calc(50% - 20px);
+      height: 100%;
+      float: left;
+      padding: ${panelHeadingHeight}px 10px 10px 10px;
+      background: #fff9e6;
+      border: 1px solid #ffd166;
+      border-radius: 8px;
+      box-sizing: border-box;
+  `;
+  oldContentContainer.innerHTML = `
+    <div style="line-height: 1.6;">${oldContent}</div>
+
+    <div style="margin-top: 10px; font-size: 12px; color: #6c757d;">
+      Символов: ${oldContent.length} | Слов: ${oldContent.split(/\s+/).filter(word => word.length > 0).length}
+    </div>
+  `;
+        
+  // Вставляем контейнер со старым контентом после редактора
+  editorContainer.insertAdjacentElement('afterend', oldContentContainer);
+  
+  // Обновляем редактор с новым содержимым
+  $(summernoteElement).summernote('code', text || '');
+  
+  // Добавляем очистку float после контейнеров
+  const clearFix = document.createElement('div');
+  clearFix.style.clear = 'both';
+  editorContainer.after(clearFix);
 }
 
 function exportJsonData() {
@@ -209,3 +286,50 @@ function showNotification(message, type = 'success') {
     }
   }, 3000);
 }
+
+// Подсчет символов и слов в редакторе
+function initSummernoteCounter() {
+  $('[data-toggle="summernote"]').each(function() {
+    summernotePrintCount(this);
+  });
+
+  $('[data-toggle="summernote"]').on('summernote.change', function() {
+    summernotePrintCount(this);
+  });
+}
+function summernotePrintCount(summernoteEl) {
+  const content = $(summernoteEl).summernote('code');
+  const cleanText = content.replace(/<[^>]*>/g, '').trim();
+  const charCount = cleanText.length;
+  const wordCount = cleanText.split(/\s+/).filter(word => word.length > 0).length;
+
+  let counter = summernoteEl.parentNode.querySelector('.character-counter');
+  if (!counter) {
+    counter = document.createElement('div');
+    counter.className = 'character-counter';
+    counter.style.margin = '10px 0 0 10px';
+    counter.style.fontSize = '12px';
+    counter.style.color = '#6c757d';
+  }
+  counter.textContent = `Символов: ${charCount} | Слов: ${wordCount}`;
+
+  const insertTo = summernoteEl.parentNode.querySelector('.note-editing-area');
+  insertTo.insertAdjacentElement('afterend', counter);
+}
+
+function initToggleSidebar() {
+  const isCollapsed = localStorage.getItem('leftColumnCollapsed') === 'true';
+  const leftColumn = document.getElementById('column-left');
+  
+  if (isCollapsed) leftColumn.classList.add('collapsed');
+}
+
+function toggleSidebar() {
+  const leftColumn = document.getElementById('column-left');
+  leftColumn.classList.toggle('collapsed');
+  
+  // Сохраняем состояние в localStorage
+  const isCollapsed = leftColumn.classList.contains('collapsed');
+  localStorage.setItem('leftColumnCollapsed', isCollapsed);
+}
+
