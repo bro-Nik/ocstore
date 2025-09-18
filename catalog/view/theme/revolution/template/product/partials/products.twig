@@ -1,37 +1,35 @@
 {% if (products) %}
 
-      <!-- OCFilter Start -->
-      {% if ocfilter_description_top %}
-      <div class="ocf-description ocf-description-top">{{ ocfilter_description_top }}</div>
-      {% endif %}
+  {% if ocfilter_description_top %}
+    <div class="ocf-description ocf-description-top">{{ ocfilter_description_top }}</div>
+  {% endif %}
 
-      {% if ocfilter_pages.top %}
-      <nav class="ocf-page-list-top ocf-clearfix">
-        <ul class="ocf-category-page-list">
-          {% for ocfilter_page_group in ocfilter_pages.top %}
-            {% for ocfilter_page in ocfilter_page_group.pages %}
+  {% if ocfilter_pages.top %}
+    <nav class="ocf-page-list-top ocf-clearfix">
+      <ul class="ocf-category-page-list">
+        {% for ocfilter_page_group in ocfilter_pages.top %}
+          {% for ocfilter_page in ocfilter_page_group.pages %}
             {% if ocfilter_page.selected %}
-            <li class="ocf-page-selected"><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
+              <li class="ocf-page-selected"><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
             {% else %}
-            <li><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
+              <li><a href="{{ ocfilter_page.href }}">{{ ocfilter_page.name }}</a></li>
             {% endif %}
-            {% endfor %}
           {% endfor %}
-        </ul>
-      </nav>
-      {% endif %}
+        {% endfor %}
+      </ul>
+    </nav>
+  {% endif %}
 
-      {% if ocfilter_mobile_button %}
-      <div class="ocf-btn-mobile-static ocf-mobile" style="display: none;">
-        <button type="button" class="ocf-btn ocf-btn-default" data-ocf="mobile"><span class="ocf-btn-name">{{ button_ocfilter_mobile }}</span> <i class="ocf-icon ocf-icon-16 ocf-brand ocf-sliders"></i></button>
-      </div>
-      {% endif %}
-
-      <!-- /OCFilter End -->
+  {% if ocfilter_mobile_button %}
+    <div class="ocf-btn-mobile-static ocf-mobile" style="display: none;">
+      <button type="button" class="ocf-btn ocf-btn-default" data-ocf="mobile"><span class="ocf-btn-name">{{ button_ocfilter_mobile }}</span> <i class="ocf-icon ocf-icon-16 ocf-brand ocf-sliders"></i></button>
+    </div>
+  {% endif %}
 
   <meta itemprop="numberOfItems" content="{{ products|length }}"/>
-
-  {% include 'revolution/template/product/partials/sort_line.twig' %}
+  {% if not not_sort_line %}
+    {% include 'revolution/template/product/partials/sort_line.twig' %}
+  {% endif %}
 
   <ul class="products__list">
     {% for product in products %}
@@ -40,15 +38,4 @@
   </ul>
 
   {% include 'revolution/template/product/partials/pagination.twig' %}
-
-{#}
-  {% else %}
-    <p>{{ text_empty }}</p>
-    <div class="buttons">
-      <div class="pull-right">
-        <a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a>
-      </div>
-    </div>
-{#}
-
 {% endif %}
