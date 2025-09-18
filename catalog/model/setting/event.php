@@ -7,9 +7,7 @@ class ModelSettingEvent extends Model {
 	function getEvents() {
 		$cache_key = 'events.all';
 		$cache = $this->getCache($cache_key);
-    if ($cache !== false) {
-      return $cache;
-    }
+    if ($cache !== false) return $cache;
 
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "event` WHERE `trigger` LIKE 'catalog/%' AND status = '1' ORDER BY `sort_order` ASC");
 		$result = $query->rows;

@@ -75,7 +75,6 @@ class ControllerProductCompare extends Controller {
 		$data['zakaz_price_null'] = $product_settings['zakaz_price_null'];
 		$config_image_compare_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_compare_width');
 		$config_image_compare_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_compare_height');
-		$currency = $this->session->data['currency'];
 		
 		$data['products'] = array();
 		$data['attribute_groups'] = array();
@@ -95,21 +94,11 @@ class ControllerProductCompare extends Controller {
 						$data['image_height'] = false;
 					}
 					
-					if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
-						$price = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $currency);
+						$price = $this->currency->format($product_info['price']);
 						$price_number = $product_info['price'];
-					} else {
-						$price = false;
-						$price_number = false;
-					}
 					
-					if ((float)$product_info['special']) {
-						$special = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $currency);
+						$special = $this->currency->format($product_info['special']);
 						$special_number = $product_info['special'];
-					} else {
-						$special = false;
-						$special_number = false;
-					}
 				
 					if ($product_info['quantity'] <= 0) {
 						$availability = $product_info['stock_status'];
@@ -290,16 +279,11 @@ class ControllerProductCompare extends Controller {
 						$data['image_height'] = false;
 					}
 					
-					if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
-						$price = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $currency);
+						$price = $this->currency->format($product_info['price']);
 						$price_number = $product_info['price'];
-					} else {
-						$price = false;
-						$price_number = false;
-					}
 					
 					if ((float)$product_info['special']) {
-						$special = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $currency);
+						$special = $this->currency->format($product_info['special']);
 						$special_number = $product_info['special'];
 					} else {
 						$special = false;

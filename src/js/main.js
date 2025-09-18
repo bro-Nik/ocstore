@@ -19,29 +19,23 @@ import answer from './feedback/answer';
 import uiHelpers from './ui-helpers';
 import { pageViewCounter } from './statistic';
 import { productPage } from './pages/product';
-
 import { initStars } from './elements';
-initStars();
-
+import { ajaxSearch } from './search';
+import { menu } from './menu';
+import { getCookie, setCookie } from './cookie';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Показываем первую вкладку
-  const firstTab = document.querySelector('.nav.nav-tabs li:first-child a');
-  if (firstTab) {
-    firstTab.click();
-  }
-
 	// Записываем url
 	const site_url = document.querySelector('input[name="site_url"]');
-  if (site_url) {
-		site_url.value = window.location.href;
-  }
+  if (site_url) site_url.value = window.location.href;
 
   prepareLogo();
 	showContent();
 	pageViewCounter();
 	dynamicBackground();
+  initStars();
+  cookieConsent();
 });
 
 
@@ -54,15 +48,6 @@ function showContent() {
     const styleEl = document.getElementById('preload-css');
     if (styleEl) styleEl.remove();
   }, 300);
-}
-// Fallback на случай проблем
-// setTimeout(showContent, 3000);
-
-var h_top3 = $('#top3').outerHeight();
-// $('.main-content').css('padding-top', h_top3+25);
-
-if (!localStorage.getItem('display')) {
-	localStorage.setItem('display', 'grid');
 }
 
 // Скрол вверх
@@ -188,4 +173,54 @@ function getDominantColor(imageElement) {
   b = Math.floor(b / count * darkenFactor);
   
   return `rgb(${r}, ${g}, ${b})`;
+}
+
+
+function cookieConsent() {
+	if(!getCookie('cookie')) {
+	  const cookieBlock = document.querySelector('.bottom_cookie_block');
+		cookieBlock.style.display = 'block';
+
+    document.querySelector('.bottom_cookie_block_ok').addEventListener('click', function() {
+		  cookieBlock.style.display = 'none';
+      setCookie('cookie', 'true', 30);
+    });
+	}
+}
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-toggle="tab"]');
+  if (btn) {
+    e.preventDefault();
+    activateTab(btn);
+  }
+
+  if (e.target.matches('[data-action="scroll-to-reviews"]')) {
+    scrollToReviews(e.target)
+  }
+});
+
+function activateTab(btn) {
+  const container = btn.closest('.tab-content') || document.body;
+  const tabsBtns = btn.closest('.nav-tabs');
+  const targetPane = container.querySelector(btn.hash);
+  if (!targetPane) return;
+  const tabsContent = targetPane.closest('.tab-content');
+
+  tabsBtns.querySelectorAll('[data-toggle="tab"].active').forEach(el => {
+      el.classList.remove('active');
+  });
+  
+  tabsContent.querySelectorAll('.tab-pane.active').forEach(el => {
+      el.classList.remove('active');
+  });
+  
+  btn.classList.add('active');
+  targetPane.classList.add('active');
+}
+
+function scrollToReviews(btn) {
+  const container = btn.closest('dialog') || document;
+  container.querySelector('[href="#tab-review"]').click();
+  container.querySelector('#tab-review')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }

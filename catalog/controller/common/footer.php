@@ -1,12 +1,13 @@
 <?php
+require_once(DIR_SYSTEM . 'library/trait/cache.php');
+
 class ControllerCommonFooter extends Controller {
+	use \CacheTrait;
 
 	public function index() {
-  //   $cache_key = 'footer';
-		// $cache = $this->cache->get($cache_key);
-  //   if ($cache) {
-  //     return $cache;
-  //   }
+    $cache_key = 'footer';
+		$cache = $this->getCache($cache_key);
+    if ($cache !== false) return $cache;
 
 		$this->load->language('common/footer');
 		$this->load->model('catalog/information');
@@ -17,31 +18,6 @@ class ControllerCommonFooter extends Controller {
 		if ((isset($this->request->get['route']) && $this->request->get['route'] != 'product/category') || isset($this->config->get('revtheme_filter')['filter_categories'])) {
 			$data['revfilter_route'] = true;
 		}
-		// if ($this->config->get('revtheme_geo_set')['status']) {
-		// 	require_once(DIR_SYSTEM . 'library/revolution/SxGeo.php');
-		// 	$SxGeo = new SxGeo();
-		// 	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-		// 		$ip = $_SERVER['HTTP_CLIENT_IP'];
-		// 	} else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-		// 		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		// 	} else {
-		// 		$ip = $_SERVER['REMOTE_ADDR'];
-		// 	}
-		// 	$ip_city = $SxGeo->getCity($ip)['city']['name_ru'];
-		// 	$ip_region = $SxGeo->getCityFull($ip)['region']['name_ru'];
-		// 	$rev_geo_data = $this->config->get('revtheme_geo');
-		// 	$data['rev_geos'] = array();
-		// 	if (!empty($rev_geo_data)){
-		// 		foreach ($rev_geo_data as $rev_geo) {
-		// 			if ($ip_city == $rev_geo['city'] || $ip_region == $rev_geo['city']) {
-		// 				$data['rev_geos'][] = array(
-		// 					'code' => $rev_geo['code'],
-		// 					'text' => $rev_geo['text'][$this->config->get('config_language_id')]
-		// 				);
-		// 			}
-		// 		}
-		// 	}
-		// }
 		$data['config_email'] = $this->config->get('config_email');
 		$header_phone = $this->config->get('revtheme_header_phone');
 		$data['header_phone_cod'] = $header_phone[$this->config->get('config_language_id')]['cod'];
@@ -173,6 +149,8 @@ class ControllerCommonFooter extends Controller {
           $this->document->addScript($path, 'footer');
         }
     	}
+		} else {
+      $this->document->addScript('catalog/view/js/main.js', 'footer');
 		}
 
 		if ($setting_footer_all['f_map']) {
@@ -436,37 +414,11 @@ class ControllerCommonFooter extends Controller {
 
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 
-		// Whos Online
-		// if ($this->config->get('config_customer_online')) {
-		// 	$this->load->model('tool/online');
-		//
-		// 	if (isset($this->request->server['REMOTE_ADDR'])) {
-		// 		$ip = $this->request->server['REMOTE_ADDR'];
-		// 	} else {
-		// 		$ip = '';
-		// 	}
-		//
-		// 	if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
-		// 		$url = ($this->request->server['HTTPS'] ? 'https://' : 'http://') . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
-		// 	} else {
-		// 		$url = '';
-		// 	}
-		//
-		// 	if (isset($this->request->server['HTTP_REFERER'])) {
-		// 		$referer = $this->request->server['HTTP_REFERER'];
-		// 	} else {
-		// 		$referer = '';
-		// 	}
-		//
-		// 	$this->model_tool_online->addOnline($ip, $this->customer->getId(), $url, $referer);
-		// }
-
 		$data['scripts'] = $this->document->getScripts('footer');
 		$data['styles'] = $this->document->getStyles('footer');
 		
 		$output = $this->load->view('common/footer', $data);
-    // $this->cache->set($cache_key, $output, 108000);
-
+    $this->setCache($cache_key, $output);
 
 		return $output;
 	}

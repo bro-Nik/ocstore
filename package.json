@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "analyze:css": "node scripts/analyze-css.js"
   },
   "keywords": [],
   "author": "",
@@ -21,9 +22,17 @@
     "webpack-cli": "^6.0.1",
     "webpack-manifest-plugin": "^5.0.1"
   },
-  "description": "",
   "dependencies": {
     "bootstrap": "^5.3.6",
     "swiper": "^11.2.6"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bro-Nik/ocstore.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bro-Nik/ocstore/issues"
+  },
+  "homepage": "https://github.com/bro-Nik/ocstore#readme",
+  "description": ""
 }

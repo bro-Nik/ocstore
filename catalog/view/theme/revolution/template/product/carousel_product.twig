@@ -28,7 +28,7 @@
             </div>
             {% include 'revolution/template/product/partials/products_product_buttons.twig' %}
             <div class="product_footer">
-              {% include 'revolution/template/product/partials/stock_status.twig' %}
+              {% include 'product/stock_status.twig' with {'quantity': product.quantity, 'sklad_status': product.sklad_status} %}
 
               <div class="btns-actions">
                 {% include 'product/btns/wishlist.twig' with {'product_id': product.product_id} %}

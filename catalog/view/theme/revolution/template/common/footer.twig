@@ -9,9 +9,9 @@
 			<div class="item">
 				<div class="label_fconts">{{ text_contact_ourcontacts }}</div>
 				{% if (settings_all_settings['m_conts']) %} 
-					<p class="hid_address"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ address }}</p>
-					<p class="hid_telephone"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ telephone }}</p>
-					<p class="hid_email"><i class="fa fa fa-envelope" aria-hidden="true"></i>{{ config_email }}</p>
+					<p class="hid_address">{{ address }}</p>
+					<p class="hid_telephone">{{ telephone }}</p>
+					<p class="hid_email">{{ config_email }}</p>
 				{% endif %} 
 				{% if (settings_all_settings['dop_conts']) %} 
 					{% if (header_phone_number != '') %} 
@@ -291,237 +291,45 @@
 		</span>
 	</div>
 {% endif %} 
-{% if (in_top) %} 
-	<div class="btn-scroll-top">
-		<span class="scroll-top-inner">
-			<i class="fa fa-arrow-circle-up"></i>
-		</span>
-	</div>
-{% endif %} 
 
-<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
-<script src="catalog/view/javascript/revolution/common.js"></script>
-{% if (developer_mode) %} 
-	<script src="catalog/view/js/main.js"></script>
-{% endif %} 
+<div class="btn-scroll-top">
+	<span class="scroll-top-inner">
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/></svg>
+	</span>
+</div>
 
 {% for script in scripts %} 
 <script src="{{ script }}" defer></script>
 {% endfor %} 
 
-<script><!--
-	{% if (not revtheme_filter['status'] or revfilter_route) %} 
-		{% if (setting_catalog_all['pagination'] != 'standart') %} 
-			{% if (setting_catalog_all['pagination'] == 'standart_knopka') %} 
-			var button_more = true; var pagination_exist = true; var autoscroll = false;
-			{% elseif (setting_catalog_all['pagination'] == 'auto') %} 
-			var button_more = false; var pagination_exist = true; var autoscroll = true;
-			{% else %} 
-			var button_more = true; var pagination_exist = false; var autoscroll = false;
-			{% endif %} 
-			var window_height = 0; var product_block_offset = 0; var product_block = '.row > .product-layout'; var pages_count = 0; var pages = [];
-			function gettNextProductPage(pages, pages_count) {
-				if (pages_count >= pages.length) return;
-				masked('.row > .product-layout > .product-thumb', true);
-				$.ajax({
-					url:pages[pages_count], 
-					type:"GET", 
-					data:'',
-					beforeSend: function(){
-						$('.load_more .fa-refresh').addClass('fa-spin');
-					},
-					success:function (data) {
-						$data = $(data);
-						masked('.row > .product-layout > .product-thumb', false);
-						$data.find('.row > .product-layout > .product-thumb').addClass('op_dblock1');
-						if ($data) {
-							if (localStorage.getItem('display') == 'list') {
-								$(product_block).parent().append($data.find('#content .product-layout').parent().html());
-								list_view();
-								if (product_block == '.product-grid') {grid_view();};
-							} else if (localStorage.getItem('display') == 'price') {
-								$(product_block).parent().append($data.find('#content .product-layout').parent().html());
-								price_view();
-							} else {
-								$(product_block).parent().append($data.find('#content .product-layout').parent().html());
-								grid_view();
-							}
-							if (pagination_exist) {
-								$('.pagination').html($data.find('.pagination'));
-							}
-							$('.load_more .fa-refresh').removeClass('fa-spin').css('hover');
-							if (pages_count+1 >= pages.length) {$('.load_more').hide();};
-							setTimeout(function() {
-								$('.row > .product-layout > .product-thumb').removeClass('op_dblock1').addClass('op_dblock2');
-							}, 220)
-						}
-					}
-				});
-			}
-			$(document).ready(function(){
-				window_height = $(window).height();
-				var button_more_block = $('#load_more').html();
-				if ($(product_block).length > 0) {
-					product_block_offset = $(product_block).offset().top;
-					var href = $('.pagination').find('li:last a').attr('href');
-					$('.pagination').each(function(){
-						if (href) {
-							TotalPages = href.substring(href.indexOf("page=")+5);
-							First_index = $(this).find('li.active span').html();
-							i = parseInt(First_index) + 1;
-							while (i <= TotalPages) {
-								pages.push(href.substring(0,href.indexOf("page=")+5) + i);
-								i++;
-							}
-						}		
-					});	
-					if (button_more && href) {
-						$('.pagination').parent().parent().before(button_more_block);
-						if (!pagination_exist) {
-							$('.pagpages').addClass('dnone');
-						}
-						$(".load_more").click(function(event) {
-							event.preventDefault();
-							gettNextProductPage(pages, pages_count);
-							pages_count++;
-							setTimeout(function() {
-								if (pages_count > 0) {
-									var $next = $(".pagpages .pagination li.active").next("li").children("a");
-									if ($next.length == 0) return;
-									$.get($next.attr("href"), function(data) {
-										$data = $(data);
-										var pag = $data.find(".pagpages > *");
-										var pag2 = pag.filter(".text-right").html();
-										var pag_ch =  pag2.substr(0,pag2.indexOf(" по")).replace(/[^\d.]/ig, '');
-										pag2 = pag2.replace(pag_ch, "1");
-										$(".pagpages").html(pag);
-										$(".pagpages .text-right").html(pag2);
-										$(".owlproduct").not(".owl-theme").owlCarousel({
-											beforeInit: true,
-											items: 1,
-											singleItem: true,
-											mouseDrag: false,
-											autoPlay: false,
-											navigation: true,
-											navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
-											pagination: false
-										});
-									}, "html")
-								}
-							}, 350);
-						});
-					} else if (autoscroll) {
-						$('.pagpages .pagination').hide();
-						autoscroll_loading = false;
-						$(window).scroll(function() {
-							if(inZone('.pagpages') && !autoscroll_loading) {
-								autoscroll_loading = true;
-								setTimeout(function() {
-									gettNextProductPage(pages, pages_count);
-									pages_count++;
-									if (pages_count > 0) {
-										var $next = $(".pagpages .pagination li.active").next("li").children("a");
-										if ($next.length == 0) return;
-										$.get($next.attr("href"), function(data) {
-											$data = $(data);
-											var pag = $data.find(".pagpages > *");
-											var pag2 = pag.filter(".text-right").html();
-											var pag_ch =  pag2.substr(0,pag2.indexOf(" по")).replace(/[^\d.]/ig, '');
-											pag2 = pag2.replace(pag_ch, "1");
-											$(".pagpages .text-right").html(pag2);
-											$(".owlproduct").not(".owl-theme").owlCarousel({
-												beforeInit: true,
-												items: 1,
-												singleItem: true,
-												mouseDrag: false,
-												autoPlay: false,
-												navigation: true,
-												navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
-												pagination: false
-											});
-											autoscroll_loading = false;
-										}, "html")
-									}
-								}, 350);
-							}
-						});
-					}
-				}
-			});
-			function inZone(el){
-				if($(el).length) {
-					var scrollTop = $(window).scrollTop();
-					var windowHeight = $(window).height();
-					var offset = $(el).offset();
-					if(scrollTop <= offset.top && ($(el).height() + offset.top) < (scrollTop + windowHeight))
-					return true;
-				};
-				return false;
-			}
-		{% endif %} 
-	{% endif %} 
-//--></script>
-{% if (user_scripts) %} 
-	{{ user_scripts }} 
-{% endif %} 
 {% if (setting_catalog_all['pagination'] != 'standart') %} 
 	<div id="load_more" style="display:none;"><div class="col-sm-12 text-center"><a href="#" class="load_more btn btn-primary" rel="nofollow"><i class="fa fa-refresh"></i>{{ text_loadmore }}</a></div></div>
 {% endif %} 
-{% if (setting_all_settings['cookies']) %} 
-	<!--noindex-->
-	<div class="bottom_cookie_block">
-		<span>{{ cookies_text }}</span>
-		<a href="javascript:void(0);" class="bottom_cookie_block_ok btn-sm btn-primary">Ok</a>
-	</div>
-	<script><!--
-		var Cookie = {
-			set: function(name, value, days) {
-				var domain, domainParts, date, expires, host;
-				if (days) {
-					date = new Date();
-					date.setTime(date.getTime()+(days*24*60*60*1000));
-					expires = "; expires="+date.toGMTString();
-				} else {
-					expires = "";
-				}
-				host = location.host;
-				if (host.split('.').length === 1) {
-					document.cookie = name+"="+value+expires+"; path=/";
-				} else {
-					domainParts = host.split('.');
-					domainParts.shift();
-					domain = '.'+domainParts.join('.');
-					document.cookie = name+"="+value+expires+"; path=/";
-					if (Cookie.get(name) == null || Cookie.get(name) != value) {
-						domain = '.'+host;
-						document.cookie = name+"="+value+expires+"; path=/";
-					}
-				}
-				return domain;
-			},
-			get: function(name) {
-				var nameEQ = name + "=";
-				var ca = document.cookie.split(';');
-				for (var i=0; i < ca.length; i++) {
-					var c = ca[i];
-					while (c.charAt(0)==' ') {
-						c = c.substring(1,c.length);
-					}
-					if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-				}
-				return null;
-			}
-		};
-		if(!Cookie.get('revcookie')) {
-			setTimeout("document.querySelector('.bottom_cookie_block').style.display='block'", 500);
-		}
-		$('.bottom_cookie_block_ok').click(function(){
-			$('.bottom_cookie_block').fadeOut();
-			Cookie.set('revcookie', true, '120');
-		});
-	//--></script>
-	<!--/noindex-->
-{% endif %} 
 
+<!--noindex-->
+<div class="bottom_cookie_block">
+	<span>{{ cookies_text }}</span>
+	<a href="javascript:void(0);" class="bottom_cookie_block_ok btn-sm btn-primary">Ok</a>
+</div>
+<!--/noindex-->
+
+{% if (not developer_mode) %} 
+{# Yandex.Metrika counter #}
+  <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(62868895, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true,
+          ecommerce:"dataLayer"
+    });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/62868895" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+{# Yandex.Metrika counter #}
+{% endif %} 
 
 </body></html>

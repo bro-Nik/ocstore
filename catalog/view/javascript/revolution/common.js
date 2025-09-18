@@ -35,56 +35,8 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('.mobsearch .search input[name=\'search\']').parent().find('.search-button').on('click', function() {
-		url = $('base').attr('href') + 'index.php?route=product/search';
 
-		var value = $('header .mobsearch input[name=\'search\']').val();
 
-		if (value) {
-			url += '&search=' + encodeURIComponent(value);
-		}
-
-		var category_id = $('header .mobsearch input[name=\'category_id\']').prop('value');
-	
-		if (category_id > 0) {
-			url += '&category_id=' + encodeURIComponent(category_id) + '&sub_category=true';
-		}
-
-		location = url;
-	});
-
-	$('.mobsearch .search input[name=\'search\']').on('keydown', function(e) {
-		if (e.keyCode == 13) {
-			$('header .mobsearch input[name=\'search\']').parent().find('.search-button').trigger('click');
-		}
-	});
-
-	// Menu
-	$('#menu .dropdown-menu').each(function() {
-		var menu = $('#menu').offset();
-		var dropdown = $(this).parent().offset();
-
-		var i = (dropdown.left + $(this).outerWidth()) - (menu.left + $('#menu').outerWidth());
-
-		if (i > 0) {
-			$(this).css('margin-left', '-' + (i + 5) + 'px');
-		}
-	});
-
-	// Checkout
-	$(document).on('keydown', '#collapse-checkout-option input[name=\'email\'], #collapse-checkout-option input[name=\'password\']', function(e) {
-		if (e.keyCode == 13) {
-			$('#collapse-checkout-option #button-login').trigger('click');
-		}
-	});
-
-	// tooltips on hover
-	$('[data-toggle=\'tooltip\']').tooltip({container: 'body'});
-
-	// Makes tooltips work on ajax generated content
-	// $(document).ajaxStop(function() {
-	// 	$('[data-toggle=\'tooltip\']').tooltip({container: 'body'});
-	// });
 	
 });
 

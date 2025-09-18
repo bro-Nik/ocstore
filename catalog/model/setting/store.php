@@ -8,9 +8,7 @@ class ModelSettingStore extends Model {
 	public function getStores() {
 		$cache_key = 'stores';
 		$cache = $this->getCache($cache_key);
-    if ($cache !== false) {
-      return $cache;
-    }
+    if ($cache !== false) return $cache;
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "store ORDER BY url");
 		$store_data = $query->rows;

@@ -3,19 +3,6 @@ export function initStars(container = document) {
   const stars = container.querySelectorAll('.rat-star');
   
   stars.forEach(star => {
-    // Hover эффект
-    star.addEventListener('mouseover', () => {
-      let prev = star;
-      while (prev = prev.previousElementSibling) {
-        if (prev.classList.contains('rat-star')) prev.classList.add('active');
-      }
-      star.classList.add('active');
-    });
-    
-    star.addEventListener('mouseout', () => {
-      stars.forEach(s => s.classList.remove('active'));
-    });
-    
     // Клик с выбором оценки
     star.addEventListener('click', () => {
       // Снимаем все отметки

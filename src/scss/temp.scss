@@ -448,3 +448,15 @@ position: absolute;
 .compare-products .btn-cart {
     padding: 3px 5px;
 }
+
+.compare svg, .options svg {
+border: 1px solid #adb5bd;
+border-radius: 0.25em;
+color: transparent;
+}
+
+.compare.in-compare svg, .options label:has(input[type='checkbox']:checked) svg {
+border: none;
+color: #fff;
+background: #0063D1;
+}

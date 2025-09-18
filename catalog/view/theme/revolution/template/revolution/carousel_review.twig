@@ -1,3 +1,5 @@
+{% from 'macro/star_rating.twig' import star_rating %}
+
 <div style="margin: 3rem 0;">
 	<div class="heading_h"><h3>{{ title }}</h3>{% if (button_all) %}<a href="{{ keyword }}">{{ button_all_text }}</a>{% endif %}</div>
 
@@ -13,21 +15,11 @@
 						</div>
 						<div class="review__author">
               <div class="review__author-avatar">
-                <i class="fa fa-user-circle"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/></svg>
               </div>
 						  <div class="review__author-box">
-						    <div class="review__author-name">
-					  	    {{ review['author'] }}
-						    </div>
-						    <div class="rating">
-							    {% set i = 1 %}{% for i in i..5 %} 
-								    {% if (review['rating'] < i) %} 
-									    <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-								    {% else %} 
-									    <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i></span>
-								    {% endif %} 
-							    {% endfor %} 
-						    </div>
+						    <div class="review__author-name">{{ review.author }}</div>
+						    <div class="rating">{{ star_rating(review.rating) }}</div>
               </div>
 						</div>
 

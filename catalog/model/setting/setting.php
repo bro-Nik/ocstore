@@ -7,9 +7,7 @@ class ModelSettingSetting extends Model {
 	public function getSetting($code, $store_id = 0) {
 		$cache_key = 'setting.' . $code;
 		$cache = $this->getCache($cache_key);
-    if ($cache !== false) {
-      return $cache;
-    }
+    if ($cache !== false) return $cache;
 
 		$data = array();
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "setting WHERE store_id = '" . (int)$store_id . "' AND `code` = '" . $this->db->escape($code) . "'");

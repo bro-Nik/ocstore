@@ -25,9 +25,7 @@ trait TraitModuleSettings {
   protected function getSettings($code) {
 		$cache_key = 'module_settings.' . $code;
 		$cache = $this->getCache($cache_key);
-    if ($cache !== false) {
-      return $cache;
-    }
+    if ($cache !== false) return $cache;
 
     $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "module_settings 
                               WHERE `code` = '" . $this->db->escape($code) . "'");
@@ -44,9 +42,7 @@ trait TraitModuleSettings {
   protected function getSettingsByPrefix($prefix) {
 		$cache_key = 'module_settings.by_prefix.' . $prefix;
 		$cache = $this->getCache($cache_key);
-    if ($cache !== false) {
-      return $cache;
-    }
+    if ($cache !== false) return $cache;
 
     $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "module_settings 
                               WHERE `code` LIKE '" . $this->db->escape($prefix) . "%'");

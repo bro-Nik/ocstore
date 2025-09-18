@@ -36,10 +36,11 @@ class Currency {
 		$decimal_place = 2;
 		$amount = (float)$number;
 		$amount = round($amount, (int)$decimal_place);
-		
+
+		if ($amount == $number) $decimal_place = 0;
 		if (!$format) return $amount;
 
-		return number_format($amount, (int)$decimal_place, ',', '.') . ' ₽';
+		return number_format($amount, (int)$decimal_place, ',', ' ') . ' ₽';
 	}
 
 	public function convert($value, $from, $to) {

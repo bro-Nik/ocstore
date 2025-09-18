@@ -1,6 +1,6 @@
 import { BaseModule } from './base';
 import { events } from '../events/events';
-import { getCookie, addToCookieList, getlistsOfProducts } from '../cookie';
+import { addToCookieList, getlistsOfProducts } from '../cookie';
 
 const TOGGLE_CONFIG = {
 //   moduleName: '',
@@ -108,6 +108,18 @@ export class ToggleModule extends BaseModule {
       textIn && (button.innerHTML = textIn);
       button.setAttribute('data-action', `${moduleName}-toggle`);
     }
+    this.updateSvg(button, inList);
+  }
+
+  updateSvg(button, inList) {
+    button.querySelectorAll('.toggle')?.forEach(svg => {
+      const svgInList = svg.classList.contains('in-list');
+      if ((svgInList && inList) || (!svgInList && !inList)) {
+        svg.style.display = 'block';
+      } else  {
+        svg.style.display = 'none';
+      }
+    })
   }
 
   /**

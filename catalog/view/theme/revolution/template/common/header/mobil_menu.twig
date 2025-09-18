@@ -66,22 +66,9 @@
 			{% endif %} 				
 		{% endif %} 
 
-		{% if (manuf_status) %} 
-			<li>
-				<span>{{ text_revmenu_manufs }}</span>
-				{% if (categories_m) %} 
-					<ul>
-						{% for category in categories_m %} 
-								{% if (category.manufacturer) %} 
-									{% for manufacturers in category.manufacturer %} 
-										<li><a href="{{ manufacturers.href }}" rel="nofollow">{{ manufacturers.name }}</a></li>
-									{% endfor %} 
-								{% endif %} 
-						{% endfor %} 
-					</ul>
-				{% endif %} 
-			</li>
-		{% endif %} 
+		<li>
+			<a href="{{ url_revmenu_manufs }}" rel="nofollow">{{ text_revmenu_manufs }}</a>
+		</li>
 
 		{% if (informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3) %} 
 			<span class="mm-listitem__text">{{ text_header_information }}</span>

@@ -19,62 +19,19 @@
 <meta property="og:site_name" content="{{ name }}" />
 {% include 'revolution/template/common/header/microdata.twig' %}
 
-<style id="preload-css">
-  html:not(#loading) { 
-    visibility: hidden;
-    opacity: 0;
-  }
-  html.visible { 
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-  }
-</style>
+{% for style in styles %}
+  <link href="{{ style.href }}" rel="{{ style.rel }}" type="text/css" media="{{ style.media }}" />
+{% endfor %}
 
-<link href="catalog/view/javascript/revolution/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<!-- <link href="catalog/view/javascript/revolution/jasny-bootstrap.min.css" rel="stylesheet"> -->
-<!-- <link href="catalog/view/theme/revolution/stylesheet/stylesheet.css" rel="stylesheet"> -->
-<!-- <link href="catalog/view/theme/revolution/stylesheet/stylesheet_my.css" rel="stylesheet"> -->
-
-{% if (developer_mode) %} 
-	<link href="catalog/view/css/styles.css" rel="stylesheet">
-{% endif %} 
-
-{% for style in styles %} 
-<link href="{{ style['href'] }}" type="text/css" rel="{{ style['rel'] }}" media="{{ style['media'] }}" />
-{% endfor %} 
-
-<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
 {% for link in links %} 
-<link href="{{ link['href'] }}" rel="{{ link['rel'] }}" />
+<link href="{{ link.href }}" rel="{{ link.rel }}" />
 {% endfor %} 
 {% for script in scripts %} 
 <script src="{{ script }}"></script>
 {% endfor %} 
-<script>function max_height_div(div){var maxheight = 0;$(div).each(function(){$(this).removeAttr('style');if($(this).height() > maxheight){maxheight = $(this).height();{{ '}}' }});$(div).height(maxheight);}</script>
 {% for analytic in analytics %} 
 {{ analytic }} 
 {% endfor %} 
-
-
-{% if (not developer_mode) %} 
-  <!-- Yandex.Metrika counter -->
-  <script type="text/javascript" >
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-    ym(62868895, "init", {
-          clickmap:true,
-          trackLinks:true,
-          accurateTrackBounce:true,
-          webvisor:true,
-          ecommerce:"dataLayer"
-    });
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/62868895" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  <!-- /Yandex.Metrika counter -->
-{% endif %} 
 
 </head>
 <body>

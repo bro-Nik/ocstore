@@ -1,3 +1,5 @@
+{% from 'macro/star_rating.twig' import star_rating %}
+
 <meta itemprop="mpn" content="{{ model }}">
 
 <ul class="product_list_top">
@@ -21,19 +23,10 @@
   </div>
 
   <div class="rating">
-    {% set i = 1 %}
-    {% for i in i..5 %}
-      {% if (rating < i) %}
-        <span class="fa fa-stack">
-          <i class="fa fa-star-o fa-stack-1x"></i>
-        </span>
-      {% else %}
-        <span class="fa fa-stack">
-          <i class="fa fa-star fa-stack-1x"></i>
-          <i class="fa fa-star-o fa-stack-1x"></i>
-        </span>
-      {% endif %}
-    {% endfor %}
-    <a class="adotted" onclick="$('a[href=\'#tab-review\']').trigger('click'); $('html, body').animate({ scrollTop: $('a[href=\'#tab-review\']').offset().top - 2}, 250); return false;">{{ reviews }}</a>
+    {{ star_rating(rating) }}
+    <a class="adotted" data-action="scroll-to-reviews">({{ review_count }})</a>
   </div>
 </div>
+
+<script>
+</script>

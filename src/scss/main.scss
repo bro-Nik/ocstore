@@ -230,13 +230,14 @@ a:hover sup {
     font-size: 14px;
 }
 
-.product-info label:has(input[type='checkbox']:checked)  .fa::before {
-    content: "\f00c";
-}
-.product-info label:has(input[type='checkbox']:checked)  .fa::before {
-    content: "\f00c";
-}
-.compare:hover .fa-bar-chart-o:before, .product-info label:has(input[type='checkbox']):hover .fa::before  {
+// .product-info label:has(input[type='checkbox']:checked)  .fa::before {
+//     content: "\f00c";
+// }
+// .product-info label:has(input[type='checkbox']:checked)  .fa::before {
+//     content: "\f00c";
+// }
+.compare:not(.in-compare):hover svg, .options label:has(input[type='checkbox']:not(:checked)):hover svg  {
+        
     border: 1px solid #555;
 }
 [data-action$="-toggle"] {

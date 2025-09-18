@@ -108,9 +108,10 @@ class ControllerCommonHeader extends Controller {
 				$this->document->addStyle($manifest['main.css']);
     	}
 
+		} else {
+			$this->document->addStyle('catalog/view/css/styles.css');
 		}
 
-		$this->document->addScript('catalog/view/javascript/revolution/ajax_search.js');
 		if ($setting_header_search['ch_text']) {
 			$data['header_search_doptext'] = html_entity_decode($setting_header_search[$this->config->get('config_language_id')]['doptext'], ENT_QUOTES, 'UTF-8');
 		}
@@ -132,12 +133,12 @@ class ControllerCommonHeader extends Controller {
 		$settings_popupphone = $this->config->get('revtheme_header_popupphone');
 		$data['revtheme_header_popupphone'] = $settings_popupphone;
 		$settings_header_standart_links = $this->config->get('revtheme_header_standart_links');
-		$data['popup_login'] = $settings_header_standart_links['popup_login'];
-		$data['rev_lang'] = $settings_header_standart_links['rev_lang'];
-		$data['rev_curr'] = $settings_header_standart_links['rev_curr'];
-		$data['rev_srav'] = $settings_header_standart_links['rev_srav'];
-		$data['rev_wish'] = $settings_header_standart_links['rev_wish'];
-		$data['rev_acc'] = $settings_header_standart_links['rev_acc'];
+		// $data['popup_login'] = $settings_header_standart_links['popup_login'];
+		// $data['rev_lang'] = $settings_header_standart_links['rev_lang'];
+		// $data['rev_curr'] = $settings_header_standart_links['rev_curr'];
+		// $data['rev_srav'] = $settings_header_standart_links['rev_srav'];
+		// $data['rev_wish'] = $settings_header_standart_links['rev_wish'];
+		// $data['rev_acc'] = $settings_header_standart_links['rev_acc'];
 		// $data['in_top3'] = $settings_header_standart_links['in_top3'];
 		
 		$style_tm = '';
@@ -347,50 +348,10 @@ class ControllerCommonHeader extends Controller {
 			}
 		}
 
-		$data['manuf_status'] = $setting_header_menu['manuf'];
 		$config_image_category_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_width');
 		$config_image_category_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_height');
-		if ($setting_header_menu['manuf']) {
-			$data['text_revmenu_manufs'] = $this->language->get('text_revmenu_manufs');
-			$data['url_revmenu_manufs'] = $this->url->link('product/manufacturer');
-			$data['n_column'] = $setting_header_menu['n_column'];
-			$style = '';
-			if ($this->config->get('revtheme_header_menu')['manuf_icontype']) {
-				if ($this->config->get('revtheme_header_menu')['manuf_icon'] == 'fa none') {
-					$style = ' hidden';
-				}
-				$data['manuf_image'] = '<i class="hidden-md '.$this->config->get('revtheme_header_menu')['manuf_icon'].$style.'"></i>';
-			} else {
-				if (!$this->config->get('revtheme_header_menu')['manuf_image'] || $this->config->get('revtheme_header_menu')['manuf_image'] == 'no_image.png') {
-					$style = ' hidden';
-				}
-				$data['manuf_image'] = '<span class="hidden-md'.$style.'"><img src="'.$this->model_tool_image->resize($this->config->get('revtheme_header_menu')['manuf_image'], 21, 21).'" alt=""/></span>';
-			}	
-			$this->load->model('catalog/manufacturer');
-			$data['categories_m'] = array();
-			$results = $this->model_catalog_manufacturer->getManufacturers();
-			foreach ($results as $result) {
-				$name = $result['name'];
-				if (is_numeric(utf8_substr($name, 0, 1))) {
-					$key = '0 - 9';
-				} else {
-					$key = utf8_substr(utf8_strtoupper($name), 0, 1);
-				}
-				if (!isset($data['categories_m'][$key])) {
-					$data['categories_m'][$key]['name'] = $key;
-				}
-				if ($result['image']) {
-					$thumb = $this->model_tool_image->resize($result['image'], $config_image_category_width, $config_image_category_height);
-				} else {
-					$thumb = $this->model_tool_image->resize('no_image.png', $config_image_category_width, $config_image_category_height);
-				}
-				$data['categories_m'][$key]['manufacturer'][] = array(
-					'thumb' => $thumb,
-					'name' => $name,
-					'href' => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id'])
-				);
-			}
-		}
+		$data['text_revmenu_manufs'] = $this->language->get('text_revmenu_manufs');
+		$data['url_revmenu_manufs'] = $this->url->link('product/manufacturer');
 		$results_amazon_links = $this->config->get('revtheme_header_menu_link');
 		if ($setting_header_menu['type'] && !empty($results_amazon_links)){
 			foreach ($results_amazon_links as $result) {

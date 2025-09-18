@@ -1,0 +1,683 @@
+Отчет об удаленных CSS селекторах
+Генерировано: 9/15/2025, 1:04:10 PM
+
+Удалено селекторов: 564
+
+Список удаленных селекторов:
+1. 
+.razmiv2 #revslideshow
+2. 
+.razmiv2 #top6
+3. 
+.razmiv2 .hcarousel
+4. 
+.razmiv2 #vk_groups
+5. 
+.razmiv2 #top3_links .top-links
+6. .iexpl .razmiv #revslideshow
+7. 
+.iexpl .razmiv #top6
+8. 
+.iexpl .razmiv #content
+9. 
+.iexpl .razmiv .rev_slider
+10. 
+.iexpl .razmiv .hcarousel
+11. 
+.iexpl .razmiv #vk_groups
+12. 
+.iexpl .razmiv .breadcrumb
+13. 
+.iexpl .razmiv .razmivcont
+14. 
+.iexpl .razmiv #top3_links .top-links
+15. 
+.iexpl .razmiv .home_h1
+16. 
+.iexpl .razmiv #column-left
+17. 
+.iexpl .razmiv #column-right
+18. 
+.iexpl .razmiv #top7
+19. 
+.iexpl .razmiv footer
+20. .iexpl .razmiv2 #top
+21. 
+.iexpl .razmiv2 #revslideshow
+22. 
+.iexpl .razmiv2 #menu2_button
+23. 
+.iexpl .razmiv2 #top6
+24. 
+.iexpl .razmiv2 #content
+25. 
+.iexpl .razmiv2 .rev_slider
+26. 
+.iexpl .razmiv2 .hcarousel
+27. 
+.iexpl .razmiv2 #vk_groups
+28. 
+.iexpl .razmiv2 .breadcrumb
+29. 
+.iexpl .razmiv2 #top3_links .top-links
+30. 
+.iexpl .razmiv2 .home_h1
+31. 
+.iexpl .razmiv2 #column-left
+32. 
+.iexpl .razmiv2 #column-right
+33. 
+.iexpl .razmiv2 #top7
+34. 
+.iexpl .razmiv2 #top2
+35. 
+.iexpl .razmiv2 #top3
+36. 
+.iexpl .razmiv2 footer
+37. #pagefader
+38. #menu2 ul li.parentnav > a
+39. #menu2 ul li.parentnav.prost > a
+40. #menu2 ul li.parentnav:hover > a
+41. #menu2 ul li.parentnav.prost:hover > a
+42. .row.rowmans
+43. .child-box-cell
+44. .child-box-cell p
+45. .child-box-cell p > a
+46. #menu2 ul.child2-box
+47. #menu2 ul.child2-box > li
+48. #menu2 ul.child2-box > li > a
+49. #menu2 ul.child2-box > li > a:hover
+50. .rowmans
+51. .row.rowmans .item
+52. .iconm
+53.  h6
+54.  .has-error .checkbox-inline
+55.  .has-error .radio-inline
+56.  .has-error.checkbox-inline label
+57.  .has-error.radio-inline label
+58. .alert.alert-default
+59. .br2
+60. .t-ac
+61. .t-ar
+62. .fl-l
+63. 
+.text-danger-inproduct
+64. .dnone_minus
+65. .opacity_minus_products #content .row.products_category
+66. 
+.opacity_minus_products .popup-phone-wrapper
+67. 
+.opacity_minus_products .scroll-top-wrapper
+68. 
+.opacity_minus_products .box-content.am
+69. 
+.opacity_minus_products .home_home_blocks
+70. .opacity_plus_products #content .row.products_category
+71. 
+.opacity_plus_products .box-content.am
+72. 
+.opacity_plus_products .home_home_blocks
+73. .opacity_plus_products .popup-phone-wrapper
+74. 
+.opacity_plus_products .scroll-top-wrapper
+75.  .table>tbody>tr>th
+76.  .table>tfoot>tr>td
+77.  .table>tfoot>tr>th
+78.  .table>thead>tr>th
+79. #popup-view-wrapper .table>tbody>tr>td
+80. .search .ajaxadvance
+81. h2.zag_block
+82. h2.zag_block i.fa
+83. h6
+84.  input[type="password"].form-control
+85.  input[type="datetime-local"].form-control
+86.  input[type="week"].form-control
+87.  .input-group .popover
+88. footer iframe
+89. h1.home2_h1
+90. .text_ico_skrit .hidden-xs
+91. #top3.affix-top
+92. 
+#top3.affix-top
+93. #top6
+94. .top-links .list-inline > li
+95. .list-inline.ul_dop_menu
+96. #top .list-inline.ul_dop_menu
+97. #top .btn-link
+98. 
+.top-links.nav.norazmivcont ul.list-inline a
+99. .top-links.verh .hidden-xs:hover
+100. .top-links.verh .fa.strdown
+101. .top-links.verh .fa
+102. .top-links.verh .span-a
+103. .top-links.verh .span-a:hover .fa
+104. 
+.top-links.verh a:hover .fa
+105. .top-links a:hover
+106. .top-links.verh .span-a:hover:hover
+107. .top-links.verh a sup
+108. .top-links .dropdown-menu a
+109. .top-links .dropdown-menu a:hover
+110. .top-links .mmmenu .dropdown-menu a:hover
+111. #top .btn-link strong
+112. 
+.top-links .fa
+113. 
+.top-links img
+114. 
+#menu .nav > li > .without_a img
+115. 
+#menu .nav > li > .without_a > i
+116. .top-links .badge
+117. #top2 .header_under_phone
+118. #top2 .header_under_phone .fa
+119. #top2 .header_under_phone a
+120. #top2 .tel .header_phone_image
+121. #top2 .tel .header_phone_image img
+122. #top2 .tel .header_phone_image.vartamiddle img
+123. #top2 .tel .header_phone_image .fa
+124. #top2 .tel .header_phone_nomer
+125. #top2 .tel .s11
+126. 
+#top2 .tel .s12
+127. #top2 .tel .s22 .telefon
+128. #cart .cartfooter
+129. #cart .cartfooter a+a
+130. .xs-margin-top
+131. .invisible
+132. .carousel-caption
+133. .carousel-control .icon-prev:before
+134. .carousel-control .icon-next:before
+135. .product-thumb .caption .bl_time
+136. .product-thumb .q_chislo
+137. .product-thumb .q_button
+138. .product-thumb .cart:hover .q_button
+139. .product-thumb .cart:hover .q_chislo
+140. .product-thumb .in-wishlist i:after
+141. .product-list .product-thumb .caption .price.na_zakaz
+142. .revblog-list.product-price .image
+143. .revblog-list.product-price .caption
+144. .revblog-list.product-price .image + .caption
+145. .revblog-list.product-price .image img
+146. .product-thumb .price-tax
+147. .thumbnails
+148. .thumbnails a.thumbnail:focus
+149. .thumbnails a.thumbnail:hover
+150. .thumbnails > img
+151. .image-additional a
+152. .image-additional
+153. .thumbnails .image-additional
+154. .images-additional .thumbnail
+155. .btn-info:hover
+156.  .btn-info:active
+157.  .btn-info.active
+158.  .btn-info.disabled
+159.  .btn-info[disabled]
+160. .navbar-toggle
+161. .popup-phone-wrapper + .scroll-top-wrapper.show
+162. .razmiv .scroll-top-wrapper
+163. 
+.razmiv2 .scroll-top-wrapper
+164. 
+.razmiv .popup-phone-wrapper
+165. label.comp
+166. .links label.comp
+167. input.comp
+168. label.remcom
+169. label.remcom:hover
+170. .vertical-sreview .review-author
+171. .vertical-sreview .review-date-added
+172. .vertical-sreview-all
+173. #vk_groups
+174. 
+#fb_groups
+175. 
+#ok_groups
+176. #vk_groups + #fb_groups
+177. #vk_groups + #ok_groups
+178. #fb_groups + #ok_groups
+179. .module-instagram
+180. #vk_groups + .module-instagram
+181. .module-instagram .images img
+182. .module-instagram .images img:hover
+183. .aboutstore2 .module-instagram
+184. 
+.aboutstore .module-instagram
+185. .aboutstore .module-instagram .images img
+186. .aboutstore2 .module-instagram .images img
+187. .razmiv2 .mfp-bg
+188. .razmiv2 .mfp-container
+189. .razmiv2 .mfp-image-holder
+190. .razmiv2 .mfp-image-holder .mfp-close
+191. .razmiv2 .mfp-image-holder img.mfp-img
+192. .razmiv2 .mfp-title
+193. .razmiv2 .mfp-counter
+194. .razmiv2 .mfp-bottom-bar
+195. .razmiv2 .mfp-figure:after
+196. .product-compare .image .stiker_panel
+197. .product-compare .image .stiker
+198. .category_description
+199. .category_description.c_desc_top
+200. .category_description.blog
+201. .category_description .fl-l
+202. .category_description img
+203. .refine_categories .btn-link
+204. .main_img_box .image
+205. .main_img_box .image > a
+206. 
+.main_img_box .image > #wrap
+207. .main_img_box .image > a > img
+208. .main_img_box .image > a:hover > img
+209. .opt_required > label
+210. .well-sm.product-info .ya-share2
+211. .dotted-line_left
+212. .dotted-line_title
+213. .dotted-line_line
+214. .dotted-line_right
+215. .product-grid .dotted-line_left
+216. .product-grid .dotted-line_line
+217. .product-grid .dotted-line_right
+218. .product-price .dotted-line_left
+219. .product-price .dotted-line_line
+220. .product-price .dotted-line_right
+221. .product-price br + .dotted-line_left:before
+222. .product-price .dotted-line_right:last-child:after
+223. .prq_title
+224. .product-info .nalich
+225. .nalich > span
+226. .product-info .nalich .reward
+227. #popup-view-wrapper .nalich .reward
+228. #popup-view-wrapper .nalich > span
+229. #column-left + #content .product-info .pop_ico
+230. .product-info .pop_right.columns_dd .pop_ico
+231. .product-info .pop_ico:hover
+232. .product-info .in-wishlist .fa
+233.  
+.product-info .in-compare .fa
+234. .product-info .in-wishlist i:after
+235. #product_products
+236. .review-list .text2
+237. .panel-title .fa
+238. .top-links #menu
+239. .image_in_ico_row
+240. 
+#menu .nav > li > .without_a
+241. #menu .nav > li > .without_a
+242. #menu .see-all
+243. #menu .see-all:hover
+244.  #menu .see-all:focus
+245. #menu .btn-navbar
+246. #menu .btn-navbar:hover
+247.  #menu .btn-navbar:focus
+248.  #menu .btn-navbar:active
+249.  #menu .btn-navbar.disabled
+250.  #menu .btn-navbar[disabled]
+251. #menu .navbar-collapse
+252. #menu .nav.dblock_zadergkaoff > li:hover .dropdown-menu
+253. #menu .nav.dblock_zadergka > li:hover .dropdown-menu.dblockdr
+254. .mobilemenu .navbar-nav .open .dropdown-menu
+255. .navmenu-default
+256.  .navbar-default .navbar-offcanvas
+257. .mobilemenu .navbar-collapse
+258. .mobilemenu .navbar-nav
+259. .mobilemenu .navbar-nav > li > a
+260. .mobilemenu .navbar-nav > li > .list-group-submenu li > a
+261. 
+.mobilemenu .nav > li > a
+262. .mobilemenu .navbar-nav > li > .list-group-submenu li > .list-group-submenu a
+263. .mobilemenu .navbar-nav > li > .list-group-submenu li > .list-group-submenu a:hover
+264. .mobilemenu .nav > li > button
+265. 
+.mobilemenu .nav > li > span.mmbutton
+266. .mobilemenu .navbar-nav > li > button > i
+267. 
+.mobilemenu .navbar-nav > li > span.mmbutton > i
+268. 
+.mobilemenu .navbar-nav > li
+269. .mobilemenu .navbar-nav > li
+270. .mobilemenu .navbar-nav > li > .list-group-submenu li a > .chevrond
+271. 
+.mobilemenu .navbar-nav > li a > .chevrond
+272. .mobilemenu .navbar-nav > li > .list-group-submenu li a > .chevrond > i
+273. 
+.mobilemenu .navbar-nav > li a > .chevrond > i
+274. .mobilemenu .nav > li > button:focus
+275. 
+.mobilemenu .nav > li > button:hover
+276. 
+.mobilemenu .nav > li > a:focus
+277. 
+.mobilemenu .nav > li > a:hover
+278. 
+.mobilemenu .nav > li > span.mmbutton:focus
+279. 
+.mobilemenu .nav > li > span.mmbutton:hover
+280. .mobilemenu .nav > li a > .chevrond:focus
+281. .mobilemenu .nav > li a > .chevrond:hover
+282. 
+.mobilemenu .nav > li.mobile_header_type_two > button > .chevrond:hover
+283. 
+.mobilemenu .nav > li.mobile_header_type_two > span.mmbutton > .chevrond:hover
+284. .mobilemenu .navbar-nav > li > .list-group-submenu
+285. .mobilemenu .navbar-nav > li > .list-group-submenu li
+286. .mobile_info .navbar
+287. .mobile_info button
+288. .mobile_info button .fa-info
+289. .mobile_info button + button
+290. .mobile_info button + button .fa-info
+291. .mobilemenu .navbar-nav > li.mobile_header_type_two
+292. .mobilemenu .navbar-nav > li.mobile_header_type_two > button
+293. 
+.mobilemenu .navbar-nav > li.mobile_header_type_two > span.mmbutton
+294. .mobilemenu .navbar-nav > li.mobile_header_type_two > button > .chevrond
+295. 
+.mobilemenu .navbar-nav > li.mobile_header_type_two > span.mmbutton > .chevrond
+296. .mobilemenu .navbar-nav > li.mobile_header_type_two > button > .chevrond > i
+297. 
+.mobilemenu .navbar-nav > li.mobile_header_type_two > span.mmbutton > .chevrond > i
+298. .mobile_info button .fa-chevron-left
+299. .mobile_info .navbar-default .navbar-toggle:focus
+300. 
+.mobile_info .navbar-default .navbar-toggle:hover
+301. .mobile_info button:hover
+302. .no-touch .cd-products-comparison-table .filter.active:hover
+303. .no-product-transition .cd-products-columns .product.selected
+304. .filtered .cd-products-columns .product:not(.selected)
+305. .cd-features-list li.rate
+306. .cd-features-list li.rate span
+307. .cd-products-table .top-info .check
+308. .cd-products-table .top-info .check::after
+309.  .cd-products-table .top-info .check::before
+310. .cd-products-table .top-info .check::before
+311. .cd-products-table .selected .top-info .check::before
+312. .cd-products-table .selected .top-info .check::after
+313. .cd-products-table.top-fixed .cd-products-columns > li
+314. 
+.cd-products-table.top-scrolling .cd-products-columns > li
+315. 
+.cd-products-table.top-fixed .features
+316. 
+.cd-products-table.top-scrolling .features
+317. .cd-products-table.top-fixed .top-info
+318. 
+.cd-products-table.top-scrolling .top-info
+319. .no-cssgradients .cd-products-table.top-fixed .top-info
+320.  .no-cssgradients
+.cd-products-table.top-scrolling .top-info
+321. .cd-products-table.top-fixed .top-info::after
+322. 
+.cd-products-table.top-scrolling .top-info::after
+323. .cd-products-table.top-fixed .top-info h3
+324. 
+.cd-products-table.top-scrolling .top-info h3
+325. .cd-products-table.top-fixed .top-info img
+326. 
+.cd-products-table.top-scrolling .top-info img
+327. .cd-products-table.top-scrolling .top-info
+328. .no-touch .cd-table-navigation a:hover
+329. .top-fixed .cd-table-navigation a
+330.  .top-scrolling .cd-table-navigation a
+331. .top-fixed .cd-table-navigation a.prev
+332.  .top-scrolling .cd-table-navigation a.prev
+333. .no-js .actions
+334. .no-js .cd-products-table .top-info
+335. .no-js .cd-products-columns .check
+336. .cd-products-comparison-table .in-wishlist i:after
+337. .cd-products-comparison-table .in-wishlist .fa-border
+338. 
+.cd-products-comparison-table .in-compare .fa-border
+339. #menu #menu-list
+340. #menu #menu-list > li .child-box-cell .child2-box
+341. #menu #menu-list .arrow
+342. #menu #menu-list > li .child-box
+343. #menu #menu-list > li:hover > .child-box
+344. #top2 .tel .s22
+345. #top4
+346. #top2 .header_conts
+347. #top3_links
+348. #top3_links .top-links
+349. #top3_links .top-links .list-inline
+350. #top3_links .top-links a
+351. #top3_links .top-links a:hover
+352. .top-links.verh a .fa.strdown
+353. #success-message
+354. .mfp-close
+355. 
+.mfp-close
+356. .mfp-close:hover
+357. 
+.mfp-close:hover
+358. .popup-center.empty-cart
+359. .table-totals-cart
+360. .table-totals-cart tr td:last-child
+361. #quitog
+362. #itogo
+363. #itogo #main-price
+364. 
+#itogo #special-price
+365. #itogo s #main-price
+366. .display-products-cart tr td.totals
+367. .display-products-cart .porder tr td.totals
+368. #quitog .display-products-cart .number
+369. #quitog .display-products-cart input.plus-minus
+370. .all-total .clear-total
+371. .optionsgr .checkbox
+372. 
+.optionsgr .radio
+373. .popup-purchase-button
+374. .popup-purchase-button button
+375. #popup-view-wrapper .product-info #button-cart .fa
+376. #popup-view-wrapper .popup-heading
+377. #popup-view-wrapper .product-info #button-cart
+378. 
+.scroll-top-wrapper
+379. #popup-view-wrapper .mfp-close
+380. #popup-view-wrapper .mfp-close:hover
+381. #popup-view-wrapper .popup-footer
+382. #popup-view-wrapper .popup-footer button
+383. #popup-view-wrapper .popup-footer button:hover
+384. #popup-view-wrapper .popup-footer a
+385. #popup-view-wrapper .popup-footer #popup-checkout-none
+386. #popup-view-wrapper .popup-footer #popup-checkout-none:hover
+387. #popup-view-wrapper .popup-footer a:hover
+388. #popup-view-wrapper .popup-center
+389. #popup-view-wrapper .product-name
+390. #popup-view-wrapper .image-additional
+391. #popup-view-wrapper .image-additional label:hover
+392. #popup-view-wrapper .image-additional input
+393. #popup-view-wrapper #tab-description
+394. .product-thumb:hover .popup_view_button
+395. .popup_view_button
+396. .product-list .popup_view_button
+397. .mobile-products-cart #main-price.spec
+398. .popup_notification .mfp-close
+399. .popup_notification .mfp-close:hover
+400. .popup_notification_message .ya-share2
+401. 
+.popup_notification_message #product_products
+402. .mfp-zoom-in .mfp-content > div
+403. .mfp-zoom-in.mfp-ready .mfp-content > div
+404. .mfp-zoom-in.mfp-removing .mfp-content > div
+405. .thumbnails .mfp-iframe span
+406. .thumbnails .mfp-iframe:hover span
+407. .product-info .pokupka .preimushestva.optsbuy
+408. .hometab.nav-tabs>li>a
+409. .hometab.nav-tabs>li>a>.fa
+410. .heading_ico_image
+411. .heading_ico_image>img
+412. .heading_ico_image>.mask
+413. .hometab.nav-tabs>li>a:hover .mask
+414. .hometab.nav-tabs>li.active>a:hover .mask
+415. #column-right #product_products
+416. #column-right #product_products h3
+417. #column-right.columns_dd #product_products .product-thumb
+418. #column-right.columns_dd #product_products .product-thumb .image
+419. #column-right.columns_dd #product_products .product-thumb .rating
+420. #column-right.columns_dd #product_products .product-thumb .image .fapanel
+421. #column-right.columns_dd #product_products .product-thumb .caption
+422. #column-right.columns_dd #product_products .product-thumb h4
+423. #column-right.columns_dd #product_products .product-thumb .price
+424. #column-right.columns_dd #product_products .product-thumb .price-new
+425. #column-right.columns_dd #product_products .product-thumb .cart
+426. 
+#column-right.columns_dd #product_products .product-thumb .wishlist
+427. 
+#column-right.columns_dd #product_products .product-thumb .compare
+428. #content.col-sm-9 .product-info .nalich
+429. #column-right.columns_dd #product_products .product-thumb .image img
+430. .header_phone_nomer .dropdown-menu li a
+431. .home_catwalls h3
+432. .home_catwalls .product-thumb
+433. .home_catwalls .product-thumb .image
+434. .home_catwalls .product-thumb .caption
+435. ul.ul_block_home_catwalls
+436. ul.ul_block_home_catwalls li
+437. ul.ul_block_home_catwalls .column
+438. .home_catwalls .product-thumb h4
+439. .ul_block_home_catwalls h4
+440. .ul_block_home_catwalls h4.corencats
+441. .ul_block_home_catwalls h4.home_catwalls_all_href
+442. .ul_block_home_catwalls h4.home_catwalls_all_href a
+443. .ul_block_home_catwalls h4.home_catwalls_all_href a:hover
+444. .ul_block_home_catwalls h4.home_catwalls_all_href a > i
+445. a.home_catwalls_podcat
+446. .ul_block_home_catwalls h4.home_catwalls_all_href.corencats
+447.  .text-danger-inproduct
+448. .heading_ico_image > img
+449. .mfp-content img
+450. .revolution-revblog_blog #content img
+451. .revblog-grid .image img
+452. .revblog-grid .caption.with_bl_time:before
+453. .revblog-grid .caption
+454. .revblog-grid .caption .bl_time
+455. .revblog-grid .caption h4
+456. #all_document
+457. #revcheckout .revcart_column_left
+458. #revcheckout .revcart_column_right
+459. 
+#revcheckout .revcart_column_right
+460. #revcheckout .revcart_column_right > .sticky
+461. #revcheckout .revcart_column_right > .stop
+462. #revcheckout .rev_cart
+463. #revcheckout #revcart_upd
+464. #revcheckout .coupon_table
+465. 
+#revcheckout .total_table
+466. #revcheckout span.revc_text
+467. #revcheckout .coupon .form-control
+468. #revcheckout .coupon .btn
+469. #revcheckout .total_table tr td
+470. #revcheckout .total_table tr td:last-child
+471. #revcheckout .table>thead
+472. #revcheckout .table>tbody>tr>td
+473. #revcheckout .table > thead td
+474. #revcheckout .delete button
+475. #revcheckout .delete button:hover
+476. #revcheckout .revcart_price
+477. 
+#revcheckout .revcart_vsego
+478. 
+#revcheckout .revcart_model
+479. #revcheckout .revcart_sku
+480. #revcheckout .revcart_image
+481. 
+#revcheckout .revcart_price
+482. 
+#revcheckout .revcart_sku
+483. 
+#revcheckout .revcart_kolvo
+484. #revcheckout .revcart_image img
+485. #revcheckout .table
+486. #revcheckout .coupon_table td
+487. #revcheckout .total_table td
+488. #revcheckout .total_table tr:first-child td
+489. #revcheckout .total_table tr:last-child td
+490. #revcheckout .coupon_table tr + tr td
+491. 
+#revcheckout .total_table tr + tr td
+492. #revcheckout .total_html
+493. #revcheckout #confirm .payment
+494. #revcheckout .total_checkout
+495. #revcheckout .panel
+496. #revcheckout .panel-body
+497. #revcheckout .panel-heading
+498. #revcheckout .form-group
+499. #revcheckout .form-group:before
+500. 
+#revcheckout .form-group:after
+501. #revcheckout .shipping-method label
+502. #revcheckout .method + .method
+503. 
+#revcheckout .method + .method
+504. .revolution-revregister label.col-xs-3
+505. #revcheckout .ship_metod #payment-existing
+506. .revolution-account-revaccount .revaccblocks li
+507. .revolution-account-revaccount .revaccblocks li a
+508. .revolution-account-revaccount .revaccblocks li a:hover
+509. .revolution-account-revaccount .revaccblocks li a i
+510. .revolution-account-revedit .form-horizontal .control-label
+511. 
+.radio-inline input[type="radio"]
+512. 
+.radio-inline input[type="radio"]:checked::after
+513. #content iframe
+514. 
+.mobilemenu .chevrond i
+515. 
+.mobilemenu .chevrond .fa.on
+516.  
+.mobilemenu .chevrond.hided .fa.off
+517. 
+.mobilemenu .chevrond .fa.off
+518. 
+.mobilemenu .chevrond.hided .fa.on
+519. #cart.mini_header_cart
+520. #cart.mini_header_cart #cart-total-popup > .fa
+521. 
+#cart.mini_header_cart #cart-total > .fa
+522. #cart.mini_header_cart sup
+523. #cart.mini_header_cart #cart-total-popup
+524. 
+#cart.mini_header_cart #cart-total
+525. .top-links.nav
+526. .products_category .filter_gr h4
+527. .products_category .filter_gr h4:first-letter
+528. .revblog-list .product-thumb
+529. .revblog-list .product-thumb:hover
+530. .revblog-list + .revblog-list .product-thumb
+531. .revblog-list .product-thumb .image
+532. .revblog-list .product-thumb .image a
+533. .revblog-list .product-thumb .caption
+534. .revblog-list .product-thumb h4
+535. .revblog-list .product-thumb .caption .bl_time
+536. .revblog_imgs.images-additional
+537. .snow_flake
+538.  .top-links .fa
+539. #top .navbar-default .navbar-toggle
+540. .revcontainer .col-sm-12.text-center + .col-sm-12.text-center
+541. .product-thumb .fa-legal:before
+542. 
+.product-info .pop_ico .fa-legal:before
+543. 
+.product-info .pop_ico .fa-gavel:before
+544. .thumbnails .images-additional
+545. .image_in_ico_row .top-links.nav #menu
+546. header .floating_hcart
+547. header .floating_hcart:hover
+548. .razmiv2 .floating_hcart
+549. .floating_hcart #cart
+550. .floating_hcart #cart.mini_header_cart #cart-total-popup > .fa
+551.  #cart.mini_header_cart #cart-total > .fa
+552. .floating_hcart #cart.mini_header_cart sup
+553. #revslideshow .home_slideshow_title
+554.  #revslideshow .home_slideshow_description
+555.  #revslideshow .home_slideshow_link
+556. #revslideshow .home_slideshow_description
+557. #revslideshow .home_slideshow_link
+558. #revslideshow
+559. #revslideshow .home_slideshow_link:hover
+560. .mobilemenu .navbar-nav>li>a>i
+561. .home_catwalls .revcatwall .product-thumb .caption
+562. .home_catwalls .revcatwall .product-thumb h4
+563. .home_catwalls .revcatwall .product-thumb .aftercaption
+564. .catpr_discounts

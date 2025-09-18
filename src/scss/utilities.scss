@@ -147,6 +147,12 @@ select.form-control, input.form-control, textarea.form-control {
   visibility: visible;
   display: none;
 }
+.search .group-header {
+  background-color: #f5f5f580;
+  padding: 10px;
+  cursor: default;
+  color: #b7b7b7;
+}
 
 
 .temporarily-visible {

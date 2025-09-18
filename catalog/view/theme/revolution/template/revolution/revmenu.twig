@@ -1,10 +1,12 @@
-<div id="menu2_button" {% if (module_class) %}class="page-fader {{ module_class }}"{% endif %}>
+<div id="menu2_button">
+	{#}
 <!-- <div class="box-heading hidden-md hidden-lg" data-toggle="offcanvas" data-target=".navmenu.mobcats" data-canvas="body">{{ heading_title }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></div> -->
 <!-- <div class="box-heading hidden-xs hidden-sm" onclick="return false;">{{ heading_title }}<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></div> -->
+	{#}
 <div class="btn-catalog">
-	<i class="fa fa-bars"></i>
+	<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.2" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/></svg>
 	Каталог
-	<i class="fa fa-chevron-down"></i>
+	<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5" width="10" height="10" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>
 </div>
 
 <div class="box-content am hidden-xs hidden-sm">
@@ -162,55 +164,13 @@
 	{% endfor %}  
 {% endif %}  
 
-{% if (manuf_status) %} 
-	{% if (categories_m) %} 
-	<div class="revlevel_1 hasChildren closed i_rhml_manufs">
-		<div class="title with-child">
-		<a href="{{ url_revmenu_manufs }}">{% if (manuf_image) %} {{ manuf_image }} {% endif %}{{ text_revmenu_manufs }}<span class="arrow-btn"><i class="fa fa-angle-right"></i></span></a>
-		</div>
-		<div class="childrenList">
-			{% if (n_column == 1) %}
-				{% set box_class_m = 'box-col-1' %} {% set col_class_m = 'col-1' %} {% set image_in_ico_class = 'col-sm-12 col-lg-6' %}
-			{% elseif (n_column == 2) %}
-				{% set box_class_m = 'box-col-2' %} {% set col_class_m = 'col-2' %} {% set image_in_ico_class = 'col-sm-4 col-lg-3' %}
-			{% elseif (n_column == 3) %}
-				{% set box_class_m = 'box-col-3' %} {% set col_class_m = 'col-3' %} {% set image_in_ico_class = 'col-sm-3 col-lg-2' %}
-			{% else %} 
-				{% set box_class_m = 'box-col-4' %} {% set col_class_m = 'col-4' %} {% set image_in_ico_class = 'col-sm-12 col-lg-6' %}
-			{% endif %} 
-			<div class="child-box {{ box_class_m }}">
-				{% if (image_in_ico_m) %} 
-					<div class="image_in_ico_manufacturers refine_categories clearfix">
-						{% for categorys in categories_m|batch((categories_m|length / n_column)|round) %} 
-							{% for category in categorys %} 
-								{% if (category['manufacturer']) %} 
-									{% for manufacturers in category['manufacturer'] %} 
-										<a class="{{ image_in_ico_class }}" href="{{ manufacturers['href'] }}">
-											<img src="{{ manufacturers['thumb'] }}" title="{{ manufacturers['name'] }}" alt="{{ manufacturers['name'] }}" /><span>{{ manufacturers['name'] }}</span>
-										</a>
-									{% endfor %} 
-								{% endif %} 
-							{% endfor %} 
-						{% endfor %} 
-					</div>
-				{% else %}	
-					<ul class="ul_block cat_m {{ col_class_m }}">
-						{% for category in categories_m %} 
-							<li class="glavli">{{ category['name'] }} 
-								<ul class="lastul">
-									{% for manufacturers in category['manufacturer'] %} 
-									  <li class="category"><a href="{{ manufacturers['href'] }}"><i class="fa fa-minus"></i>{{ manufacturers['name'] }}</a></li>
-									{% endfor %}	
-								</ul>
-							</li>
-						{% endfor %} 
-					</ul>
-				{% endif %} 
-			</div>		
-		</div>
+<div class="revlevel_1 closed i_rhml_manufs">
+	<div class="title">
+	<a href="{{ url_revmenu_manufs }}">{{ text_revmenu_manufs }}</a>
 	</div>
-	{% endif %} 
-{% endif %} 
+</div>
+
+{#}
 {% if (revblog_status) %} 
 	{% for category in blog_categories %} 
 		<div class="revlevel_1 hasChildren closed i_rhml_revblog">
@@ -280,6 +240,7 @@
 		</div>		
 	{% endfor %} 
 {% endif %} 
+{#}
 
 {% if (revtheme_header_menu_links) %} 
 	{% set i_rhml = 1 %} {% for revtheme_header_menu_link in revtheme_header_menu_links %} 

@@ -5,7 +5,7 @@ class ControllerExtensionModuleRelatedCategories extends Controller {
 	public function getRelatedCategories($query) {
 
     $data['categories'] = array();
-    // $this->load->model('catalog/category');
+    $this->load->model('catalog/category');
     $this->load->model('extension/module/ocfilter');
     $this->load->model('extension/module/related_categories');
 
