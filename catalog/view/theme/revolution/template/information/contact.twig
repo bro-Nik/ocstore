@@ -1,220 +1,138 @@
-{{ header }} 
-<div class="container">
-<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
-{% set position = 1 %} {% for breadcrumb in breadcrumbs %} 
-<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-<link itemprop="item" href="{{ breadcrumb['href'] }}">
-<meta itemprop="name" content="{{ breadcrumb['text'] }}" />
-<meta itemprop="position" content="{{ position }}" />
-</div>
-{% set position = position + 1 %} {% endfor %} 
-</div>
-<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
-{% for i,breadcrumb in breadcrumbs %} 
-{% if (i+1<breadcrumbs|length) %}<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>{% else %}{% endif %} 
-{% endfor %} 
-<li><span class="inbreadcrumb">{{ heading_title }}</span></li>
-</ul>
-	<div class="row">{{ column_left }} 
-		{% if (column_left and column_right) %} 
-		{% set class = 'col-sm-6' %} 
-		{% elseif (column_left or column_right) %} 
-		{% set class = 'col-sm-9' %} 
-		{% else %} 
-		{% set class = 'col-sm-12' %} 
-		{% endif %} 
-		<div id="content" class="{{ class }}">{{ content_top }} 
-			{% if (f_map) %} 
-				<div class="row conts hidden-xs" style="margin-bottom: 10px">
-					<div class="col-sm-12">
-						{% if (descript|length > 30 or comment) %} 
-							<div style="{% if (not f_map) %} {{ 'margin-top:20px' }}">
-								{{ comment }}{% endif %} 
-								{% if (descript|length > 30) %} 
-									{{ descript }} 
-								{% endif %} 
-							</div>
-						{% endif %} 
-					</div>
+{% extends 'revolution/template/product/partials/base.twig' %}
+
+{% block title %}{% endblock %}
+{% block content %}
+	<div class="row contacts-content">
+		<div class="map">
+			<div id="yamap2">
+			{% if yamap %} {{ yamap }} {% endif %} 
+			</div>
+		</div>
+
+		<div class="contacts">
+			<h1>{{ text_contact_ourcontacts }}</h1>
+			<p class="hid_address">{{ address }}</p>
+			<p class="hid_telephone">{{ telephone }}</p>
+			<p class="hid_email">{{ config_email }}</p>
+
+			{% if (header_phone_number != '') %} 
+				<p class="dop_contact_tel1"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ header_phone_cod }} {{ header_phone_number }}</p>
+			{% endif %} 
+			{% if (header_phone_number2 != '') %} 
+				<p class="dop_contact_tel2"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ header_phone_cod2 }} {{ header_phone_number2 }}<p>
+			{% endif %} 
+			{% if (dop_contacts) %} {% set i_dc = 1 %} 
+				{% for dop_contact in dop_contacts %} 
+					{% if (dop_contact['href'] != '') %} 
+						<p class="dop_contact_{{ i_dc }}">{{ dop_contact['icon'] }}<a href="{{ dop_contact['href'] }}">{{ dop_contact['number'] }}</a></p>
+					{% else %} 
+						<p class="dop_contact_{{ i_dc }}">{{ dop_contact['icon'] }}{{ dop_contact['number'] }}</p>
+					{% endif %} 
+				{% set i_dc = i_dc + 1 %} {% endfor %} 
+			{% endif %} 
+
+			{% if (descript|length > 30 or comment) %} 
+				<div style="{% if (not f_map) %} {{ 'margin-top:20px' }}">
+					{{ comment }}{% endif %} 
+					{% if (descript|length > 30) %} 
+						{{ descript }} 
+					{% endif %} 
 				</div>
 			{% endif %} 
-			<div class="row conts {% if f_map %} visible-xs {% endif %}" {% if f_map %} style="margin-bottom: 10px" {% endif %}>
-				<div class="{% if yamap %} col-sm-8 {% else %} hidden {% endif %}">
-					<div id="yamap2" style="width: 100%; overflow: hidden;">
-					{% if yamap %} {{ yamap }} {% endif %} 
+		</div>
+	</div>
+		  
+	{% if (locations) %} 
+		<h3>{{ text_store }}</h3>
+		<table class="table table-revolution">	  
+			{% for location in locations %} 
+				<thead>
+					<tr>
+						<td colspan="5" class="text-left">{{ location['name'] }}</td>
+					</tr>
+				</thead>
+				<tbody class="products_category">
+					<tr>
+						<td class="text-left image" style="border-bottom:none;">
+							{% if (location['image']) %} 
+								<img src="{{ location['image'] }}" alt="{{ location['name'] }}" title="{{ location['name'] }}" class="img-thumbnail" />
+							{% endif %} 
+						</td>
+						<td class="text-left" style="border-bottom:none;">
+							{% if (location['geocode']) %} 
+								<a href="https://maps.google.com/maps?q={{ location['geocode']|url_encode }}&hl={{ geocode_hl }}&t=m&z=15" target="_blank">{{ location['address'] }}</a>
+							{% else %} 
+								<a href="https://maps.google.com/maps?q={{ location['address']|url_encode }}&t=m&z=15" target="_blank">{{ location['address'] }}</a>
+							{% endif %} 
+						</td>
+						<td class="text-left" style="border-bottom:none;">
+							{{ text_telephone }}: {{ location['telephone'] }} 
+						</td>
+						<td class="text-left" style="border-bottom:none;">
+							{% if (location['open']) %} 
+								{{ text_open }}: {{ location['open'] }} 
+							{% endif %} 
+						</td>
+						<td class="text-left" style="border-bottom:none;">
+							{% if (location['comment']) %} 
+								{{ location['comment'] }} 
+							{% endif %} 
+						</td>
+					</tr>
+				</tbody>
+			{% endfor %} 
+		</table>
+	{% endif %} 
+
+	{% if (settings_all_settings['f_svazy']) %} 
+		<form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+			<fieldset>
+				<legend>{{ text_contact }}</legend>
+				<div class="form-group required">
+					<label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+					<div class="col-sm-10">
+						<input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" />
+						{% if (error_name) %} 
+							<div class="text-danger">{{ error_name }}</div>
+						{% endif %} 
 					</div>
 				</div>
-				<div class="{% if yamap %} col-sm-4 {% else %} col-sm-12 {% endif %}">
-					<h1>{{ text_contact_ourcontacts }}</h1>
-					{% if settings_all_settings['m_conts'] %} 
-						<p class="hid_address"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ address }}</p>
-						<p class="hid_telephone"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ telephone }}</p>
-						<p class="hid_email"><i class="fa fa fa-envelope" aria-hidden="true"></i>{{ config_email }}</p>
-					{% endif %} 
-					{% if (settings_all_settings['dop_conts']) %} 
-						{% if (header_phone_number != '') %} 
-							<p class="dop_contact_tel1"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ header_phone_cod }} {{ header_phone_number }}</p>
+				<div class="form-group required">
+					<label class="col-sm-2 control-label" for="input-email">{{ entry_email }}</label>
+					<div class="col-sm-10">
+						<input type="text" name="email" value="{{ email }}" id="input-email" class="form-control" />
+						{% if (error_email) %} 
+							<div class="text-danger">{{ error_email }}</div>
 						{% endif %} 
-						{% if (header_phone_number2 != '') %} 
-							<p class="dop_contact_tel2"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ header_phone_cod2 }} {{ header_phone_number2 }}<p>
+					</div>
+				</div>
+				<div class="form-group required">
+					<label class="col-sm-2 control-label" for="input-enquiry">{{ entry_enquiry }}</label>
+					<div class="col-sm-10">
+						<textarea name="enquiry" rows="10" id="input-enquiry" class="form-control">{{ enquiry }}</textarea>
+						{% if (error_enquiry) %} 
+							<div class="text-danger">{{ error_enquiry }}</div>
 						{% endif %} 
-						{% if (dop_contacts) %} {% set i_dc = 1 %} 
-							{% for dop_contact in dop_contacts %} 
-								{% if (dop_contact['href'] != '') %} 
-									<p class="dop_contact_{{ i_dc }}">{{ dop_contact['icon'] }}<a href="{{ dop_contact['href'] }}">{{ dop_contact['number'] }}</a></p>
-								{% else %} 
-									<p class="dop_contact_{{ i_dc }}">{{ dop_contact['icon'] }}{{ dop_contact['number'] }}</p>
-								{% endif %} 
-							{% set i_dc = i_dc + 1 %} {% endfor %} 
+					</div>
+				</div>
+				{{ captcha }} 
+				
+			</fieldset>
+			<div class="buttons">
+				{% if (text_agree_pol_konf) %} 
+					<div class="rev_pol_konf pull-right text-right">
+						<span>{{ text_agree_pol_konf }}</span>
+						<input type="checkbox" name="agree_pol_konf" checked="checked" />
+						{% if (agree_pol_konf) %} 
+							<div class="text-danger">{{ agree_pol_konf }}</div>
 						{% endif %} 
-					{% endif %} 
-					{% if (settings_all_settings['soc_conts']) %} 
-						{% if (revtheme_footer_socs) %} 
-							{% for revtheme_footer_soc in revtheme_footer_socs %} 
-								<p><i class="{{ revtheme_footer_soc['image'] }}" aria-hidden="true"></i><a href="{{ revtheme_footer_soc['link'] }}" rel="nofollow" target="_blank">{{ revtheme_footer_soc['link_t'] }}</a></p>
-							{% endfor %} 
-						{% endif %} 
-					{% endif %} 
-					{% if (descript|length > 30 or comment) %} 
-						<div style="{% if (not f_map) %} {{ 'margin-top:20px' }}">
-							{{ comment }}{% endif %} 
-							{% if (descript|length > 30) %} 
-								{{ descript }} 
-							{% endif %} 
-						</div>
-					{% endif %} 
+					</div>
+					<br/><br/>
+				{% endif %} 
+				<div class="pull-right">
+					<input class="btn btn-primary" type="submit" value="{{ button_submit }}" />
 				</div>
 			</div>
-		  
-			{% if (locations) %} 
-				<h3>{{ text_store }}</h3>
-				<table class="table table-revolution">	  
-					{% for location in locations %} 
-						<thead>
-							<tr>
-								<td colspan="5" class="text-left">{{ location['name'] }}</td>
-							</tr>
-						</thead>
-						<tbody class="products_category">
-							<tr>
-								<td class="text-left image" style="border-bottom:none;">
-									{% if (location['image']) %} 
-										<img src="{{ location['image'] }}" alt="{{ location['name'] }}" title="{{ location['name'] }}" class="img-thumbnail" />
-									{% endif %} 
-								</td>
-								<td class="text-left" style="border-bottom:none;">
-									{% if (location['geocode']) %} 
-										<a href="https://maps.google.com/maps?q={{ location['geocode']|url_encode }}&hl={{ geocode_hl }}&t=m&z=15" target="_blank">{{ location['address'] }}</a>
-									{% else %} 
-										<a href="https://maps.google.com/maps?q={{ location['address']|url_encode }}&t=m&z=15" target="_blank">{{ location['address'] }}</a>
-									{% endif %} 
-								</td>
-								<td class="text-left" style="border-bottom:none;">
-									{{ text_telephone }}: {{ location['telephone'] }} 
-								</td>
-								<td class="text-left" style="border-bottom:none;">
-									{% if (location['open']) %} 
-										{{ text_open }}: {{ location['open'] }} 
-									{% endif %} 
-								</td>
-								<td class="text-left" style="border-bottom:none;">
-									{% if (location['comment']) %} 
-										{{ location['comment'] }} 
-									{% endif %} 
-								</td>
-							</tr>
-						</tbody>
-					{% endfor %} 
-				</table>
-			{% endif %} 
-			{% if (settings_all_settings['f_svazy']) %} 
-				<form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-					<fieldset>
-						<legend>{{ text_contact }}</legend>
-						<div class="form-group required">
-							<label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
-							<div class="col-sm-10">
-								<input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" />
-								{% if (error_name) %} 
-									<div class="text-danger">{{ error_name }}</div>
-								{% endif %} 
-							</div>
-						</div>
-						<div class="form-group required">
-							<label class="col-sm-2 control-label" for="input-email">{{ entry_email }}</label>
-							<div class="col-sm-10">
-								<input type="text" name="email" value="{{ email }}" id="input-email" class="form-control" />
-								{% if (error_email) %} 
-									<div class="text-danger">{{ error_email }}</div>
-								{% endif %} 
-							</div>
-						</div>
-						<div class="form-group required">
-							<label class="col-sm-2 control-label" for="input-enquiry">{{ entry_enquiry }}</label>
-							<div class="col-sm-10">
-								<textarea name="enquiry" rows="10" id="input-enquiry" class="form-control">{{ enquiry }}</textarea>
-								{% if (error_enquiry) %} 
-									<div class="text-danger">{{ error_enquiry }}</div>
-								{% endif %} 
-							</div>
-						</div>
-						{{ captcha }} 
-						
-					</fieldset>
-					<div class="buttons">
-						{% if (text_agree_pol_konf) %} 
-							<div class="rev_pol_konf pull-right text-right">
-								<span>{{ text_agree_pol_konf }}</span>
-								<input type="checkbox" name="agree_pol_konf" checked="checked" />
-								{% if (agree_pol_konf) %} 
-									<div class="text-danger">{{ agree_pol_konf }}</div>
-								{% endif %} 
-							</div>
-							<br/><br/>
-						{% endif %} 
-						<div class="pull-right">
-							<input class="btn btn-primary" type="submit" value="{{ button_submit }}" />
-						</div>
-					</div>
-				</form>
-			{% endif %} 
-			{{ content_bottom }} 
-		</div>
-		{{ column_right }} 
-	</div>
-</div>
-{% if (not yamap) %} 
-	<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
-	<script><!--
-	ymaps.ready(init_map);
-	$('#yamap2').css('height', '400px');
-	function init_map(){
-		var address = '{{ address }}';
-		var geocoder = ymaps.geocode(address);
-		geocoder.then(
-			function (res) {
-				var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
-				var map = new ymaps.Map("yamap2", {
-					center: coordinates,
-					zoom: 15,
-					controls: [
-						'typeSelector',
-						'fullscreenControl'
-					]
-				});			
-				map.geoObjects.add(new ymaps.Placemark(
-					coordinates,
-					{
-						'hintContent': address,
-						'balloonContent': '{{ store }}'
-					},
-					{
-						'preset': 'islands#redDotIcon'
-					}
-				));
-			}
-		);
-	}
-	//--></script>
-{% endif %} 
-{{ footer }}
+		</form>
+	{% endif %} 
+{% endblock %}

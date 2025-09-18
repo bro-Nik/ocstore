@@ -1,3 +1,37 @@
+// страница контактов
+.contacts-content {
+  display: grid;
+  width: 100%;
+}
+.contacts-content .map iframe { width: 100%; }
+/* На больших экранах - две колонки по 50% */
+@media (min-width: 1000px) {
+  .contacts-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .contacts-content .map { order: 1; }
+  .contacts-content .contacts { order: 2; }
+}
+
+/* На экранах меньше 1000px - одна колонка */
+@media (max-width: 999px) {
+  .contacts-content {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  
+  .contacts-content .map { order: 2; }
+  .contacts-content .contacts { order: 1; }
+}
+
+// .column {
+//   padding: 20px;
+//   box-sizing: border-box;
+// }
+//
+
 .support-block {
     background: #f8f9fa;
     padding: 30px;
@@ -56,7 +90,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
-            margin-bottom: 40px;
+            flex-direction: column;
         }
 
         .payment-column, .delivery-column {
@@ -75,7 +109,7 @@
         .card-header {
             background: #3498db;
             color: white;
-            padding: 20px;
+            padding: 10px;
         }
 
         .card-header h2 {
