@@ -161,23 +161,7 @@
         }
 
 
-html, body {
-    width: 100%;
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-}
-
 @media (max-width: 767px) {
-    // * {
-    //     max-width: 100% !important;
-    // }
-    
-    body {
-        // position: relative;
-    }
-    
-    /* Проверьте основные контейнеры */
     .container, .wrapper, .main-content {
         width: 100% !important;
         padding-left: 10px !important;

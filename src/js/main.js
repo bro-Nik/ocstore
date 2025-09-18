@@ -1,6 +1,5 @@
 // swiper
 import { initCarouselSwipers } from './swiper';
-// initProductSwipers();
 initCarouselSwipers();
 
 // mobile-menu
@@ -31,40 +30,31 @@ document.addEventListener('DOMContentLoaded', () => {
   if (site_url) site_url.value = window.location.href;
 
   prepareLogo();
-	showContent();
 	pageViewCounter();
 	dynamicBackground();
   initStars();
   cookieConsent();
+  initScrollTop();
 });
 
 
-	
-function showContent() {
-  document.documentElement.classList.add('visible');
-  
-  // Удаляем стиль после анимации (опционально)
-  setTimeout(() => {
-    const styleEl = document.getElementById('preload-css');
-    if (styleEl) styleEl.remove();
-  }, 300);
-}
+function initScrollTop() {
+  // Скрол вверх
+  const btn = document.querySelector('.btn-scroll-top');
+  if (!btn) return;
 
-// Скрол вверх
-document.addEventListener('scroll', function() {
-  const scrollTopWrapper = document.querySelector('.btn-scroll-top');
-  scrollTopWrapper.classList.toggle('show', window.scrollY > 100);
-});
+  document.addEventListener('scroll', function() {
+    btn.classList.toggle('show', window.scrollY > 100);
+  });
 
-const scrollTopButton = document.querySelector('.btn-scroll-top');
-if (scrollTopButton) {
-  scrollTopButton.addEventListener('click', function() {
+  btn.addEventListener('click', function() {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   });
 }
+
 
 // Функция форматирования числа
 export function numberFormat(n) {
@@ -129,15 +119,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function prepareLogo() {
-  var logoLinks = document.querySelectorAll('.logo-link');
-
-  logoLinks.forEach(logoLink => {
+  document.querySelectorAll('.logo-link')?.forEach(logoLink => {
     if (logoLink && window.location.pathname === '/') {
       const logoImg = logoLink.querySelector('img');
       if (logoImg) logoLink.outerHTML = logoImg.outerHTML;
     }
   })
-
 }
 
 // Обработка динамического фона
@@ -201,18 +188,17 @@ document.addEventListener('click', function(e) {
 });
 
 function activateTab(btn) {
-  const container = btn.closest('.tab-content') || document.body;
   const tabsBtns = btn.closest('.nav-tabs');
-  const targetPane = container.querySelector(btn.hash);
+  const targetPane = document.querySelector(btn.hash);
   if (!targetPane) return;
   const tabsContent = targetPane.closest('.tab-content');
 
   tabsBtns.querySelectorAll('[data-toggle="tab"].active').forEach(el => {
-      el.classList.remove('active');
+    el.classList.remove('active');
   });
   
   tabsContent.querySelectorAll('.tab-pane.active').forEach(el => {
-      el.classList.remove('active');
+    el.classList.remove('active');
   });
   
   btn.classList.add('active');

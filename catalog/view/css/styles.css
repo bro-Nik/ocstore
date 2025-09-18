@@ -5985,13 +5985,11 @@ output {
 .btn-scroll-top {
   position: fixed;
   opacity: 0;
-  text-align: center;
   z-index: 9998;
   background-color: #777;
   color: #fefefe;
   width: 40px;
   height: 40px;
-  line-height: 40px;
   right: 30px;
   bottom: 30px;
   border-radius: 1rem;
@@ -8515,15 +8513,7 @@ input.plus-minus {
   text-align: center;
 }
 
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
-}
-
 @media (max-width: 767px) {
-  /* Проверьте основные контейнеры */
   .container, .wrapper, .main-content {
     width: 100% !important;
     padding-left: 10px !important;
