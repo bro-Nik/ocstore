@@ -48,18 +48,9 @@ export function initCarouselSwipers(container = document) {
 
     // Базовые настройки для всех каруселей
     const defaultConfig = {
-      slidesPerView: 'auto', // Автоподбор количества видимых слайдов
+      slidesPerView: maxWidth > carouselEl.offsetWidth ? 1 : 'auto',
       freeMode: true, // Для плавного скольжения
       spaceBetween: 10, // Отступ между слайдами
-
-      breakpoints: {
-        370: {
-          slidesPerView: maxWidth > 360 ? 1 : 'auto',
-        },
-        768: {
-          slidesPerView: 'auto',
-        }
-      }
     };
     
     // Индивидуальные настройки из data-атрибутов
