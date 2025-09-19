@@ -228,8 +228,10 @@ class ControllerBlogCategory extends Controller {
 			foreach ($results as $result) {
 				if ($result['image']) {
 					$image = $this->model_tool_image->resize($result['image'], $this->config->get('configblog_image_article_width'), $this->config->get('configblog_image_article_height'));
-				} else {
+				} else if ($is_blog) {
 					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('configblog_image_article_width'), $this->config->get('configblog_image_article_height'));
+				} else {
+					$image = '';
 				}
 
 				if ($this->config->get('configblog_review_status')) {

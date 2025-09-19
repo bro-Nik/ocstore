@@ -16,9 +16,6 @@
 		{% endif %}
 		</div>
 
-		{#}
-		<hr>
-		{#}
 	{% endif %}
 
 	{% if categories %}
@@ -45,9 +42,11 @@
           	</div>
           </div>
 
-          <div class="blog__article-image">
-						<img src="{{ article.thumb }}" alt="{{ article.name }}" title="{{ article.name }}" class="img-responsive" />
-          </div>
+					{% if article.thumb %}
+          	<div class="blog__article-image">
+							<img src="{{ article.thumb }}" alt="{{ article.name }}" title="{{ article.name }}" class="img-responsive" />
+          	</div>
+					{% endif %}
       	</div>
 			{% endfor %}
 		</div>
@@ -62,7 +61,11 @@
 			{% for article in articles %} 
 				<div class="post-item">
 					<div class="image">
-						<a href="{{ article.href }}"><img src="{{ article.thumb }}" alt="{{ article.name }}" title="{{ article.name }}" class="img-responsive" /></a>
+						<a href="{{ article.href }}">
+							{% if article.thumb %}
+								<img src="{{ article.thumb }}" alt="{{ article.name }}" title="{{ article.name }}" class="img-responsive" />
+							{% endif %}
+						</a>
 					</div>
 					<div class="title">
 						<a href="{{ article.href }}">{{ article.name }}</a>
