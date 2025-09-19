@@ -163,7 +163,7 @@
         flex: 0 0 auto;
         height: 4.6rem;
     }
-    & a {
+    & > * {
       display: flex;
       gap: .7rem;
     }

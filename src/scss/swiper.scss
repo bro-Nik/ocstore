@@ -56,3 +56,12 @@
     }
   }
 }
+
+@media (max-width: 767px) {
+  .product_thumbs_swiper {display: none;}
+    #revsubscribe {
+    background-color: #fafafa;
+    position: relative;
+    overflow: hidden;
+  }
+}

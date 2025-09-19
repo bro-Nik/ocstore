@@ -11,7 +11,7 @@
 	      {% include 'partials/form.twig' %}
 	    </form>
 			<div class="d-flex justify-content-end mt-5">
-				<a class="btn btn-default close-box" href="#">Отмена</a>
+				<button class="btn btn-default close-box" href="#">Отмена</button>
 				<button type="submit" data-action="submit" class="btn btn-primary">Отправить</button>
 			</div>					
     </div>
@@ -19,10 +19,5 @@
 {% endblock %}
 
 {% block footer %}
-  {#}
-  <a href="{{ checkout_link }}" class="checkout-btn">{{ button_checkout }}</a>
-		<button class="quickorder_b btn" data-action="quick-order">{{ text_rev_buy_quick }}</button>
-  {#}
-		<!-- <button class="quickorder_b btn checkout-btn" data-action="quick-order">Оформить заказ</button> -->
-		<button class="quickorder_b btn checkout-btn open-box">Оформить заказ</button>
+	<button class="quickorder_b btn checkout-btn open-box">Оформить заказ</button>
 {% endblock %}

@@ -134,10 +134,17 @@ a:hover, a:focus {
   cursor: pointer;
 }
 
-a:hover sup {
-// text-decoration: none;
-// display: inline-block;
+button {
+  color: #333;
+  -webkit-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out;
+
 }
+button:hover, button:focus {
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
 .container-fluid {
 
   @media (min-width: 768px) {

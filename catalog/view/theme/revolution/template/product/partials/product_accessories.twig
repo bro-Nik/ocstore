@@ -20,9 +20,9 @@
                   <div class="number bordnone"></div>
                   <input type="hidden" name="quantity" class="plus-minus" value='{{ product['minimum'] }}'>
                   <div class="cart">
-                    <a class="btn-cart product_{{ product['product_id'] }}" data-product-id="{{ product['product_id'] }}" data-action="cart-toggle" data-module="module_in_product" data-block-id="product_accessories" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" {% endif %}>
+                    <button class="btn-cart product_{{ product['product_id'] }}" data-product-id="{{ product['product_id'] }}" data-action="cart-toggle" data-module="module_in_product" data-block-id="product_accessories" {% if (button_cart_class != 'prlistb active') %} data-toggle="tooltip" {% endif %}>
                       {{ button_cart }}
-                    </a>
+                    </button>
                   </div>
                   <div class="accessories-price">
                     {% if (not product['special_price']) %}

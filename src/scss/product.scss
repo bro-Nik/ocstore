@@ -268,7 +268,7 @@
   color: $primary-color;
 }
 
-.in-wishlist i.fa.fa-border.fa-heart::before {content: "\f004";}
+// .in-wishlist i.fa.fa-border.fa-heart::before {content: "\f004";}
 
 // .compare:hover .fa-bar-chart-o:before, .product-info input[type="checkbox"] + label:hover .fa::before {border: 1px solid #555;}
 .compare:hover a, a.compare:hover {color: #555;}
@@ -333,9 +333,9 @@ color:#333333;}
   }
 }
 
-.wishlist .fa, .lupa .fa {
-  border: 1px solid #eee; border-radius: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
-}
+// .wishlist .fa, .lupa .fa {
+//   border: 1px solid #eee; border-radius: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+// }
 
 .prodvar {padding: 5px 0 10px 0;display: flex;
 flex-wrap: wrap;

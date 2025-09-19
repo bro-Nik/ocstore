@@ -485,9 +485,10 @@ padding: 0;
 margin: 0;
 }
 @media (max-width: 767px) {
-#top2 .tel .dropdown-menu a > i {
-display: none;
-}
+/* #top2 .tel .dropdown-menu a > i { */
+/* display: none; */
+/* } */
+
 #revsubscribe {
 background-color: #fafafa;
 position: relative;
