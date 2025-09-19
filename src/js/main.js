@@ -155,11 +155,11 @@ function getDominantColor(imageElement) {
 
 function cookieConsent() {
 	if(!getCookie('cookie')) {
-	  const cookieBlock = document.querySelector('.bottom_cookie_block');
-		cookieBlock.style.display = 'block';
+	  const block = document.querySelector('.cookie-consent');
+		block.style.display = 'block';
 
-    document.querySelector('.bottom_cookie_block_ok').addEventListener('click', function() {
-		  cookieBlock.style.display = 'none';
+    block.querySelector('button')?.addEventListener('click', function() {
+		  block.style.display = 'none';
       setCookie('cookie', 'true', 30);
     });
 	}

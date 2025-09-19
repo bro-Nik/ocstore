@@ -2316,16 +2316,21 @@ column-gap: initial;
 .container {width: 1280px;}
 .box-col-3 {width: 961%;}
 }
-.bottom_cookie_block a {margin-left: 10px;}
+.cookie-consent button {
+    margin-left: auto;
+    margin-top: 10px;
+}
 
-.bottom_cookie_block {
-width: 100%;
-padding: 15px 0;
+.cookie-consent {
+font-size: 1.4rem;
+padding: 15px;
 background-color: #fafafa;
 display: none;
 position: fixed;
-bottom: 0;
+bottom: 10px;
+right: 10px;
+border-radius: 8px;
 z-index: 100000;
-text-align: center;
 box-shadow: 0 0 15px rgba(0,0,0,0.2);
+margin-left: 10px;
 }
