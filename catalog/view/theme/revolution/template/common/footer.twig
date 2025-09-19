@@ -1,296 +1,64 @@
-</section>
-{% if (not setting_all_settings['all_document_width'] and setting_all_settings['all_document_h_f_width']) %} 
-</div>
-{% endif %} 
-<footer>
-{% if (f_map and is_desctope) %} 
-	<div id="map-wrapper" class="hidden-xs">
-		<div class="contact-info">
-			<div class="item">
-				<div class="label_fconts">{{ text_contact_ourcontacts }}</div>
-				{% if (settings_all_settings['m_conts']) %} 
-					<p class="hid_address">{{ address }}</p>
-					<p class="hid_telephone">{{ telephone }}</p>
-					<p class="hid_email">{{ config_email }}</p>
-				{% endif %} 
-				{% if (settings_all_settings['dop_conts']) %} 
-					{% if (header_phone_number != '') %} 
-						<p class="dop_contact_tel1"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ header_phone_cod }} {{ header_phone_number }}</p>
-					{% endif %} 
-					{% if (header_phone_number2 != '') %} 
-						<p class="dop_contact_tel2"><i class="fa fa fa-phone" aria-hidden="true"></i>{{ header_phone_cod2 }} {{ header_phone_number2 }}<p>
-					{% endif %} 
-					{% if (dop_contacts) %} {% set i_dc = 1 %} 
-						{% for dop_contact in dop_contacts %} 
-							{% if (dop_contact['href'] != '') %} 
-								<p class="dop_contact_{{ i_dc }}">{{ dop_contact['icon'] }}<a href="{{ dop_contact['href'] }}">{{ dop_contact['number'] }}</a></p>
-							{% else %} 
-								<p class="dop_contact_{{ i_dc }}">{{ dop_contact['icon'] }}{{ dop_contact['number'] }}</p>
-							{% endif %} 
-						{% set i_dc = i_dc + 1 %} {% endfor %} 
-					{% endif %} 
-				{% endif %} 
-				{% if (settings_all_settings['soc_conts']) %} 
-					{% if (revtheme_footer_socs_p) %} 
-						{% for revtheme_footer_soc in revtheme_footer_socs_p %} 
-							<p><i class="{{ revtheme_footer_soc['image'] }}" aria-hidden="true"></i><a href="{{ revtheme_footer_soc['link'] }}" rel="nofollow" target="_blank">{{ revtheme_footer_soc['link_t'] }}</a></p>
+{# Объявляем макрос для генерации колонки #}
+{% macro renderColumn(status, item, config_language_id = 1) %}
+
+	{% if (status) %} 
+		{% if (item.menu or item.description|length > 15) %} 
+			<div {{ item.width_attr }}>
+				{% if (item.menu) %} 
+					<ul class="list-unstyled">
+						{% for menu in item.menu %} 
+							<li class="zag_dm_cf_li">
+								<span class="zag_dm_cf">
+									{% if menu['href'~config_language_id] != '' %}
+										<a href="{{ menu['href'~config_language_id] }}">{{ menu['name'~config_language_id] }}</a>
+									{% else %}
+										{{ menu['name'~config_language_id] }}
+									{% endif %}
+								</span>
+								{% if (menu.children is defined) %} 
+									<ul class="list-unstyled last_ul_cf">
+										{% for child in menu.children %} 
+											<li>
+												{% if child['href'~config_language_id] != '' %}
+													<a href="{{ child['href'~config_language_id] }}">{{ child['name'~config_language_id] }}</a>
+												{% else %}
+													{{ child['name'~config_language_id] }}
+												{% endif %}
+											</li>
+										{% endfor %}  
+									</ul>
+								{% endif %}
+							</li>
 						{% endfor %} 
-					{% endif %} 
-				{% endif %} 
+					</ul>
+				{% endif %}
+				{% if (item.description|length > 15) %} {{ item.description }} {% endif %} 
 			</div>
-		</div>
-		<div id="yamap">
-			{% if (yamap) %} {{ yamap }}{% endif %} 
-		</div>
-	</div>
-{% endif %} 
+		{% endif %} 
+	{% endif %}  
+{% endmacro %}
+
+</section> {# Закрытие секции #}
+
+<footer>
 	{{ revsubscribe }} 
 	<div class="footer">
 		<div class="container-fluid">
 			<div class="row">
-				{% set dops_class = "not_dops_snot_dops_s" %} {% if (not revtheme_custom_footer['dops_pc_status']) %} {% set dops_class = "not_dops_s hidden-md hidden-lg" %} {% endif %} 
-				{% if (is_mobile or dops_class == 'not_dops_snot_dops_s') %} 
-				<div class="{{ dops_class }}">
-					{% if (informations or revtheme_footer_links) %} 
-						{% set class_informations = 'col-sm-12' %}
-						{% if ((informations or revtheme_footer_links) and revtheme_footer_socs) %} {% set class_informations = 'col-sm-8' %} {% endif %} 
-						<div class="footer_links {{ class_informations }} col-xs-12 {% if (setting_all_settings['mobile_header'] == '2') %}hidden-xs{% endif %}">
-							{% if (informations) %} 
-								{% for information in informations %} 
-									<a href="{{ information['href'] }}">{{ information['title'] }}</a>
-								{% endfor %} 
-							{% endif %} 
-							{% if (revtheme_footer_links) %} 
-								{% for revtheme_footer_link in revtheme_footer_links %} 
-									<a href="{{ revtheme_footer_link['link'] }}">{{ revtheme_footer_link['title'] }}</a>
-								{% endfor %} 
-							{% endif %} 
-						</div>
-					{% endif %} 
-					{% if (revtheme_footer_socs) %} 
-						{% set class_footer_socs = 'col-sm-12' %}
-						{% if ((informations or revtheme_footer_links) and revtheme_footer_socs) %} {% set class_footer_socs = 'col-sm-4' %} {% endif %} 
-						<div class="soc_s {{ class_footer_socs }} col-xs-12 {% if (setting_all_settings['mobile_header'] == '2') %}hidden-xs{% endif %}">
-							{% for revtheme_footer_soc in revtheme_footer_socs %} 
-								<a href="{{ revtheme_footer_soc['link'] }}" rel="nofollow" target="_blank"><i class="{{ revtheme_footer_soc['image'] }}" data-toggle="tooltip" title="{{ revtheme_footer_soc['title'] }}"></i></a>
-							{% endfor %} 
-						</div>
-					{% endif %} 
+				<div class="footer_cfs hidden-sm footer_info">
+					{{ _self.renderColumn(custom_footer.cf_1_status, menus[1]) }}
+					{{ _self.renderColumn(custom_footer.cf_2_status, menus[2]) }}
+					{{ _self.renderColumn(custom_footer.cf_3_status, menus[3]) }}
+					{{ _self.renderColumn(custom_footer.cf_4_status, menus[4]) }}
+					{{ _self.renderColumn(custom_footer.cf_5_status, menus[5]) }}
 				</div>
-				{% endif %} 
-				{% if (revtheme_custom_footer['status'] and is_desctope) %} 
-					<div class="footer_cfs hidden-sm footer_info">
-						{% if (revtheme_custom_footer['cf_1_status']) %} 
-							{% if (revtheme_dop_menus_cf or cf_1_description|length > 15) %} 
-								<div {{ cf_1_width }}>
-									{% if (revtheme_dop_menus_cf) %} 
-										<ul class="list-unstyled">
-											{% for revtheme_dop_menu in revtheme_dop_menus_cf %} 
-												<li class="zag_dm_cf_li">
-													<span class="zag_dm_cf">
-													{% if revtheme_dop_menu['href'~config_language_id] != '' %}
-														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
-													 {% else %}
-														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
-													{% endif %}
-													</span>
-													{% if (revtheme_dop_menu['children'] is defined) %} 
-														<ul class="list-unstyled last_ul_cf">
-															{% for child in revtheme_dop_menu['children'] %} 
-																<li>
-																	{% if child['href'~config_language_id] != '' %}
-																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
-																	 {% else %}
-																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
-																	{% endif %}
-																</li>
-															{% endfor %}  
-														</ul>
-													{% endif %}
-												</li>
-											{% endfor %} 
-										</ul>
-									{% endif %}
-									{% if (cf_1_description|length > 15) %} {{ cf_1_description }} {% endif %} 
-								</div>
-							{% endif %} 
-						{% endif %}  
-						{% if (revtheme_custom_footer['cf_2_status']) %} 
-							{% if (revtheme_dop_menus_cf_2 or cf_2_description|length > 15) %} 
-								<div {{ cf_2_width }}>
-									{% if (revtheme_dop_menus_cf_2) %} 
-										<ul class="list-unstyled">
-											{% for revtheme_dop_menu in revtheme_dop_menus_cf_2 %} 
-												<li class="zag_dm_cf_li">
-													<span class="zag_dm_cf">
-													{% if revtheme_dop_menu['href'~config_language_id] != '' %}
-														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_2'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_2'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_2']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_2'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
-													 {% else %}
-														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_2'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_2'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_2']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_2'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
-													{% endif %}
-													</span>
-													{% if (revtheme_dop_menu['children'] is defined) %} 
-														<ul class="list-unstyled last_ul_cf">
-															{% for child in revtheme_dop_menu['children'] %} 
-																<li>
-																	{% if child['href'~config_language_id] != '' %} 
-																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_2'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_2'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_2']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_2'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
-																	 {% else %} 
-																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_2'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_2'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_2']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_2'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
-																	{% endif %} 
-																</li>
-															{% endfor %} 
-														</ul>
-													{% endif %} 
-												</li>
-											{% endfor %} 
-										</ul>
-									{% endif %} 
-									{% if (cf_2_description|length > 15) %} {{ cf_2_description }} {% endif %} 
-								</div>
-							{% endif %} 
-						{% endif %} 
-						{% if (revtheme_custom_footer['cf_3_status']) %} 
-							{% if (revtheme_dop_menus_cf_3 or cf_3_description|length > 15) %} 
-								<div {{ cf_3_width }}>
-									{% if (revtheme_dop_menus_cf_3) %} 
-										<ul class="list-unstyled">
-											{% for revtheme_dop_menu in revtheme_dop_menus_cf_3 %} 
-												<li class="zag_dm_cf_li">
-													<span class="zag_dm_cf">
-													{% if revtheme_dop_menu['href'~config_language_id] != '' %}
-														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_3'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_3'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_3']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
-													 {% else %} 
-														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_3'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_3'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_3']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_3'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
-													{% endif %} 
-													</span>
-													{% if (revtheme_dop_menu['children'] is defined) %} 
-														<ul class="list-unstyled last_ul_cf">
-															{% for child in revtheme_dop_menu['children'] %} 
-																<li>
-																	{% if child['href'~config_language_id] != '' %}
-																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_3'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_3'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_3']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_3'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
-																	 {% else %} 
-																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_3'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_3'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_3']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_3'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
-																	{% endif %}
-																</li>
-															{% endfor %}  
-														</ul>
-													{% endif %} 
-												</li>
-											{% endfor %} 
-										</ul>
-									{% endif %} 
-									{% if (cf_3_description|length > 15) %} {{ cf_3_description }} {% endif %} 
-								</div>
-							{% endif %} 
-						{% endif %} 
-						{% if (revtheme_custom_footer['cf_4_status']) %} 
-							{% if (revtheme_dop_menus_cf_4 or cf_4_description|length > 15) %} 
-								<div {{ cf_4_width }}>
-									{% if (revtheme_dop_menus_cf_4) %} 
-										<ul class="list-unstyled">
-											{% for revtheme_dop_menu in revtheme_dop_menus_cf_4 %} 
-												<li class="zag_dm_cf_li">
-													<span class="zag_dm_cf">
-													{% if revtheme_dop_menu['href'~config_language_id] != '' %}
-														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_4'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_4'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_4']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_4'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
-													 {% else %} 
-														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_4'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_4'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_4']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_4'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
-													{% endif %} 
-													</span>
-													{% if (revtheme_dop_menu['children'] is defined) %} 
-														<ul class="list-unstyled last_ul_cf">
-															{% for child in revtheme_dop_menu['children'] %} 
-																<li>
-																	{% if child['href'~config_language_id] != '' %} 
-																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_4'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_4'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_4']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_4'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
-																	 {% else %} 
-																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_4'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_4'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_4']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_4'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
-																	{% endif %}
-																</li>
-															{% endfor %} 
-														</ul>
-													{% endif %}  
-												</li>
-											{% endfor %} 
-										</ul>
-									{% endif %}  
-									{% if (cf_4_description|length > 15) %} {{ cf_4_description }} {% endif %} 
-								</div>
-							{% endif %}  
-						{% endif %}  
-						{% if (revtheme_custom_footer['cf_5_status']) %} 
-							{% if (revtheme_dop_menus_cf_5 or cf_5_description|length > 15) %} 
-								<div {{ cf_5_width }}>
-									{% if (revtheme_dop_menus_cf_5) %} 
-										<ul class="list-unstyled">
-											{% for revtheme_dop_menu in revtheme_dop_menus_cf_5 %} 
-												<li class="zag_dm_cf_li">
-													<span class="zag_dm_cf">
-													{% if revtheme_dop_menu['href'~config_language_id] != '' %} 
-														<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_5'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_5'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_5']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_5'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
-													 {% else %} 
-														{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka_cf_5'] != '') %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka_cf_5'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image_cf_5']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image_cf_5'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
-													{% endif %} 
-													</span>
-													{% if (revtheme_dop_menu['children'] is defined) %} 
-														<ul class="list-unstyled last_ul_cf">
-															{% for child in revtheme_dop_menu['children'] %} 
-																<li>
-																	{% if child['href'~config_language_id] != '' %} 
-																		<a href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_5'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_5'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_5']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_5'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
-																	 {% else %} 
-																		{% if (child['icontype'] == 'iconka' and child['dop_menu_iconka_cf_5'] != '') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_cf_5'] }}"></i></span> {% else %} {% if (child['dop_menu_image_cf_5']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_cf_5'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}
-																	{% endif %} 
-																</li>
-															{% endfor %}  
-														</ul>
-													{% endif %}  
-												</li>
-											{% endfor %}  
-										</ul>
-									{% endif %}  
-									{% if (cf_5_description|length > 15) %} {{ cf_5_description }} {% endif %} 
-								</div>
-							{% endif %}  
-						{% endif %}  
-					</div>
-				{% endif %}  
-				{% if (revtheme_footer_icons) %} 
-					{% set style_powered = 'text-align:right' %} {% set class_powered = 'col-sm-6' %}
-					<div class="ficons col-sm-6 col-xs-12">
-						{% for revtheme_footer_icon in revtheme_footer_icons %} 
-							<span class="revtheme_footer_icon">
-								{% if (revtheme_footer_icon['href'] is defined and revtheme_footer_icon['href'] != '') %} 
-									<a href="{{ revtheme_footer_icon['href'] }}">
-										<img src="{{ revtheme_footer_icon['image'] }}" alt=""/>
-									</a>
-								{% else %} 
-									<img src="{{ revtheme_footer_icon['image'] }}" alt=""/>
-								{% endif %} 
-							</span>
-						{% endfor %} 
-					</div>
-				{% else %} 
-					{% set style_powered = 'text-align:left' %} {% set class_powered = 'col-sm-12' %}
-				{% endif %} 
-				<div style="{{ style_powered }}" class="powered {{ class_powered }} col-xs-12">{{ powered }}</div>
+
+				<div style="text-align:left" class="powered col-sm-12 col-xs-12">{{ powered }}</div>
 			</div>
 		</div>
 	</div>	
 </footer>
-{% if (not setting_all_settings['all_document_width'] and not setting_all_settings['all_document_h_f_width']) %} 
 </div>
-{% endif %} 
-</div>
-{% if (popup_phone) %} 
-	<div class="popup-phone-wrapper" data-toggle="tooltip" data-placement="left"  title="{{ text_footer_popup_phone_tooltip }}">
-		<span class="scroll-top-inner">
-			<i class="fa fa-phone"></i>
-		</span>
-	</div>
-{% endif %} 
 
 <div class="btn-scroll-top">
 	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/></svg>
@@ -299,10 +67,6 @@
 {% for script in scripts %} 
 <script src="{{ script }}" defer></script>
 {% endfor %} 
-
-{% if (setting_catalog_all['pagination'] != 'standart') %} 
-	<div id="load_more" style="display:none;"><div class="col-sm-12 text-center"><a href="#" class="load_more btn btn-primary" rel="nofollow"><i class="fa fa-refresh"></i>{{ text_loadmore }}</a></div></div>
-{% endif %} 
 
 {% if (not developer_mode) %} 
 {# Yandex.Metrika counter #}

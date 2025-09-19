@@ -406,30 +406,6 @@
 		</operation>
 	</file>
 
-	<file path="catalog/controller/common/footer.php">
-		<operation error="skip">
-			<search><![CDATA[$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));]]></search>
-			<add position="replace"><![CDATA[
-				if ($setting_footer_all['copy']) {
-					$domen = $_SERVER['HTTP_HOST'];
-					if(stristr($domen, 'xn--')) {
-						require_once('catalog/controller/revolution/idna_convert.class.php');
-						$idn = new idna_convert(array('idn_version'=>2008));
-						$domen = (stripos($domen, 'xn--')!==false) ? $idn->decode($domen) : $idn->encode($domen);
-					} else {					
-						$domen = $_SERVER['HTTP_HOST'];
-					}
-					$data['powered'] = sprintf($this->language->get('text_powered_rev'), $domen, $this->config->get('config_name'), date('Y', time()));
-				} else {
-					$data['powered'] = $setting_footer_all[$this->config->get('config_language_id')]['copy_text'];
-				}
-				$data['cookies_text'] = '';
-				if ($this->config->get('revtheme_all_settings')['cookies']) {
-					$data['cookies_text'] = html_entity_decode($this->config->get('revtheme_all_settings')[$this->config->get('config_language_id')]['cookies_text'], ENT_QUOTES, 'UTF-8');
-				}
-			]]></add>
-		</operation>
-	</file>
 	<file path="catalog/language/{ru-ru,russian}/extension/captcha/basic_captcha.php">
 		<operation error="skip">
 			<search><![CDATA[Введите код в поле ниже]]></search>
