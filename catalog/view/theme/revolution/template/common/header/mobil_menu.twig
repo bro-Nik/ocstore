@@ -1,14 +1,14 @@
 <!--noindex-->
 <nav id="mobil_mmenu" class="dnone">
 	<ul id="panel-menu">
-		{% if (revtheme_dop_menus or (cats_status and categories) or revtheme_header_menu_links) %} 					
+		{% if (revtheme_dop_menus or categories or revtheme_header_menu_links) %} 					
 			{% if (revtheme_dop_menus) %} 
 				{% for revtheme_dop_menu in revtheme_dop_menus %} 
 					<li>
 						{% if revtheme_dop_menu['href'~config_language_id] %}
-						<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" rel="nofollow">{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka'] is defined) %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+						<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" rel="nofollow">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
 							{% else %}
-							<span>{% if (revtheme_dop_menu['icontype'] == 'iconka' and revtheme_dop_menu['dop_menu_iconka'] is defined) %} <span class="am_category_image"><i class="{{ revtheme_dop_menu['dop_menu_iconka'] }}"></i></span> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</span>
+							<span>{{ revtheme_dop_menu['name'~config_language_id] }}</span>
 						{% endif %}
 						{% if (revtheme_dop_menu['children'] is defined) %} 
 							<ul class="list-unstyled">
@@ -36,14 +36,14 @@
 
 			{% for category in categories %} 
 				<li>							
-					{% if (category.children) %} 
-						<span>{{ category.name }}</span>
+					<a href="{{ category.href }}" rel="nofollow">{{ category.name }}</a>
 
-						<ul>
+					{% if (category.children) %} 
+						<ul class="list-unstyled">
 							{% for child in category.children %} 
 								<li>
 									<a href="{{ child.href }}" rel="nofollow">{{ child.name }}</a>
-									{% if (tri_level and child.children) %} 
+									{% if child.children %} 
 										<ul class="list-unstyled">
 											{% for child in child.children %} 
 												<li><a href="{{ child.href }}" rel="nofollow">{{ child.name }}</a></li>
@@ -53,15 +53,13 @@
 								</li>
 							{% endfor %} 
 						</ul>
-					{% else %}
-						<a href="{{ category.href }}" rel="nofollow">{{ category.name }}</a>									
 					{% endif %} 
 				</li>
 			{% endfor %} 
 
 			{% if (revtheme_header_menu_links) %} 
-				{% for revtheme_header_menu_link in revtheme_header_menu_links %} 
-					<li><a href="{{ revtheme_header_menu_link['link'] }}" rel="nofollow">{{ revtheme_header_menu_link['title'] }}</a></li>
+				{% for item in revtheme_header_menu_links %} 
+					<li><a href="{{ item.link }}" rel="nofollow">{{ item.title }}</a></li>
 				{% endfor %} 
 			{% endif %} 				
 		{% endif %} 

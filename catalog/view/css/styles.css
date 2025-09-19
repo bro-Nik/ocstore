@@ -150,8 +150,13 @@ footer {
   border-top: 1px solid #fff;
   border-right: 1px solid #fff;
   box-shadow: 1px 1px 10px -1px rgba(0, 0, 0, 0.2);
-  padding: 15px 14px;
+  /* padding: 15px 14px; */
+  padding: 10px 20px 20px 20px;
+  /* margin-left: 1rem; */
   overflow: hidden;
+  border-radius: 10px;
+  /* margin-top: 15px; */
+  margin: 15px 0 0 10px;
 }
 
 #menu2_button {
@@ -2936,11 +2941,6 @@ a:hover, .list-group a:hover, .list-group a.active:hover, .pagination > li > a:h
   z-index: initial;
 }
 
-.child-box {
-  border-radius: 10px;
-  margin-top: 15px;
-}
-
 body {
   color: #333;
 }
@@ -2968,10 +2968,6 @@ body {
 
 .product-thumb .fapanel .fa:hover {
   color: #E85A71;
-}
-
-.child-box {
-  padding: 10px 20px 20px 20px;
 }
 
 #menu2 .am_category_image > img {

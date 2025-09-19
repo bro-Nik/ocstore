@@ -19,14 +19,14 @@
 			{% if (revtheme_dop_menu['children'] is defined) %} 
 				<div class="title with-child">
 					<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}" {{ revtheme_dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>
-					{% if (revtheme_dop_menu['icontype'] == 'iconka') %} <i class="am_category_icon {{ revtheme_dop_menu['dop_menu_iconka'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
+					{{ revtheme_dop_menu['name'~config_language_id] }}
 					<span class="arrow-btn"><i class="fa fa-angle-right"></i></span>
 					</a>
 				</div>
 			 {% else %}
 				<div class="title">
 					<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}" {{ revtheme_dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>
-					{% if (revtheme_dop_menu['icontype'] == 'iconka') %} <i class="am_category_icon {{ revtheme_dop_menu['dop_menu_iconka'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
+					{{ revtheme_dop_menu['name'~config_language_id] }}</a>
 				</div>
 			{% endif %} 
 			{% if (revtheme_dop_menu['children'] is defined) %}
@@ -52,7 +52,7 @@
 						{% else %} 
 							<ul class="ul_block{{ revtheme_dop_menu['id'] }} cat_dop {{ col_class }}">
 							{% for child in revtheme_dop_menu['children'] %} 
-								<li class="glavli"><a href="{{ child['href'~config_language_id] != '' ? child['href'~config_language_id] : '#' }}" {{ child['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>{% if (child['icontype'] == 'iconka') %} <i class="am_category_icon {{ child['dop_menu_iconka'] }}"></i> {% else %} {% if (child['dop_menu_image']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+								<li class="glavli"><a href="{{ child['href'~config_language_id] != '' ? child['href'~config_language_id] : '#' }}" {{ child['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>{{ child['name'~config_language_id] }}</a>
 									{% if (tri_level and child['children'] is defined) %}
 									<ul class="lastul">
 										{% set arr_child3 = child['children'][0:(setting_revtheme_header_menu['ogranich_count'])] %} 
@@ -94,13 +94,15 @@
 			{% if (category['children']) %} 
 				<div class="title with-child">
 				<a href="{{ category['href'] }}">
-				{% if (category['category_image']) %} {{ category['category_image'] }} {% endif %}{{ category['name'] }} 
-				<span class="arrow-btn"><i class="fa fa-angle-right"></i></span>
+					{{ category['name'] }} 
+					<span class="arrow-btn">
+						<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/></svg>
+					</span>
 				</a>
 				</div>
 			{% else %} 
 				<div class="title">
-				<a href="{{ category['href'] }}">{% if (category['category_image']) %} {{ category['category_image'] }} {% endif %}{{ category['name'] }}</a>
+				<a href="{{ category['href'] }}">{{ category['name'] }}</a>
 				</div>
 			{% endif %} 
 			{% if (category['children']) %}	
@@ -127,7 +129,7 @@
 					<ul class="ul_block{{ category['category_id'] }} {{ col_class }}">
 					{% for child in category['children'] %} 						
 						<li class="glavli"> 
-						<a href="{{ child['href'] }}">{% if (child['category_image']) %} {{ child['category_image'] }} {% endif %}{{ child['name'] }}</a>
+						<a href="{{ child['href'] }}">{{ child['name'] }}</a>
 						<ul class="lastul">
 							{% if (setting_revtheme_header_menu['ogranich']) %} {% set arr_child = child['children'][0:(setting_revtheme_header_menu['ogranich_count'])] %} {% else %} {% set arr_child = child['children'] %} {% endif %}
 							{% for child2 in arr_child %} 
@@ -246,7 +248,7 @@
 	{% set i_rhml = 1 %} {% for revtheme_header_menu_link in revtheme_header_menu_links %} 
 		<div class="revlevel_1 hasChildren closed i_rhml_{{ i_rhml }}">
 			<div class="title">
-				<a href="{{ revtheme_header_menu_link['link'] }}">{% if (revtheme_header_menu_link['image']) %} {{ revtheme_header_menu_link['image'] }} {% endif %}{{ revtheme_header_menu_link['title'] }}</a>
+				<a href="{{ revtheme_header_menu_link['link'] }}">{{ revtheme_header_menu_link['title'] }}</a>
 			</div>
 		</div>	
 	{% set i_rhml = i_rhml + 1 %} {% endfor %} 
