@@ -46,12 +46,12 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
       // Подкатегории
 			$manufacturer_categories = $this->model_catalog_manufacturer->getManufacturerCategories($manufacturer_id);
 			// Если категория одна - редирект на неё
-			if (count($manufacturer_categories) == 1) {
-        $this->response->redirect($this->url->link('product/category', 'path=' . $manufacturer_categories[0]['category_id'] . '&manufacturer_id=' . $manufacturer_id));
-      }
+			// if (count($manufacturer_categories) == 1) {
+   //      $this->response->redirect($this->url->link('product/category', 'path=' . $manufacturer_categories[0]['category_id'] . '&manufacturer_id=' . $manufacturer_id));
+   //    }
 
       // Если у производителя несколько категорий - показываем их список
-      if (count($manufacturer_categories) > 1) {
+      if (count($manufacturer_categories)) {
       	$data['categories'] = $this->getSubCategories($manufacturer_categories, $manufacturer_id);
 
  				// Жесткое отключение OCFilter
