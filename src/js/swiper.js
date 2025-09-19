@@ -54,23 +54,25 @@ export function initCarouselSwipers(container = document) {
     };
     
     // Индивидуальные настройки из data-атрибутов
-    const customConfig = {
-      autoplay: carouselEl.dataset.autoplay ? {
-        delay: parseInt(carouselEl.dataset.autoplay),
-        disableOnInteraction: false
-      } : false,
-      slidesPerView: carouselEl.dataset.slides ? parseInt(carouselEl.dataset.slides) : defaultConfig.slidesPerView
-    };
+    // const customConfig = {
+    //   autoplay: carouselEl.dataset.autoplay ? {
+    //     delay: parseInt(carouselEl.dataset.autoplay),
+    //     disableOnInteraction: false
+    //   } : false,
+    //   slidesPerView: carouselEl.dataset.slides ? parseInt(carouselEl.dataset.slides) : defaultConfig.slidesPerView
+    // };
 
     // Индивидуальные настройки из json data-swiper-config
-    const jsonConfig = JSON.parse(carouselEl.dataset.swiperConfig  || '{}');
+    // const jsonConfig = JSON.parse(carouselEl.dataset.swiperConfig  || '{}');
     
+    // Инициализация Swiper
+    swipers[`swiper${index}`] = new Swiper(carouselEl, { ...defaultConfig });
     // Инициализация Swiper с объединенными настройками
-    swipers[`swiper${index}`] = new Swiper(carouselEl, {
-      ...defaultConfig,
-      ...customConfig,
-      ...jsonConfig
-    });
+    // swipers[`swiper${index}`] = new Swiper(carouselEl, {
+    //   ...defaultConfig,
+    //   ...customConfig,
+    //   ...jsonConfig
+    // });
   });
   
   return swipers;

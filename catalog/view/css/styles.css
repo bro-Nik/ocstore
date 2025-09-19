@@ -7461,7 +7461,6 @@ label.required:before {
   min-height: 100%;
   transition: box-shadow 0.25s;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  width: fit-content;
 }
 
 .category-tile:hover {

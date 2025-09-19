@@ -3,12 +3,13 @@
     <h3>Популярные категории</h3>
     <div class="row">
       <div id="recommended_categories" class="swiper swiper-carousel" style="margin-bottom: 30px;">
-        <div class="swiper-wrapper" style="height: 100%;">
+        <!-- <div class="swiper-wrapper" style="height: 100%;"> -->
+        <div class="swiper-wrapper">
 
 
           {% for category in categories %}
             <div class="swiper-slide category-tile">
-                <div class="category-content">
+                <div class="category-content"  style="width: 250px;">
                   <div class="category-info">
                     <h4><a href="{{ category.href }}">{{ category.name }}</a></h4>
                     <div class="category-filters">

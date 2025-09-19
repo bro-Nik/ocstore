@@ -73,7 +73,7 @@
 
 var startOCFilter = function() {
   var loadScript = function(url, callback) {
-    $.ajax({ url: url, dataType: 'script', success: callback, async: true });
+    $.ajax({ url: url, dataType: 'script', cache: true, success: callback, async: true });
   };
   
   var init = function() {
