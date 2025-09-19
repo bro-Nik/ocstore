@@ -694,3 +694,7 @@ input[type="radio"]:checked {
   left: 0;
 }
 
+
+.ocf-page {
+z-index: auto !important;
+}
