@@ -154,15 +154,22 @@ function getDominantColor(imageElement) {
 
 
 function cookieConsent() {
-	if(!getCookie('cookie')) {
-	  const block = document.querySelector('.cookie-consent');
-		block.style.display = 'block';
+  // Проверяем, не дано ли уже согласие
+	if(getCookie('cookie')) return;
 
-    block.querySelector('button')?.addEventListener('click', function() {
-		  block.style.display = 'none';
-      setCookie('cookie', 'true', 30);
-    });
-	}
+  // Создаем элемент соглашения
+  const el = document.createElement('div');
+  el.className = 'cookie-consent';
+  el.innerHTML = `
+    <span>Мы используем cookie-файлы для вашего удобства. Продолжая просмотр, вы соглашаетесь с нашей политикой.</span>
+    <button class="btn-sm btn-primary">Принять</button>
+  `;
+  document.body.appendChild(el);
+
+  el.querySelector('button')?.addEventListener('click', function() {
+    setCookie('cookie', 'true', 30);
+    el.remove();
+  });
 }
 
 document.addEventListener('click', function(e) {

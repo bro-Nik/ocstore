@@ -7,23 +7,20 @@
 
 // Components
 @use './swiper.scss';
-@use './mmenu-light.scss';
 @use './grid.scss';
 @use './utilities.scss';
 @use './bootstrap.css';
 @use './btns.scss';
 @use './header.scss';
 @use './home.scss';
-@use './footer.scss';
 @use './product.scss';
-@use './popup.scss';
-@use './form.scss';
 @use './article.scss';
 @use './category.scss';
 @use './blog.scss';
 @use './placeholder.scss';
 @use './cart.scss';
 @use './temp.scss';
+@use './lazy.scss';
 
 // Основные стили
 :root {

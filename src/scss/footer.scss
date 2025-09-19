@@ -32,3 +32,23 @@ color: #fff;
 }
 
 .footer .small {font-size: 12px;line-height: normal;color: #bbb;}
+
+
+.cookie-consent button {
+  margin-left: auto;
+  margin-top: 10px;
+}
+
+.cookie-consent {
+  font-size: 1.4rem;
+  padding: 15px;
+  background-color: #fafafa;
+  // display: none;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 8px;
+  z-index: 100000;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  margin-left: 10px;
+}
