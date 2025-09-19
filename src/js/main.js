@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const site_url = document.querySelector('input[name="site_url"]');
   if (site_url) site_url.value = window.location.href;
 
-  prepareLogo();
 	pageViewCounter();
 	dynamicBackground();
   initStars();
@@ -117,15 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-
-function prepareLogo() {
-  document.querySelectorAll('.logo-link')?.forEach(logoLink => {
-    if (logoLink && window.location.pathname === '/') {
-      const logoImg = logoLink.querySelector('img');
-      if (logoImg) logoLink.outerHTML = logoImg.outerHTML;
-    }
-  })
-}
 
 // Обработка динамического фона
 function dynamicBackground(container = document) {
