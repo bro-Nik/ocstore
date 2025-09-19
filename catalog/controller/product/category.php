@@ -45,12 +45,12 @@ class ControllerProductCategory extends ControllerBaseProductsList {
       // Подкатегории
     	$categories = $this->model_catalog_category->getCategories($category_id);
 			// Если категория одна - редирект на неё
-			if (count($categories) == 1) {
-        $this->response->redirect($this->url->link('product/category', 'path=' . $categories[0]['category_id']));
-      }
+			// if (count($categories) == 1) {
+   //      $this->response->redirect($this->url->link('product/category', 'path=' . $categories[0]['category_id']));
+   //    }
 
       // Если несколько категорий - показываем их список
-      if (count($categories) > 1) {
+      if (count($categories)) {
       	$data['categories'] = $this->getSubCategories($categories);
 
  				// Жесткое отключение OCFilter
