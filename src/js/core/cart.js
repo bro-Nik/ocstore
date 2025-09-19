@@ -54,8 +54,8 @@ class Cart extends ToggleModule {
   addToCookieList(productId, quantity, options) {
     if (!options) {
       const infoBox = document.querySelector(`.product_informationss[data-product-id="${productId}"]`);
-      const selectedOptions = infoBox.querySelectorAll('input[type="checkbox"]:checked');
-      options = Array.from(selectedOptions).map(option => option.dataset.optionId);
+      const selectedOptions = infoBox?.querySelectorAll('input[type="checkbox"]:checked');
+      if (selectedOptions) options = Array.from(selectedOptions).map(option => option.dataset.optionId);
     }
     return addToCartCookie(productId, quantity, options);
   }
