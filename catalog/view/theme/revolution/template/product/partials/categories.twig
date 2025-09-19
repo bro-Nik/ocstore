@@ -1,15 +1,15 @@
 {# Просто плитка категорий #}
 {% if (categories) %}
-  <ul class="products__categories">
+  <ul class="subcategory-container">
     {% for category in categories %}
       <li>
-        <a class="products__categories__item" href="{{ category.href }}">
-          {% if category['thumb'] %}
-            <div class="products__categories__item-image">
+        <a class="subcategory" href="{{ category.href }}">
+          {% if category.thumb %}
+            <div class="subcategory-image">
               <img src="{{ category.thumb }}" title="{{ category.name }}" alt="{{ category.name }}"/>
             </div>
           {% endif %}
-          <span class="products__categories__item-title">{{ category.name }}</span>
+          <span class="subcategory-title">{{ category.name }}</span>
         </a>
       </li>
     {% endfor %}

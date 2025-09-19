@@ -6709,79 +6709,6 @@ footer .footer_info > div {
   container-type: inline-size;
   container-name: products-list;
 }
-.products__categories {
-  padding: 0;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 3rem 0;
-  list-style: none;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-@media (min-width: 1200px) {
-  .products__categories {
-    overflow: visible;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-  }
-}
-.products__categories li {
-  padding: 1rem;
-}
-@media (max-width: 1199px) {
-  .products__categories li {
-    flex: 0 0 24rem !important;
-    max-width: 24rem !important;
-  }
-}
-@media (min-width: 1200px) {
-  .products__categories li {
-    flex: 0 0 auto;
-    width: 25% !important;
-  }
-}
-.products__categories__item {
-  box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
-  align-items: center;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  background: #fff;
-  border-radius: 10px;
-  min-height: 100%;
-  padding: 2rem;
-  transition: box-shadow 0.25s;
-  text-align: center;
-}
-.products__categories__item:hover {
-  box-shadow: 0 5px 9px rgba(136, 136, 136, 0.38);
-  color: #333;
-}
-.products__categories__item-image {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin: 0 0 1rem;
-  height: 10rem;
-}
-.products__categories__item-image img {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-}
-.products__categories__item-title {
-  display: block;
-  margin: auto 0 0 0;
-  font-size: 1.4rem;
-  line-height: 2rem;
-  font-weight: 500;
-}
 
 .in-wishlist {
   color: #0063D1;
@@ -7621,6 +7548,123 @@ label.required:before {
   display: flex;
   height: 100%;
   padding: 1rem 2rem;
+}
+
+.subcategory {
+  background: #fff;
+}
+@media (max-width: 991px) {
+  .subcategory {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    outline: 0;
+    padding: 0;
+    height: auto;
+    border-bottom: 1px solid hsl(0, 0%, 93.5%);
+    vertical-align: top;
+    position: relative;
+  }
+}
+@media (min-width: 992px) {
+  .subcategory {
+    box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    border-radius: 10px;
+    min-height: 100%;
+    padding: 2rem;
+    transition: box-shadow 0.25s;
+    text-align: center;
+  }
+}
+.subcategory:hover {
+  box-shadow: 0 5px 9px rgba(136, 136, 136, 0.38);
+  color: #333;
+}
+@media (max-width: 991px) {
+  .subcategory::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: calc(var(--mm-spn-item-height) / 2);
+    right: calc(var(--mm-spn-item-height) / 2);
+    z-index: 0;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid;
+    border-right: 2px solid;
+    transform: rotate(45deg) translate(0, -50%);
+    opacity: 0.4;
+  }
+}
+.subcategory-container {
+  padding: 0;
+  margin: 3rem 0;
+  list-style: none;
+}
+@media (max-width: 991px) {
+  .subcategory-container {
+    border-radius: 16px;
+    box-shadow: 0 5px 9px hsla(0, 0%, 80%, 0.21);
+    border: 1px solid #eaeaea;
+    overflow: hidden;
+  }
+}
+@media (min-width: 992px) {
+  .subcategory-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-gap: 20px;
+  }
+}
+.subcategory-image {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0 0 1rem;
+  height: 10rem;
+}
+@media (max-width: 991px) {
+  .subcategory-image {
+    display: none;
+  }
+}
+.subcategory-image img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+.subcategory-title {
+  display: block;
+  margin: auto 0 0 0;
+}
+@media (max-width: 991px) {
+  .subcategory-title {
+    font-weight: 400;
+    text-align: left;
+    height: initial;
+    margin: initial;
+    padding: 1.6rem;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+  }
+}
+@media (min-width: 992px) {
+  .subcategory-title {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    font-weight: 500;
+  }
 }
 
 .blog h1 {
