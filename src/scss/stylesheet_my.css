@@ -177,9 +177,6 @@ svg.stock_ask {color: #ffa705;}
 @media (max-width: 506px) {
 .product-info .pokupka {width: 100%;}
 .form-group.pokupka .list-unstyled {flex: 0 0 100px;}
-.product-info #button-cart {margin: 0;width: 100%;}
-.product-info .pop_left {flex: 0 0 calc(100% - 125px);}
-.product-info .pop_right {width: 100%;}
 .product-info .wishlist {float: right;}
 }
 

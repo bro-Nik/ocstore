@@ -121,6 +121,7 @@
     border-bottom: 1px solid hsl(0, 0%, 93.5%);
     vertical-align: top;
     position: relative;
+    padding-right: 17px;
   }
 
   @media (min-width: 992px) {
@@ -146,8 +147,8 @@
       content: "";
       display: block;
       position: absolute;
-      top: calc(var(--mm-spn-item-height) / 2);
-      right: calc(var(--mm-spn-item-height) / 2);
+      top: 50%;
+      right: 25px;
       z-index: 0;
       width: 10px;
       height: 10px;

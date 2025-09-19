@@ -26,22 +26,15 @@
     </div>
   {% endif %}
 
-  <div class="pop_left">
+  <div class="btns-actions">
     {% if (price > 0 and quantity > 0) %}
       <button type="button" id="button-cart" data-product-minimum="{{ minimum }}" data-action="cart-toggle" class="btn-cart product_{{ product_id }}" data-product-id="{{ product_id }}" data-action="product" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>{{ button_cart }}</button>
     {% elseif (quantity < 1) %}
-      <a class="btn-ask" data-product-id="{{ product_id }}" data-action="predzakaz" data-toggle="tooltip" title="Уведомить о наличии">
-        Уведомить
-      </a>
+      <button class="btn-ask" data-product-id="{{ product_id }}" data-action="predzakaz" data-toggle="tooltip" title="Уведомить о наличии">Уведомить</button>
     {% elseif (price == 0) %}
-      <a class="btn-ask" data-product-id="{{ product_id }}" data-action="predzakaz" data-toggle="tooltip" title="Запросить цену">
-        Запросить цену
-      </a>
+      <button class="btn-ask" data-product-id="{{ product_id }}" data-action="predzakaz" data-toggle="tooltip" title="Запросить цену">Запросить цену</button>
     {% endif %}
-  </div>
-
-  <div class="pop_right">
-    {% include 'product/btns/wishlist.twig' %}
+    {% include 'product/btns/wishlist.twig' with {'size': 20} %}
   </div>
 </div>
 
