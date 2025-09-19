@@ -481,3 +481,16 @@ flex-wrap: wrap;
 .product-gallery {
     margin: 2rem;
 }
+
+
+.tovar_funkcii li {padding: 5px;border-bottom: solid 1px royalblue;}
+.tovar_funkcii { margin-top: 20px;}
+.tovar_funkcii h2 { margin-top: 0;}
+.tovar_video iframe {
+  width: 100%;
+}
+
+@media (min-width: 1000px) {
+.tovar_funkcii {width: 50%;display: inline-block;}
+.tovar_video {width: 45%;float: right;}
+}

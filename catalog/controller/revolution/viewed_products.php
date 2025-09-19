@@ -22,11 +22,12 @@ class ControllerRevolutionViewedProducts extends ControllerBaseProductCart {
 
     $this->load->model('catalog/product');
     $products = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $products_ids]);
+		if ($products) {
+    	$data = $this->prepareProductsData($products, $settings);
+			$data['id'] = 'slider_viewed_products';
+			$data['title'] = 'Вы недавно смотрели';
 
-    $data = $this->prepareProductsData($products, $settings);
-		$data['id'] = 'slider_viewed_products';
-		$data['title'] = 'Вы недавно смотрели';
-
-    $this->response->setOutput($this->load->view('product/carousel_product', $data));
+    	$this->response->setOutput($this->load->view('product/carousel_product', $data));
+		}
 	}
 }

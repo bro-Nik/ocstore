@@ -577,28 +577,29 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function getProductsByIds($data = array()) {
-			$product_ids = $data['filter_product_ids'];
-    	// Проверяем и подготавливаем список ID товаров
-    	if (empty($product_ids) || !is_array($product_ids)) {
-        	return array();
-    	}
-    	
-    	// Фильтруем ID товаров, оставляем только целые числа
-    	$product_ids = array_map('intval', $product_ids);
-    	$product_ids = array_filter($product_ids);
-    	$product_ids = array_unique($product_ids);
-    	
-    	if (empty($product_ids)) {
-        	return array();
-    	}
-    	
-    	foreach ($product_ids as $id) {
-				$product = $this->getProduct($id);
-				if ($product) {
-        		$product_data[$id] = $product;
-				}
-    	}
-    	
-    	return $product_data;
+		$product_data = array();
+		$product_ids = $data['filter_product_ids'];
+    // Проверяем и подготавливаем список ID товаров
+    if (empty($product_ids) || !is_array($product_ids)) {
+        return array();
+    }
+    
+    // Фильтруем ID товаров, оставляем только целые числа
+    $product_ids = array_map('intval', $product_ids);
+    $product_ids = array_filter($product_ids);
+    $product_ids = array_unique($product_ids);
+    
+    if (empty($product_ids)) {
+        return array();
+    }
+    
+    foreach ($product_ids as $id) {
+			$product = $this->getProduct($id);
+			if ($product) {
+        	$product_data[$id] = $product;
+			}
+    }
+    
+    return $product_data;
 	}
 }
