@@ -4,7 +4,7 @@ initCarouselSwipers();
 
 // mobile-menu
 import { initMobilMenu } from './mmenu-light';
-initMobilMenu();
+// initMobilMenu();
 
 import validator from './services/validations';
 import compare from './core/compare';
@@ -24,16 +24,17 @@ import { menu } from './menu';
 import { getCookie, setCookie } from './cookie';
 
 document.addEventListener('DOMContentLoaded', () => {
-
-	// Записываем url
-	const site_url = document.querySelector('input[name="site_url"]');
-  if (site_url) site_url.value = window.location.href;
-
-	pageViewCounter();
+  initMobilMenu();
 	dynamicBackground();
   initStars();
   cookieConsent();
   initScrollTop();
+
+	pageViewCounter();
+
+	// Записываем url
+	const site_url = document.querySelector('input[name="site_url"]');
+  if (site_url) site_url.value = window.location.href;
 });
 
 

@@ -124,6 +124,7 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
      */
     MmSlidingPanelsNavigation.prototype._initAnchors = function () {
         var _this = this;
+
         /**
          * Clicking an A in the menu: prevent bubbling up to the LI.
          *
@@ -131,7 +132,9 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
          * @return  {boolean}       handled Whether or not the event was handled.
          */
         var clickAnchor = function (target) {
-            if (target.matches('a')) {
+            if (target.closest('[data-mmenu-ignore="true"]')) return false;
+
+            if (target.matches('a') && !target.closest('[data-mmenu-ignore="true"]')) {
                 return true;
             }
             return false;
@@ -143,6 +146,7 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
          * @return  {boolean}               Whether or not the event was handled.
          */
         var openSubmenu = function (target) {
+            if (target.closest('[data-mmenu-ignore="true"]')) return false;
             /** Parent listitem for the submenu.  */
             var listitem;
             //  Find the parent listitem.
@@ -172,6 +176,7 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
          * @return  {boolean}               Whether or not the event was handled.
          */
         var closeSubmenu = function (target) {
+            if (target.closest('[data-mmenu-ignore="true"]')) return false;
             /** The opened ULs. */
             var panels = $("." + prefix + "--open", target);
             /** The last opened UL. */
