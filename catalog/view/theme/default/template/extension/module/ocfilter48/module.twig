@@ -128,14 +128,22 @@ var ready = function(fn) {
   }
 };
 
-ready(function() { // DOM loaded
-  if ('undefined' == typeof jQuery) {
-    console.error('OCFilter required jQuery');
-    
-    return;
+var loadjQueryIfNeeded = function(callback) {
+  if (typeof jQuery === 'undefined') {
+    var script = document.createElement('script');
+    script.src = 'catalog/view/javascript/jquery/jquery-3.7.0.min.js';
+    script.crossOrigin = 'anonymous';
+    script.onload = callback;
+    document.head.appendChild(script);
+  } else {
+    callback();
   }
+};
 
-  $(startOCFilter); // jQuery loaded
+ready(function() {
+  loadjQueryIfNeeded(function() {
+    $(startOCFilter);
+  });
 });
 
 })(document);

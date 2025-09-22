@@ -123,7 +123,6 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
 
   protected function initOCFilter(&$data, $product_total) {
     if ($this->registry->get('ocfilter') && $this->ocfilter->startup()) {
-      $this->document->addScript('catalog/view/javascript/jquery/jquery-2.1.1.min.js', 'footer');
       $this->ocfilter->api->setProductListControllerData($data, $product_total);
     }
   }
