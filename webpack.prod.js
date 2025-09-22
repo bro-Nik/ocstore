@@ -14,14 +14,19 @@ module.exports = merge(common, {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'css/styles.[contenthash:8].min.css',
+      filename: 'css/[name].[contenthash:8].min.css',
     }),
     new WebpackManifestPlugin({
       fileName: 'manifest.json',
       publicPath: 'catalog/view/',
     }),
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['catalog/view/js/*', 'catalog/view/css/*'],
+      cleanOnceBeforeBuildPatterns: [
+        'catalog/view/js/*.min.js',
+        'catalog/view/css/*.min.css',
+        'catalog/view/js/*.js.map',
+        'catalog/view/css/*.css.map'
+      ],
     }),
   ],
   optimization: {

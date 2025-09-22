@@ -99,3 +99,66 @@ label.required:before {
 // input[type='checkbox'] + i:before {
 //     display: none;
 // }
+
+
+.well select.form-control,
+.well input.form-control,
+.well textarea.form-control {
+border-radius: 2px;
+border: 1px solid #ddd;
+background: #fff;
+box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+select.form-control {
+cursor: pointer;
+}
+.form-control:focus {
+border: 1px solid #ddd;
+box-shadow: none;
+}
+
+
+label {
+font-size: 14px;
+font-weight: normal;
+}
+select.form-control, textarea.form-control, input[type="text"].form-control, input[type="datetime"].form-control, input[type="date"].form-control, input[type="month"].form-control, input[type="time"].form-control, input[type="number"].form-control, input[type="email"].form-control, input[type="url"].form-control, input[type="search"].form-control, input[type="tel"].form-control, input[type="color"].form-control {
+font-size: 14px;
+}
+.input-group input, .input-group select, .input-group .dropdown-menu {
+font-size: 14px;
+}
+.input-group .input-group-addon {
+font-size: 14px;
+height: 30px;
+}
+.input-group .input-group-addon i {
+padding-right: 3px;
+}
+
+input[type=file]:focus,
+input[type=checkbox]:focus,
+input[type=radio]:focus {
+outline: none;
+}
+
+
+input[type="radio"],
+.radio input[type="radio"] {
+border-radius: 1em;
+margin-left: -21px;
+}
+input[type="radio"]:checked::after,
+.radio input[type="radio"]:checked::after {
+position: relative;
+top: 3px;
+left: 3px;
+display: block;
+width: 6px;
+height: 6px;
+content: '';
+background: #666;
+border-radius: 1em;
+-webkit-transition: all .2s ease;
+transition: all .2s ease;
+}

@@ -32,7 +32,10 @@ class ControllerCommonFooter extends Controller {
     		$manifest = json_decode(file_get_contents('catalog/view/manifest.json'), true);
 			}
 
-			// Подключаем файлы из manifest.json (минифицированные версии)
+			// Подключаем файлы из manifest.json
+    	if (!empty($manifest['lazy.css'])) {
+				$this->document->addStyle($manifest['lazy.css'], $rel = 'preload', $media = 'screen', $position = 'footer');
+    	}
     	if (!empty($manifest['main.js'])) {
         $this->document->addScript($manifest['main.js'], 'footer');
     	}
@@ -45,6 +48,7 @@ class ControllerCommonFooter extends Controller {
     	}
 		} else {
       $this->document->addScript('catalog/view/js/main.js', 'footer');
+			$this->document->addStyle('catalog/view/css/lazy.css', $rel = 'preload', $media = 'screen', $position = 'footer');
 		}
 
 		$data['custom_footer'] = $footer_settings = $this->config->get('revtheme_custom_footer');

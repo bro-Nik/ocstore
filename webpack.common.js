@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: {
     main: ['./src/js/main.js', './src/scss/main.scss'],
+    lazy: './src/scss/lazy.scss',
   },
   output: {
     filename: 'js/[name].js',
@@ -29,30 +30,10 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'css/styles.css',
+      filename: 'css/[name].css',
     }),
   ],
   optimization: {
     usedExports: true, // Включить tree-shaking
-    // splitChunks: {
-    //   chunks: 'all',
-    //   minSize: 10000, // Минимальный размер для выноса в отдельный файл
-    //   cacheGroups: {
-    //     swiper: {
-    //       test: /[\\/]node_modules[\\/]swiper[\\/]/,
-    //       name: 'swiper',
-    //       chunks: 'all',
-    //       enforce: true, // Важно для выноса Swiper отдельно
-    //       priority: 10, // Высокий приоритет
-    //     },
-    //     mmenuLight: {
-    //       test: /[\\/]html[\\/]src[\\/]mmenu-light[\\/]/,
-    //       name: 'mmenu-light',
-    //       chunks: 'all',
-    //       enforce: true,
-    //       priority: 10, // Можно установить такой же приоритет как у swiper
-    //     },
-    //   },
-    // },
   },
 };

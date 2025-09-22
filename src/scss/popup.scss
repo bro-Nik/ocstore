@@ -267,3 +267,57 @@ width: 110px;
     gap: 2rem;
     margin-bottom: 2rem;
 }
+
+
+.popup-footer,
+.popup-footer {
+padding: 15px 25px 15px 25px;
+position: relative;
+display: inline-block;
+width: 100%;
+height: 100%;
+vertical-align: bottom;
+}
+.popup-center,
+.popup-center {
+background: #fff;
+padding: 10px 25px 0 25px;
+}
+
+.popup-footer button.quickorder_b {
+float: right;
+}
+
+@media (max-width: 767px) {
+.popup-heading {
+font-size: 15px;
+}
+.popup-footer button {
+width: 100%;
+}
+.popup-footer button.quickorder_b {
+margin: 14px 0 0 0;
+float: initial;
+}
+.popup-footer a {
+width: 100%;
+margin-top: 5px;
+}
+}
+
+.close {
+font-size: 18px;
+font-weight: normal;
+color: #555;
+text-shadow: none;
+opacity: 1;
+position: absolute;
+right: 10px;
+top: 50%;
+margin-top: -9px;
+outline: none;
+}
+.close:focus, .close:hover {
+color: #dd4b39;
+opacity: 1;
+}

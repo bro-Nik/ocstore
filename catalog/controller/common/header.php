@@ -109,7 +109,8 @@ class ControllerCommonHeader extends Controller {
     	}
 
 		} else {
-			$this->document->addStyle('catalog/view/css/styles.css');
+			// $this->document->addStyle('catalog/view/css/styles.css');
+			$this->document->addStyle('catalog/view/css/main.css');
 		}
 
 		if ($setting_header_search['ch_text']) {

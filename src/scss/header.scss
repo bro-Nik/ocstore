@@ -385,3 +385,60 @@
 
 
 
+#top form {
+display: inline-block;
+float: left;
+}
+#top2 {
+z-index: 10;
+position: relative;
+}
+#top2 .container {
+padding: 20px 15px;
+}
+
+#top3 sup {
+color: #777;
+display: inline-block;
+}
+
+
+#menu img,
+#menu i {
+max-width: 21px;
+}
+
+#top2 .col-xs-12.col-sm-6.col-md-3.pull-right {display: flex; align-items: center; justify-content: flex-end;}
+#top2 .tel {
+position: relative;
+line-height: 1.5em;
+text-align: right;
+}
+#top2 .tel .dropdown-menu {
+right: -14px;
+margin-top: 5px;
+width: max-content;
+}
+#top2 .tel button {
+border: none;
+background: none;
+padding: 0;
+margin: 0;
+}
+
+.phone_dop_text {
+padding: 10px 15px 5px 15px;
+border-top: 1px solid #eee;
+margin-top: 5px;
+line-height: 1.3;
+font-size: 13px;
+}
+.phone_dop_text2 {
+padding-top: 10px;
+line-height: 1.3;
+font-size: 13px;
+}
+.phone_dop_text p,
+.phone_dop_text2 p {
+margin: 0 0 5px;
+}

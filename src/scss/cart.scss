@@ -128,3 +128,20 @@ float: left;
 height: 26px;
 width: 30px;
 }
+
+.all-total {
+float: right;
+padding: 15px 0;
+}
+
+.all-total .totals-left {
+float: right;
+text-align: right;
+line-height: 26px;
+font-size: 1.6rem;
+font-weight: bold;
+}
+.all-total .totals-right {
+line-height: 26px;
+min-width: 70px;
+}  
