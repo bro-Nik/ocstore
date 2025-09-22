@@ -6,7 +6,7 @@
         <a class="subcategory" href="{{ category.href }}">
           {% if category.thumb %}
             <div class="subcategory-image">
-              <img src="{{ category.thumb }}" title="{{ category.name }}" alt="{{ category.name }}"/>
+              <img src="{{ category.thumb }}" title="{{ category.name }}" alt="{{ category.name }}" loading="lazy"/>
             </div>
           {% endif %}
           <span class="subcategory-title">{{ category.name }}</span>

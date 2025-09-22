@@ -4,7 +4,7 @@
 			{% for slide in slides %} 
       	<div class="swiper-slide slide__tile">
 					<a href="{{ slide['link'] }}" class="slide__item">
-						<img src="{{ slide['image'] }}" alt="{{ slide['title'] }}">
+						<img src="{{ slide['image'] }}" alt="{{ slide['title'] }}" loading="lazy">
 					</a>
       	</div>
     	{% endfor %}
