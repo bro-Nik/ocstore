@@ -120,7 +120,6 @@ class BasePopup {
    * Показать попап
    */
   async show(url) {
-    console.log(url)
     await this.beforeShow();
 
     // Генерируем событие ДО открытия (можно отменить)

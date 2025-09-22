@@ -1,6 +1,5 @@
 // swiper
 import { initCarouselSwipers } from './swiper';
-initCarouselSwipers();
 
 // mobile-menu
 import { initMobilMenu } from './mmenu-light';
@@ -24,6 +23,7 @@ import { menu } from './menu';
 import { getCookie, setCookie } from './cookie';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initCarouselSwipers();
   initMobilMenu();
 	dynamicBackground();
   initStars();

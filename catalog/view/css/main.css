@@ -3297,6 +3297,7 @@ button.search-button.btn.btn-default.btn-lg.search_button {
   align-items: center;
   width: auto;
   height: auto;
+  max-width: 100%;
 }
 .swiper-slide-thumb-active {
   padding-bottom: 10px;
@@ -6839,6 +6840,10 @@ input[type=radio]:checked::after,
   -webkit-box-orient: vertical;
   flex: 1;
   margin-top: auto;
+}
+
+ul.thumbnails {
+  list-style: none;
 }
 
 /* Placeholder swiper */

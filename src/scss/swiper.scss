@@ -16,6 +16,7 @@
     align-items: center;
     width: auto;
     height: auto;
+    max-width: 100%;
     &-thumb-active {
       padding-bottom: 10px;
       border-bottom: 3px solid var(--color-primary);
