@@ -5,7 +5,7 @@
   "@type": "Product",
   "name": "{{ product.name|replace({'"': '\\"'}) }}",
   "image": "{{ product.thumb }}",
-  "description": "{{ product.short_description|striptags|replace({'"': '\\"'})|slice(0, 200) }}",
+  "description": "{{ product.meta_description|striptags|replace({'"': '\\"'})|slice(0, 200) }}",
   "sku": "{{ product.model }}",
   "mpn": "{{ product.model }}",
   "brand": {
@@ -17,7 +17,7 @@
     "price": "{{ current_price|replace({' ': '', '₽': '', 'руб.': ''})|trim }}",
     "priceCurrency": "RUB",
     "priceValidUntil": "{{ 'now'|date_modify('+1 year')|date('Y-m-d') }}",
-    "availability": "{% if product.quantity > 0 %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "availability": "{% if product.quantity > 0 and product.price > 0 %}https://schema.org/InStock{% elseif product.price == 0 %}https://schema.org/PreOrder{% else %}https://schema.org/OutOfStock{% endif %}",
     "url": "{{ product.href }}",
     "seller": {
       "@type": "Organization",
