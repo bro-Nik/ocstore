@@ -5,7 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>{{ title }}</title>
-{% include 'revolution/template/common/header/microdata.twig' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ name }}",
+  "url": "{{ og_url }}",
+  "logo": "{{ logo }}",
+  "description": "{{ description }}",
+  "telephone": "{{ microdata_phones[0] }}",
+  "email": "{{ microdata_email }}"
+}
+</script>
 {% if (description) %} 
 <meta name="description" content="{{ description }}" />
 {% endif %} 
@@ -22,7 +33,6 @@
 {% for style in styles %}
   <link href="{{ style.href }}" rel="{{ style.rel }}" type="text/css" media="{{ style.media }}" />
 {% endfor %}
-
 {% for link in links %} 
 <link href="{{ link.href }}" rel="{{ link.rel }}" />
 {% endfor %} 

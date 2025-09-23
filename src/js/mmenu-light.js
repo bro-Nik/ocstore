@@ -4,18 +4,17 @@ export function initMobilMenu() {
   var menu = new MmenuLight(document.querySelector("#mobil_mmenu"), "all");
 
   var navigator = menu.navigation({
-      title: 'Меню'
+    title: 'Меню'
   });
 
-  var drawer = menu.offcanvas({
-  });
+  var drawer = menu.offcanvas({});
 
   // Open the menu.
-  var menuButton = document.querySelector('a[href="#mobil_mmenu"]');
+  var menuButton = document.querySelector('[for="#mobil_mmenu"]');
   if (menuButton) {
-      menuButton.addEventListener("click", function(evnt) {
-          evnt.preventDefault();
-          drawer.open();
-      });
+    menuButton.addEventListener("click", function(evnt) {
+      evnt.preventDefault();
+      drawer.open();
+    });
   }
 }

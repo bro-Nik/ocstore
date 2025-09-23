@@ -9,52 +9,49 @@ class ControllerBlogCategory extends Controller {
 
 	public function index() {
 		$this->load->language('blog/category');
-
 		$this->load->model('blog/category');
-
 		$this->load->model('blog/article');
-
 		$this->load->model('tool/image');
 
-        if ($this->config->get('config_noindex_disallow_params')) {
-            $params = explode ("\r\n", $this->config->get('config_noindex_disallow_params'));
-            if(!empty($params)) {
-                $disallow_params = $params;
-            }
-        }
+    if ($this->config->get('config_noindex_disallow_params')) {
+      $params = explode ("\r\n", $this->config->get('config_noindex_disallow_params'));
+      if(!empty($params)) {
+        $disallow_params = $params;
+      }
+    }
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
-            if (!in_array('sort', $disallow_params, true) && $this->config->get('config_noindex_status')) {
-                $this->document->setRobots('noindex,follow');
-            }
+      if (!in_array('sort', $disallow_params, true) && $this->config->get('config_noindex_status')) {
+          $this->document->setRobots('noindex,follow');
+      }
 		} else {
 			$sort = 'p.date_added';
 		}
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
-            if (!in_array('order', $disallow_params, true) && $this->config->get('config_noindex_status')) {
-                $this->document->setRobots('noindex,follow');
-            }
+        if (!in_array('order', $disallow_params, true) && $this->config->get('config_noindex_status')) {
+          $this->document->setRobots('noindex,follow');
+        }
 		} else {
 			$order = 'DESC';
 		}
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
-            if (!in_array('page', $disallow_params, true) && $this->config->get('config_noindex_status')) {
-                $this->document->setRobots('noindex,follow');
-            }
+        if (!in_array('page', $disallow_params, true) && $this->config->get('config_noindex_status')) {
+          $this->document->setRobots('noindex,follow');
+        }
 		} else {
 			$page = 1;
 		}
 
 		if (isset($this->request->get['limit'])) {
 			$limit = $this->request->get['limit'];
-            if (!in_array('limit', $disallow_params, true) && $this->config->get('config_noindex_status')) {
-                $this->document->setRobots('noindex,follow');
-            }
+        if (!in_array('limit', $disallow_params, true) && $this->config->get('config_noindex_status')) {
+          $this->document->setRobots('noindex,follow');
+        }
 		} else {
 			$limit = $this->config->get('configblog_article_limit');
 		}
@@ -68,17 +65,6 @@ class ControllerBlogCategory extends Controller {
 		
 		$configblog_name = $this->config->get('configblog_name');
 		
-		// if (!empty($configblog_name)) {
-		// 	$name = $this->config->get('configblog_name');
-		// } else {
-		// 	$name = $this->language->get('text_blog');
-		// }
-		
-		// $data['breadcrumbs'][] = array(
-		// 	'text' => $name,
-		// 	'href' => $this->url->link('blog/latest')
-		// );
-
 		if (isset($this->request->get['blog_category_id'])) {
 			$url = '';
 

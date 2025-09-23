@@ -1,17 +1,11 @@
 <ul {% if ul_class %}class="{{ ul_class }}"{% endif %}>
-	<li>
-	  <a {% if link_class %}class="{{ link_class }}"{% endif %} href="tel:{{ (header_phone_cod ~ header_phone_number)|replace({' ': '', '-': '', '(': '', ')': ''}) }}">{{ header_phone_cod ~ header_phone_number }}</a>
-	</li>
+	<li><a {% if link_class %}class="{{ link_class }}"{% endif %} href="tel:{{ (header_phone_cod ~ header_phone_number)|replace({' ': '', '-': '', '(': '', ')': ''}) }}">{{ header_phone_cod ~ header_phone_number }}</a></li>
 
 	{% for contact in dop_contacts %} 
-		<li>
-		  <a {% if link_class %}class="{{ link_class }}"{% endif %} href="{{ contact.href }}"><span>{{ contact.number }}</span></a>
-		</li>
+		<li><a {% if link_class %}class="{{ link_class }}"{% endif %} href="{{ contact.href }}"><span>{{ contact.number }}</span></a></li>
 	{% endfor %} 
 
-	<li>
-	  <a {% if link_class %}class="{{ link_class }}"{% endif %} data-action="open-popup-call">Обратный звонок</a>
-	</li>
+	<li><a {% if link_class %}class="{{ link_class }}"{% endif %} data-action="open-popup-call">Обратный звонок</a></li>
 
 	{% if (phone_dop_text|length > 30) %} 
 		<div class="phone_dop_text">{{ phone_dop_text }}</div>

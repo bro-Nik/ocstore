@@ -5081,14 +5081,6 @@ input[type=radio]:checked::after,
     height: 7.5rem;
   }
 }
-.header__mobile a {
-  font-size: 2rem;
-}
-@media (max-width: 500px) {
-  .header__mobile a {
-    font-size: 1.6rem;
-  }
-}
 @media (max-width: 1199px) {
   .header__desktop {
     display: none;

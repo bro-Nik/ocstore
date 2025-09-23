@@ -1,7 +1,7 @@
 <div class="sortline">
   <div class="row g-5">
     <div class="sortline-group">
-      <span class="sortline-group-text">Сортировка:</span>
+      <label class="sortline-group-text">Сортировка:</label>
       <select id="input-sort" class="" onchange="location = this.value;">
         {% for sorts in sorts %}
           {% if sorts.value == '%s-%s'|format(sort, order) %}
@@ -14,7 +14,7 @@
     </div>
 
     <div class="sortline-group">
-      <span class="sortline-group-text">Показать:</span>
+      <label class="sortline-group-text">Показать:</label>
       <select id="input-limit" class="" onchange="location = this.value;">
         {% for limits in limits %}
           {% if (limits['value'] == limit) %}

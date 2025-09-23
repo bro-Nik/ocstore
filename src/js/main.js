@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'toggle-btn';
-    toggleBtn.type = 'button';
     
     // Добавляем элементы в DOM
     content.appendChild(fade);
