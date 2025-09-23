@@ -6,6 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>{{ title }}</title>
 {% include 'revolution/template/common/header/microdata.twig' %}
+{% if (description) %} 
+<meta name="description" content="{{ description }}" />
+{% endif %} 
 {% if (keywords) %} 
 <meta name="keywords" content= "{{ keywords }}" />
 {% endif %} 
