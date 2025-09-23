@@ -2,16 +2,11 @@
 <div id="">
 	<div class="container-fluid">
 		<div class="row">
-
-			{% if (h1) %} 
-				<h1 class="home_h1">{{ h1 }}</h1>
-			{% endif %}	
 			{% if (slideshow) %} 
 				<div class="col-sm-12 col-md-12">{{ slideshow }}</div>
 			{% endif %}	
 
 			{{ recommendations }}
-
 		</div>
 	</div>
 </div>
@@ -31,6 +26,10 @@
 	<div id="content" class="{{ class }}">
 	
 	{{ content_top }} 
+
+	{% if (h1) %} 
+		<h1 class="home_h1">{{ h1 }}</h1>
+	{% endif %}	
 	
 	{{ related_categories }}
 	{{ slider_tabs1 }} 
