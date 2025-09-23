@@ -854,10 +854,7 @@ font-weight: 400;
 text-decoration: line-through;
 }
 .dotted-line {
-display: block;
-position: relative;
-letter-spacing: -1ex;
-line-height: 24px;
+line-height: 2rem;
 }
 .adotted_block {
 display: inline-block;

@@ -164,7 +164,7 @@ ul.product_list_top li span {color: #ff6700;margin-left: 3px;}
 ul.product_list_top li a > span:hover {color: #3881df;}
 .product_list_top2 {display: flex;margin-bottom: 25px;align-items: center;}
 .product_list_top2 > div {margin-right: 15px;}
-.dotted-line {letter-spacing: 0;background: #efefef99;margin: 5px 5px 0 0;padding: 2px 8px;border-radius: 4px;width: auto;display: inline-block;}
+.dotted-line {background: #efefef99;margin: 5px 5px 0 0;padding: 2px 8px;border-radius: 4px;display: inline-block;}
 .dotted-line span {padding-left: 3px;font-weight: bold;text-transform: capitalize;}
 svg.stock_yes {color: #3fa20c;}
 svg.stock_ask {color: #ffa705;}

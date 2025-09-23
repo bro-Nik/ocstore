@@ -8,13 +8,21 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "{{ name }}",
-  "url": "{{ og_url }}",
-  "logo": "{{ logo }}",
+  "@type": "WebPage",
+  "name": "{{ title }}",
   "description": "{{ description }}",
-  "telephone": "{{ microdata_phones[0] }}",
-  "email": "{{ microdata_email }}"
+  "url": "{{ og_url }}",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "{{ name }}",
+    "url": "{{ base }}",
+    "telephone": "{{ microdata_phones[0] }}",
+    "email": "{{ microdata_email }}"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "{{ og_image is not empty ? og_image : logo }}"
+  }
 }
 </script>
 {% if (description) %} 

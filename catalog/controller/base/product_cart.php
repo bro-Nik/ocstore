@@ -34,18 +34,19 @@ abstract class ControllerBaseProductCart extends Controller {
 				'stiker_jan' => $product_info['jan'],
 				'stiker_isbn' => $product_info['isbn'],
 				'sklad_status' => $product_info['stock_status'],
-				// 'brand' => $this->model_revolution_revolution->get_pr_brand($product_info['product_id']),
 				'quantity' => $product_info['quantity'],
 				'model' => $product_info['model'],
-				// 'short_description' => html_entity_decode($product_info['short_description'], ENT_QUOTES, 'UTF-8'),
 				'product_id'  => $product_info['product_id'],
 				'thumb'       => $image,
 				'name'        => $product_info['name'],
+				'manufacturer' => $product_info['manufacturer'],
 				'description' => $this->model_revolution_revolution->getAttrText($product_info['product_id']),
+				'short_description' => $product_info['short_description'],
 				'price'       => round($product_info['price'], 2),
 				'special_price' => $product_info['special'] ? round($product_info['special'] , 2) : false,
 				'minimum'     => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
 				'rating'      => number_format($product_info['rating'], 1),
+				'reviews'      => number_format($product_info['reviews'], 1),
 				'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id'])
 			);
 		}

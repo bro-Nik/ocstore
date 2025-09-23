@@ -265,7 +265,6 @@ class ControllerCommonHeader extends Controller {
 			}
 			$data['search'] = $this->load->controller('common/search');
 			$data['categories'] = $this->categoriesTree($setting_header_menu);
-			$data['og_image'] = $this->document->getOgImage();
 
     	$this->setCache($cache_key, $data);
 		} else {
@@ -324,8 +323,9 @@ class ControllerCommonHeader extends Controller {
 
 		$this->load->language('common/header');
 		
-		$data['og_url'] = (isset($this->request->server['HTTPS']) ? HTTPS_SERVER : HTTP_SERVER) . substr($this->request->server['REQUEST_URI'], 1, (strlen($this->request->server['REQUEST_URI'])-1));
+		// $data['og_url'] = (isset($this->request->server['HTTPS']) ? HTTPS_SERVER : HTTP_SERVER) . substr($this->request->server['REQUEST_URI'], 1, (strlen($this->request->server['REQUEST_URI'])-1));
 		
+		$data['og_image'] = $this->document->getOgImage();
 		$host = isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1')) ? HTTPS_SERVER : HTTP_SERVER;
 		if ($this->request->server['REQUEST_URI'] == '/') {
 			$data['og_url'] = $this->url->link('common/home');

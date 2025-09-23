@@ -1,15 +1,3 @@
-<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
-  {% set position = 1 %}
-  {% for breadcrumb in breadcrumbs %}
-    <div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-      <link itemprop="item" href="{{ breadcrumb['href'] }}">
-      <meta itemprop="name" content="{{ breadcrumb['text'] }}"/>
-      <meta itemprop="position" content="{{ position }}"/>
-    </div>
-    {% set position = position + 1 %}
-  {% endfor %}
-</div>
-
 <ul class="breadcrumb">
   <li class="br_ellipses" style="display: none;">...</li>
   {% for i,breadcrumb in breadcrumbs %}
@@ -23,10 +11,21 @@
         </li>
     {% endif %}
   {% endfor %}
-  {#}
-  <li>
-    <span class="inbreadcrumb" itemprop="name">{{ heading_title }}</span>
-  </li>
-  {#}
-  {#<li><h1 class="inbreadcrumb" itemprop="name">{{ heading_title }}</h1></li>#}
 </ul>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {% for breadcrumb in breadcrumbs %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "name": "{{ breadcrumb.text|replace({'"': '\\"'}) }}",
+      "item": "{{ breadcrumb.href }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

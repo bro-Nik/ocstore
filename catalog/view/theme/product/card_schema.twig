@@ -1,0 +1,37 @@
+{% set current_price = product.special_price ? product.special_price : product.price %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name|replace({'"': '\\"'}) }}",
+  "image": "{{ product.thumb }}",
+  "description": "{{ product.short_description|striptags|replace({'"': '\\"'})|slice(0, 200) }}",
+  "sku": "{{ product.model }}",
+  "mpn": "{{ product.model }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product.manufacturer|default('Производитель не указан') }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ current_price|replace({' ': '', '₽': '', 'руб.': ''})|trim }}",
+    "priceCurrency": "RUB",
+    "priceValidUntil": "{{ 'now'|date_modify('+1 year')|date('Y-m-d') }}",
+    "availability": "{% if product.quantity > 0 %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "url": "{{ product.href }}",
+    "seller": {
+      "@type": "Organization",
+      "name": "Климатическая компания «Климат под ключ»",
+      "url": "https://climkey.ru"
+    },
+    "itemCondition": "https://schema.org/NewCondition"
+  }
+  {% if product.rating %},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ product.rating }}",
+    "reviewCount": "{{ product.reviews|default('0') }}"
+  }
+  {% endif %}
+}
+</script>
