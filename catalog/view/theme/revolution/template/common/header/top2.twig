@@ -1,30 +1,28 @@
 <div id="top2" class="header__row top2">
-<div class="header__logo">
-	{% if (logo) %} 
-    <a href="{{ home }}" class="logo-link">
-      <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" loading="lazy"/>
-    </a>
-	{% else %} 
-    <a href="{{ home }}" class="logo-link">{{ name }}</a>
-	{% endif %}
-</div>
+	<div class="header__logo">
+		{% if (logo) %} 
+    	<a href="{{ home }}" class="logo-link"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" loading="lazy"/></a>
+		{% else %} 
+    	<a href="{{ home }}" class="logo-link">{{ name }}</a>
+		{% endif %}
+	</div>
 
-			<div class="bigsearch header__search">{{ search }}</div>
+	<div class="bigsearch header__search">{{ search }}</div>
 
-			{% if (header_phone_number != '' or header_phone_text != '') %} 
-				<div class="header__group">
-					<div class="header__action">
-					<div class="dropdown">
-								{% if (header_phone_number != '') %} 
-									<button type="button" class="dropdown-toggle btn-phone header__action-btn" data-toggle="dropdown" aria-expanded="true">
-										{% if (header_phone_cod) %}<span class="telefon">{{ header_phone_cod }}</span>{% endif %} {{ header_phone_number }}
-									</button>
-								{% endif %} 
+	{% if (header_phone_number != '' or header_phone_text != '') %} 
+		<div class="header__group">
+			<div class="header__action">
+			<div class="dropdown">
+				{% if (header_phone_number != '') %} 
+					<button type="button" class="dropdown-toggle btn-phone header__action-btn" data-toggle="dropdown" aria-expanded="true" aria-label="Открыть список контактов">
+						{% if (header_phone_cod) %}<span class="telefon">{{ header_phone_cod }}</span>{% endif %} {{ header_phone_number }}
+					</button>
+				{% endif %} 
 
-        				{% include 'common/header/_contacts.twig' with {'ul_class': 'dropdown-menu dropdown-menu-right dop_contss', 'link_class': ''} %}
-								</div>
-							</div>
+        {% include 'common/header/_contacts.twig' with {'ul_class': 'dropdown-menu dropdown-menu-right dop_contss', 'link_class': ''} %}
 				</div>
-			{% endif %} 
+			</div>
+		</div>
+	{% endif %} 
 		
 </div>  

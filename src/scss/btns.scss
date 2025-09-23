@@ -64,6 +64,11 @@
     flex-direction: row;
     align-items: center;
     gap: 1rem;
+    width: 100%;
+    &:hover {
+      color: #fff;
+      background: #0355b1;
+    }
     & svg.bi-chevron-down {
       margin-left: auto;
     }
