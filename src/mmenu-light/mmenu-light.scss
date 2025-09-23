@@ -11,3 +11,8 @@
 
 @use 'modules/offcanvas-drawer/index' as drawer;
 @use 'modules/sliding-panels-navigation/index' as navigation;
+
+.mm-listitem__text {
+  color: rgba(1, 1, 1, 0.4);
+  padding: calc((var(--mm-spn-item-height) - var(--mm-spn-line-height)) / 2) var(--mm-spn-item-indent) !important;
+}

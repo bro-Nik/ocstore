@@ -111,7 +111,7 @@
         cursor: pointer;
 
         //  The arrow.
-        &:before {
+        &:not(.mm-listitem__text):before {
             content: "";
             display: block;
             position: absolute;
@@ -128,7 +128,7 @@
         }
 
         //  The border.
-        &:after {
+        &:not(.mm-listitem__text):after {
             content: "";
             display: block;
             margin-left: var(--mm-spn-item-indent);

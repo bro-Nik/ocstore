@@ -69,7 +69,7 @@
 		</li>
 
 		{% if (informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3) %} 
-			<span class="mm-listitem__text">{{ text_header_information }}</span>
+			<li class="mm-listitem__text" role="heading" aria-level="2">{{ text_header_information }}</li>
 				{% if (revtheme_dop_menus_2) %} 
 					{% for revtheme_dop_menu in revtheme_dop_menus_2 %} 
 						<li>
@@ -117,7 +117,7 @@
 			{% endfor %} 
 		{% endif %} 			
 
-		<span class="mm-listitem__text">Связь</span>
+		<li class="mm-listitem__text" role="heading" aria-level="2">Связь</li>
 		{% if (header_phone_text) %} 
 			<li>{{ header_phone_text }}</li>
 		{% endif %} 

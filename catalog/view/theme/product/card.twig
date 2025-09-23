@@ -1,7 +1,6 @@
 <div class="product-layout">
   {% include 'product/card_schema.twig' %}
-  <div class="product-thumb shadow-box product-card" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product"
-      data-product-id="{{ product.product_id }}"
+  <div class="product-thumb shadow-box product-card" data-product-id="{{ product.product_id }}"
       data-product-name="{{ product.name }}">
     <div class="image">
       {% include 'revolution/template/product/partials/img_slider.twig' %}
@@ -9,10 +8,10 @@
     </div>
       <h4>
         <a href="{{ product.href }}">
-          <span itemprop="name">{{ product.mpn ?: product.name }}</span>
+          <span>{{ product.mpn ?: product.name }}</span>
         </a>
       </h4>
-      <link itemprop="url" href="{{ product.href }}"/>
+      <link href="{{ product.href }}"/>
       <div class="description_options">
         <div class="description">
           {{ product.description }}

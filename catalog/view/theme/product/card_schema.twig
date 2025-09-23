@@ -1,11 +1,27 @@
 {% set current_price = product.special_price ? product.special_price : product.price %}
+
+{# Для description #}
+{% set key_attributes = [] %}
+{% for attribute_group in attribute_groups %}
+  {% if (attribute_group['attribute_group_id'] in revtheme_product_all_attribute_group) %}
+    {% for attribute in attribute_group['attribute'] %}
+      {% if (attribute['text'] != '') %}
+        {# Добавляем только важные для описания атрибуты #}
+        {% if attribute['name'] in ['Площадь', 'Инвертор', 'Охлаждение', 'Обогрев', 'Тип', 'Площадь помещения'] %}
+          {% set key_attributes = key_attributes|merge([attribute['name'] ~ ': ' ~ attribute['text']]) %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "{{ product.name|replace({'"': '\\"'}) }}",
   "image": "{{ product.thumb }}",
-  "description": "{{ product.meta_description|striptags|replace({'"': '\\"'})|slice(0, 200) }}",
+  "description": "{{ product.name }} - {% if key_attributes|length > 0 %}{{ key_attributes|slice(0, 3)|join(', ') }}{% else %}климатическое оборудование от {{ product.manufacturer }}{% endif %}. Продажа и установка в Нижнем Новгороде.",
   "sku": "{{ product.model }}",
   "mpn": "{{ product.model }}",
   "brand": {
@@ -14,7 +30,7 @@
   },
   "offers": {
     "@type": "Offer",
-    "price": "{{ current_price|replace({' ': '', '₽': '', 'руб.': ''})|trim }}",
+    "price": "{{ current_price|trim }}",
     "priceCurrency": "RUB",
     "priceValidUntil": "{{ 'now'|date_modify('+1 year')|date('Y-m-d') }}",
     "availability": "{% if product.quantity > 0 and product.price > 0 %}https://schema.org/InStock{% elseif product.price == 0 %}https://schema.org/PreOrder{% else %}https://schema.org/OutOfStock{% endif %}",
@@ -26,11 +42,11 @@
     },
     "itemCondition": "https://schema.org/NewCondition"
   }
-  {% if product.rating %},
+  {% if product.rating and product.rating > 0 %},
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "{{ product.rating }}",
-    "reviewCount": "{{ product.reviews|default('0') }}"
+    "reviewCount": "{{ product.reviews }}"
   }
   {% endif %}
 }

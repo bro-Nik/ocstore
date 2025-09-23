@@ -4,13 +4,11 @@
     <div class="row">
       <div id="recommended_categories" class="swiper swiper-carousel" style="margin-bottom: 30px;">
         <div class="swiper-wrapper">
-
-
           {% for category in categories %}
             <div class="swiper-slide category-tile">
                 <div class="category-content"  style="width: 250px;">
                   <div class="category-info">
-                    <h4><a href="{{ category.href }}">{{ category.name }}</a></h4>
+                    <h3><a href="{{ category.href }}">{{ category.name }}</a></h3>
                     <div class="category-filters">
                       {% for filter in category.filters %}
                         <div class="filter-row">
