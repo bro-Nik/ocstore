@@ -187,7 +187,7 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
   }
 
   protected function setCanonicalLinks($route, $params, $page, $total, $limit) {
-    if (!$this->config->get('config_canonical_method')) {
+    // if (!$this->config->get('config_canonical_method')) {
       // Базовая реализация canonical
       // http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
       if ($page == 1) {
@@ -201,34 +201,34 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
       if ($limit && ceil($total / $limit) > $page) {
         $this->document->addLink($this->url->link($route, $params . '&page=' . ($page + 1)), 'next');
       }
-    } else {
-      // Альтернативная реализация canonical
-      if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-        $server = $this->config->get('config_ssl');
-      } else {
-        $server = $this->config->get('config_url');
-      };
-
-      $request_url = rtrim($server, '/') . $this->request->server['REQUEST_URI'];
-      $canonical_url = $this->url->link($route, $params);
-
-      if (($request_url != $canonical_url) || $this->config->get('config_canonical_self')) {
-        $this->document->addLink($canonical_url, 'canonical');
-      }
-
-      if ($this->config->get('config_add_prevnext')) {
-
-        if ($page == 2) {
-          $this->document->addLink($this->url->link($route, $params), 'prev');
-        } elseif ($page > 2)  {
-          $this->document->addLink($this->url->link($route, $params . '&page=' . ($page - 1)), 'prev');
-        }
-
-        if ($limit && ceil($total / $limit) > $page) {
-          $this->document->addLink($this->url->link($route, $params . '&page=' . ($page + 1)), 'next');
-        }
-      }
-    }
+    // } else {
+    //   // Альтернативная реализация canonical
+    //   if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+    //     $server = $this->config->get('config_ssl');
+    //   } else {
+    //     $server = $this->config->get('config_url');
+    //   };
+    //
+    //   $request_url = rtrim($server, '/') . $this->request->server['REQUEST_URI'];
+    //   $canonical_url = $this->url->link($route, $params);
+    //
+    //   if (($request_url != $canonical_url) || $this->config->get('config_canonical_self')) {
+    //     $this->document->addLink($canonical_url, 'canonical');
+    //   }
+    //
+    //   if ($this->config->get('config_add_prevnext')) {
+    //
+    //     if ($page == 2) {
+    //       $this->document->addLink($this->url->link($route, $params), 'prev');
+    //     } elseif ($page > 2)  {
+    //       $this->document->addLink($this->url->link($route, $params . '&page=' . ($page - 1)), 'prev');
+    //     }
+    //
+    //     if ($limit && ceil($total / $limit) > $page) {
+    //       $this->document->addLink($this->url->link($route, $params . '&page=' . ($page + 1)), 'next');
+    //     }
+    //   }
+    // }
   }
 
   protected function getPopularProducts($filters, $limit = 10) {

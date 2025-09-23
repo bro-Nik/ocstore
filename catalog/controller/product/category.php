@@ -104,7 +104,7 @@ class ControllerProductCategory extends ControllerBaseProductsList {
       	);
 
       	// Canonical и prev/next ссылки
-      	$this->setCanonicalLinks('product/category', 'path=' . $category_id, $params, $params['page'], $product_total, $params['limit']);
+      	$this->setCanonicalLinks('product/category', 'path=' . $category_id, $params['page'], $product_total, $params['limit']);
 
       	$data['sort'] = $params['sort'];
       	$data['order'] = $params['order'];
