@@ -7,7 +7,7 @@
 							<ul class="header__tags-menu">
 								{% for dop_menu in revtheme_dop_menus_3 %} 
 									{% if (dop_menu.children is defined) %} 
-										<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{% if (dop_menu['icontype'] == 'iconka') %} <span class="am_category_image"><i class="{{ dop_menu['dop_menu_iconka_3'] }}"></i></span> {% else %} {% if (dop_menu['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ dop_menu['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ dop_menu['name'~config_language_id] }}<span class="icorightmenu"></span></a>
+										<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{% if (dop_menu['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ dop_menu['dop_menu_image_3'] }}" alt="{{ dop_menu['name'~config_language_id] }}"></span> {% endif %}{{ dop_menu['name'~config_language_id] }}</a>
 										<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
 											<div class="mmmenu" {% if (image_in_ico_dop3) %} 'style="position: initial"' {% endif %} >
 												  <div class="dropdown-menu">
@@ -24,7 +24,7 @@
 															{% for children in dop_menu['children']|batch((dop_menu['children']|length / dop_menu['column'])|round) %}
 																<ul class="list-unstyled">
 																{% for child in children %} 
-																<li><a class="header__tags-btn" href="{{ child['href'~config_language_id] }}">{% if (child['icontype'] == 'iconka') %} <span class="am_category_image"><i class="{{ child['dop_menu_iconka_3'] }}"></i></span> {% else %} {% if (child['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+																<li><a class="header__tags-btn" href="{{ child['href'~config_language_id] }}">{% if (child['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_3'] }}" alt="{{ child['name'~config_language_id] }}"></span> {% endif %} {{ child['name'~config_language_id] }}</a>
 																	{% if (tri_level and child['children'] is defined) %}
 																	<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
 																		<div class="dropdown-menu">
@@ -47,7 +47,7 @@
 											</div>
 										</li>
 										{% else %} 
-										<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{% if (dop_menu['icontype'] == 'iconka') %} <span class="am_category_image"><i class="{{ dop_menu['dop_menu_iconka_3'] }}"></i></span> {% else %}  {% if (dop_menu['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ dop_menu['dop_menu_image_3'] }}" alt=""></span> {% endif %} {% endif %} {{ dop_menu['name'~config_language_id] }}</a></li>
+										<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}> {% if (dop_menu['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ dop_menu['dop_menu_image_3'] }}" alt="{{ dop_menu['name'~config_language_id] }}"></span>{% endif %} {{ dop_menu['name'~config_language_id] }}</a></li>
 									{% endif %} 
 								{% endfor %} 	
 							</ul>

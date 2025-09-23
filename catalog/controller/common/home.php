@@ -28,7 +28,9 @@ class ControllerCommonHome extends Controller {
 		$data['related_categories'] = $this->load->controller('extension/module/related_categories/getRelatedCategories', 'homepage');
 
     // Данные модулей
+		$settings['home_sliders_1']['slider_id'] = 1;
 		$data['slider_tabs1'] = $this->load->controller('extension/module/slider_tabs', $settings['home_sliders_1']);
+		$settings['home_sliders_2']['slider_id'] = 2;
 		$data['slider_tabs2'] = $this->load->controller('extension/module/slider_tabs', $settings['home_sliders_2']);
     $data['aboutstore'] = $this->prepareAboutStore($settings['home_aboutstore'] ?? []);
     $data['brands'] = $this->prepareBrands();

@@ -2,7 +2,7 @@
 <div class="header__logo">
 	{% if (logo) %} 
     <a href="{{ home }}" class="logo-link">
-      <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="" />
+      <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" loading="lazy"/>
     </a>
 	{% else %} 
     <a href="{{ home }}" class="logo-link">{{ name }}</a>

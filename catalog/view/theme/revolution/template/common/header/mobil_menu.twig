@@ -6,7 +6,7 @@
 				{% for revtheme_dop_menu in revtheme_dop_menus %} 
 					<li>
 						{% if revtheme_dop_menu['href'~config_language_id] %}
-						<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" rel="nofollow">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
+						<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
 							{% else %}
 							<span>{{ revtheme_dop_menu['name'~config_language_id] }}</span>
 						{% endif %}
@@ -15,14 +15,14 @@
 								{% for child in revtheme_dop_menu['children'] %} 
 									<li>
 										{% if revtheme_dop_menu['href'~config_language_id] != '' %}
-											<a href="{{ child['href'~config_language_id] }}" rel="nofollow">{{ child['name'~config_language_id] }}</a>
+											<a href="{{ child['href'~config_language_id] }}">{{ child['name'~config_language_id] }}</a>
 											{% else %}
 											<span>{{ child['name'~config_language_id] }}</span>
 										{% endif %}
 										{% if (tri_level and child['children'] is defined) %}
 											<ul class="list-unstyled">
 												{% for child in child['children'] %}
-													<li><a href="{{ child['href'~config_language_id] }}" rel="nofollow">{{ child['name'~config_language_id] }}</a></li>
+													<li><a href="{{ child['href'~config_language_id] }}">{{ child['name'~config_language_id] }}</a></li>
 												{% endfor %}
 											</ul>
 										{% endif %}
@@ -36,17 +36,17 @@
 
 			{% for category in categories %} 
 				<li>							
-					<a href="{{ category.href }}" rel="nofollow">{{ category.name }}</a>
+					<a href="{{ category.href }}">{{ category.name }}</a>
 
 					{% if (category.children) %} 
 						<ul class="list-unstyled">
 							{% for child in category.children %} 
 								<li>
-									<a href="{{ child.href }}" rel="nofollow">{{ child.name }}</a>
+									<a href="{{ child.href }}">{{ child.name }}</a>
 									{% if child.children %} 
 										<ul class="list-unstyled">
 											{% for child in child.children %} 
-												<li><a href="{{ child.href }}" rel="nofollow">{{ child.name }}</a></li>
+												<li><a href="{{ child.href }}">{{ child.name }}</a></li>
 											{% endfor %} 
 										</ul>
 									{% endif %} 
@@ -59,13 +59,13 @@
 
 			{% if (revtheme_header_menu_links) %} 
 				{% for item in revtheme_header_menu_links %} 
-					<li><a href="{{ item.link }}" rel="nofollow">{{ item.title }}</a></li>
+					<li><a href="{{ item.link }}">{{ item.title }}</a></li>
 				{% endfor %} 
 			{% endif %} 				
 		{% endif %} 
 
 		<li>
-			<a href="{{ url_revmenu_manufs }}" rel="nofollow">{{ text_revmenu_manufs }}</a>
+			<a href="{{ url_revmenu_manufs }}">{{ text_revmenu_manufs }}</a>
 		</li>
 
 		{% if (informations or revtheme_header_links or revtheme_dop_menus_2 or revtheme_dop_menus_3) %} 
@@ -73,11 +73,11 @@
 				{% if (revtheme_dop_menus_2) %} 
 					{% for revtheme_dop_menu in revtheme_dop_menus_2 %} 
 						<li>
-							<a href="{{ revtheme_dop_menu['href'~config_language_id] }}" rel="nofollow">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
+							<a href="{{ revtheme_dop_menu['href'~config_language_id] }}">{{ revtheme_dop_menu['name'~config_language_id] }}</a>
 							{% if (revtheme_dop_menu['children'] is defined) %}
 								<ul class="list-unstyled">
 									{% for child in revtheme_dop_menu['children'] %}
-										<li><a href="{{ child['href'~config_language_id] }}" rel="nofollow">{{ child['name'~config_language_id] }}</a></li>
+										<li><a href="{{ child['href'~config_language_id] }}">{{ child['name'~config_language_id] }}</a></li>
 									{% endfor %}
 								</ul>
 							{% endif %}
@@ -86,26 +86,26 @@
 				{% endif %} 
 		{% endif %} 				
 		{% for information in informations2 %} 
-			<li><a href="{{ information.href }}" rel="nofollow">{{ information.title }}</a></li>
+			<li><a href="{{ information.href }}">{{ information.title }}</a></li>
 		{% endfor %} 
 		{% if (revtheme_header_links2) %} 
 			{% for revtheme_header_link2 in revtheme_header_links2 %} 
-				<li><a href="{{ revtheme_header_link2.link }}" rel="nofollow">{{ revtheme_header_link2.title }}</a></li>
+				<li><a href="{{ revtheme_header_link2.link }}">{{ revtheme_header_link2.title }}</a></li>
 			{% endfor %} 
 		{% endif %} 
 		{% if (revblog_status and blog_categories) %} 
 			{% for category in blog_categories %} 
 				<li class="revblog_mobil_in_menu">
-					<a href="{{ category['href'] }}" rel="nofollow">{{ category['name'] }}</a>
+					<a href="{{ category['href'] }}">{{ category['name'] }}</a>
 					{% if (category['children']) %} 
 						<ul>
 							{% for child in category['children'] %} 
 								<li>
-									<a href="{{ child['href'] }}" rel="nofollow">{{ child['name'] }}</a>
+									<a href="{{ child['href'] }}">{{ child['name'] }}</a>
 									{% if (tri_level and child['children']) %} 
 										<ul class="list-unstyled">
 											{% for child in child['children'] %} 
-												<li><a href="{{ child['href'] }}" rel="nofollow">{{ child['name'] }}</a></li>
+												<li><a href="{{ child['href'] }}">{{ child['name'] }}</a></li>
 											{% endfor %} 
 										</ul>
 									{% endif %} 
@@ -125,7 +125,7 @@
 				<li>{{ header_phone_text2 }}</li>
 			{% endif %} 
 		{% if (header_phone_number) %} 
-			<li><a href="tel:{{ (header_phone_cod ~ header_phone_number)|replace({' ': '', '-': '', '(': '', ')': ''}) }}" rel="nofollow">{{ header_phone_cod ~ header_phone_number }}</a></li>
+			<li><a href="tel:{{ (header_phone_cod ~ header_phone_number)|replace({' ': '', '-': '', '(': '', ')': ''}) }}">{{ header_phone_cod ~ header_phone_number }}</a></li>
 		{% endif %} 
 		{% for contact in dop_contacts %} 
 			<li><a href="{{ contact.href }}">{{ contact.number }}</a></li>

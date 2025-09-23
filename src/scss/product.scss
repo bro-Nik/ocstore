@@ -22,7 +22,7 @@
     font-weight: 600;
   }
 
-  & .cart button {
+  & .cart {
     border: 1px solid #eee;
     color: #555;
     background: none;
@@ -46,7 +46,7 @@
     padding: 10px 0;
   }
 
-  &:hover .cart button {
+  &:hover .cart {
     border: 1px solid $primary-color;
     color: $primary-color;
   }

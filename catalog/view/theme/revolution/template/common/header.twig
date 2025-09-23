@@ -5,19 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>{{ title }}</title>
-<base href="{{ base }}" />
-{% if (description) %} 
-<meta name="description" content="{{ description }}" />
-{% endif %} 
+{% include 'revolution/template/common/header/microdata.twig' %}
 {% if (keywords) %} 
 <meta name="keywords" content= "{{ keywords }}" />
 {% endif %} 
+<base href="{{ base }}" />
 <meta property="og:title" content="{{ title }}" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ og_url }}" />
 <meta property="og:image" content="{{ og_image is not empty ? og_image : logo }}" />
 <meta property="og:site_name" content="{{ name }}" />
-{% include 'revolution/template/common/header/microdata.twig' %}
 
 {% for style in styles %}
   <link href="{{ style.href }}" rel="{{ style.rel }}" type="text/css" media="{{ style.media }}" />

@@ -3,14 +3,13 @@ require_once('catalog/controller/base/product_cart.php');
 
 class ControllerExtensionModuleSliderTabs extends ControllerBaseProductCart {
     public function index($settings) {
-
         if (!$settings || !$settings['status']) {
             return;
         }
         $this->load->model('catalog/product');
         
         $data = $settings;
-        
+
         for ($i = 1; $i <= 4; $i++) {
             $slider_key = 'slider_' . $i;
             $data[$slider_key] = array();

@@ -17,7 +17,7 @@
 
   			{% for slider in active_sliders_list %}
         	<li>
-          	<a href="#tab_slider_{{ loop.index }}" data-toggle="tab" class="ui-btn ui-btn--45 ui-btn--white">{{ slider.title }}</a>
+          	<a href="#tab_slider_{{ slider_id }}_{{ loop.index }}" data-toggle="tab" class="ui-btn ui-btn--45 ui-btn--white">{{ slider.title }}</a>
         	</li>
   			{% endfor %}
 			</ul>
@@ -27,11 +27,10 @@
 
 	<div class="tab-content">
   	{% for slider in active_sliders_list %}
-      <div class="hometab_sliders_tab tab-pane {{ loop.index == 1 ? 'active' }}" id="tab_slider_{{ loop.index }}">
+      <div class="hometab_sliders_tab tab-pane {{ loop.index == 1 ? 'active' }}" id="tab_slider_{{ slider_id }}_{{ loop.index }}">
         {% include 'revolution/template/product/carousel_product.twig' with {
           'products': slider.products,
           'title': '',
-          'id': 'tab_slider_' ~ loop.index
         } %}
       </div>
   	{% endfor %}

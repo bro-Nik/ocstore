@@ -2081,15 +2081,8 @@ body {
   -webkit-transition: none;
 }
 
-#menu2_button .icorightmenu .fa {
-  transition: all 100ms linear;
-}
-
-#menu2_button:hover .icorightmenu .fa {
-  transform: rotate(-180deg);
-  transition: all 100ms linear;
-}
-
+/* #menu2_button .icorightmenu .fa {transition: all 100ms linear;} */
+/* #menu2_button:hover .icorightmenu .fa {transform: rotate(-180deg); transition: all 100ms linear;} */
 .product-thumb .fapanel .fa:hover {
   color: #E85A71;
 }
@@ -5573,7 +5566,7 @@ input[type=radio]:checked::after,
 .product-thumb h4 {
   font-weight: 600;
 }
-.product-thumb .cart button {
+.product-thumb .cart {
   border: 1px solid #eee;
   color: #555;
   background: none;
@@ -5592,7 +5585,7 @@ input[type=radio]:checked::after,
   margin-top: auto; /* Прижимает кнопки к низу */
   padding: 10px 0;
 }
-.product-thumb:hover .cart button {
+.product-thumb:hover .cart {
   border: 1px solid #0063D1;
   color: #0063D1;
 }
