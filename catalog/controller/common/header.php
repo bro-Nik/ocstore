@@ -8,9 +8,12 @@ class ControllerCommonHeader extends Controller {
 	public function index() {
 		$cache_key = 'header_data';
 		$cache = $this->getCache($cache_key);
-    // if ($cache !== false) {
-    //   return $cache;
-    // }
+
+		if ($this->request->server['HTTPS']) {
+			$server = $this->config->get('config_ssl');
+		} else {
+			$server = $this->config->get('config_url');
+		}
 
     if ($cache === false) {
 			// Analytics
@@ -30,33 +33,9 @@ class ControllerCommonHeader extends Controller {
 				}
 			}
 
-			if ($this->request->server['HTTPS']) {
-				$server = $this->config->get('config_ssl');
-			} else {
-				$server = $this->config->get('config_url');
-			}
-
-			if (is_file(DIR_IMAGE . $this->config->get('config_icon'))) {
-				$this->document->addLink($server . 'image/' . $this->config->get('config_icon'), 'icon');
-			}
 
 			$this->load->model('tool/image');
 			$data['developer_mode'] = $this->config->get('developer_mode');
-			if (!$data['developer_mode']) {
-				// Читаем manifest.json, если он существует
-				$manifest = [];
-				if (file_exists('catalog/view/manifest.json')) {
-    			$manifest = json_decode(file_get_contents('catalog/view/manifest.json'), true);
-				}
-
-				// Подключаем файлы из manifest.json (минифицированные версии)
-    		if (!empty($manifest['main.css'])) {
-					$this->document->addStyle($manifest['main.css']);
-    		}
-
-			} else {
-				$this->document->addStyle('catalog/view/css/main.css');
-			}
 
 			$this->load->language('revolution/revolution');
 			$data['revmenu'] = $this->load->controller('revolution/revmenu');
@@ -291,6 +270,26 @@ class ControllerCommonHeader extends Controller {
     	$this->setCache($cache_key, $data);
 		} else {
 			$data = $cache;
+		}
+
+		if (is_file(DIR_IMAGE . $this->config->get('config_icon'))) {
+			$this->document->addLink($server . 'image/' . $this->config->get('config_icon'), 'icon');
+		}
+
+		if (!$data['developer_mode']) {
+			// Читаем manifest.json, если он существует
+			$manifest = [];
+			if (file_exists('catalog/view/manifest.json')) {
+    		$manifest = json_decode(file_get_contents('catalog/view/manifest.json'), true);
+			}
+
+			// Подключаем файлы из manifest.json (минифицированные версии)
+    	if (!empty($manifest['main.css'])) {
+				$this->document->addStyle($manifest['main.css']);
+    	}
+
+		} else {
+			$this->document->addStyle('catalog/view/css/main.css');
 		}
 
 		# Revolution start
