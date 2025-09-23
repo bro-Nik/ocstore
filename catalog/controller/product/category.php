@@ -44,10 +44,6 @@ class ControllerProductCategory extends ControllerBaseProductsList {
 
       // Подкатегории
     	$categories = $this->model_catalog_category->getCategories($category_id);
-			// Если категория одна - редирект на неё
-			// if (count($categories) == 1) {
-   //      $this->response->redirect($this->url->link('product/category', 'path=' . $categories[0]['category_id']));
-   //    }
 
       // Если несколько категорий - показываем их список
       if (count($categories)) {
@@ -67,6 +63,7 @@ class ControllerProductCategory extends ControllerBaseProductsList {
         $data['featured_articles'] = $this->load->controller('extension/module/featured_article');
 				$data['popular_products'] = $this->getPopularProducts(['filter_category_id' => $category_id]);
 				$data['new_products'] = $this->getNewProducts(['filter_category_id' => $category_id]);
+        $this->document->addLink($this->url->link('product/category', 'path=' . $this->request->get['path']), 'canonical');
 			}
 			// Если нет категорий - показываем стандартный список товаров
 			else {

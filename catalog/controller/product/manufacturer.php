@@ -14,6 +14,7 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
 
 		$data['breadcrumbs'] = $this->prepareBreadcrumbs();
 		$data['categories'] = $this->getManufacturersByAlphabet();
+    $this->document->addLink($this->url->link('product/manufacturer'), 'canonical');
 
     $this->addCommonTemplateData($data);
 
@@ -45,10 +46,6 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
 
       // Подкатегории
 			$manufacturer_categories = $this->model_catalog_manufacturer->getManufacturerCategories($manufacturer_id);
-			// Если категория одна - редирект на неё
-			// if (count($manufacturer_categories) == 1) {
-   //      $this->response->redirect($this->url->link('product/category', 'path=' . $manufacturer_categories[0]['category_id'] . '&manufacturer_id=' . $manufacturer_id));
-   //    }
 
       // Если у производителя несколько категорий - показываем их список
       if (count($manufacturer_categories)) {
@@ -70,6 +67,7 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
 				// Отзывы
         $data['reviews'] = $this->getManufacturerReviews($manufacturer_id, 10);
 			
+        $this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer_id), 'canonical');
 			}
 			// Если нет категорий - показываем стандартный список товаров
 			else {

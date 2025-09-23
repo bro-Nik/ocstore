@@ -1,65 +1,55 @@
-	<div id="top3" class="header__row top3">
-				<div class="header__catalog">
-					{{ revmenu }} 
-				</div>
-				<div class="header__tags">
-					<nav id="menu">
-							<ul class="header__tags-menu">
-								{% for dop_menu in revtheme_dop_menus_3 %} 
-									{% if (dop_menu.children is defined) %} 
-										<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{% if (dop_menu['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ dop_menu['dop_menu_image_3'] }}" alt="{{ dop_menu['name'~config_language_id] }}"></span> {% endif %}{{ dop_menu['name'~config_language_id] }}</a>
-										<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
-											<div class="mmmenu" {% if (image_in_ico_dop3) %} 'style="position: initial"' {% endif %} >
-												  <div class="dropdown-menu">
-													<div class="dropdown-inner">
-														{% if (image_in_ico_dop3) %}
-															<div class="image_in_ico_dop3_{{ dop_menu.id }} }} refine_categories clearfix">
-																{% for child in dop_menu.children %} 
-																	<a class="col-sm-3 col-lg-3" href="{{ child['href'~config_language_id] }}">
-																		<img src="{{ child['dop_menu_image_3'] }}" alt="{{ child['name'~config_language_id] }}" /><span>{{ child['name'~config_language_id] }}</span>
-																	</a>
-																{% endfor %}
-															</div>
-														{% else %}
-															{% for children in dop_menu['children']|batch((dop_menu['children']|length / dop_menu['column'])|round) %}
-																<ul class="list-unstyled">
-																{% for child in children %} 
-																<li><a class="header__tags-btn" href="{{ child['href'~config_language_id] }}">{% if (child['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image_3'] }}" alt="{{ child['name'~config_language_id] }}"></span> {% endif %} {{ child['name'~config_language_id] }}</a>
-																	{% if (tri_level and child['children'] is defined) %}
-																	<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
-																		<div class="dropdown-menu">
-																		<div class="dropdown-inner">
-																		<ul class="list-unstyled">
-																		{% for child in child['children'] %} 
-																			<li><a href="{{ child['href'~config_language_id] }}"><i class="fa fa-minus"></i>{{ child['name'~config_language_id] }}</a></li>
-																		{% endfor %}
-																		</ul>
-																		</div>
-																		</div>
-																	{% endif %}
-																</li>
-																{% endfor %} 
-																</ul>
-															{% endfor %} 
-														{% endif %} 
-													</div>
-												</div>
-											</div>
-										</li>
-										{% else %} 
-										<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}> {% if (dop_menu['dop_menu_image_3']) %} <span class="am_category_image"><img src="{{ dop_menu['dop_menu_image_3'] }}" alt="{{ dop_menu['name'~config_language_id] }}"></span>{% endif %} {{ dop_menu['name'~config_language_id] }}</a></li>
-									{% endif %} 
-								{% endfor %} 	
-							</ul>
-					</nav>
-
-					<ul class="list-inline">
-						{% for information in informations2 %} 
-							<li><a class="header__tags-btn" href="{{ information.href }}">{{ information.title }}</a></li>
-						{% endfor %} 
-						{% for revtheme_header_link2 in revtheme_header_links2 %} 
-							<li><a class="header__tags-btn" href="{{ revtheme_header_link2.link }}">{{ revtheme_header_link2.title }}</a></li>
-						{% endfor %} 
-					</ul>
-				</div>
+<div id="top3" class="header__row top3">
+	<div class="header__catalog">
+		{{ revmenu }} 
 	</div>
+	<div class="header__tags">
+		<nav id="menu">
+			<ul class="header__tags-menu">
+				{% for dop_menu in revtheme_dop_menus_3 %} 
+					{% if (dop_menu.children is defined) %} 
+						<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{{ dop_menu['name'~config_language_id] }}</a>
+						<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+							<div class="mmmenu">
+									<div class="dropdown-menu">
+									<div class="dropdown-inner">
+										{% for children in dop_menu['children']|batch((dop_menu['children']|length / dop_menu['column'])|round) %}
+											<ul class="list-unstyled">
+											{% for child in children %} 
+											<li><a class="header__tags-btn" href="{{ child['href'~config_language_id] }}">{{ child['name'~config_language_id] }}</a>
+												{% if (tri_level and child['children'] is defined) %}
+												<span class="visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+													<div class="dropdown-menu">
+													<div class="dropdown-inner">
+													<ul class="list-unstyled">
+													{% for child in child['children'] %} 
+														<li><a href="{{ child['href'~config_language_id] }}"><i class="fa fa-minus"></i>{{ child['name'~config_language_id] }}</a></li>
+													{% endfor %}
+													</ul>
+													</div>
+													</div>
+												{% endif %}
+											</li>
+											{% endfor %} 
+											</ul>
+										{% endfor %} 
+									</div>
+								</div>
+							</div>
+						</li>
+						{% else %} 
+						<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{{ dop_menu['name'~config_language_id] }}</a></li>
+					{% endif %} 
+				{% endfor %} 	
+			</ul>
+		</nav>
+
+		<ul class="list-inline">
+			{% for information in informations2 %} 
+				<li><a class="header__tags-btn" href="{{ information.href }}">{{ information.title }}</a></li>
+			{% endfor %} 
+			{% for revtheme_header_link2 in revtheme_header_links2 %} 
+				<li><a class="header__tags-btn" href="{{ revtheme_header_link2.link }}">{{ revtheme_header_link2.title }}</a></li>
+			{% endfor %} 
+		</ul>
+	</div>
+</div>
