@@ -16,11 +16,12 @@
     {% endif %}
 
     <div class="{{ class2 }}">
-		  {% include 'revolution/template/product/partials/stickers.twig' with {'main_product': 'true'} %}
+		  {% include 'revolution/template/product/partials/stickers.twig' %}
 		  {% include 'revolution/template/product/partials/product_images.twig' %}
     </div>
 
-    <div class="{{ class3 }}">
+    <div class="{{ class3 }} product-card main-product" data-product-id="{{ product_id }}"
+    data-product-name="{{ heading_title }}" data-product-price="{{ price }}">
       {% include 'revolution/template/product/partials/product_info_header.twig' %}
       {% include 'revolution/template/product/partials/product_attributes.twig' %}
       {{ product_variants }}

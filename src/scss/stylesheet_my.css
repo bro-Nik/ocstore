@@ -252,7 +252,7 @@ a.col-xs-6.col-sm-4.col-md-3.col-lg-2:hover {box-shadow: 0 5px 9px rgb(136 136 1
 div#banner {margin-bottom: 15px;}
 img.img-thumbnail {margin: 0 20px 20px 20px;}
 li.main {font-weight: bold;padding: 10px 0;}
-.product-thumb .cart {display: contents;}
+/* .product-thumb .cart {display: contents;} */
 .modal {top: 20%;}
 .modal-dialog {width: 90%;margin: 0 auto; max-width: 800px;}
 .modal-header, .modal-body {padding: 15px 25px;}

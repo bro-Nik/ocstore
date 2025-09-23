@@ -12,24 +12,16 @@ import { addToCartCookie, getCookie } from '../cookie';
 const CONFIG = {
   moduleName: 'cart',
   textIn: 'Купить',
-  titleIn: 'Добавить в корзину',
   textOut: 'В корзине',
-  titleOut: 'Перейти в корзину',
-  actionIn: 'open-popup-cart',
+  actionOut: 'open-popup-cart',
+  ariaLabelIn: 'Добавить {productName} в сравнение',
+  ariaLabelOut: 'Открыть корзину',
   endpoints: {
     toggle: 'index.php?route=checkout/cart/add',
   },
   selectors: {
     removeButton: '.remove button',
     quantityInput: '#revcart_upd .plus-minus',
-    productIdInput: '#revcart_upd input[name="product_id"]',
-    quantityPlus: '#revcart_upd .btn-plus button',
-    quantityMinus: '#revcart_upd .btn-minus button',
-    quantityContainer: '#revcart_upd .number',
-    cartContent: '.rev_cart',
-    btns: [
-      '.btn-cart[data-product-id="{product_id}"]',
-    ],
   },
   globalEvents: {
     'update_prices_product': 'updateProductPrice'
@@ -53,7 +45,7 @@ class Cart extends ToggleModule {
 
   addToCookieList(productId, quantity, options) {
     if (!options) {
-      const infoBox = document.querySelector(`.product_informationss[data-product-id="${productId}"]`);
+      const infoBox = document.querySelector(`.product-card.main-product[data-product-id="${productId}"]`);
       const selectedOptions = infoBox?.querySelectorAll('input[type="checkbox"]:checked');
       if (selectedOptions) options = Array.from(selectedOptions).map(option => option.dataset.optionId);
     }

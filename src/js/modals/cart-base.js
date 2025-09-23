@@ -80,10 +80,10 @@ class BaseCartPopup extends BasePopup {
 
     // Обработка пустого поля при уходе фокуса
     input.onblur = () => {
-        if (!input.value.trim()) {
-            input.value = 1;
-            this.updateQuantity(input, 1, productId);
-        }
+      if (!input.value.trim()) {
+        input.value = 1;
+        this.updateQuantity(input, 1, productId);
+      }
     };
 
     if (!input.value) {
@@ -162,7 +162,7 @@ class BaseCartPopup extends BasePopup {
     this.updateTotalSum();
 
     const wishlistProducts = getCookie('wishlist');
-    wishlist.markProducts(wishlistProducts);
+    wishlist.markProducts(wishlistProducts, this.content);
   }
 
   checkOptions() {

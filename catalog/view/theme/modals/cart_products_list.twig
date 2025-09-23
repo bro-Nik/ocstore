@@ -1,6 +1,6 @@
 <div class="cart-product-items">
   {% for product in products %} 
-    <div class="cart-product-item" data-product-id="{{ product.product_id }}" data-product-price="{{ product.price }}">
+    <div class="cart-product-item product-card" data-product-id="{{ product.product_id }}" data-product-price="{{ product.price }}">
       <div class="image">
         {% if (product['thumb']) %} 
           <a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" /></a>

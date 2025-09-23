@@ -23,7 +23,7 @@
       </div>
       {% for image in images %}
         <div class="swiper-slide">
-          <img src="{{ image['thumb'] }}" title="{{ heading_title }}" alt="{{ heading_title ~ ' ' ~ loop.index }}">
+          <img src="{{ image['thumb'] }}" title="{{ heading_title }}" alt="{{ heading_title ~ ' ' ~ loop.index }}" loading="lazy">
         </div>
       {% endfor %}
     </div>

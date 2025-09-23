@@ -93,19 +93,4 @@ export class BaseModule {
       options
     );
   }
-
-  getSelectors(selectors, replacements = {}) {
-    // Нормализуем входные данные в массив
-    if (!selectors) return [];
-    selectors = Array.isArray(selectors) ? selectors : [selectors];
-
-    return selectors.map(selector => {
-      let result = selector;
-      for (const [id, value] of Object.entries(replacements)) {
-        if (value === undefined || value === null) continue;
-        result = result.replace(new RegExp(`{${id}}`, 'g'), value);
-      }
-      return result;
-    });
-  }
 }

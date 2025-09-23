@@ -6,36 +6,7 @@
       <div class="swiper-wrapper" style="height: 100%;">
         {% for product in products %} 
         <div class="swiper-slide">
-          <div class="product-thumb shadow-box product_{{ product.product_id }}">
-            <div class="image">
-              {% include 'revolution/template/product/partials/img_slider.twig' %}
-
-              {% include 'revolution/template/product/partials/stickers.twig' %}
-            </div>
-            <h4>
-              <a href="{{ product.href }}">{{ product.name }}</a>
-            </h4>
-            <div class="description_options">
-              <div class="description {{ product.options and product.options_buy ? 'description_options_buy_price' : '' }}">
-                {% if (description_options.short_desc and product.short_description) %}
-                  <div class="short_description">{{ product.short_description }}</div>
-                {% endif %}
-                {{ product.description }}
-                {% if (not description_options.zamena_description) %}
-                  <span class="hidden pr_quantity_{{ product.product_id }}"></span>
-                {% endif %}
-              </div>
-            </div>
-            {% include 'revolution/template/product/partials/products_product_buttons.twig' %}
-            <div class="product_footer">
-              {% include 'product/stock_status.twig' with {'quantity': product.quantity, 'sklad_status': product.sklad_status} %}
-
-              <div class="btns-actions">
-                {% include 'product/btns/wishlist.twig' with {'product_id': product.product_id} %}
-                {% include 'product/btns/lupa.twig' %}
-              </div>
-            </div>
-          </div>
+          {% include 'product/card.twig' %}
         </div>
         {% endfor %} 
       </div>

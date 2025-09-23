@@ -22,7 +22,7 @@
     font-weight: 600;
   }
 
-  & .cart a {
+  & .cart button {
     border: 1px solid #eee;
     color: #555;
     background: none;
@@ -46,23 +46,23 @@
     padding: 10px 0;
   }
 
-  &:hover .cart a {
+  &:hover .cart button {
     border: 1px solid $primary-color;
     color: $primary-color;
   }
 
-  & a {
+  & a, button {
     border-radius: 0.5rem;
   }
 
   & .product_buttons {
 
-    & a {
+    & a, button {
       font-size: 1.4rem;
       // padding-inline: 1rem;
     }
 
-    & a:hover, a:hover .fa {
+    & a:hover, button:hover {
       border-color: $primary-color;
       color: #FFF !important;
       background: $primary-color;
@@ -270,7 +270,7 @@
 // .in-wishlist i.fa.fa-border.fa-heart::before {content: "\f004";}
 
 // .compare:hover .fa-bar-chart-o:before, .product-info input[type="checkbox"] + label:hover .fa::before {border: 1px solid #555;}
-.compare:hover a, a.compare:hover {color: #555;}
+.compare:hover button, button.compare:hover {color: #555;}
 .compare {color:#333333;}
 .compare_rating {display: flex;align-items: center;}
 .compare_rating > div {

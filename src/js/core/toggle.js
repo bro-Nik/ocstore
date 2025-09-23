@@ -36,15 +36,8 @@ export class ToggleModule extends BaseModule {
   }
 
   markProducts(productIds, container = document) {
-    productIds?.forEach(productId => {
-      const selectors = this.getSelectors(this.selectors.btns, { product_id: productId });
-      selectors?.forEach(selector => {
-        container.querySelectorAll(selector).forEach(button => {
-          if (!button.classList.contains(`in-${this.config.moduleName}`)) {
-            this.updateButton(button);
-          }
-        });
-      });
+    productIds.forEach(productId => {
+      this.updateButtons(productId, container);
     });
   }
 
@@ -58,8 +51,7 @@ export class ToggleModule extends BaseModule {
    * Добавление и удаление товара
    */
   toggle(e, btn) {
-
-    const { productId } = btn.dataset;
+    const productId = btn.closest('[data-product-id]')?.dataset.productId || 0;
     if (!productId) return;
 
     // Добавляем в куки, обновляем количество
@@ -82,37 +74,46 @@ export class ToggleModule extends BaseModule {
   /**
    * Обновляет состояние кнопок
    */
-  updateButtons(productId) {
-    let selectors = [];
+  updateButtons(productId, container = document) {
+    let btns = [];
+    if (productId === undefined) btns = container.querySelectorAll(`.in-${this.config.moduleName}`);
+    else btns = container.querySelectorAll(`.product-card[data-product-id="${productId}"] .${this.config.moduleName}`);
 
-    if (productId === undefined) selectors = [`.in-${this.config.moduleName}`];
-    else selectors = this.getSelectors(this.selectors.btns, { product_id: productId });
-
-    selectors?.forEach(selector => {
-      document.querySelectorAll(selector).forEach(this.updateButton.bind(this))
+    btns?.forEach(btn => {
+      this.updateButton(btn);
     });
   }
 
-  updateButton(button, forceState = false) {
-    const { titleOut, textOut, actionIn, titleIn, textIn, moduleName } = this.config;
-    const inList = !button.classList.contains(`in-${moduleName}`);
+  updateButton(btn, forceState = false) {
+    const { moduleName } = this.config;
+    const inList = !btn.classList.contains(`in-${moduleName}`);
+    const productName = btn.closest('[data-product-name]')?.dataset.productName || '';
     
-    button.classList.toggle(`in-${moduleName}`, inList);
+    btn.classList.toggle(`in-${moduleName}`, inList);
 
     if (inList) {
-      titleOut && button.setAttribute('title', titleOut);
-      textOut && (button.innerHTML = textOut);
-      actionIn && button.setAttribute('data-action', actionIn);
+      const { actionOut, textOut, ariaLabelOut  } = this.config;
+      textOut && (btn.innerHTML = textOut);
+      actionOut && btn.setAttribute('data-action', actionOut);
+      ariaLabelOut && btn.setAttribute('aria-label', this.replaceString(ariaLabelOut, productName, '{productName}'));
     } else {
-      titleIn && button.setAttribute('title', titleIn);
-      textIn && (button.innerHTML = textIn);
-      button.setAttribute('data-action', `${moduleName}-toggle`);
+      const { textIn, ariaLabelIn  } = this.config;
+      textIn && (btn.innerHTML = textIn);
+      ariaLabelIn && btn.setAttribute('aria-label', this.replaceString(ariaLabelIn, productName, '{productName}'));
+      btn.setAttribute('data-action', `${moduleName}-toggle`);
     }
-    this.updateSvg(button, inList);
+    this.updateSvg(btn, inList);
   }
 
-  updateSvg(button, inList) {
-    button.querySelectorAll('.toggle')?.forEach(svg => {
+  replaceString(str, text = null, pattern = null) {
+    if (pattern && str.includes(pattern)) {
+      return str.replace(pattern, text || '');
+    }
+    return str;
+  }
+
+  updateSvg(btn, inList) {
+    btn.querySelectorAll('.toggle')?.forEach(svg => {
       const svgInList = svg.classList.contains('in-list');
       if ((svgInList && inList) || (!svgInList && !inList)) {
         svg.style.display = 'block';

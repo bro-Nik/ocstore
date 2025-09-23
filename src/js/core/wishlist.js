@@ -7,13 +7,8 @@ import { ToggleModule } from './toggle';
 
 const CONFIG = {
   moduleName: 'wishlist',
-  titleIn: 'В закладки',
-  titleOut: 'Из закладок',
-  selectors: {
-    btns: [
-      '.wishlist[data-product-id="{product_id}"]'
-    ],
-  },
+  ariaLabelIn: 'Добавить {productName} в избранное',
+  ariaLabelOut: 'Удалить {productName} из избранного',
 };
 
 

@@ -33,7 +33,12 @@
 
   <ul class="products__list">
     {% for product in products %}
-      {% include 'revolution/template/product/partials/products_product.twig' %}
+      <li>
+        <div class="product-layout">
+          {% include 'product/card.twig' %}
+        </div>
+      </li>
+
     {% endfor %}
   </ul>
 

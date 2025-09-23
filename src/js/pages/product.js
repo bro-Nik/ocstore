@@ -17,17 +17,18 @@ export class Product extends BaseModule {
   }
 
   init(container = document) {
+    return
     const counterEl = container.querySelector('#counter_data');
     if (!counterEl) return;
     const { type, id } = counterEl.dataset;
     if (type != 'product') return;
 
+    initProductSwipers();
     this.productId = id;
     this.container = container;
-    this.infoBox = container.querySelector('.product_informationss');
+    this.infoBox = container.querySelector('.product-card.main-product');
     this.checkOptions();
     this.calculatePrice();
-    initProductSwipers();
     this.bindEvents();
   }
 

@@ -7,7 +7,7 @@ export function markProducts(container = document) {
   const listsOfProducts = getlistsOfProducts();
   if (!listsOfProducts) return;
 
-  cart.markProducts(listsOfProducts['cart'] || []);
-  wishlist.markProducts(listsOfProducts['wishlist'] || []);
-  compare.markProducts(listsOfProducts['compare'] || []);
+  cart.markProducts(listsOfProducts['cart'] || [], container);
+  wishlist.markProducts(listsOfProducts['wishlist'] || [], container);
+  compare.markProducts(listsOfProducts['compare'] || [], container);
 }

@@ -1,0 +1,32 @@
+<div class="product-layout">
+  <div class="product-thumb shadow-box product-card" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product"
+      data-product-id="{{ product.product_id }}"
+      data-product-name="{{ product.name }}">
+    <div class="image">
+      {% include 'revolution/template/product/partials/img_slider.twig' %}
+      {% include 'revolution/template/product/partials/stickers.twig' %}
+    </div>
+      <h4>
+        <a href="{{ product.href }}">
+          <span itemprop="name">{{ product.mpn ?: product.name }}</span>
+        </a>
+      </h4>
+      <link itemprop="url" href="{{ product.href }}"/>
+      <div class="description_options">
+        <div class="description">
+          {{ product.description }}
+        </div>
+      </div>
+
+      {% include 'product/card_btns.twig' with {'quantity': product.quantity, 'price': product.price, 'name': product.name} %}
+      <div class="product_footer">
+        {% include 'product/stock_status.twig' with {'quantity': product.quantity, 'sklad_status': product.sklad_status} %}
+
+        <div class="btns-actions">
+          {% include 'product/btns/wishlist.twig' with {'name': product.name} %}
+          {% include 'product/btns/lupa.twig' with {'name': product.name} %}
+        </div>
+      </div>
+
+  </div>
+</div>

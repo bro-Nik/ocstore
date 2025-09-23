@@ -1,7 +1,7 @@
 {% from 'macro/format.twig' import price_format %}
 
 <div class="compare_rating">
-  {% include 'product/btns/compare.twig' with {'product_id': product.product_id} %}
+  {% include 'product/btns/compare.twig' with {'name': product.name} %}
 
   <div class="rating">
     <span{% if product.rating %} itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"{% endif %}>
