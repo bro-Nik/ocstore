@@ -300,14 +300,6 @@ border-radius: 2px;
 -o-transition: all 100ms linear;
 transition: all 100ms linear;
 }
-.product-thumb h4 {
-line-height: 18px;
-text-align: left;
-margin-bottom: 10px;
-margin-top: 0;
-font-weight: normal;
-overflow: hidden;
-}
 /* .product-list .product-thumb .caption { */
 /* position: initial; */
 /* } */
@@ -852,9 +844,6 @@ color: #8c8c8c;
 font-size: 12px;
 font-weight: 400;
 text-decoration: line-through;
-}
-.dotted-line {
-line-height: 2rem;
 }
 .adotted_block {
 display: inline-block;

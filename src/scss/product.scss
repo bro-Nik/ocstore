@@ -36,8 +36,9 @@
     margin: 0;
   }
 
-  & .description_options {
-    flex-grow: 1; /* Растягивает блок описания */
+  & .attributes {
+    flex-grow: 1; /* Растягивает блок */
+    font-size: 12px;
     // margin-bottom: 10px;
   }
 
@@ -51,7 +52,7 @@
     color: $primary-color;
   }
 
-  & a, button {
+  & button {
     border-radius: 0.5rem;
   }
 
@@ -493,3 +494,6 @@ flex-wrap: wrap;
 .tovar_funkcii {width: 50%;display: inline-block;}
 .tovar_video {width: 45%;float: right;}
 }
+
+.attribute-item {background: #efefef99;margin: 5px 5px 0 0;padding: 2px 8px;border-radius: 4px;display: inline-block;}
+.attribute-text {padding-left: 3px;font-weight: bold;text-transform: capitalize;}

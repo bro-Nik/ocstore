@@ -29,6 +29,7 @@ abstract class ControllerBaseProductCart extends Controller {
 			$image = $product_info['image'] ? $product_info['image'] : 'placeholder.png';
 			$image = $this->model_tool_image->resize($image, $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
 
+			// print_r($this->model_revolution_revolution->getAttrText($product_info['product_id']));
 			$products[] = array(
 				'stiker_ean' => $product_info['ean'],
 				'stiker_jan' => $product_info['jan'],
@@ -40,7 +41,8 @@ abstract class ControllerBaseProductCart extends Controller {
 				'thumb'       => $image,
 				'name'        => $product_info['name'],
 				'manufacturer' => $product_info['manufacturer'],
-				'description' => $this->model_revolution_revolution->getAttrText($product_info['product_id']),
+				// 'description' => $this->model_revolution_revolution->getAttrText($product_info['product_id']),
+				'attributes' => $this->model_revolution_revolution->getAttrText($product_info['product_id']),
 				'price'       => round($product_info['price'], 2),
 				'special_price' => $product_info['special'] ? round($product_info['special'] , 2) : false,
 				'minimum'     => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,

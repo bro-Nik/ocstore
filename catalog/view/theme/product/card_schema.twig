@@ -2,16 +2,13 @@
 
 {# Для description #}
 {% set key_attributes = [] %}
-{% for attribute_group in attribute_groups %}
-  {% if (attribute_group['attribute_group_id'] in revtheme_product_all_attribute_group) %}
-    {% for attribute in attribute_group['attribute'] %}
-      {% if (attribute['text'] != '') %}
-        {# Добавляем только важные для описания атрибуты #}
-        {% if attribute['name'] in ['Площадь', 'Инвертор', 'Охлаждение', 'Обогрев', 'Тип', 'Площадь помещения'] %}
-          {% set key_attributes = key_attributes|merge([attribute['name'] ~ ': ' ~ attribute['text']]) %}
-        {% endif %}
-      {% endif %}
-    {% endfor %}
+{% for attribute in product.attributes %}
+  {% if attribute.name == 'Инвертор' %}
+    {% set key_attributes = key_attributes|merge([attribute.text == 'есть' ? 'инвертор' : 'не инвертор']) %}
+  {% elseif 'Площадь' in attribute.name %}
+    {% set key_attributes = key_attributes|merge([attribute.text ~ ' м²']) %}
+  {% elseif attribute.name == 'Режим работы' %}
+    {% set key_attributes = key_attributes|merge([attribute.text]) %}
   {% endif %}
 {% endfor %}
 
@@ -21,7 +18,7 @@
   "@type": "Product",
   "name": "{{ product.name|replace({'"': '\\"'}) }}",
   "image": "{{ product.thumb }}",
-  "description": "{{ product.name }} - {% if key_attributes|length > 0 %}{{ key_attributes|slice(0, 3)|join(', ') }}{% else %}климатическое оборудование от {{ product.manufacturer }}{% endif %}. Продажа и установка в Нижнем Новгороде.",
+  "description": "{{ product.name }} {% if key_attributes|length > 0 %}[{{ key_attributes|slice(0, 3)|join(', ') }}]{% else %}климатическое оборудование от {{ product.manufacturer }}{% endif %}. Продажа и установка в Нижнем Новгороде и области.",
   "sku": "{{ product.model }}",
   "mpn": "{{ product.model }}",
   "brand": {

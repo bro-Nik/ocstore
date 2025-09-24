@@ -1,25 +1,21 @@
-<div class="prod_list-unstyled">
-  <ul class="list-unstyled">
-    <li class="hidden pr_quantity">{{ quantity }}</li>
-
-      {% for attribute_group in attribute_groups %}
-        {% if (attribute_group['attribute_group_id'] in revtheme_product_all_attribute_group) %}
-        {#
-          {{ attribute_group['attribute']|slice(0, 8) }}
-        {#}
-          {% for attribute in attribute_group['attribute'] %}
-            {% if (attribute['text'] != '') %}
-              <li class="dotted-line">{{ attribute['name'] }}:<span>{{ attribute['text'] }}</span></li>
-            {% endif %}
-          {% endfor %}
+<div class="attributes">
+  {% for attribute_group in attribute_groups %}
+    {% if (attribute_group['attribute_group_id'] in revtheme_product_all_attribute_group) %}
+      {% for attribute in attribute_group['attribute'] %}
+        {% if (attribute['text'] != '') %}
+          <div class="attribute-item">
+            {{ attribute.name }}:
+            <span class="attribute-text">{{ attribute.text }}</span>
+          </div>
         {% endif %}
       {% endfor %}
+    {% endif %}
+  {% endfor %}
 
-      {% if (attribute_groups) %}
-        <li class="adotted_block">
-          <a class="adotted" onclick="$('a[href=\'#tab-specification\']').trigger('click'); $('html, body').animate({ scrollTop: $('a[href=\'#tab-specification\']').offset().top - 2}, 250); return false;">Все характеристики</a>
-        </li>
-      {% endif %}
+  {% if (attribute_groups) %}
+    <li class="adotted_block">
+      <a class="adotted" onclick="$('a[href=\'#tab-specification\']').trigger('click'); $('html, body').animate({ scrollTop: $('a[href=\'#tab-specification\']').offset().top - 2}, 250); return false;">Все характеристики</a>
+    </li>
+  {% endif %}
 
-  </ul>
 </div>

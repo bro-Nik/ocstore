@@ -1177,158 +1177,97 @@ class ModelRevolutionRevolution extends Model {
     }
 	
 	public function getAttrText($product_id) {
-		$cache = 'attributs_data.' . crc32((int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$product_id);
-		$text = $this->cache->get($cache);
-		if (!$text) {
-			$options = $this->config->get('revtheme_cat_attributes');
-			$options_catattribs = $this->config->get('revtheme_catattribs_settings');
-			$text = '';
-			$attr_i = 1;
-			$this->load->model('catalog/product');
-			$this->load->language('revolution/revolution');
-			$attribute_groups = $this->model_catalog_product->getProductAttributes($product_id);
-			$show_attributes_name  = isset($options['show_name']) ? $options['show_name'] : 0; 
-			$show_attributes_tags = isset($options['show_tags']) ? $options['show_tags'] : 0;
-			$attributes_count = isset($options['count']) ? $options['count'] : 0;
-			$product_info = $this->model_catalog_product->getProduct($product_id);
-			if ($product_info) {
-				$separator = isset($options['separator']) ? $options['separator'] : '/';
-				$separator = html_entity_decode($separator, ENT_QUOTES, 'UTF-8');
-				if ($options['manufacturer']) {
-					if ($product_info['manufacturer']) {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $this->language->get('text_product_manufacturer') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right">' . $product_info['manufacturer'] . '</span><br>';
-						} else {
-							$text .= '<span class="attr_i_1"><span class="span_attr_name">'.$this->language->get('text_product_manufacturer') . '</span> ' . $product_info['manufacturer'] . '</span>' . $separator;
-						}	
-					}
-				}	
-				if ($options['model']) {
-					if ($product_info['model']) {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $this->language->get('text_model') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right pr_model_' . $product_info['product_id'] . '">' . $product_info['model'] . '</span><br>';
-						} else {
-							$text .= '<span class="attr_i_2"><span class="span_attr_name">'.$this->language->get('text_model') . '</span> <span class="pr_model_' . $product_info['product_id'] . '">' . $product_info['model'] . '</span></span>' . $separator;
-						}
-					} else {
-						$text .= '<span class="hidden pr_model_' . $product_info['product_id'] . '">' . $product_info['model'] . '</span>';
-					}
-				}
-				if ($options['sku']) {
-					if ($product_info['sku']) {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $this->language->get('text_product_artikul') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right">' . $product_info['sku'] . '</span><br>';
-						} else {
-							$text .= '<span class="attr_i_3"><span class="span_attr_name">'.$this->language->get('text_product_artikul') . '</span> ' . $product_info['sku'] . '</span>' . $separator;
-						}	
-					}
-				}
-				if ($options['stock']) {
-					if ($product_info['quantity'] <= 0) {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $this->language->get('text_stock') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right">' . $product_info['stock_status'] . '</span><br>';
-						} else {
-							$text .= '<span class="attr_i_4"><span class="span_attr_name">'.$this->language->get('text_stock') . '</span> ' . $product_info['stock_status'] . '</span>' . $separator;
-						}
-						$text .= '<span class="hidden pr_quantity_' . $product_info['product_id'] . '">' . $product_info['quantity'] . '</span>';					
-					} elseif ($this->config->get('config_stock_display')) {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $this->language->get('text_stock') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right">' . '<span class="pr_quantity_' . $product_info['product_id'] . '">' . $product_info['quantity'] . '</span> ' . $this->language->get('text_shtuki') . '</span><br>';
-						} else {
-							$text .= '<span class="attr_i_5"><span class="span_attr_name">'.$this->language->get('text_stock') . '</span> <span class="pr_quantity_' . $product_info['product_id'] . '">' . $product_info['quantity'] . '</span> ' . $this->language->get('text_shtuki') . '</span>' . $separator;
-						}	
-					} else {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $this->language->get('text_stock') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right">' . $this->language->get('text_product_instock') . '</span><br>';
-						} else {
-							$text .= '<span class="attr_i_6"><span class="span_attr_name">'.$this->language->get('text_stock') . '</span> ' . $this->language->get('text_product_instock') . '</span>' . $separator;
-						}
-						$text .= '<span class="hidden pr_quantity_' . $product_info['product_id'] . '">' . $product_info['quantity'] . '</span>';
-					}
-				} else {
-					$text .= '<span class="hidden pr_quantity_' . $product_info['product_id'] . '">' . $product_info['quantity'] . '</span>';
-				}
-				if ($options['length']) {
-					if ($product_info['length'] > 0) {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $this->language->get('text_product_razmers2') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right">' . number_format($product_info['length'], 2) . ' х ' . number_format($product_info['width'], 2) . ' х ' . number_format($product_info['height'], 2) . ' ' . $this->length->getUnit($product_info['length_class_id']) . '</span><br>';
-						} else {
-							$text .= '<span class="attr_i_7"><span class="span_attr_name">'.$this->language->get('text_product_razmers2') . '</span> ' . number_format($product_info['length'], 2) . ' х ' . number_format($product_info['width'], 2) . ' х ' . number_format($product_info['height'], 2) . ' ' . $this->length->getUnit($product_info['length_class_id']) . '</span>' . $separator;
-						}
-					}
-				}
-				if ($options['weight']) {
-					if ($product_info['weight'] > 0) {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $this->language->get('text_product_ves') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right"><span class=pr_weight_' . $product_info['product_id'] . ' data-weight=' . number_format($product_info['weight'], 2) . '>' . number_format($product_info['weight'], 2) . '</span> ' . $this->weight->getUnit($product_info['weight_class_id']) . '</span><br>';
-						} else {
-							$text .= '<span class="attr_i_8"><span class="span_attr_name">'.$this->language->get('text_product_ves') . '</span> <span class=pr_weight_' . $product_info['product_id'] . ' data-weight=' . number_format($product_info['weight'], 2) . '>' . number_format($product_info['weight'], 2) . '</span> ' . $this->weight->getUnit($product_info['weight_class_id']) . '</span>' . $separator;
-						}
-					}
-				}
-			}
-			if ($options['attributes_status']) {
-				$attr_arr = array();
-				$attr_i = 9;
-				$attributes_text_length = '';
-				foreach ($attribute_groups as $group) {
-					foreach ($group['attribute'] as $attribute) {
-						if (isset($options_catattribs['attributes'][$attribute['attribute_id']])) {
-							$attribute_text = '';
-							$attribute_text_length = 0;
-							if ($options_catattribs['attributes'][$attribute['attribute_id']]['show'] == 1) {
-								$attribute_text = $attribute['text'];
-							} else if ($options_catattribs['attributes'][$attribute['attribute_id']]['show'] == 2 && !$show_attributes_name && in_array($attribute['text'], explode(',', $options_catattribs['attributes'][$attribute['attribute_id']]['replace']))) {
-								$attribute_text = $attribute['name'];
-							} else {
-								$attribute_text = '';
-							}
-							if ($attribute_text) {					
-								$attribute_text_length = strlen($attribute_text);
-								if ($show_attributes_name) {
-									$attribute_text_length += strlen($attribute['name']) + 2; // 2 - ': '
-									if ($show_attributes_tags) {
-										$attribute_text = '<div class="dotted-line">' . $attribute['name'] . ':<span class="line_right">' . $attribute_text . '</span></div>';
-									} else {
-										$attribute_text = '<span class="attr_i_'.$attr_i.'"><span class="span_attr_name">'.$attribute['name'] . ':</span> ' . $attribute_text . '</span>';
-									}
-								}                 
-								$attr_arr[] = $attribute_text;
-								if ($attributes_count) {
-									if (count($attr_arr) >= $attributes_count) {
-										break 2;
-									}
-								}
-							}
-						}
-						$attr_i++;
-					}
-				}
-				if ($attr_arr) {
-					$separator = isset($options['separator']) ? $options['separator'] : "/";
-					$separator = html_entity_decode($separator, ENT_QUOTES, 'UTF-8');
-					$text .= implode($separator, $attr_arr);
-				}
-			}
-			if ($options['discounts_status']) {
-				$discounts = $this->model_catalog_product->getProductDiscounts($product_id);
-				if ($discounts) {
-					$text .= '<br><span class="catpr_discounts">';
-					foreach ($discounts as $discount) {
-						if ($show_attributes_tags) {
-							$text .= '<span class="dotted-line_left"><span class="dotted-line_title">' . $discount['quantity'] . $this->language->get('text_discount') . '</span><span class="dotted-line_line"></span></span><span class="dotted-line_right">' . $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']) . '</span><br>';
-						} else {
-							$text .= '<span><span class="span_attr_name">' . $discount['quantity'] . $this->language->get('text_discount') . '</span>' . $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']) . '</span>' . $separator;
-						}
-					}
-					$text .= '<span>';
-				}
-			}
-			if ($this->config->get('revtheme_all_settings')['cache_on']) {
-				$this->cache->set($cache, $text);
-			}
-		}
-		return $text;    
+		// $cache_key = 'attributs_data.' . $product_id;
+  //   $cache = $this->getCache($cache_key);
+		// if ($cache !== false) return $cache;
+		//
+		// $options = $this->config->get('revtheme_cat_attributes');
+		// $options_catattribs = $this->config->get('revtheme_catattribs_settings');
+		// $text = '';
+		// $this->load->model('catalog/product');
+		// $this->load->language('revolution/revolution');
+		// $attribute_groups = $this->model_catalog_product->getProductAttributes($product_id);
+		// $show_attributes_name  = isset($options['show_name']) ? $options['show_name'] : 0; 
+		// $attributes_count = isset($options['count']) ? $options['count'] : 0;
+		//
+		// if ($options['attributes_status']) {
+		// 	$attr_arr = array();
+		// 	$attributes_text_length = '';
+		// 	foreach ($attribute_groups as $group) {
+		// 		foreach ($group['attribute'] as $attribute) {
+		// 			if (isset($options_catattribs['attributes'][$attribute['attribute_id']])) {
+		// 				$attribute_text = '';
+		// 				$attribute_text_length = 0;
+		// 				if ($options_catattribs['attributes'][$attribute['attribute_id']]['show'] == 1) {
+		// 					$attribute_text = $attribute['text'];
+		// 				} else if ($options_catattribs['attributes'][$attribute['attribute_id']]['show'] == 2 && !$show_attributes_name && in_array($attribute['text'], explode(',', $options_catattribs['attributes'][$attribute['attribute_id']]['replace']))) {
+		// 					$attribute_text = $attribute['name'];
+		// 				} else {
+		// 					$attribute_text = '';
+		// 				}
+		// 				if ($attribute_text) {					
+		// 					$attribute_text_length = strlen($attribute_text);
+		// 					if ($show_attributes_name) {
+		// 						$attribute_text_length += strlen($attribute['name']) + 2; // 2 - ': '
+		// 							$attribute_text = '<div class="dotted-line">' . $attribute['name'] . ':<span>' . $attribute_text . '</span></div>';
+		// 					}                 
+		// 					$attr_arr[] = $attribute_text;
+		// 					if ($attributes_count) {
+		// 						if (count($attr_arr) >= $attributes_count) {
+		// 							break 2;
+		// 						}
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// 	if ($attr_arr) {
+		// 		$separator = isset($options['separator']) ? $options['separator'] : "/";
+		// 		$separator = html_entity_decode($separator, ENT_QUOTES, 'UTF-8');
+		// 		$text .= implode($separator, $attr_arr);
+		// 	}
+		// }
+  //   $this->setCache($cache_key, $brand);
+		// return $text;    
+    $cache_key = 'product_attributes.' . $product_id;
+    $cache = $this->getCache($cache_key);
+    if ($cache !== false) return $cache;
+
+    $options = $this->config->get('revtheme_cat_attributes');
+    $options_catattribs = $this->config->get('revtheme_catattribs_settings');
+    $attributes = array();
+    
+    $this->load->model('catalog/product');
+    $this->load->language('revolution/revolution');
+    
+    $attribute_groups = $this->model_catalog_product->getProductAttributes($product_id);
+    $attributes_count = isset($options['count']) ? $options['count'] : 0;
+
+    if ($options['attributes_status']) {
+      foreach ($attribute_groups as $group) {
+        foreach ($group['attribute'] as $attribute) {
+          if (isset($options_catattribs['attributes'][$attribute['attribute_id']])) {
+              
+            $attribute_data = array(
+              'attribute_id' => $attribute['attribute_id'],
+              'name' => $attribute['name'],
+              'text' => $attribute['text']
+            );
+
+            if (!empty($attribute_data['text'])) {
+              $attributes[] = $attribute_data;
+              
+              if ($attributes_count && count($attributes) >= $attributes_count) {
+                break 2;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    $this->setCache($cache_key, $attributes);
+    return $attributes;
 	}
 	
 	public function getProductSpecialData($product_id) {
@@ -2242,9 +2181,7 @@ class ModelRevolutionRevolution extends Model {
 	public function get_pr_brand($product_id) {
 		$cache_key = 'brand_data' . (int)$product_id;
     $cache = $this->getCache($cache_key);
-		if ($cache !== false) {
-			return $cache;
-		}
+		if ($cache !== false) return $cache;
 
 		$this->load->language('revolution/revolution');
 		$brand = $this->language->get('all_products_compare');

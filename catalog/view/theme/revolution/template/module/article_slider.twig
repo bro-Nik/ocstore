@@ -6,6 +6,20 @@
       	<div class="swiper-wrapper" style="height: 100%;">
     			{% for article in articles %}
         		<div class="swiper-slide article-cart">
+
+						<script type="application/ld+json">
+						{
+  						"@context": "https://schema.org",
+  						"@type": "Article",
+  						"headline": "{{ article.name }}",
+  						"image": "{{ article.thumb }}",
+  						"datePublished": "{{ article.date_added }}",
+  						"author": {
+    						"@type": "Organization",
+    						"name": "Климат под ключ"
+  						}
+						}
+						</script>
     					<a href="{{ article.href }}">
     						<div class="article-cart-top">
     							<div class="article-cart-image">
