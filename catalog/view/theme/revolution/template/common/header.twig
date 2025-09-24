@@ -5,26 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>{{ title }}</title>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "{{ title }}",
-  "description": "{{ description }}",
-  "url": "{{ og_url }}",
-  "mainEntity": {
-    "@type": "Organization",
-    "name": "{{ name }}",
-    "url": "{{ base }}",
-    "telephone": "{{ microdata_phones[0] }}",
-    "email": "{{ microdata_email }}"
-  },
-  "primaryImageOfPage": {
-    "@type": "ImageObject",
-    "url": "{{ og_image is not empty ? og_image : logo }}"
-  }
-}
-</script>
+{% include 'revolution/template/common/header/microdata.twig' %}
 {% if (description) %} 
 <meta name="description" content="{{ description }}" />
 {% endif %} 

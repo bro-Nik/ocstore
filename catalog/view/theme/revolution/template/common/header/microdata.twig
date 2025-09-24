@@ -1,0 +1,40 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "{{ title }}",
+  "description": "{{ description }}",
+  "url": "{{ og_url }}",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "{{ name }}",
+    "url": "{{ base }}",
+    "telephone": "{{ microdata_phones[0] }}",
+    "email": "{{ microdata_email }}"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "{{ og_image is not empty ? og_image : logo }}"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ name }}",
+  "url": "{{ base }}",
+  "logo": "{{ logo }}",
+  "description": "Продажа, монтаж и обслуживание кондиционеров в Нижнем Новгороде",
+  "telephone": "{{ microdata_phones[0] }}",
+  "email": "{{ microdata_email }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ microdata_adress }}",
+    "addressLocality": "{{ microdata_city }}",
+    "addressCountry": "RU"
+  }
+}
+</script>
+
