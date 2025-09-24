@@ -1,0 +1,90 @@
+
+.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+}
+button .loading {
+    background: #6c757d;
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  border-top-color: var(--color-primary);
+  animation: btn-spinner 0.6s linear infinite;
+}
+
+@keyframes btn-spinner {
+  to { transform: rotate(360deg); }
+}
+
+a:hover, a:focus {
+  color: var(--color-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+button:hover, button:focus {
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.btn:hover {
+-webkit-transition: all 100ms linear;
+-moz-transition: all 100ms linear;
+-ms-transition: all 100ms linear;
+-o-transition: all 100ms linear;
+transition: all 100ms linear;
+border-color: transparent;
+}
+
+.btn-primary:hover {
+background-color: #2A6FBA;
+}
+
+.btn-default.active.focus,
+.btn-default.active:focus,
+.btn-default.active:hover,
+.btn-default:active.focus,
+.btn-default:active:focus,
+.btn-default:active:hover,
+.open>.dropdown-toggle.btn-default.focus,
+.open>.dropdown-toggle.btn-default:focus,
+.open>.dropdown-toggle.btn-default:hover,
+.btn-default.focus,
+.btn-default:focus,
+.btn-default.active,
+.btn-default:active,
+.open>.dropdown-toggle.btn-default {
+border-color: #ddd;
+}
+
+.btn-danger.active.focus, .btn-danger.active:focus, .btn-danger.active:hover, .btn-danger:active.focus, .btn-danger:active:focus, .btn-danger:active:hover, .open>.dropdown-toggle.btn-danger.focus, .open>.dropdown-toggle.btn-danger:focus, .open>.dropdown-toggle.btn-danger:hover {
+box-shadow: none;
+outline: none;
+}
+
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
+color: #fff;
+}
+
+a:hover,.list-group a:hover,.list-group a.active:hover,.pagination>li>a:hover,.pagination>li>span:hover,.product-info .btn-plus button:hover, .product-info .btn-minus button:hover, .product-info .compare .fa:hover, .product-info .wishlist .fa:hover,.product-info input[type="radio"]:checked + label span.option_price, .product-info input[type="checkbox"]:checked + label span.option_price,.home_block a:hover, .home_block a:hover .image > .fa,#menu .nav > li .dropdown-menu li .dropdown-menu ul li a:hover,#menu .nav > li > div > .dropdown-menu > div > ul > li > a:hover,.display-products-cart .btn-plus button:hover, .display-products-cart .btn-minus button:hover,.dropdown-menu li > a:hover, .dropdown-menu li > a:hover i,.search .search_button:hover,.search .change_category_button:hover,.well.well-sm .btn-group-justified .btn-default:hover,.dropdown-menu li > a:hover, .dropdown-menu li > a:hover i,.search .dropdown-menu > li > a:hover .name,.table-revolution .btn-plus button:hover, .table-revolution .btn-minus button:hover,.product-info .pokupka .preimushestva .home_block a:hover .fa,#menu2 ul.lastul .show_categoryoff:hover,.options_buy .checkbox label:hover,.options_buy .radio label:hover,.display-products-cart tr td.remove button:hover {color: #3881DF;}
+.btn-primary:hover,.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {background-color: #3881DF; border-color: #3881DF;}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {border-color: #0063d1; background: #0063d1; color: #fff;}
+#top2 .bigsearch .search input:hover, #top2 .bigsearch .search input:focus {box-shadow: 0 0 0 1px #0000000a, 0 4px 4px #0000000a, 0 20px 40px #00000014;}
+.btn-primary,.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover, .cd-products-comparison-table .filter_otlich_span.active {background-color: #333333; border-color: #333333;}

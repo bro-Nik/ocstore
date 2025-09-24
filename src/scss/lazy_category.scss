@@ -1,0 +1,36 @@
+@use 'variables' as *;
+
+.category-tile:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.category-tile:hover .category-image img {
+  transform: scale(1.05);
+}
+
+.filter-link:hover {
+  color: black;
+}
+
+.subcategory {
+  &:hover {
+    box-shadow: 0 5px 9px rgba(136, 136, 136, 0.38);
+    color: $text-dark;
+  }
+  &::after {
+    @media (max-width: 991px) {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: 25px;
+      z-index: 0;
+      width: 10px;
+      height: 10px;
+      border-top: 2px solid;
+      border-right: 2px solid;
+      transform: rotate(45deg) translate(0, -50%);
+      opacity: 0.4;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+@use 'variables' as *;
+
+.home {
+  &__section {
+    margin: 0 0 7.5rem;
+  }
+}
+
+.brand-slider-thumb {
+  border: 1px solid #eaeaea;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
+}

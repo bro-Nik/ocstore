@@ -14,7 +14,6 @@
   flex-direction: column;
   padding: 10px;
   gap: 12px;
-  // width: 25rem;
   height: 100%;
   padding: 15px;
   box-sizing: border-box;
@@ -31,7 +30,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    // font-size: 17px;
     padding-inline: 1rem;
     margin: 0;
   }
@@ -39,17 +37,11 @@
   & .attributes {
     flex-grow: 1; /* Растягивает блок */
     font-size: 12px;
-    // margin-bottom: 10px;
   }
 
   & .product_buttons {
     margin-top: auto; /* Прижимает кнопки к низу */
     padding: 10px 0;
-  }
-
-  &:hover .cart {
-    border: 1px solid $primary-color;
-    color: $primary-color;
   }
 
   & button {
@@ -60,63 +52,6 @@
 
     & a, button {
       font-size: 1.4rem;
-      // padding-inline: 1rem;
-    }
-
-    & a:hover, button:hover {
-      border-color: $primary-color;
-      color: #FFF !important;
-      background: $primary-color;
-      border-radius: 0.5rem;
-    }
-  }
-
-}
-
-
-.categories {
-
-  &__item {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    min-height: 100%;
-    padding: 2rem;
-    transition: box-shadow 0.25s;
-    text-align: center;
-    width: 25rem;
-    text-align: center;
-    border-radius: 16px;
-    box-shadow: 0 5px 9px rgb(204 204 204 / 21%);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    border: 1px solid #eaeaea;
-
-    &:hover {
-      box-shadow: 0 5px 9px rgba(136, 136, 136, 0.38);
-      color: $text-dark;
-    }
-
-    &-image {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 0 1rem;
-      height: 10rem;
-
-      & img {
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
-      }
-    }
-    &-title {
-      display: block;
-      margin: auto 0 0 0;
-      font-size: 1.6rem;
-      line-height: 2rem;
-      font-weight: 400;
     }
   }
 }
@@ -179,46 +114,6 @@
   }
 }
 
-.breadcrumb {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 0;
-    margin-bottom: 3rem;
-    list-style: none;
-    border-bottom: 1px solid #ededed;
-    border-radius: 0;
-    overflow: hidden;
-
-  & * {
-    color: $text-light;
-    font-size: 1.4rem;
-  }
-
-  & > li + li:before {
-    padding: 0 5px;
-    color: #ccc;
-    content: "/\00a0";
-  }
-}
-
-.pagination > li > a, .pagination > li > span {padding: 5px 15px;border-radius: 5px;}
-.pagpages {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    flex-direction: row;
-    gap: 1rem;
-    margin-top: 5rem;
-}
-.results-pages {
-    margin-left: auto;
-    font-size: 1.3rem;
-}
-.pagination-links {
-    width: 100%;
-}
-
-
 @container products-list (min-width: 1250px) {
   li {
     flex: 0 0 auto;
@@ -255,12 +150,10 @@
 }
 
 .products {
-
   &__list {
     container-type: inline-size;
     container-name: products-list;
   }
-
 }
 
 
@@ -268,10 +161,6 @@
   color: $primary-color;
 }
 
-// .in-wishlist i.fa.fa-border.fa-heart::before {content: "\f004";}
-
-// .compare:hover .fa-bar-chart-o:before, .product-info input[type="checkbox"] + label:hover .fa::before {border: 1px solid #555;}
-.compare:hover button, button.compare:hover {color: #555;}
 .compare {color:#333333;}
 .compare_rating {display: flex;align-items: center;}
 .compare_rating > div {
@@ -322,20 +211,9 @@ color:#333333;}
       color: #333;
       margin: 0;
       background: #fff;
-
-      &:hover {
-        color: $primary-color;
-        border: solid 1px $primary-color;
-      }
-      &:active {border: solid 0.08em #ff6700;color:#ff6700;}
     }
-
   }
 }
-
-// .wishlist .fa, .lupa .fa {
-//   border: 1px solid #eee; border-radius: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
-// }
 
 .prodvar {padding: 5px 0 10px 0;display: flex;
 flex-wrap: wrap;
@@ -392,107 +270,8 @@ flex-wrap: wrap;
   }
 }
 
-.review {
-  &__thumb {
-    width: 30rem;
-    height: 100%;
-    border: 1px solid #eaeaea;
-    border-radius: 1.5rem;
-    flex-direction: column;
-    display: flex;
-    padding: 1.5rem;
-    position: relative;
-    box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
-    gap: 0.5rem;
-    &:hover {
-      color: unset;
-      & .review__product-name {
-        color: $primary-color;
-      }
-    }
-  }
-  &__text {
-    align-self: stretch;
-    color: $text-light;
-    display: -webkit-box;
-    flex-shrink: 0;
-    max-height: 100px;
-    min-height: 100px;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  &__author {
-    display: flex;
-    align-items: center;
-
-    &-name {
-      font-size: 1.4rem;
-    }
-
-    &-avatar {
-    width: 40px;
-    height: 40px;
-    background: #f0f0f0;
-    border-radius: 50%;
-    line-height: 40px;
-    margin-right: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-      & svg {
-        color: #666;
-      }
-    }
-  }
-  &__product {
-    &-image {
-      display: flex;
-      justify-content: center;
-
-    }
-    &-name {
-      font-weight: 600;
-      display: -webkit-box;
-      font-style: normal;
-      line-height: 130%;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      height: 42px;
-      max-height: 42px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-  }
-  &__date_added {
-    font-size: 1.2rem;
-    display: flex;
-    justify-content: flex-end;
-    margin-left: auto;
-    margin-top: auto;
-  }
-}
-
 .product-gallery {
-    margin: 2rem;
-}
-
-
-.tovar_funkcii li {padding: 5px;border-bottom: solid 1px royalblue;}
-.tovar_funkcii { margin-top: 20px;}
-.tovar_funkcii h2 { margin-top: 0;}
-.tovar_video iframe {
-  width: 100%;
-}
-
-@media (min-width: 1000px) {
-.tovar_funkcii {width: 50%;display: inline-block;}
-.tovar_video {width: 45%;float: right;}
+  margin: 2rem;
 }
 
 .attribute-item {background: #efefef99;margin: 5px 5px 0 0;padding: 2px 8px;border-radius: 4px;display: inline-block;}

@@ -1,16 +1,10 @@
 @use 'swiper/scss' as swiper;
-@use 'swiper/scss/navigation';
-@use 'variables' as *;
-
-:root {
-  --swiper-navigation-size: 22px;
-  --swiper-navigation-color: var(--text-base);
-}
 
 .swiper {
   overflow: unset;
   overflow-x: clip;
   &-slide {
+    margin-right: 10px;
     display: flex ;
     justify-content: center;
     align-items: center;
@@ -21,48 +15,5 @@
       padding-bottom: 10px;
       border-bottom: 3px solid var(--color-primary);
     }
-  }
-}
-
-.swiper-wrapper {
-  height: unset;
-}
-
-
-
-
-@media (min-width: 768px) {
-  .swiper-button-prev,
-  .swiper-button-next {
-    display: none;
-  }
-}
-
-
-// Tab sliders
-.slider-tabs {
-  &__btns {
-    margin: 0 -2.5rem 1.5rem;
-    padding: 0 2.5rem !important;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    overflow-x: auto;
-    background: none !important;
-    & a {
-      margin: 0 0.5rem 0 0;
-      background: #efefef99;
-      color: #343434;
-    }
-  }
-}
-
-@media (max-width: 767px) {
-  .product_thumbs_swiper {display: none;}
-    #revsubscribe {
-    background-color: #fafafa;
-    position: relative;
-    overflow: hidden;
   }
 }

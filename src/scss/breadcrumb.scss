@@ -1,0 +1,89 @@
+@use 'variables' as *;
+
+.breadcrumb {
+background-color: transparent;
+border-bottom: 1px solid #ededed;
+  // border-color: #ededed;
+padding-bottom: 10px;
+margin: 0;
+padding: 0;
+margin-bottom: 20px;
+border-radius: 0;
+overflow: hidden;
+}
+.breadcrumb > li {
+position: relative;
+text-overflow: ellipsis; 
+}
+.breadcrumb>li.br_ellipses+li:before {
+content: "";
+padding: 0;
+}
+@media (max-width: 767px) {
+.breadcrumb > * {
+font-size: 13px;
+}
+h1.inbreadcrumb {
+font-size: 15px;
+}
+}
+
+.breadcrumb  > * {
+    display: flex;
+}
+
+@media (max-width: 991px) {
+.breadcrumb > li {
+    
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 16%);
+  border: 1px solid #efefef;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    list-style-type: none;
+    padding: 6px 12px;
+    white-space: nowrap;}
+ul.breadcrumb {
+    display: flex;
+    flex-flow: row nowrap;
+    max-height: 50px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+.breadcrumb>li+li:before {display: none;}
+.breadcrumb > li:not(:last-child) {margin-right: 8px;}
+.breadcrumb {border-bottom: none;}
+
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  margin-bottom: 1rem;
+  list-style: none;
+}
+
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 0;
+    margin-bottom: 3rem;
+    list-style: none;
+    border-bottom: 1px solid #ededed;
+    border-radius: 0;
+    overflow: hidden;
+
+  & * {
+    color: $text-light;
+    font-size: 1.4rem;
+  }
+
+  & > li + li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "/\00a0";
+  }
+}
+

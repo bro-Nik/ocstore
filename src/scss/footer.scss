@@ -148,3 +148,20 @@ display: flex;
 justify-content: flex-end;
 align-items: center;
 }
+
+.pagination > li > a, .pagination > li > span {padding: 5px 15px;border-radius: 5px;}
+.pagpages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 5rem;
+}
+.results-pages {
+    margin-left: auto;
+    font-size: 1.3rem;
+}
+.pagination-links {
+    width: 100%;
+}

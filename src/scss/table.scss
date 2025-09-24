@@ -1,0 +1,21 @@
+.table.attrbutes tbody tr td {
+border-color: #eee;
+}
+.table.attrbutes thead tr {
+background-color: #fafafa;
+font-weight: bold;
+font-size: 13px;
+}
+.table.attrbutes thead tr td {
+border: none;
+}
+.table.attrbutes tbody tr:first-child td {
+border: none;
+width: 65%;
+}
+
+.table-silver { margin: auto;  font-size: 1em;  table-layout: auto;  width: 100%;  border-spacing: 0;  border-collapse: collapse;}
+.table-silver .small { font-size: 12px;margin: 0px;}
+.table-silver > tbody > tr:nth-child(2n+1) { background-color: rgba(0, 99, 209, 0.1);}
+.table-silver td, .table-silver th {padding: 8px 10px; border: 1px solid #0063d1;}
+.table-silver p {margin: 0;}

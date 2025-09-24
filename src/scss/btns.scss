@@ -35,44 +35,7 @@
     color: #495057;
   }
 
-  &-phone {
-    color: $text-dark;
-    font-weight: bold;
-    font-size: 21px;
-    padding-top: 2px;
-    text-align: right;
-    line-height: 26px;
-  }
 
-  &-catalog {
-    background-color: #0063D1;
-    box-shadow: 0 9px 13px rgb(0 85 255 / 43%);
-    border-radius: 10px;
-    color: #FFF;
-    height: 40px;
-    line-height: 40px;
-    font-size: 17px;
-    padding: 0 10px;
-    -webkit-transition: all 100ms linear;
-    -moz-transition: all 100ms linear;
-    -ms-transition: all 100ms linear;
-    -o-transition: all 100ms linear;
-    transition: all 100ms linear;
-    z-index: 3;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-    &:hover {
-      color: #fff;
-      background: #0355b1;
-    }
-    & svg.bi-chevron-down {
-      margin-left: auto;
-    }
-  }
 
   // .scroll-top-wrapper.show:hover {
 }

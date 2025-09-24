@@ -1,14 +1,34 @@
 // Abstracts
 @use 'variables' as *;
 
+// Old styles
+@use './stylesheet.css';
+@use './stylesheet_my.css';
+
 // Components
-@use './mmenu-light.scss';
+@use './lazy_swiper.scss';
+@use './lazy_header.scss';
+@use './utilities.scss';
+@use './bootstrap.css';
+@use './btns.scss';
+@use './lazy_home.scss';
+@use './article.scss';
+@use './lazy_category.scss';
+@use './lazy_blog.scss';
+@use './placeholder.scss';
+@use '../mmenu-light/mmenu-light';
 @use './menu.scss';
 @use './footer.scss';
 @use './popup.scss';
 @use './elements.scss';
 @use './cart.scss';
 @use './compare.scss';
+@use './table.scss';
+@use './lazy_product.scss';
+@use './lazy_btns.scss';
+@use './lazy_elements.scss';
+@use './form.scss';
+@use './temp.scss';
 
 
 @media print {
@@ -18,7 +38,6 @@ header,
 .well.well-sm,
 .pagination,
 .stiker_panel,
-.popup-phone-wrapper,
 .nav.nav-tabs,
 footer {
 display: none;
@@ -51,3 +70,5 @@ opacity: 0.7;
 left: 0;
 top: 0;
 }
+
+.home_block a:hover .image > img {-webkit-transform: translateY(-3px);transform: translateY(-3px);}

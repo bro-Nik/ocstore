@@ -1,11 +1,5 @@
 @use 'variables' as *;
 
-.home {
-  &__section {
-    margin: 0 0 7.5rem;
-  }
-}
-
 #home_recommendations .slide{
   &__tile {
       border-radius: 16px;
@@ -35,26 +29,6 @@
 
 #home_slideshow {
   margin: 3rem 0;
-  & .slide {
-    &__item {
-      &-content {
-        flex: 0 0 50%;
-        max-width: 50%;
-        align-self: center;
-      }
-      &-title {
-        display: block;
-        font-size: 2rem;
-        line-height: 1.2;
-        font-weight: 500;
-        margin: 0 0 2rem;
-      }
-      &-description {
-        justify-content: flex-start;
-      }
-    }
-
-  }
 }
 
 .brand-slider-thumb {

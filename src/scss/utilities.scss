@@ -1,6 +1,5 @@
 @use 'variables' as *;
 
-
 .mb-5 {
   margin-bottom: 3rem !important;
 }
@@ -42,104 +41,6 @@
   border: 1px solid #eeeeee;
 }
 
-select.form-control, input.form-control, textarea.form-control {
-    border-radius: 8px;
-    border: 1px solid #eee;
-    box-shadow: none;
-    /* background: #fcfcfc; */
-}
-.form-control {
-    display: block;
-    width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 2;
-    color: #212529;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-// label {
-//     display: flex;
-//     margin: 1rem;
-//     align-items: center;
-//     gap: 0.5rem;
-// }
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-
-  &-toggle {
-    cursor: pointer;
-  }
-
-  &-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    opacity: 0;
-    visibility: hidden;
-    min-width: 200px;
-    background: white;
-    // pointer-events: none; /* Важно для плавного перехода */
-    pointer-events: auto; /* Важно для плавного перехода */
-    list-style: none;
-    box-shadow: 0px 0px 20px rgba(170, 189, 206, 0.25);
-    border-radius: 8px;
-    padding: 1rem 0;
-    margin: 0.5rem 0 0 0;
-    transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
-    z-index: 100;
-    transition-delay: 0.2s; /* Задержка перед исчезновением */
-
-    & a {
-      position: relative;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-align: center;
-      align-items: center;
-      padding: 0.5rem 3rem 0.5rem 2rem;
-      text-decoration: none;
-      color: #343434;
-      transition: color 0.25s;
-      margin: 0;
-      list-style: none;
-      font-size: 1.5rem;
-      line-height: 2.1rem;
-      font-weight: 400;
-      padding: 0.5rem 3rem 0.5rem 2rem;
-    }
-  }
-
-  /* Главный хак - псевдоэлемент для плавного перехода */
-  &::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 20px; /* Зона "плавного" перехода */
-    background: transparent;
-  }
-
-  /* Открытое состояние */
-  &:hover .dropdown-menu,
-  &:focus-within .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-    transition-delay: 0.1s; /* Задержка перед появлением */
-    transition-delay: 0s;
-  }
-}
 
 // Костыль
 .search .dropdown-menu {
@@ -153,7 +54,6 @@ select.form-control, input.form-control, textarea.form-control {
   cursor: default;
   color: #b7b7b7;
 }
-
 
 .temporarily-visible {
   opacity: 1 !important;

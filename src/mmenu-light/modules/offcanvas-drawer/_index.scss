@@ -71,10 +71,10 @@ body#{$mmprfx}-opened {
         transform: translate3d(-100%, 0, 0);
     }
 
-    #{$mmprfx}--right & {
-        right: 0;
-        transform: translate3d(100%, 0, 0);
-    }
+    // #{$mmprfx}--right & {
+    //     right: 0;
+    //     transform: translate3d(100%, 0, 0);
+    // }
 
     #{$mmprfx}--open & {
         transform: translate3d(0, 0, 0);
@@ -100,7 +100,7 @@ body#{$mmprfx}-opened {
         right: 0;
     }
 
-    #{$mmprfx}--right & {
-        left: 0;
-    }
+    // #{$mmprfx}--right & {
+    //     left: 0;
+    // }
 }
