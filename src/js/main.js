@@ -26,15 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarouselSwipers();
   initMobilMenu();
 	dynamicBackground();
-  initStars();
-  cookieConsent();
-  initScrollTop();
 
-	pageViewCounter();
-
-	// Записываем url
-	const site_url = document.querySelector('input[name="site_url"]');
-  if (site_url) site_url.value = window.location.href;
+  setTimeout(() => {
+    initStars();
+    initScrollTop();
+    cookieConsent();
+	  pageViewCounter();
+	  // Записываем url
+	  const site_url = document.querySelector('input[name="site_url"]');
+    if (site_url) site_url.value = window.location.href;
+  }, 5000);
 });
 
 
@@ -207,3 +208,8 @@ function scrollToReviews(btn) {
   container.querySelector('[href="#tab-review"]').click();
   container.querySelector('#tab-review')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
+
+
+document.addEventListener('click', function(e) {
+  console.log(e.target)
+});

@@ -179,20 +179,6 @@ padding-top: 15px !important;
   }
 }
 
-#column-left + #content + #column-right {
-  @media (min-width: $desktop) {
-    padding-inline: 2rem;
-  }
-}
-
-// h1.title {
-//   line-height: 32px;
-//   font-size: 3rem;
-//   font-weight: 700;
-//   padding: 0 0 16px;
-// }
-
-
 .dropdown {
   position: relative;
   display: inline-block;
@@ -304,4 +290,7 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+}
+#input-limit, #input-sort {
+  background: #f7f7f7;
 }
