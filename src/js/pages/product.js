@@ -17,7 +17,6 @@ export class Product extends BaseModule {
   }
 
   init(container = document) {
-    return
     const counterEl = container.querySelector('#counter_data');
     if (!counterEl) return;
     const { type, id } = counterEl.dataset;

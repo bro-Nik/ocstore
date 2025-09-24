@@ -95,21 +95,14 @@ export class ToggleModule extends BaseModule {
       const { actionOut, textOut, ariaLabelOut  } = this.config;
       textOut && (btn.innerHTML = textOut);
       actionOut && btn.setAttribute('data-action', actionOut);
-      ariaLabelOut && btn.setAttribute('aria-label', this.replaceString(ariaLabelOut, productName, '{productName}'));
+      ariaLabelOut && btn.setAttribute('aria-label', ariaLabelOut);
     } else {
       const { textIn, ariaLabelIn  } = this.config;
       textIn && (btn.innerHTML = textIn);
-      ariaLabelIn && btn.setAttribute('aria-label', this.replaceString(ariaLabelIn, productName, '{productName}'));
+      ariaLabelIn && btn.setAttribute('aria-label', ariaLabelIn);
       btn.setAttribute('data-action', `${moduleName}-toggle`);
     }
     this.updateSvg(btn, inList);
-  }
-
-  replaceString(str, text = null, pattern = null) {
-    if (pattern && str.includes(pattern)) {
-      return str.replace(pattern, text || '');
-    }
-    return str;
   }
 
   updateSvg(btn, inList) {

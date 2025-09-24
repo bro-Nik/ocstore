@@ -7,8 +7,8 @@ import { ToggleModule } from './toggle';
 
 const CONFIG = {
   moduleName: 'compare',
-  ariaLabelIn: 'Добавить {productName} в сравнение',
-  ariaLabelOut: 'Удалить {productName} из сравнения',
+  ariaLabelIn: 'Добавить в сравнение',
+  ariaLabelOut: 'Удалить из сравнения',
 };
 
 

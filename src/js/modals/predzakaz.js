@@ -24,17 +24,10 @@ class PredzakazPopup extends BasePopup {
   }
 
   show(e, btn) {
-    const productId = btn.dataset.productId || '';
-    this.zakazType = btn.getAttribute('title') || btn.getAttribute('data-original-title') || '';
+    const productId = btn.closest('[data-product-id]')?.dataset.productId || 0;
     const url = `${this.endpoints.content}${productId}`;
     super.show(url);
   };
-
-  afterShow() {
-    this.dialog.querySelector(this.selectors.popupHeader).innerHTML = this.zakazType;
-    this.dialog.querySelector(this.selectors.submitBtn).innerHTML = this.zakazType;
-    super.afterShow();
-  }
 }
 
 

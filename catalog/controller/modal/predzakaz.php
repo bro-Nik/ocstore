@@ -20,7 +20,7 @@ class ControllerModalPredzakaz extends Controller {
 		$data['product_id'] = $product_id;
 
 		if ($product_info) {
-			$data['heading'] = $this->language->get('text_predzakaz');
+			// $data['heading'] = $this->language->get('text_predzakaz');
 			$data['product_name'] = $product_info['name'];
 			$data['price'] = $product_info['price'];
 			$data['special_price'] = $product_info['special'];

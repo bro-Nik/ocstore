@@ -1,13 +1,13 @@
 {% if (quantity > 0 and price > 0) %}
-  <button class="cart btn-cart" data-action="cart-toggle" aria-label="Добавить {{ name }} в корзину">
+  <button class="cart btn-cart" data-action="cart-toggle" aria-label="Добавить в корзину">
     Купить
   </button>
 {% elseif (quantity < 1) %}
-  <button class="cart" data-action="predzakaz" aria-label="Уведомить о наличии {{ name }}">
+  <button class="cart" data-action="predzakaz" aria-label="Уведомить о наличии">
     Уведомить
   </button>
 {% elseif (price == 0) %}
-  <button class="cart" data-action="predzakaz" aria-label="Запросить цену {{ name }}">
+  <button class="cart" data-action="predzakaz" aria-label="Запросить цену">
     Запросить цену
   </button>
 {% endif %}

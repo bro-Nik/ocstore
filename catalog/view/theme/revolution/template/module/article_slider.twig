@@ -13,7 +13,7 @@
   						"@type": "Article",
   						"headline": "{{ article.name }}",
   						"image": "{{ article.thumb }}",
-  						"datePublished": "{{ article.date_added }}",
+  						"datePublished": "{{ article.date_added|date('Y-m-d') }}",
   						"author": {
     						"@type": "Organization",
     						"name": "Климат под ключ"

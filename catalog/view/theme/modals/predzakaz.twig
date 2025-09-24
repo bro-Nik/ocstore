@@ -1,5 +1,7 @@
 {% extends 'modals/base.twig' %}
 
+{% set heading = price > 0 ? 'Уведомить о наличии' : 'Запросить цену' %}
+
 {% block content %}
 	<form method="post" enctype="multipart/form-data" id="purchase-form">
 	<input name="product_id" value="{{ product_id }}" style="display: none;" type="hidden" />
@@ -21,5 +23,5 @@
 {% endblock %}
 
 {% block footer %}
-	<button class="checkout-btn" data-action="submit"></button>
+	<button class="checkout-btn" data-action="submit">{{ heading }}</button>
 {% endblock %}

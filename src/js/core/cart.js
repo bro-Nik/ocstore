@@ -14,7 +14,7 @@ const CONFIG = {
   textIn: 'Купить',
   textOut: 'В корзине',
   actionOut: 'open-popup-cart',
-  ariaLabelIn: 'Добавить {productName} в сравнение',
+  ariaLabelIn: 'Добавить в корзину',
   ariaLabelOut: 'Открыть корзину',
   endpoints: {
     toggle: 'index.php?route=checkout/cart/add',

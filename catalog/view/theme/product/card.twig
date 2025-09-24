@@ -20,13 +20,13 @@
         {% endif %}
       </div>
 
-      {% include 'product/card_btns.twig' with {'quantity': product.quantity, 'price': product.price, 'name': product.name} %}
+      {% include 'product/card_btns.twig' with {'quantity': product.quantity, 'price': product.price} %}
       <div class="product_footer">
         {% include 'product/stock_status.twig' with {'quantity': product.quantity, 'sklad_status': product.sklad_status} %}
 
         <div class="btns-actions">
-          {% include 'product/btns/wishlist.twig' with {'name': product.name} %}
-          {% include 'product/btns/lupa.twig' with {'name': product.name} %}
+          {% include 'product/btns/wishlist.twig' %}
+          {% include 'product/btns/lupa.twig' %}
         </div>
       </div>
 

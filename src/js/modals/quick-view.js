@@ -30,7 +30,8 @@ class QuickViewPopup extends BasePopup {
   }
 
   show(e, btn) {
-    const url = `${this.endpoints.content}${btn.dataset.productId}`
+    const productId = btn.closest('[data-product-id]')?.dataset.productId || 0;
+    const url = `${this.endpoints.content}${productId}`
     super.show(url);
   }
 

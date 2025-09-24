@@ -7,8 +7,8 @@ import { ToggleModule } from './toggle';
 
 const CONFIG = {
   moduleName: 'wishlist',
-  ariaLabelIn: 'Добавить {productName} в избранное',
-  ariaLabelOut: 'Удалить {productName} из избранного',
+  ariaLabelIn: 'Добавить в избранное',
+  ariaLabelOut: 'Удалить из избранного',
 };
 
 
