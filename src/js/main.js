@@ -11,12 +11,9 @@ import cart from './core/cart';
 import events from './events/events';
 import modals from './modals/init';
 import lazyElements from './lazy_loader/init';
-import review from './feedback/review';
-import answer from './feedback/answer';
 import uiHelpers from './ui-helpers';
 import { pageViewCounter } from './statistic';
 import { productPage } from './pages/product';
-import { initStars } from './elements';
 import { ajaxSearch } from './search';
 import { menu } from './menu';
 import { getCookie, setCookie } from './cookie';
@@ -27,16 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(cookieConsent, 5000);
 
   requestIdleCallback((deadline) => {
-    while (deadline.timeRemaining() > 0) {
-      initMobilMenu();
-	    dynamicBackground();
-      initStars();
-      initScrollTop();
-	    pageViewCounter();
-	    // Записываем url
-	    const site_url = document.querySelector('input[name="site_url"]');
-      if (site_url) site_url.value = window.location.href;
-    }
+    initMobilMenu();
+	  dynamicBackground();
+    initScrollTop();
+	  pageViewCounter();
+
+	  // Записываем url
+	  const site_url = document.querySelector('input[name="site_url"]');
+    if (site_url) site_url.value = window.location.href;
   });
 });
 
@@ -75,13 +70,10 @@ export function priceFormat(n) {
   return (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + s;
 }
 
-
-
 // Перенос описания категории
-const footer = document.querySelector('.footer-category');
-const desc = document.querySelector('.page_description');
-if (desc) footer?.appendChild(desc);
-
+// const footer = document.querySelector('.footer-category');
+// const desc = document.querySelector('.page_description');
+// if (desc) footer?.appendChild(desc);
 
 // Temp
 document.addEventListener('DOMContentLoaded', function() {

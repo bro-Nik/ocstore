@@ -19,6 +19,7 @@ export class ToggleModule extends BaseModule {
 
   constructor(config = {}) {
     super({ ...TOGGLE_CONFIG, ...config });
+    this.init();
   }
 
   init() {
@@ -59,10 +60,8 @@ export class ToggleModule extends BaseModule {
     this.updateTotalCount(productsCount);
 
     // Обновляем кнопки
-    this.updateButtons(productId);
-
-    // Генерируем событие
-    // this.dispatchEvent('toggle', { productId: productId, data: json });
+    const container = btn.closest('dialog') || document;
+    this.updateButtons(productId, container);
     return true;
   }
 
@@ -71,17 +70,14 @@ export class ToggleModule extends BaseModule {
     return addToCookieList(this.config.moduleName, productId);
   }
 
-  /**
-   * Обновляет состояние кнопок
-   */
   updateButtons(productId, container = document) {
-    let btns = [];
-    if (productId === undefined) btns = container.querySelectorAll(`.in-${this.config.moduleName}`);
-    else btns = container.querySelectorAll(`.product-card[data-product-id="${productId}"] .${this.config.moduleName}`);
-
-    btns?.forEach(btn => {
-      this.updateButton(btn);
-    });
+    if (productId === undefined) {
+      const btns = container.querySelectorAll(`.in-${this.config.moduleName}`);
+      btns?.forEach(btn => this.updateButton(btn));
+    } else {
+      const btn = container.querySelector(`.product-card[data-product-id="${productId}"] .${this.config.moduleName}`);
+      if (btn) this.updateButton(btn);
+    }
   }
 
   updateButton(btn, forceState = false) {
@@ -116,10 +112,6 @@ export class ToggleModule extends BaseModule {
     })
   }
 
-  /**
-   * Обновляет счетчик общего количества
-   * @param {number} total - Новое значение счетчика
-   */
   updateTotalCount(total) {
     const elements = document.querySelectorAll(`.${this.config.moduleName}-total`);
     if (!total || total < 1) total = '';

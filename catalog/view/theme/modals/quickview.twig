@@ -3,11 +3,12 @@
 {% block content %}
   <div class="row">
     <div class="col-sm-5">
-		  {% include 'revolution/template/product/partials/stickers.twig' with {'main_product': 'true'} %}
+		  {% include 'revolution/template/product/partials/stickers.twig' %}
 		  {% include 'revolution/template/product/partials/product_images.twig' %}
     </div>
 
-		<div class="col-sm-7">
+		<div class="col-sm-7 product-card main-product" data-product-id="{{ product_id }}"
+    data-product-name="{{ heading_title }}" data-product-price="{{ price }}">
     	{% include 'revolution/template/product/partials/product_info_header.twig' %}
     	{% include 'revolution/template/product/partials/product_attributes.twig' %}
       {% include 'revolution/template/product/partials/product_informations.twig' %}

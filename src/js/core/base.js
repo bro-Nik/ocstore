@@ -27,7 +27,7 @@ export class BaseModule {
 
     Object.assign(this, LoaderMixin, FormMixin);
 
-    this.init();
+    // this.init();
   }
 
   init() {

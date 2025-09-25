@@ -8,7 +8,6 @@ import { LoadingManager } from '../services/loading';
 import { createError, createElement, toggleClass } from '../services/dom';
 import { eventManager } from '../events/event-manager';
 import { validator } from '../services/validations';
-import { NotificationManager } from '../services/notifications';
 import { LoaderMixin } from '../mixins/loader';
 import { FormMixin } from '../mixins/form';
 
@@ -43,19 +42,14 @@ class BasePopup {
     this.content = null;
     this.loading = null;
     this.initialized = false;
-    this.notifications = new NotificationManager();
 
     Object.assign(this, LoaderMixin, FormMixin);
-
     this.init();
   }
 
   init() {
     if (this.initialized) return;
-    this.createDialog();
     this.bindEvents();
-    this.loading = new LoadingManager(this.dialog)
-
     this.initialized = true;
   }
 
@@ -81,12 +75,6 @@ class BasePopup {
     eventManager.offAll(this.dialog);
   }
 
-  /**
-   * Создает элемент <dialog>
-   * @param {string} dialogClass - CSS класс для dialog
-   * @param {string} contentId - ID для контента
-   * @param {string} contentClass - CSS класс для контента
-   */
   createDialog() {
     this.dialog = createElement('dialog', '', this.selectors.popupClass, { 'aria-modal': 'true' });
     this.content = createElement('div', this.selectors.popupId);
@@ -100,6 +88,8 @@ class BasePopup {
     const openedDialog = document.querySelector('dialog[open]');
     if (openedDialog) openedDialog.close()
 
+    if (!this.dialog) this.createDialog();
+    if (!this.loading) this.loading = new LoadingManager(this.dialog)
     this.loading.show();
 
     // Скрываем конфликтующие элементы
@@ -116,35 +106,14 @@ class BasePopup {
     this.loading.hide();
   }
 
-  /**
-   * Показать попап
-   */
   async show(url) {
     await this.beforeShow();
-
-    // Генерируем событие ДО открытия (можно отменить)
-    const openingEvent = new CustomEvent('popup:opening', {
-      bubbles: true,
-      cancelable: true,
-      detail: { popup: this, url }
-    });
-    
-    if (!this.dialog.dispatchEvent(openingEvent)) {
-      return; // Если событие отменено (preventDefault)
-    }
 
     this.dialog.showModal();
 
     if (typeof url !== 'string') url = this.endpoints.content;
-
     await this.loadHtml(url, this.content);
 
-    // Генерируем событие ПОСЛЕ открытия
-    const openedEvent = new CustomEvent('popup:opened', {
-      bubbles: true,
-      detail: { popup: this, url }
-    });
-    this.dialog.dispatchEvent(openedEvent);
     this.afterShow();
   }
 
@@ -185,9 +154,6 @@ class BasePopup {
     document.body.classList.remove('popup-open');
   }
 
-  /**
-   * Закрыть попап
-   */
   close(e, target) {
     this.delEvents()
     this.dialog.close();
@@ -200,22 +166,22 @@ class BasePopup {
     this.dialog.querySelectorAll('.text-danger').forEach(el => el.remove());
     this.dialog.querySelectorAll('.error_style').forEach(el => el.classList.remove('error_style'));
 
-    if (errors.option) {
-      for (const [optionId, errorText] of Object.entries(errors.option)) {
-        const element = this.dialog.querySelector(`#input-option${optionId.replace('_', '-')}`);
-        if (element) element.after(createError(errorText));
-      }
-    }
+    // if (errors.option) {
+    //   for (const [optionId, errorText] of Object.entries(errors.option)) {
+    //     const element = this.dialog.querySelector(`#input-option${optionId.replace('_', '-')}`);
+    //     if (element) element.after(createError(errorText));
+    //   }
+    // }
 
-    if (errors.recurring) {
-      const recurringSelect = this.dialog.querySelector('select[name="recurring_id"]');
-      if (recurringSelect) recurringSelect.after(createError(errors.recurring));
-    }
+    // if (errors.recurring) {
+    //   const recurringSelect = this.dialog.querySelector('select[name="recurring_id"]');
+    //   if (recurringSelect) recurringSelect.after(createError(errors.recurring));
+    // }
 
-    if (errors.z_min_sum) {
-      const productMax = this.dialog.querySelector('.product_max');
-      if (productMax) productMax.after(createError(errors.z_min_sum));
-    }
+    // if (errors.z_min_sum) {
+    //   const productMax = this.dialog.querySelector('.product_max');
+    //   if (productMax) productMax.after(createError(errors.z_min_sum));
+    // }
   }
 
   async handleSubmit() {
@@ -238,11 +204,11 @@ class BasePopup {
     const checkoutBtn = this.dialog.querySelector(this.selectors.submitBtn);
     if (checkoutBtn) checkoutBtn.remove();
 
-    const quickCartBtn = this.dialog.querySelector('[data-action="quick-order"]');
-    if (quickCartBtn) quickCartBtn.remove();
+    // const quickCartBtn = this.dialog.querySelector('[data-action="quick-order"]');
+    // if (quickCartBtn) quickCartBtn.remove();
 
-    const checkoutLinkBtn = this.dialog.querySelector('.checkout-btn');
-    if (checkoutLinkBtn) checkoutLinkBtn.remove();
+    // const checkoutLinkBtn = this.dialog.querySelector('.checkout-btn');
+    // if (checkoutLinkBtn) checkoutLinkBtn.remove();
   }
 }
 

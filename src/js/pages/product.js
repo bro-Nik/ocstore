@@ -4,6 +4,10 @@ import { priceFormat } from '../main';
 import { cart } from '../core/cart';
 import { initProductSwipers } from '../swiper';
 
+import { review } from '../feedback/review';
+import { answer } from '../feedback/answer';
+import { initStars } from '../elements';
+
 const CONFIG = {
   globalEvents: {
     'update_prices_product': 'priceChange'
@@ -14,6 +18,7 @@ export class Product extends BaseModule {
 
   constructor() {
     super(CONFIG);
+    this.init();
   }
 
   init(container = document) {
@@ -32,6 +37,9 @@ export class Product extends BaseModule {
       while (deadline.timeRemaining() > 0) {
         this.checkOptions();
         this.calculatePrice();
+        review.init();
+        answer.init();
+        initStars();
       }
     });
   }

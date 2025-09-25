@@ -504,9 +504,6 @@ margin-left: 0;
 .well.well-sm.product-info .text-danger {
 clear: left;
 }
-@media (max-width: 767px) {
-img {max-width: 100%;}
-}
 #content img {
 max-width: 100%;
 }

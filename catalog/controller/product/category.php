@@ -50,10 +50,10 @@ class ControllerProductCategory extends ControllerBaseProductsList {
       	$data['categories'] = $this->getSubCategories($categories);
 
  				// Жесткое отключение OCFilter
-        if ($this->registry->has('ocfilter')) {
-          $this->registry->set('ocfilter', null); // Уничтожаем экземпляр
-        }
-        unset($this->session->data['ocfilter']);
+        // if ($this->registry->has('ocfilter')) {
+        //   $this->registry->set('ocfilter', null); // Уничтожаем экземпляр
+        // }
+        // unset($this->session->data['ocfilter']);
 
         // Добавляем заголовок для списка категорий
         $data['text_categories'] = $this->language->get('text_categories');
