@@ -26,13 +26,28 @@ export class Product extends BaseModule {
     this.productId = id;
     this.container = container;
     this.infoBox = container.querySelector('.product-card.main-product');
-    this.checkOptions();
-    this.calculatePrice();
+
     this.bindEvents();
+    requestIdleCallback((deadline) => {
+      while (deadline.timeRemaining() > 0) {
+        this.checkOptions();
+        this.calculatePrice();
+      }
+    });
   }
 
   bindEvents() {
     document.addEventListener('optionChange', () => this.checkOptions());
+    document.addEventListener('optionChange', () => this.checkOptions());
+
+    this.container.addEventListener('click', (e) => {
+      if (e.target.matches('[data-action="scroll-to-reviews"]')) {
+        this.scrollToTab(e.target, '#tab-review')
+      }
+      if (e.target.matches('[data-action="scroll-to-attributes"]')) {
+        this.scrollToTab(e.target, '#tab-specification')
+      }
+    });
     super.bindEvents();
   }
 
@@ -69,6 +84,13 @@ export class Product extends BaseModule {
 
     const priceBox = this.infoBox.querySelector('.price');
     if (priceBox) priceBox.innerHTML = priceFormat(totalPrice);
+  }
+
+  scrollToTab(btn, tabId) {
+    const container = btn.closest('dialog') || document;
+    container.querySelector(`[href="${tabId}"]`).click();
+    // container.querySelector(tabId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    container.querySelector(tabId)?.scrollIntoView({ block: 'center' });
   }
 }
 

@@ -3,7 +3,6 @@ import { initCarouselSwipers } from './swiper';
 
 // mobile-menu
 import { initMobilMenu } from './mmenu-light';
-// initMobilMenu();
 
 import validator from './services/validations';
 import compare from './core/compare';
@@ -24,18 +23,21 @@ import { getCookie, setCookie } from './cookie';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCarouselSwipers();
-  initMobilMenu();
-	dynamicBackground();
 
-  setTimeout(() => {
-    initStars();
-    initScrollTop();
-    cookieConsent();
-	  pageViewCounter();
-	  // Записываем url
-	  const site_url = document.querySelector('input[name="site_url"]');
-    if (site_url) site_url.value = window.location.href;
-  }, 5000);
+  setTimeout(cookieConsent, 5000);
+
+  requestIdleCallback((deadline) => {
+    while (deadline.timeRemaining() > 0) {
+      initMobilMenu();
+	    dynamicBackground();
+      initStars();
+      initScrollTop();
+	    pageViewCounter();
+	    // Записываем url
+	    const site_url = document.querySelector('input[name="site_url"]');
+      if (site_url) site_url.value = window.location.href;
+    }
+  });
 });
 
 
@@ -179,10 +181,6 @@ document.addEventListener('click', function(e) {
     e.preventDefault();
     activateTab(btn);
   }
-
-  if (e.target.matches('[data-action="scroll-to-reviews"]')) {
-    scrollToReviews(e.target)
-  }
 });
 
 function activateTab(btn) {
@@ -203,13 +201,3 @@ function activateTab(btn) {
   targetPane.classList.add('active');
 }
 
-function scrollToReviews(btn) {
-  const container = btn.closest('dialog') || document;
-  container.querySelector('[href="#tab-review"]').click();
-  container.querySelector('#tab-review')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-
-document.addEventListener('click', function(e) {
-  console.log(e.target)
-});

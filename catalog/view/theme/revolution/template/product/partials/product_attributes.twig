@@ -14,7 +14,7 @@
 
   {% if (attribute_groups) %}
     <li class="adotted_block">
-      <a class="adotted" onclick="$('a[href=\'#tab-specification\']').trigger('click'); $('html, body').animate({ scrollTop: $('a[href=\'#tab-specification\']').offset().top - 2}, 250); return false;">Все характеристики</a>
+      <a class="adotted" data-action="scroll-to-attributes">Все характеристики</a>
     </li>
   {% endif %}
 
