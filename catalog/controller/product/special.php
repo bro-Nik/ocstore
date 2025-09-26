@@ -28,7 +28,7 @@ class ControllerProductSpecial extends ControllerBaseProductsList {
 		// Сортировка и лимиты
     $url = $this->buildUrl(['page']);
     $data['sorts'] = $this->getSorts($this->url->link('product/special', $url), true);
-    $data['limits'] = $this->getLimits($this->url->link('product/special', $url));
+    // $data['limits'] = $this->getLimits($this->url->link('product/special', $url));
 
     // Пагинация
     $data['pagination'] = $this->getPagination($product_total, $params['page'], $params['limit'], $this->url->link('product/special', $url));

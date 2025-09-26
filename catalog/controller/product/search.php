@@ -62,7 +62,7 @@ class ControllerProductSearch extends ControllerBaseProductsList {
       $data['sorts'] = $this->getSorts($this->url->link('product/search', $url));
 
       // Лимиты
-      $data['limits'] = $this->getLimits($this->url->link('product/search', $url));
+      // $data['limits'] = $this->getLimits($this->url->link('product/search', $url));
 
       // Пагинация
       $data['pagination'] = $this->getPagination(

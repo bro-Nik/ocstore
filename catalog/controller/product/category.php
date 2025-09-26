@@ -81,7 +81,7 @@ class ControllerProductCategory extends ControllerBaseProductsList {
       	// Сортировка и лимиты
       	$url = $this->buildUrl(['filter', 'limit']);
       	$data['sorts'] = $this->getSorts($this->url->link('product/category', 'path=' . $this->request->get['path'] . $url));
-      	$data['limits'] = $this->getLimits($this->url->link('product/category', 'path=' . $this->request->get['path'] . $url));
+      	// $data['limits'] = $this->getLimits($this->url->link('product/category', 'path=' . $this->request->get['path'] . $url));
 
       	// Пагинация
       	$data['pagination'] = $this->getPagination(

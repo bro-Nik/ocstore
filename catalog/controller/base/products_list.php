@@ -21,16 +21,23 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
     $this->addOCFilterParams($url);
     $this->load->language('product/product');
       
-    $sorts = [
-      'p.sort_order-ASC'  => $this->language->get('text_default'),
-      'pd.name-ASC'       => $this->language->get('text_name_asc'),
-      'pd.name-DESC'      => $this->language->get('text_name_desc'),
-      'p.price-ASC'       => $this->language->get('text_price_asc'),
-      'p.price-DESC'      => $this->language->get('text_price_desc'),
-      'rating-DESC'       => $this->language->get('text_rating_desc'),
-      'rating-ASC'        => $this->language->get('text_rating_asc')
-    ];
+    // $sorts = [
+    //   'p.sort_order-ASC'  => $this->language->get('text_default'),
+    //   'pd.name-ASC'       => $this->language->get('text_name_asc'),
+    //   'pd.name-DESC'      => $this->language->get('text_name_desc'),
+    //   'p.price-ASC'       => $this->language->get('text_price_asc'),
+    //   'p.price-DESC'      => $this->language->get('text_price_desc'),
+    //   'rating-DESC'       => $this->language->get('text_rating_desc'),
+    //   'rating-ASC'        => $this->language->get('text_rating_asc')
+    // ];
 
+    $sorts = [
+      'p.price-ASC'       => 'Сначала недорогие',
+      'p.price-DESC'      => 'Сначала дорогие',
+      'p.viewed-ASC'          => 'Сначала популярные',
+      'pd.name-ASC'       => 'По названию (по возрастанию)',
+      'pd.name-DESC'      => 'По названию (по убыванию)'
+    ];
 
     $data['sorts'] = [];
     foreach ($sorts as $key => $value) {
@@ -44,27 +51,27 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
     return $data['sorts'];
   }
 
-  protected function getLimits($url) {
-    $this->addOCFilterParams($url);
-
-    $limits = array_unique([
-      $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit'),
-      25, 50, 75, 100
-    ]);
-        
-    sort($limits);
-        
-    $data['limits'] = [];
-    foreach ($limits as $value) {
-      $data['limits'][] = [
-        'text'  => $value,
-        'value' => $value,
-        'href'  => $this->url->link('product/category', $url . '&limit=' . $value)
-      ];
-    }
-        
-    return $data['limits'];
-  }
+  // protected function getLimits($url) {
+  //   $this->addOCFilterParams($url);
+  //
+  //   $limits = array_unique([
+  //     $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit'),
+  //     25, 50, 75, 100
+  //   ]);
+  //       
+  //   sort($limits);
+  //       
+  //   $data['limits'] = [];
+  //   foreach ($limits as $value) {
+  //     $data['limits'][] = [
+  //       'text'  => $value,
+  //       'value' => $value,
+  //       'href'  => $this->url->link('product/category', $url . '&limit=' . $value)
+  //     ];
+  //   }
+  //       
+  //   return $data['limits'];
+  // }
 
   protected function buildUrl($exclude = []) {
     $url = '';

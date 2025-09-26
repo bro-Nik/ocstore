@@ -84,7 +84,7 @@ class ControllerProductManufacturer extends ControllerBaseProductsList {
 				// Сортировка и лимиты
       	$url = $this->buildUrl();
       	$data['sorts'] = $this->getSorts($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer_id . $url));
-      	$data['limits'] = $this->getLimits($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer_id . $url));
+      	// $data['limits'] = $this->getLimits($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer_id . $url));
 
 				// Пагинация
       	$data['pagination'] = $this->getPagination(

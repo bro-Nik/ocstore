@@ -1,5 +1,5 @@
 <div class="sortline">
-  <div class="row g-5">
+  <div class="row">
     <div class="sortline-group">
       <label class="sortline-group-text">Сортировка:</label>
       <select id="input-sort" class="" onchange="location = this.value;">
@@ -13,6 +13,10 @@
       </select>
     </div>
 
+    <div class="ocf-btn-mobile-static ocf-mobile" style="display: none;">
+      <button type="button" class="ocf-btn ocf-btn-default" data-ocf="mobile"><span class="ocf-btn-name">{{ button_ocfilter_mobile }}</span> <i class="ocf-icon ocf-icon-16 ocf-brand ocf-sliders"></i></button>
+    </div>
+{#}
     <div class="sortline-group">
       <label class="sortline-group-text">Показать:</label>
       <select id="input-limit" class="" onchange="location = this.value;">
@@ -25,5 +29,6 @@
         {% endfor %}
       </select>
     </div>
+{#}
   </div>
 </div>
