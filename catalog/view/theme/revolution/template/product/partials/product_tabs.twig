@@ -1,11 +1,11 @@
 <div class="col-sm-12 mb20">
 	<ul class="nav nav-tabs">
-		{% if (description) %} 
+		{% if description %} 
 		<li class="active"><a href="#tab-description" data-toggle="tab">{{ tab_description }}</a></li>
 		{% endif %} 
-		{% if (not atributs) %} 
-		{% if (attribute_groups) %} 
-		<li><a href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a></li>
+		{% if not atributs %} 
+		{% if attribute_groups %} 
+		<li {% if not description %}class="active"{% endif %}><a href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a></li>
 		{% endif %} 
 		{% endif %} 
 		<li><a id="load_reviews" href="#tab-review" data-toggle="tab" data-count="{{ review_count }}">Отзывы <sup>{{ review_count }}</sup></a></li>
@@ -21,7 +21,32 @@
 		{% endif %} 
 	</ul>		  
 	<div class="tab-content">
+		{% if description %} 
 		<div class="tab-pane active" id="tab-description" itemprop="description">{{ description }}</div>
+		{% endif %} 
+		{% if not atributs %} 
+			{% if attribute_groups %} 
+			<div class="tab-pane{% if not description %} active{% endif %}" id="tab-specification">         
+				{% for attribute_group in attribute_groups %} 
+				<table class="table attrbutes mb0">
+				<thead>
+					<tr>
+					<td colspan="2">{{ attribute_group['name'] }}</td>
+					</tr>
+				</thead>		
+					<tbody>
+					{% for attribute in attribute_group['attribute'] %} 
+					<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
+					<td itemprop="name">{{ attribute['name'] }}</td>
+					<td itemprop="value">{{ attribute['text'] }}</td>
+					</tr>
+					{% endfor %} 
+				</tbody>
+				</table>
+				{% endfor %} 
+			</div>
+			{% endif %} 
+		{% endif %}		
 		{% for info in tab_info %} 
 		<div class="tab-pane" id="tab-extratab{{ info['tab_id'] }}">{{ info['description'] }}</div>
 		{% endfor %} 
@@ -29,29 +54,6 @@
 		<div class="tab-pane" id="tab-{{ product_id }}-{{ tab['product_tab_id'] }}">{{ tab['description'] }}</div>
 		{% endfor %} 
 
-		{% if (not atributs) %} 
-		{% if (attribute_groups) %} 
-		<div class="tab-pane" id="tab-specification">         
-			{% for attribute_group in attribute_groups %} 
-			<table class="table attrbutes mb0">
-			<thead>
-				<tr>
-				<td colspan="2">{{ attribute_group['name'] }}</td>
-				</tr>
-			</thead>		
-				<tbody>
-				{% for attribute in attribute_group['attribute'] %} 
-				<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
-				<td itemprop="name">{{ attribute['name'] }}</td>
-				<td itemprop="value">{{ attribute['text'] }}</td>
-				</tr>
-				{% endfor %} 
-			</tbody>
-			</table>
-			{% endfor %} 
-		</div>
-		{% endif %} 
-		{% endif %}		
 		<div class="tab-pane reviews_container" id="tab-review">
 		<div id="reviews" data-product-id="{{ product_id }}">
 			{% if review_count < 1 %}
