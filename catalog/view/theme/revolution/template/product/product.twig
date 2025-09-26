@@ -16,7 +16,7 @@
     {% endif %}
 
     <div class="{{ class2 }}">
-		  {% include 'revolution/template/product/partials/stickers.twig' %}
+		  {% include 'revolution/template/product/partials/stickers.twig' with {'main_product': 'true'} %}
 		  {% include 'revolution/template/product/partials/product_images.twig' %}
     </div>
 
