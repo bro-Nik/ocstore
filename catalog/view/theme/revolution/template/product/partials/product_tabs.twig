@@ -1,4 +1,4 @@
-<div class="col-sm-12 mb20">
+<div class="col-sm-12">
 	<ul class="nav nav-tabs">
 		{% if description %} 
 		<li class="active"><a href="#tab-description" data-toggle="tab">{{ tab_description }}</a></li>
@@ -28,7 +28,7 @@
 			{% if attribute_groups %} 
 			<div class="tab-pane{% if not description %} active{% endif %}" id="tab-specification">         
 				{% for attribute_group in attribute_groups %} 
-				<table class="table attrbutes mb0">
+				<table class="table attrbutes">
 				<thead>
 					<tr>
 					<td colspan="2">{{ attribute_group['name'] }}</td>
@@ -60,10 +60,10 @@
 				<p>{{ text_no_reviews }}</p>
 			{% endif %}
 		</div>
-			<div class="form-group mb0 mt12">
+			<div class="form-group">
 					<div class="well well-sm otz">
 						<div class="text-right">
-							<a class="btn btn-primary open-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ text_product_wr_review }}</a>
+							<a class="btn btn-primary open-box">{{ text_product_wr_review }}</a>
 						</div>						
 						<div class="row hidden-content-box">
 							<div class="col-md-12">
@@ -91,28 +91,6 @@
 												<input id="rat4" type="radio" name="rating" value="4" required /><label class="rat-star" for="rat4"><i class="fa fa-star"></i>{{ star_icon }}</label>
 												<input id="rat5" type="radio" name="rating" value="5" required /><label class="rat-star" for="rat5"><i class="fa fa-star"></i>{{ star_icon }}</label>
 											</div>
-											{#}
-											<script><!--
-												$('.rat-star').hover(function () {
-													$(this).prevAll('.rat-star').addClass('active');
-													$(this).addClass('active');
-												},function () {
-													$(this).prevAll('.rat-star').removeClass('active');
-													$(this).removeClass('active');
-												});
-												
-												$('.rat-star').click(function(){
-													$('.rat-star').each(function(){
-														$(this).removeClass('checked');
-														$(this).prevAll('.rat-star').removeClass('checked');
-													});
-													
-													$(this).addClass('checked');
-													$(this).prevAll('.rat-star').addClass('checked');
-												});
-												
-											//--></script>
-											{#}
 										</div>
 									</div>
 									{{ captcha }} 
@@ -133,10 +111,10 @@
 						<p>Пока не было вопросов</p>
 					{% endif %}
 				</div>
-				<div class="form-group mb0 mt12">
+				<div class="form-group">
 					<div class="well well-sm otz">
 						<div class="text-right">
-							<a class="btn btn-primary open-box"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ entry_rev_p_answer_wrt }}</a>
+							<a class="btn btn-primary open-box">{{ entry_rev_p_answer_wrt }}</a>
 						</div>						
 						<div class="row hidden-content-box">
 							<div class="col-md-12">

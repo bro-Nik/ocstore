@@ -94,7 +94,7 @@ padding-top: 25px
 
 .btn-scroll-top {
   position: fixed;
-  opacity: 0;
+  // opacity: 0;
   z-index: 9998;
   background-color: #777;
   color: #fefefe;
@@ -131,17 +131,7 @@ border-bottom-left-radius: 2px;
 border-top-right-radius: 2px;
 border-bottom-right-radius: 2px;
 }
-.pagination {
-margin: 0;
-}
 
-.pagination > li > a, .pagination > li > span {
-padding: 5px 8px;
-}
-
-.pagpages {
-margin: 10px 0;
-}
 .pagpages .text-right {
 height: 39px;
 display: flex;
@@ -149,19 +139,23 @@ justify-content: flex-end;
 align-items: center;
 }
 
-.pagination > li > a, .pagination > li > span {padding: 5px 15px;border-radius: 5px;}
+.pagination > li > a, .pagination > li > span {
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: #8c8c8c;
+}
 .pagpages {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     flex-direction: row;
-    gap: 1rem;
-    margin-top: 5rem;
+    justify-content: center;
+    // margin-top: 5rem;
 }
 .results-pages {
     margin-left: auto;
     font-size: 1.3rem;
 }
-.pagination-links {
-    width: 100%;
-}
+// .pagination-links {
+//     width: 100%;
+// }

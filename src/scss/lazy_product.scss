@@ -180,7 +180,6 @@ border: none;;
       border-color: $primary-color;
       color: #FFF !important;
       background: $primary-color;
-      border-radius: 0.5rem;
     }
   }
 }
@@ -293,4 +292,8 @@ border: none;;
 @media (min-width: 1000px) {
 .tovar_funkcii {width: 50%;display: inline-block;}
 .tovar_video {width: 45%;float: right;}
+}
+
+.table.attrbutes tbody td:first-child {
+  color: #8c8c8c;
 }

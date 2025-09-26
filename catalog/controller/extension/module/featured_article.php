@@ -69,7 +69,8 @@ class ControllerExtensionModuleFeaturedArticle extends Controller {
 					'reviews'    => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
 					'rating'      => $this->config->get('configblog_review_status') ? $result['rating'] : false,
 					// 'href'        => $this->url->link('blog/article', 'article_id=' . $result['article_id']),
-					'href'        => $this->url->link('blog/article', 'blog_category_id=' . $blog_category_id . '&article_id=' . $result['article_id'])
+					'href'        => $this->url->link('blog/article', 'blog_category_id=' . $blog_category_id . '&article_id=' . $result['article_id']),
+					'bg_color'    => $result['bg_color'],
 				);
 			}
 			

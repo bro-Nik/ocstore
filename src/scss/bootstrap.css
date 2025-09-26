@@ -31,7 +31,7 @@ hr:not([size]) {
 
 
 ul {
-  padding-left: 2rem;
+  padding-left: 0;
 }
 
 ul ul {
@@ -509,12 +509,12 @@ output {
   color: #212529;
 }
 
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 0;
-  list-style: none;
-}
+/* .nav { */
+/*   display: flex; */
+/*   flex-wrap: wrap; */
+/*   padding-left: 0; */
+/*   list-style: none; */
+/* } */
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
   border-top-left-radius: 0;

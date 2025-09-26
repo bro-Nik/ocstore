@@ -275,7 +275,7 @@ class ControllerBlogArticle extends Controller {
 		$data['delete'] = $this->url->link('blog/article/delete', 'user_token=' . $this->session->data['user_token'] . $url, true);
 		
 		$data['enabled'] = $this->url->link('blog/article/enable', 'user_token=' . $this->session->data['user_token'] . $url, true);
-        $data['disabled'] = $this->url->link('blog/article/disable', 'user_token=' . $this->session->data['user_token'] . $url, true);
+    $data['disabled'] = $this->url->link('blog/article/disable', 'user_token=' . $this->session->data['user_token'] . $url, true);
 
 		$data['articles'] = array();
 
@@ -529,6 +529,7 @@ class ControllerBlogArticle extends Controller {
 			$data['thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 		}
 
+		$data['bg_color'] = $article_info['bg_color'] ?? '#ebebeb';
 		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 
 		$this->load->model('setting/store');

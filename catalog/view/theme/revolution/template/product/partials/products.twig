@@ -20,14 +20,6 @@
     </nav>
   {% endif %}
 
-{#}
-  {% if ocfilter_mobile_button %}
-    <div class="ocf-btn-mobile-static ocf-mobile" style="display: none;">
-      <button type="button" class="ocf-btn ocf-btn-default" data-ocf="mobile"><span class="ocf-btn-name">{{ button_ocfilter_mobile }}</span> <i class="ocf-icon ocf-icon-16 ocf-brand ocf-sliders"></i></button>
-    </div>
-  {% endif %}
-{#}
-
   <meta itemprop="numberOfItems" content="{{ products|length }}"/>
   {% if not not_sort_line %}
     {% include 'revolution/template/product/partials/sort_line.twig' %}
@@ -36,11 +28,8 @@
   <ul class="products__list">
     {% for product in products %}
       <li>
-        <div class="product-layout">
-          {% include 'product/card.twig' %}
-        </div>
+        {% include 'product/card.twig' %}
       </li>
-
     {% endfor %}
   </ul>
 

@@ -21,7 +21,7 @@ class ControllerToolUpdater extends Controller {
         }
         
         // Если все проверки пройдены, выполняем обновление
-        // $json[] = $this->updateDbTabs();
+        $json[] = $this->updateDbTabs();
         
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
@@ -32,15 +32,11 @@ class ControllerToolUpdater extends Controller {
     }
 
     private function updateDbTabs() {
-        $sql = "CREATE TABLE IF NOT EXISTS `oc_module_settings` (
-            `code` varchar(32) NOT NULL,
-            `setting` text NOT NULL,
-            PRIMARY KEY (`code`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+        $sql = "ALTER TABLE `oc_article` ADD `bg_color` VARCHAR(7) DEFAULT '#ebebeb';";
         
         $this->db->query($sql);
         
-        return 'Таблица oc_module_settings успешно создана.';
+        return 'Поле bg_color успешно создано.';
 
       // return 'Внесение изменения структуру базы данных выполнено.';
     }

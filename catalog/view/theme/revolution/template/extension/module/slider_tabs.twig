@@ -1,11 +1,11 @@
 {# Табы слайдеров на главной #}
 <div class="home__section">
-	<div class="row align-items-center">
-		<div class="col-md">
+	<div class="row slider-tabs">
+		<div>
 			<h2>{{ title }}</h2>
 		</div>
 
-		<div class="col-md-auto">
+		<div class="ms-auto">
 			<ul class="nav nav-tabs slider-tabs__btns">
 				{% set active_sliders_list = [] %}
   			{% for i in 1..4 %}
@@ -16,8 +16,8 @@
   			{% endfor %}
 
   			{% for slider in active_sliders_list %}
-        	<li>
-          	<a href="#tab_slider_{{ slider_id }}_{{ loop.index }}" data-toggle="tab" class="ui-btn ui-btn--45 ui-btn--white">{{ slider.title }}</a>
+        	<li{% if loop.index == 1%} class="active" {% endif %}>
+          	<a href="#tab_slider_{{ slider_id }}_{{ loop.index }}" data-toggle="tab">{{ slider.title }}</a>
         	</li>
   			{% endfor %}
 			</ul>

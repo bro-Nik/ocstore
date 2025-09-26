@@ -46,11 +46,16 @@ export function initCarouselSwipers(container = document) {
     const slide = carouselEl.querySelector('.swiper-slide');
     if (slide) maxWidth = slide.offsetWidth;
 
+    const oneSlide = maxWidth + 15 >= carouselEl.offsetWidth;
     // Базовые настройки для всех каруселей
     const defaultConfig = {
-      slidesPerView: maxWidth > carouselEl.offsetWidth ? 1 : 'auto',
+      slidesPerView: oneSlide ? 1 : 'auto',
       freeMode: true, // Для плавного скольжения
-      spaceBetween: 10, // Отступ между слайдами
+      spaceBetween: oneSlide ? 0 : 10,
+      // spaceBetween: 10, // Отступ между слайдами
+      // slidesOffsetBefore: 10,
+      // slidesOffsetAfter: 10,
+      // slidesOffsetBefore/After
     };
     
     // Индивидуальные настройки из data-атрибутов

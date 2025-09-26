@@ -176,11 +176,6 @@
   }
 }
 @media (min-width: 768px) {
-  .col-md-auto {
-    flex: 0 0 auto;
-    width: auto;
-  }
-
   .col-md-3 {
     flex: 0 0 auto;
     width: 25%;
@@ -206,10 +201,10 @@
     width: 58.33333333%;
   }
 
-  .col-md-9 {
-    flex: 0 0 auto;
-    width: 75%;
-  }
+  // .col-md-9 {
+  //   flex: 0 0 auto;
+  //   width: 75%;
+  // }
 
   .col-md-12 {
     flex: 0 0 auto;

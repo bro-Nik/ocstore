@@ -2,7 +2,7 @@
 @media (min-width: 1600px) { .container {width: 1540px;} .box-col-3 {width: 1200.5%;} .box-col-2 {width: 810%;} .box-col-1 { width: 350%;}}
 #top3 {width: 100%;}
 #top .container {border-bottom: none;}
-a,.list-group a,.pagination>li>a, .pagination>li>span {color: #333333;}
+a,.list-group a {color: #333333;}
 .rating .fa-star,.rat-star.active,.rat-star.checked,.rating .fa-star + .fa-star-o,.product-info input[type="radio"]:checked + label .fa, .product-info input[type="checkbox"]:checked + label .fa {color: #FF8800;}
 .btn-danger {background-color: #FF8800;}
 .home_block .image > img {-webkit-transition-property: color, opacity, transform;transition-property: color, opacity, transform;}
@@ -25,7 +25,7 @@ a,.list-group a,.pagination>li>a, .pagination>li>span {color: #333333;}
   #top {background-color: #ffffff; position: fixed; top: 0; width: 100%; box-shadow: 0 0 10px 2px rgba(0,0,0,.2); color: #fff; border-bottom: none;} #top2 {margin-top: 38px;} #top2 .container {padding: 15px 15px 5px;}
   #top2 #logo {margin-bottom: 0;}
 .well.well-sm .row {display: flex;}
-.well.well-sm {background: #fff;}
+/* .well.well-sm {background: #fff;} */
 .well select.form-control, .well input.form-control, .well textarea.form-control {box-shadow:none;}
 select#input-sort {width: auto;}
 .col-sm-12.col-md-9 {margin-top: 15px;}
@@ -44,7 +44,7 @@ select#input-sort {width: auto;}
 .phone_dop_text2 {display: flex;align-items: flex-end;}
 .container, #top2 .container {padding-right: 7px !important;padding-left: 7px !important;}
 .row {margin-right: 0; margin-left: 0;}
- .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-6, .col-lg-9, .col-md-12, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-9, .col-sm-10, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-12, .col-xs-4, .col-xs-6, .col-xs-8 {padding-right: 0; padding-left: 0;}
+ /* .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-6, .col-lg-9, .col-md-12, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-9, .col-sm-10, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-12, .col-xs-4, .col-xs-6, .col-xs-8 {padding-right: 0; padding-left: 0;} */
 }
 @media (max-width: 570px)
 {

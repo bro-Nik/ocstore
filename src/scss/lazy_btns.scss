@@ -1,3 +1,9 @@
+.btn {
+    line-height: 1.5;
+    padding: 0.6rem 1rem;
+    font-size: 1.4rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
 
 .loading {
     position: relative;
@@ -87,4 +93,3 @@ a:hover,.list-group a:hover,.list-group a.active:hover,.pagination>li>a:hover,.p
 .btn-primary:hover,.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {background-color: #3881DF; border-color: #3881DF;}
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {border-color: #0063d1; background: #0063d1; color: #fff;}
 #top2 .bigsearch .search input:hover, #top2 .bigsearch .search input:focus {box-shadow: 0 0 0 1px #0000000a, 0 4px 4px #0000000a, 0 20px 40px #00000014;}
-.btn-primary,.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover, .cd-products-comparison-table .filter_otlich_span.active {background-color: #333333; border-color: #333333;}

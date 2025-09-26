@@ -35,7 +35,8 @@ class ModelBlogArticle extends Model {
 				'gstatus'           => $query->row['gstatus'],
 				'date_added'       => $query->row['date_added'],
 				'date_modified'    => $query->row['date_modified'],
-				'viewed'           => $query->row['viewed']
+				'viewed'           => $query->row['viewed'],
+				'bg_color'           => $query->row['bg_color']
 			);
 		} else {
 			return false;

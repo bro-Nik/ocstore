@@ -12,6 +12,10 @@ class ModelBlogArticle extends Model {
 			$this->db->query("UPDATE " . DB_PREFIX . "article SET image = '" . $this->db->escape($data['image']) . "' WHERE article_id = '" . (int)$article_id . "'");
 		}
 
+		if (isset($data['bg_color'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "article SET bg_color = '" . $this->db->escape($data['bg_color']) . "' WHERE article_id = '" . (int)$article_id . "'");
+		}
+
 		foreach ($data['article_description'] as $language_id => $value) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "article_description SET article_id = '" . (int)$article_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_h1 = '" . $this->db->escape($value['meta_h1']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
@@ -95,6 +99,10 @@ class ModelBlogArticle extends Model {
 
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "article SET image = '" . $this->db->escape($data['image']) . "' WHERE article_id = '" . (int)$article_id . "'");
+		}
+
+		if (isset($data['bg_color'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "article SET bg_color = '" . $this->db->escape($data['bg_color']) . "' WHERE article_id = '" . (int)$article_id . "'");
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "article_description WHERE article_id = '" . (int)$article_id . "'");

@@ -19,20 +19,13 @@
 
 // Tab sliders
 .slider-tabs {
+  align-items: center;
+  & > div {
+    width: auto;
+  }
   &__btns {
-    margin: 0 -2.5rem 1.5rem;
-    padding: 0 2.5rem !important;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    overflow-x: auto;
     background: none !important;
-    & a {
-      margin: 0 0.5rem 0 0;
-      background: #efefef99;
-      color: #343434;
-    }
+    margin: 0;
   }
 }
 

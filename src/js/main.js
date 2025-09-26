@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   requestIdleCallback((deadline) => {
     initMobilMenu();
-	  dynamicBackground();
     initScrollTop();
 	  pageViewCounter();
 
@@ -112,42 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// Обработка динамического фона
-function dynamicBackground(container = document) {
-  container.querySelectorAll('.article-cart img').forEach(img => {
-    const color = getDominantColor(img);
-    img.closest('.article-cart').style.background = color;
-  });
-}
-function getDominantColor(imageElement) {
-  const darkenFactor = 0.7;
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  const size = 10;
-  
-  canvas.width = size;
-  canvas.height = size;
-  ctx.drawImage(imageElement, 0, 0, size, size);
-  
-  const imageData = ctx.getImageData(0, 0, size, size).data;
-  let r = 0, g = 0, b = 0;
-  const count = size * size;
-  
-  for (let i = 0; i < imageData.length; i += 4) {
-      r += imageData[i];
-      g += imageData[i + 1];
-      b += imageData[i + 2];
-  }
-  
-  // Усредняем и затемняем
-  r = Math.floor(r / count * darkenFactor);
-  g = Math.floor(g / count * darkenFactor);
-  b = Math.floor(b / count * darkenFactor);
-  
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-
 function cookieConsent() {
   // Проверяем, не дано ли уже согласие
 	if(getCookie('cookie')) return;
@@ -181,7 +144,7 @@ function activateTab(btn) {
   if (!targetPane) return;
   const tabsContent = targetPane.closest('.tab-content');
 
-  tabsBtns.querySelectorAll('[data-toggle="tab"].active').forEach(el => {
+  tabsBtns.querySelectorAll('li.active').forEach(el => {
     el.classList.remove('active');
   });
   
@@ -189,7 +152,6 @@ function activateTab(btn) {
     el.classList.remove('active');
   });
   
-  btn.classList.add('active');
+  btn.closest('li')?.classList.add('active');
   targetPane.classList.add('active');
 }
-

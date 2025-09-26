@@ -108,7 +108,7 @@ flex: 0 0 auto;
   }
   &__callback {
     margin-left: auto;
-    margin-right: 3rem;
+    margin-right: 2rem;
   }
 
   &__search {
@@ -464,4 +464,9 @@ input, textarea, .form-control:not(select) {
     // margin: 0 0 2rem;
     height: 5rem;
     transition: box-shadow 0.25s;
+}
+.header__action, .header__callback {
+  & button {
+    padding: 0;
+  }
 }
