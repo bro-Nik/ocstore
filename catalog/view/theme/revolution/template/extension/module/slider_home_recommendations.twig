@@ -2,7 +2,7 @@
 	<div id="home_recommendations" class="swiper swiper-carousel">
   	<div class="swiper-wrapper">
 			{% for slide in slides %} 
-      	<div class="swiper-slide slide__tile" style="">
+      	<div class="swiper-slide slide__tile" style="margin-right: 10px;">
 					<a href="{{ slide['link'] }}" class="slide__item" style="background: url({{ slide['image'] }}) no-repeat; background-size: contain; background-position: right bottom;
 							width: {{ width }}px; height: {{ height }}px;">
 						<div class="slide__item-content">

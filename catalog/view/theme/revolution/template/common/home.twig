@@ -28,31 +28,23 @@
 	{{ content_top }} 
 
 	{% if (h1) %} 
-		<h1 class="home_h1">{{ h1 }}</h1>
+		<h1>{{ h1 }}</h1>
 	{% endif %}	
 	
 	{{ related_categories }}
 	{{ slider_tabs1 }} 
 	{{ slider_tabs2 }} 
+
+	{% if blog %} 
+		<div class="home__section">
+			{{ blog }} 
+		</div>
+	{% endif %} 
 	
-	{% if (blog) %} 
-	</div>
-	</div>
-	</div>
-	<div id="top7" class="clearfix">
-	<div class="container-fluid">
-	{{ blog }} 
-	</div>
-	</div>
-	<div class="container-fluid">
-	<div class="row">
-	<div class="col-sm-12">
-	{% endif %}
-	
-	{% if (aboutstore) %} 
-	<div class="row">
-	{{ aboutstore }} 
-	</div>
+	{% if aboutstore %} 
+		<div class="home__section">
+			{{ aboutstore }} 
+		</div>
 	{% endif %} 
 	
 	{{ storereview }} 

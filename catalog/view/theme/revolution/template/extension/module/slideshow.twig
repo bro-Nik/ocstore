@@ -2,7 +2,7 @@
 	<div id="home_slideshow" class="swiper swiper-carousel">
   	<div class="swiper-wrapper">
 			{% for slide in slides %} 
-      	<div class="swiper-slide slide__tile">
+      	<div class="swiper-slide slide__tile" style="margin-right: 10px;">
 					<a href="{{ slide['link'] }}" class="slide__item">
 						<img src="{{ slide['image'] }}" alt="{{ slide['title'] }}">
 					</a>

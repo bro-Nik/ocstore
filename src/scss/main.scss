@@ -115,14 +115,6 @@ h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   line-height: 1.2;
 }
 
-h1.home_h1 {
-  margin: 2rem 0 0 0;
-  font-size: clamp(1.5rem, 1.1rem + 0.8vw, 2.5rem);
-  padding: 2rem;
-  background: #f8f9fa;
-  border-radius: 10px;
-  text-align: center;
-}
 
 
 p {
@@ -345,7 +337,7 @@ textarea {
     width: auto;
     margin-left: auto;
 }
-.ocf-btn {
+.ocf-btn-default {
   background-color: unset !important;
   box-shadow: unset !important;
 }
@@ -360,4 +352,21 @@ textarea {
 
 .btn-scroll-top {
   opacity: 0;
+}
+
+
+// Home
+.common-home {
+  & h1 {
+    margin: 2rem 0 0 0;
+    font-size: clamp(1.5rem, 1.1rem + 0.8vw, 2.5rem);
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    text-align: center;
+  }
+  & :not(.slider-tabs) > h2 {
+    margin-bottom: 2rem;
+  }
+
 }

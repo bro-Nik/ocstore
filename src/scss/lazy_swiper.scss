@@ -20,7 +20,9 @@
 // Tab sliders
 .slider-tabs {
   align-items: center;
-  & > div {
+  margin-bottom: -2rem;
+
+  & > * {
     width: auto;
   }
   &__btns {

@@ -54,9 +54,10 @@
 }
 
 .category-filters {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 1rem;
 }
 
 .filter-row {

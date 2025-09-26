@@ -6,7 +6,7 @@
     <div class="swiper swiper-carousel">
   	  <div class="swiper-wrapper">
         {% for product in accessories %}
-          <div class="swiper-slide">
+          <div class="swiper-slide" style="margin-right: 10px;">
             <div class="accessories-thumb product-card" data-product-id="{{ product.product_id }}">
               <div class="accessories_title">
                 <a href="{{ product.href }}" target="_blank">{{ product.name }}</a>

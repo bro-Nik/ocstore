@@ -5,10 +5,10 @@
       <div id="recommended_services" class="swiper swiper-carousel">
         <div class="swiper-wrapper" style="height: 100%;">
           {% for service in services %}
-				    <div class="swiper-slide blog__article-tile">
+				    <div class="swiper-slide blog__article-tile" style="margin-right: 10px;">
               <div class="blog__article-content">
           	    <div class="blog__article-info">
-							    <h4><a href="{{ service.href }}">{{ service.name }}</a></h4>
+							    <a href="{{ service.href }}">{{ service.name }}</a>
           	    </div>
               </div>
 
