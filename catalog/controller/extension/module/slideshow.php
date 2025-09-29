@@ -11,6 +11,8 @@ class ControllerExtensionModuleSlideshow extends Controller {
 		$data = $settings;
 		$slides = $settings['slides'];
 		$data['slides'] = array();
+		$data['width'] = $settings['width'];
+		$data['height'] = $settings['height'];
 		
 		if (!empty($slides)){
 			foreach ($slides as $slide) {

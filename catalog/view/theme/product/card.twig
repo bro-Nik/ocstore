@@ -3,7 +3,7 @@
   <div class="product-thumb shadow-box product-card" data-product-id="{{ product.product_id }}"
       data-product-name="{{ product.name }}">
     <div class="image">
-      {% include 'revolution/template/product/partials/img_slider.twig' %}
+      {% include 'product/card_img.twig' with {'img_eager_load': img_eager_load} %}
       {% include 'revolution/template/product/partials/stickers.twig' %}
     </div>
       <a href="{{ product.href }}">{{ product.mpn ?: product.name }}</a>
