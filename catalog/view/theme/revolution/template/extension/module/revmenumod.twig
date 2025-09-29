@@ -27,14 +27,14 @@
 		<div class="revlevel_1 hasChildren closed menu2dopmenu">
 			{% if (revtheme_dop_menu['children'] is defined) %} 
 				<div class="title with-child">
-					<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}" {{ revtheme_dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>
+					<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}">
 					{% if (revtheme_dop_menu['icontype'] == 'iconka') %} <i class="am_category_icon {{ revtheme_dop_menu['dop_menu_iconka'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}
 					<span class="arrow-btn"><i class="fa fa-angle-right"></i></span>
 					</a>
 				</div>
 			 {% else %}
 				<div class="title">
-					<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}" {{ revtheme_dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>
+					<a href="{{ revtheme_dop_menu['href'~config_language_id] != '' ? revtheme_dop_menu['href'~config_language_id] : '#' }}">
 					{% if (revtheme_dop_menu['icontype'] == 'iconka') %} <i class="am_category_icon {{ revtheme_dop_menu['dop_menu_iconka'] }}"></i> {% else %} {% if (revtheme_dop_menu['dop_menu_image']) %} <span class="am_category_image"><img src="{{ revtheme_dop_menu['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ revtheme_dop_menu['name'~config_language_id] }}</a>
 				</div>
 			{% endif %} 
@@ -61,7 +61,7 @@
 						{% else %} 
 							<ul class="ul_block{{ revtheme_dop_menu['id'] }} cat_dop {{ col_class }}">
 							{% for child in revtheme_dop_menu['children'] %} 
-								<li class="glavli"><a href="{{ child['href'~config_language_id] != '' ? child['href'~config_language_id] : '#' }}" {{ child['href'~config_language_id] != '' ? '' : "onclick='return false;' class='cursor_default_menu'" }}>{% if (child['icontype'] == 'iconka') %} <i class="am_category_icon {{ child['dop_menu_iconka'] }}"></i> {% else %} {% if (child['dop_menu_image']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
+								<li class="glavli"><a href="{{ child['href'~config_language_id] != '' ? child['href'~config_language_id] : '#' }}">{% if (child['icontype'] == 'iconka') %} <i class="am_category_icon {{ child['dop_menu_iconka'] }}"></i> {% else %} {% if (child['dop_menu_image']) %} <span class="am_category_image"><img src="{{ child['dop_menu_image'] }}" alt=""><span class="mask"></span></span> {% endif %} {% endif %} {{ child['name'~config_language_id] }}</a>
 									{% if (tri_level and child['children'] is defined) %}
 									<ul class="lastul">
 										{% set i_count = 0 %}

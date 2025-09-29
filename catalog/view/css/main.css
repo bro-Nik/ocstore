@@ -2429,3 +2429,9 @@ textarea {
 .common-home :not(.slider-tabs) > h2 {
   margin-bottom: 2rem;
 }
+
+@media (max-width: 1199px) {
+  .ocf-container.ocf-mobile-right {
+    transform: translateX(100%);
+  }
+}

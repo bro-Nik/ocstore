@@ -3,11 +3,11 @@
 		{{ revmenu }} 
 	</div>
 	<div class="header__tags">
-		<nav id="menu">
+		<nav id="menu" aria-label="Основная навигация">
 			<ul class="header__tags-menu">
 				{% for dop_menu in revtheme_dop_menus_3 %} 
 					{% if (dop_menu.children is defined) %} 
-						<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{{ dop_menu['name'~config_language_id] }}</a>
+						<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}">{{ dop_menu['name'~config_language_id] }}</a>
 						<span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
 							<div class="mmmenu">
 									<div class="dropdown-menu">
@@ -37,7 +37,7 @@
 							</div>
 						</li>
 						{% else %} 
-						<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}" {{ dop_menu['href'~config_language_id] != '' ? '' : "onclick='return false;'" }}>{{ dop_menu['name'~config_language_id] }}</a></li>
+						<li><a class="header__tags-btn" href="{{ dop_menu['href'~config_language_id] != '' ? dop_menu['href'~config_language_id] : '#' }}">{{ dop_menu['name'~config_language_id] }}</a></li>
 					{% endif %} 
 				{% endfor %} 	
 			</ul>
