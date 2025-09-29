@@ -34,7 +34,8 @@ class ControllerExtensionModuleSliderTabs extends ControllerBaseProductCart {
                 if ($slider_settings['category_id'] == 'featured' && !empty($slider_settings['featured'])) {
                     // Режим "Выборочные товары"
                     $products_ids = array_column($slider_settings['featured'], 'product_id');
-                    $results = $this->model_catalog_product->getProductsByIds(['filter_product_ids' => $products_ids]);
+                    $filter_data['filter_product_ids'] = $products_ids;
+                    $results = $this->model_catalog_product->getProducts($filter_data);
 
                 } else {
                     // Режим категории или все товары
