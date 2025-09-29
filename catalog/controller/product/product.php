@@ -298,7 +298,7 @@ class ControllerProductProduct extends ControllerBaseProductsList {
 		$pagination->total = $total;
 		$pagination->page = $page;
 		$pagination->limit = 10;
-		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $product_id . '&page={page}');
+		$pagination->url = $this->url->link('product/product/getReviews', 'revproduct_id=' . $product_id . '&page={page}');
 
 		$data['pagination'] = $pagination->render();
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($total) ? (($page - 1) * 5) + 1 : 0, ((($page - 1) * 5) > ($total - 5)) ? $total : ((($page - 1) * 5) + 5), $total, ceil($total / 5));
@@ -311,7 +311,7 @@ class ControllerProductProduct extends ControllerBaseProductsList {
     $this->load->model('revolution/revolution');
 
 		$product_id = $this->request->get['revproduct_id'];
-		$page = isset($this->request->get['page_answers']) ? $this->request->get['page_answers'] : 1;
+		$page = isset($this->request->get['page']) ? $this->request->get['page'] : 1;
     
 		$data['entry_answer'] = $this->language->get('entry_answer');
 		$data['answers'] = array();
@@ -333,7 +333,7 @@ class ControllerProductProduct extends ControllerBaseProductsList {
     $pagination->total = $total;
     $pagination->page = $page;
     $pagination->limit = 10;
-    $pagination->url = $this->url->link('product/product/answers', 'product_id=' . $product_id . '&page_answers={page}');
+    $pagination->url = $this->url->link('product/product/getAnswers', 'revproduct_id=' . $product_id . '&page={page}');
     
     $data['pagination'] = $pagination->render();
     $data['results'] = sprintf($this->language->get('text_pagination'), ($total) ? (($page - 1) * 10) + 1 : 0, ((($page - 1) * 10) > ($total - 10)) ? $total : ((($page - 1) * 10) + 10), $total, ceil($total / 10));
