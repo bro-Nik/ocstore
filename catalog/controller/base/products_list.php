@@ -165,6 +165,8 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
   }
 
   protected function setCanonicalLinks($route, $params, $page, $total, $limit) {
+    if (isset($this->request->get['ocfilter_page_id'])) return;
+
     if ($page == 1) {
       $this->document->addLink($this->url->link($route, $params), 'canonical');
     } elseif ($page == 2) {
