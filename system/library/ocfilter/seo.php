@@ -540,8 +540,17 @@ class Seo extends Factory {
     } else {
       $meta_title = $this->getMetaText($meta_title);
     }
+    return $this->pageInMeta($meta_title);
+  }
 
-    return $meta_title;
+  public function pageInMeta($meta) {
+    if (!$meta || $meta == '') return $meta;
+
+    $page = $this->opencart->request->get['page'] ?? 1;
+    if ($page == 1) {
+      return $meta;
+    }
+    return $meta . ' | Страница ' . $page;
   }
 
   public function getPageMetaDescription($meta_description) {
@@ -553,7 +562,7 @@ class Seo extends Factory {
       $meta_description = $this->getMetaText($meta_description, '. ');
     }
 
-    return $meta_description;
+    return $this->pageInMeta($meta_description);
   }
 
   public function getPageMetaKeywords($meta_keyword) {
@@ -564,8 +573,6 @@ class Seo extends Factory {
     } else if ($meta_keyword) {
       $meta_keyword = $this->getMetaText($meta_keyword);
     }
-
-    return $meta_keyword;
   }
 
   public function getPageHeadingTitle($heading_title) {
@@ -577,7 +584,7 @@ class Seo extends Factory {
       $heading_title = $this->getMetaText($heading_title);
     }
 
-    return $heading_title;
+    return $this->pageInMeta($heading_title);
   }
 
   public function getPageDescription($position = 'top') {

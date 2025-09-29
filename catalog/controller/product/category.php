@@ -49,12 +49,6 @@ class ControllerProductCategory extends ControllerBaseProductsList {
       if (count($categories)) {
       	$data['categories'] = $this->getSubCategories($categories);
 
- 				// Жесткое отключение OCFilter
-        // if ($this->registry->has('ocfilter')) {
-        //   $this->registry->set('ocfilter', null); // Уничтожаем экземпляр
-        // }
-        // unset($this->session->data['ocfilter']);
-
         // Добавляем заголовок для списка категорий
         $data['text_categories'] = $this->language->get('text_categories');
 
@@ -154,7 +148,7 @@ class ControllerProductCategory extends ControllerBaseProductsList {
         if ($category) {
           $breadcrumbs[] = array(
             'text' => $category['name'],
-            'href' => $this->url->link('product/category', 'path=' . $current_path . $this->buildUrl(['path']))
+            'href' => $this->url->link('product/category', 'path=' . $current_path)
           );
         }
       }

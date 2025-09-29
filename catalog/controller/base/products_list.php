@@ -6,7 +6,6 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
 	use \TemplateTrait;
 
   protected function getPagination($total, $page, $limit, $url) {
-    $this->addOCFilterParams($url);
 
     $pagination = new Pagination();
     $pagination->total = $total;
@@ -18,70 +17,41 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
   }
 
   protected function getSorts($url) {
-    $this->addOCFilterParams($url);
     $this->load->language('product/product');
-      
-    // $sorts = [
-    //   'p.sort_order-ASC'  => $this->language->get('text_default'),
-    //   'pd.name-ASC'       => $this->language->get('text_name_asc'),
-    //   'pd.name-DESC'      => $this->language->get('text_name_desc'),
-    //   'p.price-ASC'       => $this->language->get('text_price_asc'),
-    //   'p.price-DESC'      => $this->language->get('text_price_desc'),
-    //   'rating-DESC'       => $this->language->get('text_rating_desc'),
-    //   'rating-ASC'        => $this->language->get('text_rating_asc')
-    // ];
 
     $sorts = [
       'p.price-ASC'       => 'Сначала недорогие',
       'p.price-DESC'      => 'Сначала дорогие',
-      'p.viewed-ASC'          => 'Сначала популярные',
+      'p.viewed-ASC'      => 'Сначала популярные',
       'pd.name-ASC'       => 'По названию (по возрастанию)',
       'pd.name-DESC'      => 'По названию (по убыванию)'
     ];
 
     $data['sorts'] = [];
     foreach ($sorts as $key => $value) {
+      $sort_parts = explode('-', $key);
+
       $data['sorts'][] = [
         'text'  => $value,
         'value' => $key,
-        'href'  => $this->url->link('product/category', $url . '&sort=' . explode('-', $key)[0] . '&order=' . explode('-', $key)[1])
+        'href'  => $url . '&sort=' . $sort_parts[0] . '&order=' . $sort_parts[1]
       ];
     }
 
     return $data['sorts'];
   }
 
-  // protected function getLimits($url) {
-  //   $this->addOCFilterParams($url);
-  //
-  //   $limits = array_unique([
-  //     $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit'),
-  //     25, 50, 75, 100
-  //   ]);
-  //       
-  //   sort($limits);
-  //       
-  //   $data['limits'] = [];
-  //   foreach ($limits as $value) {
-  //     $data['limits'][] = [
-  //       'text'  => $value,
-  //       'value' => $value,
-  //       'href'  => $this->url->link('product/category', $url . '&limit=' . $value)
-  //     ];
-  //   }
-  //       
-  //   return $data['limits'];
-  // }
-
   protected function buildUrl($exclude = []) {
     $url = '';
     $params = ['filter', 'sort', 'order', 'limit'];
-    
+  
     foreach ($params as $param) {
       if (!in_array($param, $exclude) && isset($this->request->get[$param])) {
         $url .= '&' . $param . '=' . $this->request->get[$param];
       }
     }
+
+    $this->addOCFilterParams($url);
     
     return $url;
   }
@@ -94,7 +64,8 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
       'sort'   => $defaults['sort'] ?? 'p.price',
       'order'  => $defaults['order'] ?? 'ASC',
       'page'   => 1,
-      'limit'  => $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit')
+      'limit'  => 20
+      // 'limit'  => $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit')
     ];
     
     // Обработка каждого параметра
@@ -134,7 +105,7 @@ abstract class ControllerBaseProductsList extends ControllerBaseProductCart {
     }
   }
 
-  protected function addOCFilterParams($url) {
+  protected function addOCFilterParams(&$url) {
     if (isset($url) && $this->registry->get('ocfilter') && $this->ocfilter->startup() && $this->ocfilter->api->isSelected()) {
       $url .= '&' . $this->ocfilter->api->getParamsIndex() . '=' . $this->ocfilter->api->getParamsString();
 

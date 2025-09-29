@@ -3,7 +3,7 @@
 {% block container_schema %} itemtype="http://schema.org/ItemList" itemscope {% endblock %}
 {% block content %}
 
-
+  {% set description = description ? description : ocfilter_description_top %}
   {% if description %}
     <div class="row page_description">
       <div itemprop="description" class="description">{{ description }}</div>
