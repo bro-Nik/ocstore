@@ -579,7 +579,6 @@ class ModelCatalogProduct extends Model {
 	public function getProductsByIds($data = array()) {
 		$product_data = array();
 		$product_ids = $data['filter_product_ids'];
-		print_r($product_ids);
     // Проверяем и подготавливаем список ID товаров
     if (empty($product_ids) || !is_array($product_ids)) {
         return array();
