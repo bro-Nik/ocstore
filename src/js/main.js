@@ -143,6 +143,7 @@ function activateTab(btn) {
   const targetPane = document.querySelector(btn.hash);
   if (!targetPane) return;
   const tabsContent = targetPane.closest('.tab-content');
+  initCarouselSwipers(tabsContent);
 
   tabsBtns.querySelectorAll('li.active').forEach(el => {
     el.classList.remove('active');

@@ -40,6 +40,8 @@ export function initCarouselSwipers(container = document) {
   
   // Проходим по всем каруселям на странице
   container.querySelectorAll('.swiper-carousel').forEach((carouselEl, index) => {
+    if (carouselEl.offsetWidth == 0) return;
+
     let maxWidth = 0;
 
     // Находим максимальную ширину
@@ -47,37 +49,14 @@ export function initCarouselSwipers(container = document) {
     if (slide) maxWidth = slide.offsetWidth;
 
     const oneSlide = maxWidth + 15 >= carouselEl.offsetWidth;
-    // Базовые настройки для всех каруселей
     const defaultConfig = {
       slidesPerView: oneSlide ? 1 : 'auto',
       freeMode: true, // Для плавного скольжения
       spaceBetween: oneSlide ? 0 : 10,
-      // spaceBetween: 10, // Отступ между слайдами
-      // slidesOffsetBefore: 10,
-      // slidesOffsetAfter: 10,
-      // slidesOffsetBefore/After
     };
-    
-    // Индивидуальные настройки из data-атрибутов
-    // const customConfig = {
-    //   autoplay: carouselEl.dataset.autoplay ? {
-    //     delay: parseInt(carouselEl.dataset.autoplay),
-    //     disableOnInteraction: false
-    //   } : false,
-    //   slidesPerView: carouselEl.dataset.slides ? parseInt(carouselEl.dataset.slides) : defaultConfig.slidesPerView
-    // };
-
-    // Индивидуальные настройки из json data-swiper-config
-    // const jsonConfig = JSON.parse(carouselEl.dataset.swiperConfig  || '{}');
     
     // Инициализация Swiper
     swipers[`swiper${index}`] = new Swiper(carouselEl, { ...defaultConfig });
-    // Инициализация Swiper с объединенными настройками
-    // swipers[`swiper${index}`] = new Swiper(carouselEl, {
-    //   ...defaultConfig,
-    //   ...customConfig,
-    //   ...jsonConfig
-    // });
   });
   
   return swipers;
